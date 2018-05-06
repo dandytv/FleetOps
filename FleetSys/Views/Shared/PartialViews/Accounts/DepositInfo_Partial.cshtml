@@ -1,0 +1,134 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model ModelSector.CreditAssesOperation
+
+
+
+<style type="text/css">
+    .sub-nav-bar {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+</style>
+<h1>Security Deposit</h1>
+<br />
+<style type="text/css">
+    .panel .panel-heading .panel-actions a i.fa {
+        color: #666666;
+        font-weight: bold;
+    }
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-heading">
+        </div>
+        @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+        <div class="panel-actions pull-left">
+            @if (!Html.NotAuthorized("dep", "New"))
+            {
+                <a href="javascript:;" @(Html.IsReadOnly("dep", "New") ? "disabled=disabled" : "ng-click=modalClick();") class="btn-minimize"><i class="fa fa-plus"></i>&nbsp;New</a>
+            }
+            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+            @*<span style="display:none" id="tblContacts-options"><a ng-click="deleteModalOpen=true;" href="javascript:;"><i class="fa fa-trash-o"></i></a></span>*@
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="table-holder">
+            <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Direct Debit Ind</th>
+                        <th>Deposit Type</th>
+                        <th>Bank Account Type</th>
+                        <th>Bank Name</th>
+                        <th>Bank Account No.</th>
+                        <th>Deposit Amount</th>
+                        <th>Security Deposit Ref No.</th>
+                        <th>SAP RefNo</th>
+                        <th>User ID</th>
+                        <th>Creation Date</th>
+                        <th>Validity Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal md-modal md-effect-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h2>&nbsp;Security Deposit</h2>
+            </div>
+            <div class="modal-body">
+                <form id="frmDeposit" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.Txnid, null, new { @readonly = "readonly", @section = "dep" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgDateRangeFor(model => model.DepositFromDate, model => model.DepositToDate, "Validity Date", new { required = "true" }, new { @section = "dep", @ng_disabled = "_Object.SelectedDepositType == 'CD'" }, new { @section = "dep", @ng_disabled = "_Object.SelectedDepositType == 'CD'" })
+                        </div>
+                        @*<div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.ValidityDate, new { required = true }, new { @date_Picker = "", id = "depotxtValidityDate", @section = "dep" })
+                        </div>*@
+                        </div>
+
+                    @Html.CustomNgCheckBoxFor(model => model.DirectDebitInd, null, new { id = "depochkDirectDebitInd", @section = "dep" })<br />
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedDepositType, Model.DepositType, null, new { @Name = "DepositType", id = "depoddlDepositType", @section = "dep", @ng_change = "depositChanged(_Object.SelectedDepositType);" })
+                            @*   @Html.CustomTextBoxFor(model => model.ValidityDate, new { required=true }, new { data_type = "datepicker",id="depotxtValidityDate"})*@
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedBankAcctType, Model.BankAcctType, null, new { @Name = "BankAcctType", id = "depoddlAcctType", @section = "dep" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedBankName, Model.BankName, null, new { @Name = "BankName", id = "depoddlBankName", @section = "dep" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.BankBranchCode, new { required = true }, new { id = "depotxtBranchCd", @section = "dep", @ng_disabled = "_Object.SelectedDepositType=='CD'" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.BankAcctNo, null, new { id = "depotxtBankAcctNo", @section = "dep" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.SAPRefNo, null, new { id = "depotxtBankAcctNo", @section = "dep" })
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.DepositAmt, null, new { id = "depotxtDepositAmt", @section = "dep", @amount = "" })
+                        </div>
+                        
+                    </div>
+                    @* @Html.CustomTextBoxFor(model => model.NRID, null, new { id="depotxtNrid",data_type = "datepicker" })*@
+                    @Html.CustomNgTextAreaFor(model => model.remarks, null, new { id = "depotxtRemarks", @section = "dep", @rows = "3" })
+                    @Html.CustomNgTextBoxFor(model => model.UserId, null, new { id = "depotxtUserId", @readonly = "readonly", @section = "dep" })
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions">
+                    @if (!Html.NotAuthorized("Financial Info", "Save"))
+                    {
+                        <div class="pull-right">
+                            <button ng-click="SaveAcctDepositInfoOps();" @(Html.IsReadOnly("Financial Info", "Save") ? "disabled=disabled" : "") style="width: 60px" class="btn btn-primary">Save</button>
+                        </div>
+                    }
+                    @*<button ng-click="SaveAcctDepositInfoOps();" id="saveVelocityLimit" class="btn btn-primary">Save</button>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

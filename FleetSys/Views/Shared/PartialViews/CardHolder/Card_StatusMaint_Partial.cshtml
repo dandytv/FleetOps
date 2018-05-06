@@ -1,0 +1,21 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.ChangeStatus
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("SaveChangedStatus", "CardHolder", FormMethod.Post, new { id = "formChangedAcctSts", @class = "form-horizontal" }))
+            {
+                @Html.HiddenFor(m => m._CardnAccNo.CardNo)
+                @Html.HiddenFor(m => m._CardnAccNo.AccNo)
+                @Html.CustomNgSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { id = "ddlsts", section = "Status Maintainance", @readonly = "readonly" })
+                @Html.CustomNgSelectListFor(model => model.SelectedChangeStatusTo, Model.ChangeStatusTo, null, new { section = "Status Maintainance" })
+                @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCode, null, new { section = "Status Maintainance" })
+                @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { section = "Status Maintainance", rows = "3" })
+                @Html.CustomNgSelectListFor(model => model.SelectedRefType, Model.RefType, null, new { section = "Status Maintainance" })
+                @Html.CustomNgTextBoxFor(model => model.RefId, null, new { section = "Status Maintainance" })
+            }
+            <input type="hidden" id="stsSaveAccess" value="@Html.GetControlStatus("Save","Status Maintainance")" />
+            </div>
+        </div>
+    </div>

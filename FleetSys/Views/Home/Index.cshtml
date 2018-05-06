@@ -1,0 +1,377 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@using System.Reflection;
+@using CCMS.ModelSector;
+@using ModelSector;
+@model CCMS.ModelSector.Milestone
+@{
+    ViewBag.Title = "Home | FleetOps";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.ng_app = "CardtrendApp";
+}
+@section ModuleSidebar
+{
+    <style type="text/css">
+        .form-group {
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+    </style>
+    @if (Session["UserModules"] != null)
+    {
+        var userAccess = ((List<UserIndexAccess>)Session["UserModules"]).ToList().OrderBy(x=>x.descp);
+        if (userAccess != null && userAccess.Any())
+        {
+            <div class="sidebar-collapse">
+                <div class="sidebar-menu" style="margin-top:30px;">
+                    <ul class="nav nav-sidebar">
+                        @foreach (var item in userAccess)
+                        {
+                            var url = item.url.Split('/');
+                            if (item.descp.ToLower() != "pukal account" && item.descp.ToLower() != "pin mailer" && item.descp.ToLower() != "soa summary" && item.descp.ToLower() != "collection" && item.descp.ToLower() != "request tracker")
+                            {
+                             <li><a href="@Url.Action(url[1], url[0])"><span class="text">@item.descp</span></a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+}
+
+<script type="text/javascript">
+    window.TxnAdj_BtnAppv_Sts = '@Html.GetControlStatus("BtnAppv",null,"TxnAdj")';
+    window.PymtTxn_BtnAppv_Sts = '@Html.GetControlStatus("BtnAppv", null, "PymtTxn")';
+    window.TxnAdj_BtnQuickAppv_Sts = '@Html.GetControlStatus("BtnQuickAppv", null, "TxnAdj")';
+    window.PymtTxn_BtnQuickAppv_Sts = '@Html.GetControlStatus("BtnQuickAppv", null, "PymtTxn")';
+</script>
+
+<div class="main" style="opacity: 1; min-height: 239px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    @*<div class="panel panel-default">
+                        <div class="panel-heading "><i class="fa fa-warning" style="font-size:20px;color:red"></i><b> &nbsp;Incomplete Product Information</b></div>
+                        <div class="panel-body ">
+                            <table dtable options="dtWebProdRefListSelect" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Product Code</th>
+                                        <th>Product Name</th>
+                                        <th>Product Description</th>
+                                        <th>Product Category</th>
+                                        <th>Product Type</th>
+                                        <th>Unit Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>*@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+                                @*<li><a><a class="bg-col"><span class="label label-warning">Pending:&nbsp;</span></a></li>*@
+                                <li class="active"><a href="javascript:;" role="tab" data-toggle="tab" data-target="#Pending">Pending Application</a></li>
+                                <li class=""><a href="javascript:;" ng-click="loadTxnAdj();" data-toggle="tab" role="tab" data-target="#PendingMilestones">Txn Adjustment</a></li>
+                                <li class=""><a href="javascript:;" ng-click="loadPymt();" data-toggle="tab" role="tab" data-target="#PendingTxnMilestones">Payment Txn</a></li>
+                                <li class=""><a href="javascript:;" ng-click="loadMerchantAdjustment();" data-toggle="tab" role="tab" data-target="#MerchantAdjustment"> Merchant Adjustment</a></li>
+                                @*<li class=""><a href="javascript:;" ng-click="loadSOPRequestTracker();" data-toggle="tab" role="tab" data-target="#SPORequestTracker"> SPO Request</a></li>
+                                <li class=""><a href="javascript:;" ng-click="loadPukalApproval();" data-toggle="tab" role="tab" data-target="#pukalApproval">Pukal Approval</a></li>
+                                <li class=""><a href="javascript:;" ng-click="loadDelinqAcct();" data-toggle="tab" role="tab" data-target="#DelinqAcct">Collection</a></li>*@
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="Pending">
+                                    <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                                <th>Company Name</th>
+                                                <th>Task No</th>
+                                                <th>Task Description</th>
+                                                <th>Priority</th>
+                                                <th>Status</th>
+                                                <th>Creation Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade in" id="PendingMilestones">
+                                    <table dtable options="dtOptionsTxnAdj" style="width:100%" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="panel" ng-show="TxnAdjEnable">
+                                        <div class="panel-footer">
+                                            <div class="pull-right">
+                                                <button class="btn btn-success">Approve All&nbsp;<i class="fa fa-arrow-circle-o-right"></i></button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade in" id="PendingTxnMilestones">
+                                    <table dtable options="dtOptionsPymtTxn" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="panel" ng-show="pymtTxnEnable">
+                                        <div class="panel-footer">
+                                            <div class="pull-right">
+                                                <button ng-click="approveAll();" class="btn btn-success">Approve All&nbsp;<i class="fa fa-arrow-circle-o-right"></i></button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade in" id="MerchantAdjustment">
+                                    <table dtable options="dtOptionsMerchant" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="panel" ng-show="merchAdjEnable">
+                                        <div class="panel-footer">
+                                            <div class="pull-right">
+                                                <button ng-click="approveAll();" class="btn btn-success">Approve All&nbsp;<i class="fa fa-arrow-circle-o-right"></i></button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade in" id="SPORequestTracker">
+                                    <table dtable options="dtOptionsSOPRequestTracker" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Request ID</th>
+                                                <th>Request Type</th>
+                                                <th>Request Value</th>
+                                                <th>Task No</th>
+                                                <th>Task Description</th>
+                                                <th>Card Number</th>
+                                                <th>Account No</th>
+                                                <th>Company Name</th>
+                                                <th>Status</th>
+                                                <th>Request Date</th>
+                                                <th>Last Update Date</th>
+                                                <th>Request By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade in" id="pukalApproval">
+                                    <table dtable options="dtOptionsPukalApproval" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                                <th>Ref Code</th>
+                                                <th>Area Code</th>
+                                                <th>Cheque Amt</th>
+                                                <th>StmDate</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade in" id="DelinqAcct">
+                                    <table dtable options="dtOptionsDelinqAcct" class="table bootstrap-datatable datatable small-font">
+                                        <thead style="white-space:nowrap">
+                                            <tr>
+                                                <th>Collect No</th>
+                                                <th>Account No</th>
+                                                <th>Company Name</th>
+                                                <th>Sales Territory</th>
+                                                <th>Collection Amount</th>
+                                                <th>Grace Due Date</th>
+                                                <th>Age Code</th>
+                                                <th>Priority</th>
+                                                <th>Collect Status</th>
+                                                <th>Recall Date</th>
+                                                <th>Creation Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form>
+                    <div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" data-toggle="modal">
+                                    <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                    <h2>Approval : <span class="label label-success" style="font-size:12px;">{{approveObj.batchId}}</span></h2>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-primary" ng-repeat="item in selectedRefIds track by $index">
+                                            <div class="panel-heading" role="tab" id="heading{{$index}}">
+                                                <h4 class="panel-title">
+                                                    <button data-toggle="collapse" class="btn btn-link" style="color:#fff" data-parent="#accordion" data-target="#collapse{{$index}}" aria-expanded="false" aria-controls="collapse{{$index}}">
+                                                        {{item.Descp}} (Ref ID: {{item.refId}})
+                                                    </button>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false">
+                                                <div class="panel-body">
+                                                    <div class="row" style="padding-top:10px;">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="CreatedBy">Owner</label>
+                                                                @*<select ng-options="item.Value as item.Text for item in _Selects.Owner" class="form-control" ng-model="item.selectedOwner"></select>*@
+                                                                <ui-select name="PlasticType" ng-model="item.selectedOwner" section="General Info" style="width:100%" theme="select2">
+                                                                    <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Owner| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                        <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="CreatedBy">Priority</label>
+                                                                <ui-select name="PlasticType" ng-model="item.selectedPriority" section="General Info" style="width:100%" theme="select2">
+                                                                    <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Priority| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                        <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="CreatedBy">Reason Code</label>
+                                                                <ui-select name="PlasticType" ng-model="item.selectedReasonCd" section="General Info" style="width:100%" theme="select2">
+                                                                    <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.ReasonCd| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                        <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="CreatedBy">Recall Date</label>
+                                                                <input autocomplete="on" class="form-control" id="PDCtxtCreatedBy" name="CreatedBy" ng-model="item.RecallDate" readonly="readonly" section="Product Discount" type="text" value="" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="CreatedBy">Status</label>
+                                                                <ui-select name="PlasticType" ng-model="item.selectedStatus" section="General Info" style="width:100%" theme="select2">
+                                                                    <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Status| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                        <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="CreatedBy">Task No</label>
+                                                                <ui-select name="PlasticType" ng-model="item.SelectedTaskNo" section="General Info" style="width:100%" theme="select2">
+                                                                    <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.TaskNo| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                        <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label for="CreatedBy">Remarks</label>
+                                                                <textarea class="form-control" id="PDCtxtCreatedBy" name="CreatedBy" ng-model="item.Remarks" section="Product Discount" type="text" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <a target="_blank" ng-href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]{{item.Url}}" class="btn btn-default">More details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-actions">
+                                        <button ng-click="postApprove(0,item.workFlowCd);" class="btn btn-primary btn-cons"><i class="fa fa-check"></i>&nbsp;Save All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+                <form>
+                    <div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="quickApprovalModal" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" data-toggle="modal">
+                                    <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                    <h2>Approval : <span class="label label-success" style="font-size:12px;">{{approveObj.batchId}}</span></h2>
+                                </div>
+                                <div class="modal-body">
+                                    <ol>
+                                        <li ng-repeat="item in selectedRefIds track by $index">
+                                            {{item.Descp}} (Ref ID: {{item.refId}})
+                                        </li>
+                                    </ol>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label style="display:block" for="CreatedBy">Status</label>
+                                                <label class="radio-inline" ng-repeat="item in _Selects.Status" ng-if="item.Value">
+                                                    <input ng-model="$root.selectedStatus" ng-value="item.Value" name="period" type="radio" /> {{item.Text}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-actions">
+                                        <button ng-click="postApprove(0,item.workFlowCd);" class="btn btn-primary btn-cons"><i class="fa fa-check"></i>&nbsp;Save All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </script>
+        </div>
+    </div>
+</div>
+@section CustomPageScript{
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Home/application.js"></script>
+    <script src="~/ng/Apps/Home/applicationService.js"></script>
+    <script src="~/ng/Apps/Home/applicationController.js"></script>
+
+}

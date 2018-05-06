@@ -1,0 +1,227 @@
+﻿@model FleetOps.Models.Login
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login | FleetOps</title>
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="login-box col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3">
+
+                <div class="header" style="color:#758799">
+                    <label id="lblTitle">  Login | FleetOps</label>
+                </div>
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" onclick="$(this).closest('div').remove();" style="margin:0">×</button>
+                        <strong></strong>  @Html.ValidationMessage("Error")
+                    </div>
+                }
+
+                <div class="alert alert-danger" style="display:none">
+                    <button type="button" class="close" onclick="$(this).closest('div').hide();" style="margin:0">×</button>
+                    <span id="message"></span>
+                </div>
+
+
+                <form action="@Url.Action("Login","Auth")" method="post" id="formLogin">
+
+                    <fieldset>
+
+                        <div class="form-group first" style="min-height:0">
+                            <div class="input-group col-sm-12">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                @Html.TextBoxFor(model => model.AppUid, new { @class = "form-control input-lg", placeholder = "Username" })
+                                @Html.HiddenFor(model => model.AppUid)
+                            </div>
+                        </div>
+
+                        <div class="form-group last" style="min-height:0">
+                            <div class="input-group col-sm-12">
+                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control input-lg", placeholder = "Password" })
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btnLogin" class="btn btn-primary col-xs-12">Login</button>
+
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <a id="btnForgotPassword" class="pull-left" href="#">Forgot Password?</a>
+                            </div><!--/col-->
+
+                        </div><!--/row-->
+
+                    </fieldset>
+
+                </form>
+
+                <form action="@Url.Action("Login","Auth")" method="post" id="formRecover" style="display:none">
+                    <fieldset>
+                        <div class="form-group first">
+                            <div class="input-group col-sm-12">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                @Html.TextBoxFor(model => model.AppUid, new { @class = "form-control input-lg", placeholder = "Your email address" })
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btnRecoverPassword" class="btn btn-primary col-xs-12">Send Email</button>
+
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <a id="btnRemembersPassword" class="pull-left" href="#">I remember my password</a>
+                            </div><!--/col-->
+
+                        </div><!--/row-->
+
+                    </fieldset>
+                </form>
+
+                <!-- Password Expired (S) -->
+                <form action="@Url.Action("Login","Auth")" method="post" id="formExpired" style="display:none;">
+
+                    <fieldset>
+
+                        <div class="form-group first" style="min-height:0">
+                            <div class="input-group col-sm-12">
+                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                @Html.HiddenFor(model => model.AppUid, new { id = "hfAppUid" })                        
+                                @Html.PasswordFor(model => model.OldPassword, new { @class = "form-control input-lg", placeholder = "Old Password" })                  
+                            </div>
+                        </div>
+
+                        <div class="form-group last" style="min-height:0">
+                            <div class="input-group col-sm-12">
+                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control input-lg", placeholder = "New Password" })
+                            </div>
+                        </div>
+                        <div class="form-group last" style="min-height:0">
+                            <div class="input-group col-sm-12">
+                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control input-lg", placeholder = "Retype New Password" })
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btnResetNow" class="btn btn-primary col-xs-12">Reset Now</button>
+
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <a id="btnBackToLogin" class="pull-left" href="#">Back to login page</a>
+                            </div><!--/col-->
+
+                        </div><!--/row-->
+
+                    </fieldset>
+
+                </form>
+                <!-- Password Expired (E) -->
+            </div>
+        </div><!--/row-->
+    </div><!--/container-->
+
+    <script src="~/Content/scripts/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#btnForgotPassword').on('click', function (e) {
+                e.preventDefault();
+                $('#formLogin').hide();
+                $('#formRecover').show();
+                $('#formExpired').hide();
+                $('#message').closest('.alert').hide().removeClass('alert-success').removeClass('alert-danger');
+            });
+
+            $('#btnRemembersPassword').on('click', function (e) {
+                e.preventDefault();
+                $('#formLogin').show();
+                $('#formRecover').hide();
+                $('#formExpired').hide();
+                $('#message').closest('.alert').hide().removeClass('alert-success').removeClass('alert-danger');
+            });
+
+            $('#btnBackToLogin').on('click', function (e) {
+                e.preventDefault();
+                $('#formLogin').show();
+                $('#formRecover').hide();
+                $('#formExpired').hide();
+                $('#lblTitle').html('Login | FleetOps');
+                $('#message').closest('.alert').hide().removeClass('alert-success').removeClass('alert-danger');
+            });
+
+            $('#btnRecoverPassword').on('click', function (e) {
+
+                $('#message').closest('.alert').hide().removeClass('alert-success').removeClass('alert-danger');
+                e.preventDefault();
+                $.ajax({
+                    url: '@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Auth/ForgotPassword',
+                    data: $('#formRecover').serialize(),
+                    type: 'POST',
+                    success: function (data) {
+                        $('#message').text(data.desp);
+                        $('#message').closest('.alert').show().removeClass('alert-success').removeClass('alert-danger');
+                        $('#message').closest('.alert').addClass(data.flag == 0 ? 'alert-success' : 'alert-danger');
+                    }
+                })
+            })
+
+            $('#btnLogin').on('click', function (e) {
+                $('#message').closest('.alert').hide().removeClass('alert-success').removeClass('alert-danger');
+                e.preventDefault();
+                $.ajax({
+                    url: '@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Auth/Login',
+                    data: $('#formLogin').serialize(),
+                    type: 'POST',
+                    success: function (data) {
+                        if (data.desp && data.desp != null) {
+                            $('#message').text(data.desp);
+                            $('#message').closest('.alert').show().removeClass('alert-success').removeClass('alert-danger');
+                            $('#message').closest('.alert').addClass(data.flag == 0 ? 'alert-success' : 'alert-danger');
+
+                            $('#lblTitle').html('Login | FleetOps');
+                        }
+                        else if (data.Url) {
+                            window.location.href = data.Url;
+                        }
+                        else {
+                            if (data.Error) {
+                                $('#lblTitle').html(data.Error.toUpperCase() + ' <br/> RESET YOUR PASSWORD');
+                            }
+                            $('#formLogin').hide();
+                            $('#formRecover').hide();
+                            $('#formExpired').show();
+                        }
+
+                    }
+                })
+            })
+
+            $('#btnResetNow').on('click', function (e) {
+                var AppUid = document.getElementById('AppUid').value; 
+                $("#hfAppUid").val(AppUid);
+                $('#message').closest('.alert').hide().removeClass('alert-success').removeClass('alert-danger');
+                e.preventDefault();
+                $.ajax({
+                    url: '@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Auth/UpdatePassword',
+                    data: $('#formExpired').serialize(),
+                    type: 'POST',
+                    success: function (data) {
+                        $('#message').text(data.desp);
+                        $('#message').closest('.alert').show().removeClass('alert-success').removeClass('alert-danger');
+                        $('#message').closest('.alert').addClass(data.flag == 0 ? 'alert-success' : 'alert-danger');
+                    }
+                })
+            })
+
+        });
+    </script>
+</body>
+</html>

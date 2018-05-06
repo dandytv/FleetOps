@@ -1,0 +1,20 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.SAP_Cao
+
+<form class="form-horizontal" id="formCao">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomNgTextBoxFor(model => model.CreditLimit, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.NIRD, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCreditControlArea, Model.CreditControlArea, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedRiskCategory, Model.RiskCategory, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.SecurityCreditAmount, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedPaymentTerms, Model.PaymentTerms, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.Authorization, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.PaymentHistoryRecord, null, new { @section = "General Info" })
+                </div>
+            </div>
+        </div>
+</form>
+

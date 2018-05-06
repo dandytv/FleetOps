@@ -1,0 +1,26 @@
+{
+  "name": "ui-grid",
+  "version": "3.0.0",
+  "homepage": "https://github.com/angular-ui/ng-grid",
+  "authors": [
+    "__Contributors__"
+  ],
+  "description": "Angular data grid",
+  "keywords": [
+    "angular",
+    "grid"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "google-code-prettify": "~1.0.2",
+    "jquery": "~1.8.0",
+    "lodash": "~2.4.1"
+  }
+}

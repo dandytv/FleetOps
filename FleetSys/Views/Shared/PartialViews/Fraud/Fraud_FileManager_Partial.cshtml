@@ -1,0 +1,118 @@
+﻿@using FleetOps.Helpers
+
+<style type="text/css">
+    .dz-message .tiles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer !important;
+        width: 100%;
+        height: 100%;
+        background: #20a8d8;
+        border-radius: 7px;
+    }
+
+        .dz-message .tiles .head {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            left: 0;
+            right: 0;
+            padding-top: 70px;
+            color: #fff;
+        }
+
+            .dz-message .tiles .head span i {
+                font-size: 35px;
+            }
+</style>
+<h1>File Manager <small></small></h1><br />
+<div class="row">
+    <div class="col-sm-12">
+        @if (!Html.NotAuthorized("fil", "btnUpload"))
+        {
+            <form method="post" @(Html.IsReadOnly("fil", "btnUpload") ? "" : "action=" + Url.Action("UploadFiles", "Applications")) class="dropzone dz-min" id="file-dropzone" file-dropzone>
+                <div class="dz-message" data-dz-message>
+                    <div class="tiles blue">
+                        <div class="head">
+                            <span><i class="fa fa-photo"></i></span>
+                            <h4 class="text-white"><span class="semi-bold">Click here</span> to upload files for Case Id <span style="font-weight:600">{{$root.obj.eventId}}</span> </h4>
+                            <h5 class="text-white">Or drag and drop files here</h5>                      
+                        </div>
+                    </div>
+                </div>
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+            </form>
+        }
+
+
+        <div id="dze_info">
+
+            <br />
+            <div class="panel panel-default">
+                <h5 class="panel-heading">
+                    Files List
+                </h5>
+                <div class="panel-body">
+                    <table class="table bootstrap-datatable datatable small-font">
+                        <thead>
+                            <tr>
+                                <th width="30%">File name</th>
+                                <th width="15%">Size</th>
+                                <th width="15%">Type</th>
+                                <th style="width:25%">Creation Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="{{item.Class}}" ng-repeat="item in files">
+                                <td style="width:30%"><a href="{{$root.urlPrefix}}/Applications/DownloadFile?FileName={{item.FileName}}&ApplId={{$root.obj.eventId}}&FolderPath={{FolderPath}}">{{item.FileName}}</a></td>
+                                <td style="width:15%">{{item.Size}} KB</td>
+                                <td style="width:15%">{{item.Extension}}</td>
+                                <td style="width:25%">{{item.CreatedDate}}</td>
+                                <td>
+                                    @if (!Html.NotAuthorized("fil", "btnDownload"))
+                                    {
+                                        <a @(Html.IsReadOnly("fil", "btnDownload") ? "disabled=disabled" : "href={{$root.urlPrefix}}/Applications/DownloadFile?FileName={{item.FileName}}&ApplId={{$root.obj.eventId}}&FolderPath={{FolderPath}}") class="btn btn-primary btn-sm btn-small">
+                                            <i class="fa fa-download"></i>&nbsp; Download
+                                        </a>
+                                    }
+                                    @if (!Html.NotAuthorized("fil", "btnDelete"))
+                                    {
+                                        <button @(Html.IsReadOnly("fil", "btnDelete") ? "disabled=disabled" : "ng-click=deleteFile(item);") class="btn btn-danger btn-sm btn-small"><i class="fa fa-times"></i>&nbsp; Delete</button>
+                                    }
+
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-modal" app-modal trigger="deleteModalOpen">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="deleteModalOpen=false;" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Confirm Delete?</h4>
+            </div>
+            <div class="modal-body">
+                <p>This will delete the record, continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="deleteModalOpen=false;" data-dismiss="modal">Cancel</button>
+                <button type="button" ng-click="deleteFile();" class="btn btn-danger">Yes, Continue</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,1528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4913A8BA-92B8-4FC0-979C-AB19F213A0B3}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FleetSys</RootNamespace>
+    <AssemblyName>FleetSys</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.1\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=3.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="MaxMind.GeoIP">
+      <HintPath>..\packages\MaxMind.GeoIP.2.1.17\lib\net35\MaxMind.GeoIP.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Cors">
+      <HintPath>..\packages\Microsoft.Owin.Cors.3.0.0\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting">
+      <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.2\lib\net45\System.Web.Http.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Markups\elmah_logger\" />
+    <Folder Include="Views\CardAcctMaint\" />
+    <Folder Include="Views\NewFolder1\" />
+    <Folder Include="Views\Prepaid\" />
+    <Folder Include="Views\Repository\" />
+    <Folder Include="Views\Unnamed\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AccessibilityAttribute.cs" />
+    <Compile Include="App_Start\AjaxOnlyAttribute.cs" />
+    <Compile Include="App_Start\AuthorizationAttribute.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\CustomAuthorizeAttribute.cs" />
+    <Compile Include="App_Start\CustomLoadAttribute.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\GzipFilterAttribute.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\localisationAttribute.cs" />
+    <Compile Include="App_Start\RequiredAttribute.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\CollectionModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ComplexTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\DictionaryModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumValueDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\IModelDocumentationProvider.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\KeyValuePairModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescriptionGenerator.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameAttribute.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameHelper.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Common\CommonHelpers.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicantCardController.cs" />
+    <Compile Include="Controllers\ApprovalController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\CardController.cs" />
+    <Compile Include="Controllers\ApplicationsApiController.cs" />
+    <Compile Include="Controllers\ApplicationsController.cs" />
+    <Compile Include="Controllers\ApplicantController.cs" />
+    <Compile Include="Controllers\FraudController.cs" />
+    <Compile Include="Controllers\EventConfigurationController.cs" />
+    <Compile Include="Controllers\GlobalVariablesController.cs" />
+    <Compile Include="Controllers\InternalErrorController.cs" />
+    <Compile Include="Controllers\MerchantMultiAdjustmentController.cs" />
+    <Compile Include="Controllers\MultiPaymentController.cs" />
+    <Compile Include="Controllers\CorporateCodesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\DealerController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManualSlipEntryController.cs" />
+    <Compile Include="Controllers\MerchantController.cs" />
+    <Compile Include="Controllers\MultipleTxnController.cs" />
+    <Compile Include="Controllers\NonFleetTxnController.cs" />
+    <Compile Include="Controllers\NotesnChecklistController.cs" />
+    <Compile Include="Controllers\NotificationSearchController.cs" />
+    <Compile Include="Controllers\PinMailerController.cs" />
+    <Compile Include="Controllers\PrepaidController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\PukalAcctController.cs" />
+    <Compile Include="Controllers\ReportViewerController.cs" />
+    <Compile Include="Controllers\RepositoryApiController.cs" />
+    <Compile Include="Controllers\RepositoryController.cs" />
+    <Compile Include="Controllers\RequestTrackerController.cs" />
+    <Compile Include="Controllers\SOASummaryController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\TxnSearchController.cs" />
+    <Compile Include="Controllers\UserAccessController.cs" />
+    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\CustomtextBoxExtensions.cs" />
+    <Compile Include="Models\AccountOps.cs" />
+    <Compile Include="Models\AccountSOAOps.cs" />
+    <Compile Include="Models\ApplicantHolderOps.cs" />
+    <Compile Include="Models\ApplicantSignUpOps2.cs" />
+    <Compile Include="Models\AuditLogger.cs" />
+    <Compile Include="Models\Authentication\Login.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\BaseClass.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\CardAcctSignUpOps.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\CardHolderOps.cs" />
+    <Compile Include="Models\CorporateOps.cs" />
+    <Compile Include="Models\FraudOps.cs" />
+    <Compile Include="Models\EventConfigMaint.cs" />
+    <Compile Include="Models\General.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\General\FileManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\GlobalVariableOps.cs" />
+    <Compile Include="Models\Home\Home.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManualSlipEntryOps.cs" />
+    <Compile Include="Models\MechSignUpOps.cs" />
+    <Compile Include="Models\MerchMultitxnAdjustmentOps.cs" />
+    <Compile Include="Models\MultiPaymentOps.cs" />
+    <Compile Include="Models\MultipleTxnOps.cs" />
+    <Compile Include="Models\NonFleetTxnOps.cs" />
+    <Compile Include="Models\NotifSearchMaint.cs" />
+    <Compile Include="Models\PinMailerOps.cs" />
+    <Compile Include="Models\PrepaidMaintOps.cs" />
+    <Compile Include="Models\PukalAcctOps.cs" />
+    <Compile Include="Models\ReportOps.cs" />
+    <Compile Include="Models\SearchResult.cs" />
+    <Compile Include="Models\SecurityOps.cs" />
+    <Compile Include="Models\SKDSOps.cs" />
+    <Compile Include="Models\TerminalInventoryOps.cs" />
+    <Compile Include="Models\TxnAdjustmentOps.cs" />
+    <Compile Include="Models\TxnSearchMaint.cs" />
+    <Compile Include="Models\UnallocatedTxnOps.cs" />
+    <Compile Include="Models\UserAccessOps.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\CardHolderViewModel.cs" />
+    <Compile Include="ViewModel\CostCentreViewModel.cs" />
+    <Compile Include="ViewModel\EventLoggerViewModel.cs" />
+<<<<<<< HEAD
+    <Compile Include="ViewModel\Fraud\FraudCardDetailsViewModel.cs" />
+    <Compile Include="ViewModel\Fraud\FraudCaseListViewModel.cs" />
+    <Compile Include="ViewModel\Fraud\FraudCustomerDetailsViewModel.cs" />
+    <Compile Include="ViewModel\Fraud\FraudIncidentsViewModel.cs" />
+    <Compile Include="ViewModel\Fraud\FraudMainViewModel.cs" />
+    <Compile Include="ViewModel\Fraud\FraudTxnDisputeViewModel.cs" />
+    <Compile Include="ViewModel\GlobalParameters.cs" />
+=======
+>>>>>>> p2.2.37
+    <Compile Include="ViewModel\ManualSlipEntryViewModal.cs" />
+    <Compile Include="ViewModel\MerchantAcctSignUp.cs" />
+    <Compile Include="ViewModel\NonFleetTxnViewModel.cs" />
+    <Compile Include="ViewModel\PrepaidViewModel.cs" />
+    <Compile Include="ViewModel\SecurityViewModel.cs" />
+    <Compile Include="ViewModel\UserAccessViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\css\animationManager.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\custom.css" />
+    <Content Include="Content\css\formWizard.js" />
+    <Content Include="Content\css\images\01.png" />
+    <Content Include="Content\css\images\loading.gif" />
+    <Content Include="Content\css\images\loading_vegas.gif" />
+    <Content Include="Content\css\images\select2.png" />
+    <Content Include="Content\css\images\select2x2.png" />
+    <Content Include="Content\css\images\spinner.gif" />
+    <Content Include="Content\css\images\ui-bg_diagonals-thick_75_f3d8d8_40x40.png" />
+    <Content Include="Content\css\images\ui-bg_dots-small_65_54574c_2x2.png" />
+    <Content Include="Content\css\images\ui-bg_flat_0_333333_40x100.png" />
+    <Content Include="Content\css\images\ui-bg_flat_65_ffffff_40x100.png" />
+    <Content Include="Content\css\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\css\images\ui-bg_glass_55_fbf8ee_1x400.png" />
+    <Content Include="Content\css\images\ui-bg_highlight-hard_100_eeeeee_1x100.png" />
+    <Content Include="Content\css\images\ui-bg_highlight-hard_100_f6f6f6_1x100.png" />
+    <Content Include="Content\css\images\ui-bg_highlight-soft_15_cc0000_1x100.png" />
+    <Content Include="Content\css\images\ui-icons_004276_256x240.png" />
+    <Content Include="Content\css\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\css\jquery-ui.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\style.min.css" />
+    <Content Include="Content\css\wizard.css" />
+    <Content Include="Content\css\wizard.js" />
+    <Content Include="Content\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fullcalendar.css" />
+    <Content Include="Content\fullcalendar.print.css" />
+    <Content Include="Content\images\details_close.png" />
+    <Content Include="Content\images\details_open.png" />
+    <Content Include="Content\images\petro-1.png" />
+    <Content Include="Content\images\petro-2.png" />
+    <Content Include="Content\images\select.png" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\Gruntfile.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\grunt\plugins.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\grunt\utils.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.10\angular-animate.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.10\angular-mocks.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.10\angular.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.16\angular-animate.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.16\angular-mocks.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.16\angular.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.21\angular-animate.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.21\angular-mocks.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\1.2.21\angular.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\jquery.simulate.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\demo\grid-directive.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\doc\css\bootstrap-flatly.css" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\doc\css\bootstrap-flatly.min.css" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\doc\css\prettify.css" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\doc\templates\nav.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\css\site.css" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\customizer\index.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\dataTemplates.txt" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\index.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\js\customizer.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\cellnav\js\cellnav.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\cellnav\test\uiGridCellNavService.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\edit\js\gridEdit.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\edit\templates\cellEditor.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\edit\test\uiGridCell.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\edit\test\uiGridCellWithCellNav.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\edit\test\uiGridEditDirective.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\edit\test\uiGridEditService.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\edit\test\uiGridInputDirective.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\expandable\js\expandable.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\expandable\templates\expandableRow.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\expandable\templates\expandableRowHeader.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\expandable\templates\expandableScrollFiller.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\expandable\test\expandable.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\pinning\js\pinning.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\pinning\test\pinning.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\pinning\test\uiGridPinningService.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\resize-columns\js\ui-grid-column-resizer.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\resize-columns\templates\columnResizer.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\resize-columns\test\resizeColumns.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\resize-columns\test\resizeColumnsService.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\selection\js\selection.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\selection\templates\selectionRowHeader.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\selection\templates\selectionRowHeaderButtons.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\selection\test\uiGridSelectionService.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\img\arrow.colors-default.svg" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\bootstrap.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\constants.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-cell.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-column-menu.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-footer-cell.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-footer.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-group-panel.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-header-cell.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-header.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-menu.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-native-scrollbar.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-render-container.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-row.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-style.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-viewport.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid-visible.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-grid.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\directives\ui-pinned-container.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\factories\Grid.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\factories\GridApi.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\factories\GridColumn.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\factories\GridOptions.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\factories\GridRenderContainer.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\factories\GridRow.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\services\gridClassFactory.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\services\rowSearcher.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\services\rowSorter.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\core\services\ui-grid-util.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\da.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\de.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\en.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\es.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\fa.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\fr.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\he.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\nl.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\pt-br.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\ru.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\sk.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\ui-i18n.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\zh-cn.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\js\i18n\zh-tw.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\ui-grid-footer.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\ui-grid-group-panel.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\ui-grid-header.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\ui-grid-no-header.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\ui-grid-row.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\ui-grid.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridCell.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridColumnFilter.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridColumnMenu.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridFooterCell.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridHeaderCell.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridMenu.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridMenuItem.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridRenderContainer.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\templates\ui-grid\uiGridViewport.html" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\e2e\test.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\karma.conf.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\protractor.conf.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\directives\ui-grid-header-cell.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\directives\ui-grid-menu.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\directives\ui-grid-style.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\directives\ui-grid.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\directives\uiGridCell.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\directives\uiGridController.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\factories\Grid.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\factories\GridApi.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\factories\GridColumn.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\factories\GridRenderContainer.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\factories\GridRow.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\row-filtering.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\row-sorting.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\services\GridClassFactory.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\core\services\ui-grid-util.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\i18n\directives.spec.js" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\test\unit\i18n\i18nService.spec.js" />
+    <Content Include="Content\Plugins\Datatables\bootstrap.dataTables.js" />
+    <Content Include="Content\Plugins\Datatables\dataTables.colVis.css" />
+    <Content Include="Content\Plugins\Datatables\dataTables.colVis.js" />
+    <Content Include="Content\Plugins\Datatables\dataTables.css" />
+    <Content Include="Content\Plugins\Datatables\dataTables.js" />
+    <Content Include="Content\Plugins\Datepicker\css\datepicker.css" />
+    <Content Include="Content\Plugins\Datepicker\css\datepicker3.css" />
+    <Content Include="Content\Plugins\Datepicker\docs\_static\demo_head.png" />
+    <Content Include="Content\Plugins\Datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.az.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Content\Plugins\Datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\assets\coverage.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\assets\jquery-1.7.1.min.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\assets\mock.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\assets\qunit-logging.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\assets\qunit.css" />
+    <Content Include="Content\Plugins\Datepicker\tests\assets\qunit.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\assets\utils.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\run-qunit.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\calendar-weeks.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\component.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\data-api.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\events.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\formats.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\inline.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\keyboard_navigation\2011.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\keyboard_navigation\2012.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\keyboard_navigation\all.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\methods.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\mouse_navigation\2011.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\mouse_navigation\2012.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\mouse_navigation\all.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\noconflict.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\suites\options.js" />
+    <Content Include="Content\Plugins\Datepicker\tests\tests.html" />
+    <Content Include="Content\Plugins\Datepicker\tests\_coverage.html" />
+    <Content Include="Content\Plugins\datetimepicker-master\.gitignore" />
+    <Content Include="Content\Plugins\datetimepicker-master\index.html" />
+    <Content Include="Content\Plugins\datetimepicker-master\jquery.datetimepicker.css" />
+    <Content Include="Content\Plugins\datetimepicker-master\jquery.datetimepicker.js" />
+    <Content Include="Content\Plugins\datetimepicker-master\jquery.js" />
+    <Content Include="Content\Plugins\datetimepicker-master\MIT-LICENSE.txt" />
+    <Content Include="Content\Plugins\datetimepicker-master\screen\1.png" />
+    <Content Include="Content\Plugins\datetimepicker-master\screen\2.png" />
+    <Content Include="Content\Plugins\datetimepicker-master\screen\3.1.png" />
+    <Content Include="Content\Plugins\datetimepicker-master\screen\3.png" />
+    <Content Include="Content\Plugins\Dynatree\dist\GPL-LICENSE.txt" />
+    <Content Include="Content\Plugins\Dynatree\dist\jquery.dynatree.js" />
+    <Content Include="Content\Plugins\Dynatree\dist\jquery.dynatree.min.js" />
+    <Content Include="Content\Plugins\Dynatree\dist\MIT-License.txt" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin-vista\icons.gif" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin-vista\loading.gif" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin-vista\ui.dynatree.css" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin\icons-rtl.gif" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin\icons.gif" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin\loading.gif" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin\ui.dynatree.css" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin\vline-rtl.gif" />
+    <Content Include="Content\Plugins\Dynatree\dist\skin\vline.gif" />
+    <Content Include="Content\Plugins\Dynatree\doc\contextmenu\images\cut.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\contextmenu\images\door.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\contextmenu\images\page_white_copy.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\contextmenu\images\page_white_delete.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\contextmenu\images\page_white_edit.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\contextmenu\images\page_white_paste.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\contextmenu\jquery.contextMenu-custom.js" />
+    <Content Include="Content\Plugins\Dynatree\doc\contextmenu\jquery.contextMenu.css" />
+    <Content Include="Content\Plugins\Dynatree\doc\dynatree-doc.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\howto.css" />
+    <Content Include="Content\Plugins\Dynatree\doc\howto.js" />
+    <Content Include="Content\Plugins\Dynatree\doc\iconInfo_32x32.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\iconWarning_32x32.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\images\cut.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\images\door.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\images\page_white_copy.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\images\page_white_delete.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\images\page_white_edit.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\images\page_white_paste.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\jquery.contextMenu.css" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\jquery.contextMenu.js" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\jquery.ui.position.js" />
+    <Content Include="Content\Plugins\Dynatree\doc\jquery.planize.js" />
+    <Content Include="Content\Plugins\Dynatree\doc\nav_bg.png" />
+    <Content Include="Content\Plugins\Dynatree\doc\prettify.css" />
+    <Content Include="Content\Plugins\Dynatree\doc\prettify.js" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-api.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-contextmenu.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-contextmenu2.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-contextmenu3.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-default.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-dnd.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-dnd2.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-dnd3.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-effects.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-events.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-form.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-iframe-1.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-iframe.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-init-lazy.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-inline-edit.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-lazy.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-minexpand.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-multiline.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-persist.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-pyserver.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-quick.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-rtl.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-select.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-theming.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-ul.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample.css" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample.js" />
+    <Content Include="Content\Plugins\Dynatree\doc\samples-nav.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\samples-top.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\samples-welcome.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\samples.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\custom.css" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\customDoc1.gif" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\customDoc2.gif" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\customFolder1.gif" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\doc_with_children.gif" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\folder_docs.gif" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\folder_images.gif" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\folder_page.gif" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-bench.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-css.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-dtd-html4-strict.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-dtd-html4-transitional.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-dtd-html5.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-dtd-none.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-dtd-xml-strict.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-dtd-xml-transitional.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-latest.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-persist.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-preload.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-release.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-table.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-226.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-232.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-241.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-247.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-251.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-260.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-305.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-319.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-321.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-329.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-447.html" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-issue-NNN.html" />
+    <Content Include="Content\Plugins\Dynatree\Gruntfile.js" />
+    <Content Include="Content\Plugins\Dynatree\index.html" />
+    <Content Include="Content\Plugins\Dynatree\jquery\jquery-ui.custom.js" />
+    <Content Include="Content\Plugins\Dynatree\jquery\jquery-ui.custom.min.js" />
+    <Content Include="Content\Plugins\Dynatree\jquery\jquery.cookie.js" />
+    <Content Include="Content\Plugins\Dynatree\jquery\jquery.js" />
+    <Content Include="Content\Plugins\Dynatree\jquery\jquery.min.js" />
+    <Content Include="Content\Plugins\Dynatree\jquery\README.txt" />
+    <Content Include="Content\Plugins\Dynatree\src\GPL-LICENSE.txt" />
+    <Content Include="Content\Plugins\Dynatree\src\jquery.dynatree.js" />
+    <Content Include="Content\Plugins\Dynatree\src\MIT-License.txt" />
+    <Content Include="Content\Plugins\Dynatree\src\skin-vista\icons.gif" />
+    <Content Include="Content\Plugins\Dynatree\src\skin-vista\loading.gif" />
+    <Content Include="Content\Plugins\Dynatree\src\skin-vista\ui.dynatree.css" />
+    <Content Include="Content\Plugins\Dynatree\src\skin\icons-rtl.gif" />
+    <Content Include="Content\Plugins\Dynatree\src\skin\icons.gif" />
+    <Content Include="Content\Plugins\Dynatree\src\skin\loading.gif" />
+    <Content Include="Content\Plugins\Dynatree\src\skin\ui.dynatree.css" />
+    <Content Include="Content\Plugins\Dynatree\src\skin\vline-rtl.gif" />
+    <Content Include="Content\Plugins\Dynatree\src\skin\vline.gif" />
+    <Content Include="Content\Plugins\Dynatree\tests\qunit.css" />
+    <Content Include="Content\Plugins\Dynatree\tests\qunit.js" />
+    <Content Include="Content\Plugins\Dynatree\tests\test-adhoc.html" />
+    <Content Include="Content\Plugins\Dynatree\tests\test-bench.html" />
+    <Content Include="Content\Plugins\Dynatree\tests\test-dynatree.js" />
+    <Content Include="Content\Plugins\Dynatree\tests\test.html" />
+    <Content Include="Content\Plugins\FullCalendar\fullcalendar.css" />
+    <Content Include="Content\Plugins\FullCalendar\fullcalendar.min.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\.gitignore" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\css\bootstrap.css" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\css\jqm.css" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\css\jquery-ui-1.9.1.custom.css" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\glyphicons-halflings.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\icons-18-black.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\icons-18-white.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\icons-36-black.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\icons-36-white.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_454545_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_888888_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\img\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\js\bootstrap.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\js\jquery-1.8.2.min.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\js\jquery-ui-1.8.23.custom.min.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\demos\js\prototype.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\Gruntfile.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\index.html" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\jasmine\jasmine-html.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\jasmine\jasmine-jquery.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\jasmine\jasmine.css" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\jasmine\jasmine.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\jasmine\jasmine_favicon.png" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\jqueryUI\jquery-ui.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\jquery\jquery.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\sinon\sinon-1.3.1.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\server.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\jquery.selectBoxIt.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\jquery.selectBoxIt.min.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.add.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.ariaAccessibility.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.copyAttributes.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.core.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.destroy.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.disable.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.dynamicPositioning.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.enable.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.endClosure.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.keyboardNavigation.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.keyboardSearch.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.mobile.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.remove.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.selectOption.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.setOption.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.setOptions.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\javascripts\modules\jquery.selectBoxIt.wait.js" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\stylesheets\jquery.selectBoxIt.css" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\test\SpecRunner.html" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\test\spec\selectBoxItSpec.js" />
+    <Content Include="Content\Plugins\PNotify\pnotify.custom.css" />
+    <Content Include="Content\Plugins\PNotify\pnotify.custom.js" />
+    <Content Include="Content\scripts\animationManager.js" />
+    <Content Include="Content\scripts\bootstrap.min.js" />
+    <Content Include="Content\scripts\core.min.js" />
+    <Content Include="Content\scripts\curreny.js" />
+    <Content Include="Content\scripts\jquery-2.1.1.min.js" />
+    <Content Include="Content\scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Content\scripts\jquery.cookie.min.js" />
+    <Content Include="Content\scripts\jquery.mmenu.min.js" />
+    <Content Include="Content\scripts\jqueryui-1.92.min.js" />
+    <Content Include="Content\scripts\pace.min.js" />
+    <Content Include="Content\scripts\pageScripts.js" />
+    <Content Include="Content\scripts\velocity.js" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Models\Authentication\Login.cs.orig" />
+    <Content Include="Models\ManualSlipEntryOps.cs.orig" />
+    <Content Include="Models\TxnAdjustmentOps.cs.orig" />
+    <Content Include="Models\UnallocatedTxnOps.cs.orig" />
+    <Content Include="ng\Apps\Account\account.js" />
+    <Content Include="ng\Apps\AcctSOA\SOASummary.js" />
+    <Content Include="ng\Apps\ApplicantCard\applicantCard.js" />
+    <Content Include="ng\Apps\Applicant\applicant.js" />
+    <Content Include="ng\Apps\Applications\application.js" />
+    <Content Include="ng\Apps\Approval\Approval.js" />
+    <Content Include="ng\Apps\Card\card.js" />
+    <Content Include="ng\Apps\Corporate Codes\corporatecodes.js" />
+    <Content Include="ng\Apps\Dealer\dealer.js" />
+    <Content Include="ng\Apps\Fraud\Fraud.js" />
+    <Content Include="ng\Apps\Event Configuration\EventConfiguration.js" />
+    <Content Include="ng\Apps\GlobalVariables\globalvariables.js" />
+    <Content Include="ng\Apps\Home\application.js" />
+    <Content Include="ng\Apps\Invoice\invoice.js" />
+    <Content Include="ng\Apps\Manual Slip Entry\manualSlipEntry.js" />
+    <Content Include="ng\Apps\MerchantMultiAdjustment\MerchantMultiAdjustment.js" />
+    <Content Include="ng\Apps\Merchant\Merchant.js" />
+    <Content Include="ng\Apps\Merchant\smartpayframe.js" />
+    <Content Include="ng\Apps\MultiPayment\Multipayment.js" />
+    <Content Include="ng\Apps\MultiplePayentAdj\MultipleAdj.js" />
+    <Content Include="ng\Apps\NotificationSearch\NotificationSearch.js" />
+    <Content Include="ng\Apps\PINMailer\pinmailer.js" />
+    <Content Include="ng\Apps\ProductParameter\productParameters.js" />
+    <Content Include="ng\Apps\PukalAcct\pukalAcct.js" />
+    <Content Include="ng\Apps\ReportViewer\ReportViewer.js" />
+    <Content Include="ng\Apps\RequestTracker\SPORequestTracker.js" />
+    <Content Include="ng\Apps\TnSearch\txnSearch.js" />
+    <Content Include="ng\Apps\Users Management\users.js" />
+    <Content Include="ng\Utils.js" />
+    <Content Include="Scripts\angular-animate.js" />
+    <Content Include="Scripts\angular-animate.min.js" />
+    <Content Include="Scripts\angular-cookies.js" />
+    <Content Include="Scripts\angular-cookies.min.js" />
+    <Content Include="Scripts\angular-csp.css" />
+    <Content Include="Scripts\angular-loader.js" />
+    <Content Include="Scripts\angular-loader.min.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\angular-resource.min.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular-sanitize.js" />
+    <Content Include="Scripts\angular-sanitize.min.js" />
+    <Content Include="Scripts\angular-scenario.js" />
+    <Content Include="Scripts\angular-touch.js" />
+    <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\font-awesome\less\core.less" />
+    <Content Include="Content\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\font-awesome\less\icons.less" />
+    <Content Include="Content\font-awesome\less\larger.less" />
+    <Content Include="Content\font-awesome\less\list.less" />
+    <Content Include="Content\font-awesome\less\mixins.less" />
+    <Content Include="Content\font-awesome\less\path.less" />
+    <Content Include="Content\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\font-awesome\less\spinning.less" />
+    <Content Include="Content\font-awesome\less\stacked.less" />
+    <Content Include="Content\font-awesome\less\variables.less" />
+    <Content Include="Content\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\font-awesome\scss\_core.scss" />
+    <Content Include="Content\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\font-awesome\scss\_list.scss" />
+    <Content Include="Content\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\font-awesome\scss\_path.scss" />
+    <Content Include="Content\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\font-awesome\scss\_spinning.scss" />
+    <Content Include="Content\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\font-awesome\scss\_variables.scss" />
+    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\SimpleTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ModelDescriptionLink.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\KeyValuePairModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\EnumTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\DictionaryModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ComplexTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\.gitattributes" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\.gitignore" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\.jscs.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\.jscs.json.todo" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\.travis.yml" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\3.0_UPGRADE.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\bower.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\Brainstorm.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\CHANGELOG.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\CONTRIBUTING.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\DEVELOPER.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\sauce\sauce_connect_block.sh" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\sauce\sauce_connect_setup.sh" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\lib\test\angular\files.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\LICENSE.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\api\index.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\customizer\themes\autumn.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\customizer\themes\sky.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\customizer\themes\themes.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\100.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\10000.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\10000_complex.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\1000_columns.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\100_ASC.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\100_columns.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\100_DESC.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\500.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\500_complex.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\site\data\50_columns.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\100_preReqs.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\101_intro.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\102_sorting.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\103_filtering.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\104_i18n.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\105_footer.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\106_binding.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\108_hidden_grids.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\109_multiple_grids.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\110_grid_in_modal.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\111_cellClass.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\120_RTL.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\190_large_dataset.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\190_swapping_data.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\191_horizontal_scrolling.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\200_features.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\201_editable.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\202_cellnav.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\203_pinning.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\204_column_resizing.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\210_selection.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\211_two_grids.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\301_custom_row_template.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\301_editableOnFocus.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\302_custom_header.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\303_customizing_column_menu.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\304_custom_grid_menu.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\305_externalScopes.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\306_expandable_grid.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\307_external_sorting.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\401_AllFeatures.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\402_GridIsScrolling.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\misc\tutorial\index.ngdoc" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\package.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\planning30.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\README.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\cellnav\less\cellNav.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\edit\less\edit.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\expandable\less\expandable.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\pinning\less\pinning.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\resize-columns\less\column-resizer.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\features\selection\less\selection.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\font\config.json" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\animation.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\body.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\cell.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\elements.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\footer.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\goups.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\grid.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\header.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\icons.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\main.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\menu.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\native-scrollbar.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\rtl.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\sorting.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\src\less\variables.less" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\TODO.md" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\travis_build.sh" />
+    <Content Include="Content\Plugins\angular-ui-ng-grid-eccd70e\travis_print_logs.sh" />
+    <Content Include="Content\css\images\Sorting icons.psd" />
+    <Content Include="Content\Plugins\Datepicker\.gitignore" />
+    <Content Include="Content\Plugins\Datepicker\.hgignore" />
+    <Content Include="Content\Plugins\Datepicker\.hgtags" />
+    <Content Include="Content\Plugins\Datepicker\.jscs.json" />
+    <Content Include="Content\Plugins\Datepicker\.jshintrc" />
+    <Content Include="Content\Plugins\Datepicker\.travis.yml" />
+    <Content Include="Content\Plugins\Datepicker\bower.json" />
+    <Content Include="Content\Plugins\Datepicker\build\build.less" />
+    <Content Include="Content\Plugins\Datepicker\build\build3.less" />
+    <Content Include="Content\Plugins\Datepicker\build\build_standalone.less" />
+    <Content Include="Content\Plugins\Datepicker\build\build_standalone3.less" />
+    <Content Include="Content\Plugins\Datepicker\CHANGELOG.md" />
+    <Content Include="Content\Plugins\Datepicker\composer.json" />
+    <Content Include="Content\Plugins\Datepicker\CONTRIBUTING.md" />
+    <Content Include="Content\Plugins\Datepicker\docs\conf.py" />
+    <Content Include="Content\Plugins\Datepicker\docs\events.rst" />
+    <Content Include="Content\Plugins\Datepicker\docs\i18n.rst" />
+    <Content Include="Content\Plugins\Datepicker\docs\index.rst" />
+    <Content Include="Content\Plugins\Datepicker\docs\keyboard.rst" />
+    <Content Include="Content\Plugins\Datepicker\docs\make.bat" />
+    <Content Include="Content\Plugins\Datepicker\docs\Makefile" />
+    <Content Include="Content\Plugins\Datepicker\docs\markup.rst" />
+    <Content Include="Content\Plugins\Datepicker\docs\methods.rst" />
+    <Content Include="Content\Plugins\Datepicker\docs\options.rst" />
+    <Content Include="Content\Plugins\Datepicker\docs\REAME.md" />
+    <Content Include="Content\Plugins\Datepicker\less\datepicker.less" />
+    <Content Include="Content\Plugins\Datepicker\less\datepicker3.less" />
+    <Content Include="Content\Plugins\Datepicker\LICENSE" />
+    <Content Include="Content\Plugins\Datepicker\README.md" />
+    <Content Include="Content\Plugins\Datepicker\tests\README.md" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\.travis.yml" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\bower.json" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\CONTRIBUTING.md" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\libs\jasmine\MIT.LICENSE" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\LICENSE-MIT" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\package.json" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\README.md" />
+    <Content Include="Content\Plugins\jquery.selectBoxIt.js-master\src\stylesheets\jquery.selectBoxIt.sass" />
+    <Content Include="Content\Plugins\Dynatree\doc\dynatree_server.py" />
+    <Content Include="Content\Plugins\Dynatree\doc\icons-vista.psp" />
+    <Content Include="Content\Plugins\Dynatree\doc\icons-xp.psp" />
+    <Content Include="Content\Plugins\Dynatree\doc\icons_layout.ods" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\jquery.contextMenu.css.bak" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\jquery.contextMenu.js.bak" />
+    <Content Include="Content\Plugins\Dynatree\doc\jq.context\jquery.ui.position.js.bak" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-contextmenu3.html.bak" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-data1.json" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-data2.json" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-data3.json" />
+    <Content Include="Content\Plugins\Dynatree\doc\sample-empty.json" />
+    <Content Include="Content\Plugins\Dynatree\doc\samples-nav.html.bak" />
+    <Content Include="Content\Plugins\Dynatree\doc\skin-custom\custom.css.bak" />
+    <Content Include="Content\Plugins\Dynatree\doc\test-xhtml.xhtml" />
+    <Content Include="Content\Plugins\Dynatree\doc\_test-241.json" />
+    <Content Include="Content\Plugins\Dynatree\package.json" />
+    <Content Include="Content\Plugins\Dynatree\tests\sample-data1.json" />
+    <Content Include="Content\Plugins\Dynatree\tests\sample-data2.json" />
+    <Content Include="Content\Plugins\datetimepicker-master\bower.json" />
+    <Content Include="Content\Plugins\datetimepicker-master\datetimepicker.jquery.json" />
+    <Content Include="Content\Plugins\datetimepicker-master\package.json" />
+    <Content Include="Content\Plugins\datetimepicker-master\README.md" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="ng\Apps\Fraud\Fraud.min.js.map">
+      <DependentUpon>Fraud.js</DependentUpon>
+    </Content>
+    <Content Include="ng\Utils.min.js.map">
+      <DependentUpon>Utils.js</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\local.pubxml" />
+    <Content Include="Scripts\dropzone.css" />
+    <Content Include="Scripts\dropzone.js" />
+    <Content Include="Scripts\errors.json" />
+    <Content Include="Scripts\angular-touch.min.js.map" />
+    <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Scripts\angular-loader.min.js.map" />
+    <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\gcal.js" />
+    <Content Include="Scripts\i18n\angular-locale_lv-lv.js" />
+    <Content Include="Scripts\i18n\angular-locale_lv.js" />
+    <Content Include="Scripts\i18n\angular-locale_ml-in.js" />
+    <Content Include="Scripts\i18n\angular-locale_ml.js" />
+    <Content Include="Scripts\i18n\angular-locale_mr-in.js" />
+    <Content Include="Scripts\i18n\angular-locale_mr.js" />
+    <Content Include="Scripts\i18n\angular-locale_ms-bn.js" />
+    <Content Include="Scripts\i18n\angular-locale_ms-my.js" />
+    <Content Include="Scripts\i18n\angular-locale_ms.js" />
+    <Content Include="Scripts\i18n\angular-locale_mt-mt.js" />
+    <Content Include="Scripts\i18n\angular-locale_mt.js" />
+    <Content Include="Scripts\i18n\angular-locale_nl-aw.js" />
+    <Content Include="Scripts\i18n\angular-locale_nl-be.js" />
+    <Content Include="Scripts\i18n\angular-locale_nl-cw.js" />
+    <Content Include="Scripts\i18n\angular-locale_nl-nl.js" />
+    <Content Include="Scripts\i18n\angular-locale_nl-sx.js" />
+    <Content Include="Scripts\i18n\angular-locale_nl.js" />
+    <Content Include="Scripts\i18n\angular-locale_no.js" />
+    <Content Include="Scripts\i18n\angular-locale_or-in.js" />
+    <Content Include="Scripts\i18n\angular-locale_or.js" />
+    <Content Include="Scripts\i18n\angular-locale_pl-pl.js" />
+    <Content Include="Scripts\i18n\angular-locale_pl.js" />
+    <Content Include="Scripts\i18n\angular-locale_pt-ao.js" />
+    <Content Include="Scripts\i18n\angular-locale_pt-br.js" />
+    <Content Include="Scripts\i18n\angular-locale_pt-gw.js" />
+    <Content Include="Scripts\i18n\angular-locale_pt-mz.js" />
+    <Content Include="Scripts\i18n\angular-locale_pt-pt.js" />
+    <Content Include="Scripts\i18n\angular-locale_pt-st.js" />
+    <Content Include="Scripts\i18n\angular-locale_pt.js" />
+    <Content Include="Scripts\i18n\angular-locale_ro-md.js" />
+    <Content Include="Scripts\i18n\angular-locale_ro-ro.js" />
+    <Content Include="Scripts\i18n\angular-locale_ro.js" />
+    <Content Include="Scripts\i18n\angular-locale_ru-md.js" />
+    <Content Include="Scripts\i18n\angular-locale_ru-ru.js" />
+    <Content Include="Scripts\i18n\angular-locale_ru-ua.js" />
+    <Content Include="Scripts\i18n\angular-locale_ru.js" />
+    <Content Include="Scripts\i18n\angular-locale_sk-sk.js" />
+    <Content Include="Scripts\i18n\angular-locale_sk.js" />
+    <Content Include="Scripts\i18n\angular-locale_sl-si.js" />
+    <Content Include="Scripts\i18n\angular-locale_sl.js" />
+    <Content Include="Scripts\i18n\angular-locale_sq-al.js" />
+    <Content Include="Scripts\i18n\angular-locale_sq.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr-cyrl-ba.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr-cyrl-me.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr-cyrl-rs.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr-cyrl.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr-latn-ba.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr-latn-me.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr-latn-rs.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr-latn.js" />
+    <Content Include="Scripts\i18n\angular-locale_sr.js" />
+    <Content Include="Scripts\i18n\angular-locale_sv-fi.js" />
+    <Content Include="Scripts\i18n\angular-locale_sv-se.js" />
+    <Content Include="Scripts\i18n\angular-locale_sv.js" />
+    <Content Include="Scripts\i18n\angular-locale_sw-ke.js" />
+    <Content Include="Scripts\i18n\angular-locale_sw-tz.js" />
+    <Content Include="Scripts\i18n\angular-locale_sw.js" />
+    <Content Include="Scripts\i18n\angular-locale_ta-in.js" />
+    <Content Include="Scripts\i18n\angular-locale_ta-lk.js" />
+    <Content Include="Scripts\i18n\angular-locale_ta.js" />
+    <Content Include="Scripts\i18n\angular-locale_te-in.js" />
+    <Content Include="Scripts\i18n\angular-locale_te.js" />
+    <Content Include="Scripts\i18n\angular-locale_th-th.js" />
+    <Content Include="Scripts\i18n\angular-locale_th.js" />
+    <Content Include="Scripts\i18n\angular-locale_tl.js" />
+    <Content Include="Scripts\i18n\angular-locale_tr-tr.js" />
+    <Content Include="Scripts\i18n\angular-locale_tr.js" />
+    <Content Include="Scripts\i18n\angular-locale_uk-ua.js" />
+    <Content Include="Scripts\i18n\angular-locale_uk.js" />
+    <Content Include="Scripts\i18n\angular-locale_ur-in.js" />
+    <Content Include="Scripts\i18n\angular-locale_ur-pk.js" />
+    <Content Include="Scripts\i18n\angular-locale_ur.js" />
+    <Content Include="Scripts\i18n\angular-locale_vi-vn.js" />
+    <Content Include="Scripts\i18n\angular-locale_vi.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-cn.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hans-cn.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hans-hk.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hans-mo.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hans-sg.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hans.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hant-hk.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hant-mo.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hant-tw.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hant.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-hk.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh-tw.js" />
+    <Content Include="Scripts\i18n\angular-locale_zh.js" />
+    <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
+    <Content Include="Scripts\i18n\angular-locale_zu.js" />
+    <None Include="Properties\PublishProfiles\Production.pubxml" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.11.1.js" />
+    <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\ngStorage.js" />
+    <Content Include="Scripts\ngStorage.min.js" />
+    <Content Include="Scripts\print.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select2.css" />
+    <Content Include="Scripts\select2.png" />
+    <Content Include="Scripts\ui-bootstrap-tpls-0.11.0.js" />
+    <Content Include="Scripts\uiselect.css" />
+    <Content Include="Scripts\uiselect.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
+    <Content Include="unwanted.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Applications\Index.cshtml" />
+    <Content Include="Views\Shared\_ModuleLayout.cshtml" />
+    <Content Include="Views\Applications\Create.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\ApplicationGeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\FinancialInfo_Partial.cshtml" />
+    <Content Include="Scripts\version.json" />
+    <Content Include="Views\Shared\PartialViews\Applications\VelocityLimit_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\AcctSignUp_CreditAssessmentOperation_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\DepositInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\DieselSubsidy_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\ApplicantsListPartial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\Address_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\Contacts_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\CostCentre_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\MiscellaniousInfo_Partial.cshtml" />
+    <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js.map" />
+    <Content Include="Views\Shared\PartialViews\Applications\VehiclesList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dealer\Merch_AddressListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dealer\Merch_BusnLocation_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dealer\Merch_ContactsListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dealer\Merch_StatusMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dealer\Merch_TerminalInventoryList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\AcctGuarantee_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_AcctDepositInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_AddressListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_ApplicationGeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_CardholderGeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_ContactsListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_CreditAssessmentOperation_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_FinancialInfoCardAcctMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_MiscellaneousInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignup_SkdsListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_StatusMaint.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_VehiclesList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAcctSignUp\CardSignUp_VelocityLimitsListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAppcSignUp\CardAppc_AddressList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAppcSignUp\CardAppc_AppcGeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAppcSignUp\CardAppc_ContactsList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAppcSignUp\CardAppc_FinancialInfoCard_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAppcSignUp\CardAppc_NewCard_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAppcSignUp\CardAppc_PersonInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAppcSignUp\CardAppc_StatusMaint.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardAppcSignUp\CardAppc_VelocityLimits_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\CardReplacement_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\Card_AddressListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\Card_CardholderGeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\Card_ContactsListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\Card_FinancialInfoCardAcctMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\Card_LocationAcceptanceList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\Card_PersonInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\Card_StatusMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\Card_VelocityLimitsListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\ReembossCard_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CardHolder\SKDS_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchantSignUp\CAMaint_AddressList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchantSignUp\CAMaint_CardRange_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchantSignUp\CAMaint_ContactList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchantSignUp\MerchantAccountMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchantSignUp\MerchantDetailsnList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchantSignUp\Merch_StatusMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\CAMaint_CardRange_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchAddressListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchAgrmntList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchBusnLocation_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchContactsListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchEventDetail_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchEventLogger_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchFinancialInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchStatusMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchTxnAdjustment_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\Terminals_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SAP\_SAPAcctMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SAP\_SAPCAO_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SAP\_SAPGeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SAP\_SAPSalesTerritory_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SAP\_SAPSOA_Partial.cshtml" />
+    <Content Include="Views\NonFleetTxn\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\AcctGuarantee_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\BillingItem\BillingItem_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\CardHolderInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\CreditAssessmentOperation_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\EventDetail_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\EventLogger_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\EventSearch_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\FinancialInfoCardAcctMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\LocationAcceptanceList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\PaymentTxn_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\PersonInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\PointAdjustment_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\ProductAcceptanceList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\SKDS_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\StatusMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\TemporaryCreditControl_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\TxnAdjustment_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\VelocityLimitsListMaint_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\AcctGeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\DepositInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\VehiclesList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\AcctPostedTxn_Search.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\BillingItem\BillingItemDetail_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\AccountUsers_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\ProductDiscount_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\UpToDateBalance_Partial.cshtml" />
+    <Content Include="Views\Applicant\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\CardAppc_AddressList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\CardAppc_AppcGeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\CardAppc_ContactsList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\CardAppc_FinancialInfoCard_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\CardAppc_NewCard_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\CardAppc_PersonInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\CardAppc_StatusMaint.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\CardAppc_VelocityLimits_Partial.cshtml" />
+    <Content Include="Views\Card\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Card\Card_GeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Card\CardAppc_NewCard_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Card\Card_FinancialInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Card\CardPersonInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Card\LocationAcceptance_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Card\CardReplacement_Partial.cshtml" />
+    <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\CorporateCodes\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CorporateCodes\Security_Deposit_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Accounts\Pukal_Partial.cshtml" />
+    <Content Include="Views\UserAccess\Index.cshtml" />
+    <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Views\Shared\PartialViews\Accounts\acctSubsidy_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Card\List_Cards_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applicant\ApplicantList_Partial.cshtml" />
+    <Content Include="Views\ApplicantCard\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\Approval_Partial.cshtml" />
+    <Content Include="Views\Auth\ResetPassword.cshtml" />
+    <Content Include="Views\Merchant\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MerchGeneralInfo\MerchPostedTxnSearch_Partial.cshtml" />
+    <Content Include="Views\Dealer\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dealer\ProductPrize_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Applications\FIleManager_Partial.cshtml" />
+    <Content Include="Views\Approval\Index.cshtml" />
+    <Content Include="Views\ManualSlipEntry\Index.cshtml" />
+    <Content Include="Views\Merchant\SmartPayFrame.cshtml" />
+    <Content Include="Views\MultiPayment\Index.cshtml" />
+    <Content Include="Views\ReportViewer\Index.cshtml" />
+    <Content Include="Views\NotesnChecklist\Index.cshtml" />
+    <Content Include="Views\PinMailer\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PinMailer\BatchInfo_Partial.cshtml" />
+    <Content Include="Views\MultipleTxn\Index.cshtml" />
+    <Content Include="Views\SOASummary\Index.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\PukalAcct\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PukalAcct\BatchInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CorporateCodes\AcctCorpList_Partial.cshtml" />
+    <Content Include="Views\Statistics\Index.cshtml" />
+    <Content Include="Views\InternalError\Error500.cshtml" />
+    <Content Include="Views\InternalError\Error403.cshtml" />
+    <Content Include="Views\InternalError\Error404.cshtml" />
+    <Content Include="Views\InternalError\Inter.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CorporateCodes\Corporate_GeneralInfo_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CorporateCodes\Corp_Users_Partial.cshtml" />
+    <Content Include="Views\TxnSearch\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Dealer\Merch_OwnershipChange_Partial.cshtml" />
+    <Content Include="Views\MerchantMultiAdjustment\Index.cshtml" />
+    <Content Include="Views\GlobalVariables\Index.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Fraud\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Fraud\Fraud_Incident_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Fraud\Fraud_Transaction_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Fraud\Fraud_Print_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\GlobalVariables\LookupParameter_Partial.cshtml" />
+    <Content Include="Views\RequestTracker\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\GlobalVariables\ProdGroup_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\GlobalVariables\ProdList_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\GlobalVariables\RebatePlan_Partial.cshtml" />
+    <Content Include="Scripts\print.min.js.map">
+      <DependentUpon>print.js</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\PartialViews\Fraud\Fraud_FileManager_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\GlobalVariables\Event_Type_List_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\GlobalVariables\Event_Type_Detail_Partial.cshtml" />
+    <Content Include="Views\EventConfiguration\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\EventConfiguration\Event_Config_List.cshtml" />
+    <Content Include="Views\Shared\PartialViews\EventConfiguration\Event_Config_Details.cshtml" />
+    <Content Include="Views\NotificationSearch\Index.cshtml" />
+    <Content Include="Views\Shared\PartialViews\NotificationSearch\Search_Partial.cshtml" />
+    <Content Include="Views\Shared\PartialViews\NotificationSearch\Notification_Search_Detail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModelSector\BaseModelSector.csproj">
+      <Project>{6523d5ed-02b7-4379-90d0-434d230074a0}</Project>
+      <Name>BaseModelSector</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>60875</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:60875/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

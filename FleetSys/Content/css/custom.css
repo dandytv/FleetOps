@@ -1,0 +1,45 @@
+﻿/* sidebar*/
+     .navbar-brand {
+            padding: 3px 5px;
+        }
+
+        .sidebar ul.nav.nav-sidebar li a {
+            font-size: 14px;
+            text-transform: none;
+        }
+
+            .sidebar ul.nav.nav-sidebar li a:hover {
+                background: #2c3334;
+                color: white;
+            }
+            /*sidebar styling ends here*/
+      
+            /*Autocomplete css*/
+             /*<li><a style="border-bottom:1px solid #f3f3f3;padding:10px 8px;"><span class="autocomplete-match"><h4></h4></span><span class="autocomplete-match-desc"><h4><small></small></h4></span></a></li>*/
+
+
+        .autocomplete-match h4,.autocomplete-match-desc h4 {
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        .autocomplete-match-desc {
+            display: block;
+        }
+
+            .autocomplete-match-desc h4 small {
+                color: #fdfdfd;
+            }
+
+        .ui-state-focus .autocomplete-match-desc {
+            color: #fdfdfd;
+        }
+         .ui-state-focus .autocomplete-match-desc h4 {
+             color:#fff !important;
+         }
+
+            .ui-state-focus .autocomplete-match-desc h4 small {
+                color: #fff !important;
+            }
+
+            /*Autocomplete ends here*/

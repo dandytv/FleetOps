@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "PinMailer | FleetOps";
+    ViewBag.ng_app = "PinMailerApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+@section CustomPageScript
+{
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/PINMailer/pinmailer.js"></script>
+    @*<link href="~/Content/css/wizard.css" rel="stylesheet" />*@
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}
+
+@section ModuleSidebar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            @*<a href="#/" style="color:#fff" class="btn btn-info btn-block"><i class="fa fa-list"></i>&nbsp;&nbsp;Show List</a>*@
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                <a href="javascript:;" ng-click="$" class="btn btn-success btn-sm" role="button"><i class="fa fa-print"></i>&nbsp; Test Print</a>
+                @*<a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>*@
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                <li><a class="pagekey pagekey_generalInfo" ng-show="$root.obj._type==='edit'" href="#/generalInfo/{{$root.obj.applId}}"><span class="text">General Info</span></a></li>
+                <li><a class="pagekey pagekey_cao" ng-show="$root.obj._type==='edit'" href="#/cao/{{$root.obj.applId}}"><span class="text">Credit &amp; Appl Assessment</span></a></li>
+                <li><a class="pagekey pagekey_velocity" ng-show="$root.obj._type==='edit'" href="#/velocity/{{$root.obj.applId}}"><span class="text">Velocity Limit</span></a></li>
+                <li><a class="pagekey pagekey_depositInfo" ng-show="$root.obj._type==='edit'" href="#/depositInfo/{{$root.obj.applId}}"><span class="text">Security Deposit</span></a></li>
+                <li><a class="pagekey pagekey_skds" ng-show="$root.obj._type==='edit'" href="#/skds/{{$root.obj.applId}}"><span class="text">Subsidy</span></a></li>
+                <li><a class="pagekey pagekey_applicants" ng-show="$root.obj._type==='edit'" href="#/applicants/{{$root.obj.applId}}"><span class="text">Applicants</span></a></li>
+                <li><a class="pagekey pagekey_vehicles" ng-show="$root.obj._type==='edit'" href="#/vehicles/{{$root.obj.applId}}"><span class="text">Vehicles List</span></a></li>
+                @*<li><a class="pagekey pagekey_Miscellanious" ng-show="$root.obj._type==='edit'" href="#/Miscellanious/{{$root.obj.applId}}"><span class="text">Miscellanious Info</span></a></li>*@
+                <li><a class="pagekey pagekey_address" ng-show="$root.obj._type==='edit'" href="#/address/{{$root.obj.applId}}"><span class="text">Address List</span></a></li>
+                <li><a class="pagekey pagekey_contacts" ng-show="$root.obj._type==='edit'" href="#/contacts/{{$root.obj.applId}}"><spn class="text">Contacts List</spn></a></li>
+                <li><a class="pagekey pagekey_costCentre" ng-show="$root.obj._type==='edit'" href="#/costcentre/{{$root.obj.applId}}"><span class="text">Cost Centre</span></a></li>
+                <li><a class="pagekey pagekey_approval" ng-show="$root.obj._type==='edit'" href="#/approval/{{$root.obj.applId}}"><span class="text">Approval</span></a></li>
+            </ul>
+        </div>
+    </div>
+}
+
+<div class="main" style="opacity: 1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/PINMailer">PIN Mailer</a></li>
+                @*<li>Index</li>*@
+                <li class="active">{{$root.obj.batchId}}</li>
+            </ol>
+        </div>
+
+        <div class="col-lg-12">
+
+            <div class="modal fade" id="delete-modal" app-modal trigger="$root.testPrintmodalOpen">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" ng-click="$root.testPrintmodalOpen=false;" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Confirm Test Print?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>This will print a lot of dummy records, continue?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" ng-click="$root.testPrintmodalOpen=false;" data-dismiss="modal">Cancel</button>
+                            <button type="button" ng-click="Remove();" class="btn btn-danger">Yes, Continue</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+                                <li class="active"><a href="javascript:;" role="tab" data-toggle="tab" data-target="#Batches">View Batches</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="Batches">
+                                    <table id="table_main" dtable options="dtOptions" class="table bootstrap-datatable datatable small-font" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Batch ID</th>
+                                                <th>Creation Date</th>
+                                                <th>Status</th>
+                                                <th>Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>

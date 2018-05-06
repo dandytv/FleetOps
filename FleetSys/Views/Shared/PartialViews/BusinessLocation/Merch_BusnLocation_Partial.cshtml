@@ -1,0 +1,55 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.MerchantDetails
+
+<form id="frmMerchBusnLocation" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                @Html.CustomNgTextBoxFor(modek => Model.BusinessName, new { required = true }, new { @data_bind = "value:BusnName", Class = "span5", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(modek => Model.BusnLoc, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.SiteId, new { required = true }, new { @data_bind = "value:SiteId", Class = "span5", @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.selectedCurrentStatus, Model.CurrentStatus, null, new { @data_bind = "value:CurSts", Class = "span5", @readonly = "readonly", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.OwnershipTrsfDate, null, new { @data_bind = "value:OwnershipTrsfDate", Class = "span5", @data_type = "datepicker", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.OwnershipTo, null, new { @data_bind = "value:OwnershipTo", Class = "span5", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.AgreementNo, null, new { @data_bind = "value:AgreementNo", Class = "span5", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.AgreementDate, null, new { @data_bind = "value:AgreementDate", Class = "span5", @data_type = "datepicker", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.PersonInCharge, null, new { @data_bind = "value:PersonInCharge", Class = "span5", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.DBAName, new { required = true }, new { Class = "span5", @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectDBARegion, Model.DBARegion, new { required = true }, new { @data_bind = "value:DBARegion", Class = "span5", @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectDBAState, Model.DBAState, new { required = true }, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedPaymtMode, Model.PaymtMode, null, new { @section = "General Info" })
+                @Html.CustomNgCheckBoxFor(model => model.WithholdPaymtFlag, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CoRegNo, null, new { @data_bind = "value:CoRegNo", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CoRegName, new { required = true }, new { @data_bind = "value:CoRegName", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CoRegDate, null, new { @data_bind = "value:CoRegDate", @section = "General Info", @data_type = "datepicker" })
+                @Html.CustomNgTextBoxFor(model => model.PayeeName, null, new { @data_bind = "value:PayeeName", @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.selectedOwnershsip, Model.Ownership, null, new { @data_bind = "value:Ownership", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.BusnSize, null, new { @data_bind = "value:Establishment", @section = "General Info" })
+                @Html.CustomNgCheckBoxFor(model => model.AutoDebitInd, null, new { @data_bind = "value:AutoDebit", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.BankAcctName, null, new { @data_bind = "value:AcctNo", @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.selectedBankAcctType, Model.BankAcctType, null, new { @data_bind = "value:BankAcctType", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.BankAccountNo, null, new { @data_bind = "value:BankAcctNo", @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedBankBranchCode, Model.BankBranchCode, null, new { @data_bind = "value:BankBranchCd", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.EntityId, null, new { @data_bind = "value:EntityId", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.TaxId, null, new { @data_bind = "value:TaxID", @section = "General Info" })
+                @Html.CustomNgCheckBoxFor(model => model.WithholdingTaxInd, null, new { @data_bind = "value:WithHoldingTaxId", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.WithholdingTaxRate, null, new { @data_bind = "value:WithholdingTaxRate", @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedcycNo, Model.cycNo, null, new { @data_bind = "value:cycNo", @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCd, null, new { @data_bind = "value:ReasonCd", })
+                @Html.CustomNgCheckBoxFor(model => model.StmtPrintInd, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedSIC, Model.SIC, null, new { @data_bind = "value:SIC", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.MCC, null, new { @data_bind = "value:MCC", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.TaxCategory, null, new { @data_bind = "value:PayeeName", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.PaymentTerms, null, new { @data_bind = "value:PayeeName", @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => Model.UserID, null, new { @section = "General Info", disabled = "disabled" })
+                @Html.CustomNgTextBoxFor(model => Model.CreationDate, null, new { @section = "General Info", disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+</form>
+<input type="hidden" id="genSaveAccess" value="@Html.GetControlStatus("Save","General Info")" />
+
+
+

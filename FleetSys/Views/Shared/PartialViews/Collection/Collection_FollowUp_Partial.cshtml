@@ -1,0 +1,111 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.CollectionFollowUpViewModel
+<form>
+    <div class="col-lg-12 ng-scope">
+        <div class="panel panel-default row">
+            <div class="panel-heading">
+                <h2>
+                    <i class="fa fa-list"></i>Collection
+                </h2>
+                <hr />
+            </div>
+            <div class=" panel-body">
+                <div>
+                    <h2 class="panel-title">
+                        Collection Case Information
+                    </h2>
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        @Html.CustomNgSelectListFor(model => model.SelectedCollectionSts, Model.CollectionSts, new { required = true }, new { @Name = "CollectionSts", id = "ddlSelectedCollectionSts", @section = "cfu" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.CustomNgSelectListFor(model => model.SelectedPriority, Model.Priority, new { required = true }, new { @Name = "Priority", id = "ddlSelectedPriority", @section = "cfu" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { id = "txtCreationDate", @section = "cfu", Disabled = "true" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.RecallDate, null, new { id = "txtRecallDate", @section = "cfu", Disabled = "true" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.LastUpdate, null, new { id = "txtLastUpdate", @section = "cfu", Disabled = "true" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.UserId, null, new { id = "txtUserId", @section = "cfu", Disabled = "true" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { id = "txtRemarks", @section = "cfu", Disabled = "true" })
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="panel-body">
+                <table class="table panel-heading">
+                    <tbody>
+                        <tr>
+                            <td width="70%">
+                                <b> Note/ Action</b>
+                            </td>
+                            <td>
+                                <b>  Recall Date</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="80%">
+                                <textarea class="form-control" id="txtNewNote" ng-model="NewNote" name="Note" rows="3"></textarea>
+                            </td>
+                            <td style="  text-align:center; vertical-align:middle ">
+                                <input autocomplete="on" class="form-control form-group " date_picker ng-model="NewRecallDate" id="txtNewRecallDate" name="RecallDate" type="text" value="" />
+                                @*<div style="width:100%" class="btn-group ">
+                                        <a style="width:100%" href="javascript:;" id="btnSaveRow" class="btn btn-sm btn-small btn-primary btn-success form-control ">Add New Note</a>
+                                    </div>*@
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-right">
+                    @if (!Html.NotAuthorized("cfu", "btnSaveNote"))
+{
+    <button @(Html.IsReadOnly("cfu", "btnSaveNote") ? "disabled=disabled" : "") type="button" data-validation-form data-customsubmit="saveCollectionFollowUp();" class="btn btn-primary btn-cons ">Save</button>
+}
+                    </div>
+                        <br />
+                        <table class="table panel-heading" @*infinite-scroll="myPagingFunction()"*@>
+                            <tbody ng-repeat="x in collectionNotes " ng-if="x.NoteCreationDate" class="fade">
+                                <tr>
+                                    <td width="70%">
+                                        <b> Note/ Action  {{collectionNotes.length-$index}}</b>  &nbsp; &nbsp; Created By {{x.UserId}} {{x.NoteCreationDate}}
+                                    </td>
+                                    <td>
+                                        <b>  Recall Date</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="80%">
+                                        <textarea class="form-control" name="Note" rows="3" ng-disabled="true"> {{x.Remarks}}</textarea>
+                                    </td>
+                                    <td style="  text-align:center; vertical-align:middle ">
+                                        <input autocomplete="on" class="form-control form-group " date_picker type="text" value="{{x.RecallDate}}" ng-disabled="true" />
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                        <div class="panel-footer text-right">
+
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+

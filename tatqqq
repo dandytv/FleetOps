@@ -1,0 +1,60 @@
+[33mcommit 05e352fd544420a3e7d334fa78e3de5b5eaccea7[m
+Author: KALLINGAL Muhammed Irshad <irshad@cardtrend.com>
+Date:   Tue Nov 17 14:32:22 2015 +0800
+
+    add README file
+
+[33mcommit 6786510fe2c1c215cee27e340e536a3503bd4689[m
+Author: KALLINGAL Muhammed Irshad <irshad@cardtrend.com>
+Date:   Tue Nov 17 12:40:18 2015 +0800
+
+    move dal.cs to seperate class library
+
+[33mcommit 1012ba6bc8002a22cd86a16c1f246f7c43569bb5[m
+Author: KALLINGAL Muhammed Irshad <irshad@cardtrend.com>
+Date:   Tue Nov 17 11:11:02 2015 +0800
+
+    update gitignore to exclude elmah_logger
+
+[33mcommit 964cbbe492670e96fba525e047bbf6f2e2bb48da[m
+Author: KALLINGAL Muhammed Irshad <irshad@cardtrend.com>
+Date:   Mon Nov 9 18:06:56 2015 +0800
+
+    make credit limit history auto refresh under PDBFLTOTWO-16
+
+[33mcommit 409a4b1278786b103f6c3e03fc83cd37e00ebe18[m
+Author: KALLINGAL Muhammed Irshad <irshad@cardtrend.com>
+Date:   Mon Nov 9 15:26:33 2015 +0800
+
+    reindex all javascript files
+
+[33mcommit dc2fff03233af4c22f130c7d94d9ea3c06926d1a[m
+Merge: 4645f3b eb85650
+Author: KALLINGAL Muhammed Irshad <irshad@cardtrend.com>
+Date:   Mon Nov 9 10:43:23 2015 +0800
+
+    Merge branch 'phase-2_development' into phase-2
+
+[33mcommit eb856501cc18173b53b3e474d169d7ce6e9a65a9[m
+Author: KALLINGAL Muhammed Irshad <irshad@cardtrend.com>
+Date:   Mon Nov 9 10:41:07 2015 +0800
+
+    fix for Unable to trace the date for card creation/renewal in the system under PDBAF-216
+
+[33mcommit 4645f3b56099606bccb723cac99a76027e0e5c72[m
+Author: KALLINGAL Muhammed Irshad <irshad@cardtrend.com>
+Date:   Fri Oct 30 14:21:40 2015 +0800
+
+    add Credit Limit History to Account -> Credit Assessment under PDBFLTOTWO-16
+
+[33mcommit 0a7e71eaada3b146b80a7077a8ab4018fd32f7f8[m
+Author: irshad@cardtrend.com <ek246355>
+Date:   Fri Oct 30 14:21:40 2015 +0800
+
+    add Credit Limit History to Account -> Credit Assessment
+
+[33mcommit 20a0f3d12b6d7aa6679519b6e7c28f2325a2ba91[m
+Author: irshad@cardtrend.com <ek246355>
+Date:   Fri Oct 30 10:10:14 2015 +0800
+
+    Initial commit

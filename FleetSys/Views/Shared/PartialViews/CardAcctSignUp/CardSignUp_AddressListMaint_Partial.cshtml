@@ -1,0 +1,75 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model  ModelSector.AddrListMaintModel
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-plus"></i></a>
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <table id="tblAddress" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+            <thead>
+                <tr>
+                    <th>Address Type</th>
+                    <th>Mailing Indicator</th>
+                    <th>Address</th>
+                    <th>District</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Postal Cd</th>
+                    <th>Country</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div id="addressModal" class="modal hide" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h3 id="addressModalHeader">Address Maintenance </h3>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddress" class="form-horizontal">
+                    @Html.CustomNgSelectListFor(model => model.SelectedAddrType, Model.addrtype, new { required = true }, new { id = "ddlAddrType", @section = "Address List" })
+                    @Html.CustomNgCheckBoxFor(model => model.MainMailingInd, new { required = true }, new { id = "ddlMainMailingInd", @section = "Address List" })
+                    @Html.CustomNgTextBoxFor(model => model.Address, new { required = true }, new { id = "txtAddr1", @section = "Address List" })
+                    @Html.CustomNgTextBoxFor(model => model.District, null, new { id = "txtAddr2", @section = "Address List" })
+                    @Html.CustomNgTextBoxFor(model => model.City, null, new { id = "txtAddr3", @section = "Address List" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedCountry, Model.Country, null, new { @section = "Address List", id = "ddlAddrCountry" })
+                    @Html.CustomNgSelectListFor(model => model.Selectedstate, Model.State, null, new { @section = "Address List", id = "ddlAddrState" })
+                    @Html.CustomNgTextBoxFor(model => model.PostalCode, null, new { id = "txtPostalCd", @section = "Address List" })
+                    @Html.CustomNgSelectListFor(model => model.selectedregion, Model.region, null, new { @class = "span5", id = "ddlAddrAddrRegion" })
+                    @Html.HiddenFor(model => model.SelectedRefCd, new { @section = "Address List" })
+                    <input type="hidden" id="xxaddrisedit" value="Add" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions">
+                    @if (!Html.NotAuthorized("Address List", "Save"))
+                    {
+                        <button id="btnAddrtoAdd" style="width: 60px" class="btn btn-primary" @(Html.IsReadOnly("Address List", "Save") ? "disabled=disabled" : "")>Save</button>
+                    }
+                </div>
+
+            </div>
+        </div>
+        <div id="addressDeleteConfirm" data-backdrop="static" class="modal hide">
+            <div class="modal-header deletion-head">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4>Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm the record deletion
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" id="AdddeleteConfirmed" class="btn btn-danger">Yes,Delete<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+

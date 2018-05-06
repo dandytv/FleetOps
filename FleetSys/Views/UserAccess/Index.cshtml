@@ -1,0 +1,343 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.UserAccess
+@{
+    ViewBag.Title = "User Management | FleetOps";
+    ViewBag.ng_app = "userApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+@section ModuleSidebar
+{
+    <style type="text/css">
+     
+          
+           
+
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+
+        .sidebar-menu {
+            height: auto;
+        }
+
+        .sidebar ul.nav.nav-sidebar {
+            padding-bottom: 30px;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                @Html.Hidden("hdAcctNo", (string)ViewBag.AcctNo, new { @id = "hdAcctNo" })
+            </ul>
+        </div>
+    </div>
+}
+
+<div class="main" style="opacity: 1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li><a href="{{$root.getRootUrl()}}/UserAccess#">Users</a></li>
+                <li class="active">@Model.UserId</li>
+            </ol>
+            <h1><small>User Management</small></h1>
+        </div>
+        <ng-view></ng-view>
+        <script type="text/ng-template" id="index.html">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+                        <div class="panel-actions pull-left">
+                            <a href="#/new" class="btn-minimize"><i class="fa fa-plus"></i>&nbsp;New User</a>
+                            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font">
+                            <thead>
+                                <tr>
+                                    <th>UserID</th>
+                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                    <th>Contact No.</th>
+                                    <th>Email</th>
+                                    <th>Department</th>
+                                    <th>Template</th>
+                                    <th>AccessInd</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="configure.html">
+
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"></div>
+                    <div class="panel-body">
+                        <div id="wizard2" class="wizard-type2" bootstrap-wizard>
+                            <ul class="steps nav nav-pills">
+                                <li class="active"><a href="javascript:;" data-target="#tab21" data-toggle="tab">Profile</a></li>
+                                <li><a href="javascript:;" ng-show="State.userCreated" data-target="#tab22" data-toggle="tab">Modules</a></li>
+                                <li><a href="javascript:;" ng-show="State.userCreated" data-target="#tab23" data-toggle="tab">Pages</a></li>
+                                <li><a href="javascript:;" ng-show="State.userCreated" data-target="#tab24" data-toggle="tab">Controls</a></li>
+                                <li><a href="javascript:;" ng-show="State.userCreated" data-target="#tab25" data-toggle="tab">Save Changes</a></li>
+                            </ul>
+                            <div class="progress thin">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                                </div>
+                            </div>
+                            <h3>User Matrix</h3>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab21">
+                                    <form role="form">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        @Html.CustomNgTextBoxFor(model => model.UserId, new { required = true }, new { id = "txtUserId" })
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedMapUserId, Model.MapUserId, null, new { @Name = "MapUserId", @id = "ddlMappingUserId" })
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        @Html.CustomNgSelectListFor(model => model.SeletedTitle, Model.Title, null, new { @Name = "Title", })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.Name, new { required = true }, new { })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedAccessInd, Model.AccessInd, new { required = true }, new { @Name = "AccessInd", id = "ddlAccessInd" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgSelectListFor(model => model.selectedSts, Model.Sts, new { required = true }, new { @Name = "Sts" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.ContactNo, new { required = true }, new { })
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        @Html.CustomNgTextBoxFor(model => model.EmailAddr, new { required = true }, new { })
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedDeptId, Model.DeptId, null, new { @Name = "DeptId" })
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        @Html.CustomNgTextBoxFor(model => model.PrivilegeCd, null, new { })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    @Html.CustomNgCheckBoxFor(model => model.ChangePasswordInd, null, null)
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <br />
+                                                    <span class="alert alert-info"><strong>Note:</strong> Any changes in this tab must be saved before proceeding to the <strong>Modules tab</strong>, otherwise the changes <strong>will be lost</strong> </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-actions">
+                                                    <div class="text-right">
+                                                        <a href="#/" class="btn btn-default">Back to List</a>
+                                                        <button ng-click="SaveUserAccess();" class="btn btn-primary">Save User</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="tab-pane" id="tab22">
+                                    <div class="row">
+
+                                        <div class="col-sm-12">
+                                            <div class="master-toggler">
+                                                <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                                    <button type="button" ng-click="masterToggle('Modules',1)" ng-class="State.masterSwitches.Modules==1?'btn btn-success':'btn btn-default'">ON</button>
+                                                    <button type="button" ng-click="masterToggle('Modules',0)" ng-class="State.masterSwitches.Modules==0?'btn btn-danger':'btn btn-default'">OFF</button>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <table class="table bootstrap-datatable datatable small-font">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Modile Id</th>
+                                                        <th>Module</th>
+                                                        <th>Status</th>
+                                                        <th>Lit</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in Modules">
+                                                        <td>{{item.ModuleId}}</td>
+                                                        <td>{{item.Descp}}</td>
+                                                        <td>
+
+                                                            <label class="switch switch-success">
+                                                                <input type="checkbox" class="switch-input" ng-true-value="0" data-bind-switcher item="{{$index}}" level="modules" ng-checked="item.Sts==1">
+                                                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                                                <span class="switch-handle"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>{{item.Sts}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div><!--/row-->
+                                </div>
+                                <div class="tab-pane" id="tab23">
+                                    <div class="master-toggler">
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                            <button type="button" ng-click="masterToggle('Pages',1)" ng-class="State.masterSwitches.Pages==1?'btn btn-success':'btn btn-default'">ON</button>
+                                            <button type="button" ng-click="masterToggle('Pages',0)" ng-class="State.masterSwitches.Pages==0?'btn btn-danger':'btn btn-default'">OFF</button>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <table class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Module Id</th>
+                                                <th>Page Id</th>
+                                                <th>Description</th>
+                                                <th>Url</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in Pages">
+                                                <td>{{item.ModuleId}}</td>
+                                                <td>{{item.PageId}}</td>
+                                                <td>{{item.ShortDescp}}</td>
+                                                <td>{{item.URL}}</td>
+                                                <td>
+                                                    <label class="switch switch-success">
+                                                        <input type="checkbox" class="switch-input" data-bind-switcher item="{{$index}}" level="pages" ng-checked="item.Sts==1">
+                                                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                                                        <span class="switch-handle"></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="tab24">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <div ng-hide="treeLoading">
+                                                <div dyna-tree trigger="indexTree" nodes="Nodes" input type="checkbox">
+                                                </div>
+                                            </div>
+                                            <div ng-show="treeLoading">
+                                                <h4><span style="font-style:italic">Loading...<i class="fa fa-cog fa-spin"></i></span></h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+
+                                            <style type="text/css">
+                                                .master-toggler {
+                                                    text-align: right;
+                                                }
+                                            </style>
+
+
+                                            <div class="master-toggler">
+                                                <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                                    <button type="button" ng-click="masterToggle('ChildControls',1)" ng-class="State.masterSwitches.ChildControls==1?'btn btn-success':'btn btn-default'">Enabled</button>
+                                                    <button type="button" ng-click="masterToggle('ChildControls',2)" ng-class="State.masterSwitches.ChildControls==2?'btn btn-warning':'btn btn-default'">Readonly</button>
+                                                    <button type="button" ng-click="masterToggle('ChildControls',0)" ng-class="State.masterSwitches.ChildControls==0?'btn btn-danger':'btn btn-default'">Hidden</button>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <table class="table bootstrap-datatable datatable small-font">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <th>Control Id</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in ChildControls" ng-if="ChildControls.length">
+                                                        <td>{{item.CtrlDesp}}</td>
+                                                        <td>{{item.CtrlId}}</td>
+                                                        <td>
+                                                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                                                <button ng-click="updateControlStatus(item,1);" type="button" ng-class="item.Sts==1?'btn btn-success':'btn btn-default'">Enabled</button>
+                                                                <button ng-click="updateControlStatus(item,2);" type="button" ng-class="item.Sts==2?'btn btn-warning':'btn btn-default'">Readonly</button>
+                                                                <button ng-click="updateControlStatus(item,0);" type="button" ng-class="item.Sts==0?'btn btn-danger':'btn btn-default'">Hidden</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!ChildControls.length">
+                                                        <td colspan="3" style="text-align:center">
+                                                            <i style="font-size:140px;color:#eeeeee" class="fa fa-ban"></i>
+                                                            <p class="text-muted">Controls list is either empty or the section it belongs to has disabled,</p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="tab25">
+                                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4>Almost Finish</h4>
+                                        <p>Click the below button to save all changes to this user.</p>
+                                        <p>
+                                            <button ng-click="saveAll();" style="background-color:#0F8B3A" type="button" class="btn btn-success">Save Changes</button>
+                                            <button type="button" class="btn btn-default">Cancel</button>
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div ng-show="State.userCreated">
+                                    <input type="button" class="btn btn-default btn-cons button-previous disabled" name="prev" value="Prev">
+                                    <input type="button" class="btn btn-success btn-cons button-next" name="next" value="Next">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+    </div>
+</div>
+@section CustomPageScript
+{
+    <script src="~/Content/Plugins/Dynatree/jquery/jquery.cookie.js"></script>
+    <script src="~/Content/Plugins/Dynatree/src/jquery.dynatree.js"></script>
+    <link href="~/Content/Plugins/Dynatree/dist/skin-vista/ui.dynatree.css" rel="stylesheet" />
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Users%20Management/users.js"></script>
+    <script src="~/ng/Apps/Users%20Management/userService.js"></script>
+    <script src="~/ng/Apps/Users%20Management/userController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#navHeader').on('click', function (e) {
+                e.preventDefault();
+                location.href ='@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/UserAccess';
+            })
+        });
+    </script>
+}

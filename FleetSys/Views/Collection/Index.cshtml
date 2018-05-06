@@ -1,0 +1,124 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@using System.Reflection;
+@using CCMS.ModelSector;
+@using ModelSector;
+@model ModelSector.CollectionTaskListViewModel
+
+@{
+    ViewBag.Title = "Collection | FleetOps";
+    ViewBag.ng_app = "CardtrendApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+@section ModuleSidebar
+{
+
+    <style type="text/css">
+        .form-group {
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        td.highlight {
+            font-weight: bold;
+            color: blue;
+        }
+
+        .FormatStatus {
+            background-color: red;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: #555 !important;
+            background-color: #fff !important;
+            border: 1px solid #b5b5b5 !important;
+            border-bottom-color: transparent !important;
+        }
+
+        .nav-tabs > li > a {
+            margin-right: 2px !important;
+            line-height: 1.42857143 !important;
+            border: 1px solid transparent !important;
+            border-radius: 4px 4px 0 0 !important;
+        }
+    </style>
+
+
+<div class="sidebar-menu" ng-show="$root.obj._type==='DelinqAcct'">
+    <ul class="nav nav-sidebar">
+@if (@Html.SectionIsEnabled("cfu")) { 
+        <li ><a class="pagekey pagekey_CollFollowUp" data-prefix="gen" href="#/CollectionFollowUp/{{$root.obj.acctNo}}/{{$root.obj.eventId}}">Collection Follow Up</a></li>
+}
+@if (@Html.SectionIsEnabled("cai")) { 
+        <li><a class="pagekey pagekey_AcctInfo" data-prefix="gen" href="#/AccountInfo/{{$root.obj.acctNo}}/{{$root.obj.eventId}}">Account Info</a></li>
+}
+@if (@Html.SectionIsEnabled("cfi")){
+        <li ><a class="pagekey pagekey_FinInfo" data-prefix="gen" href="#/FinancialInfo/{{$root.obj.acctNo}}/{{$root.obj.eventId}}">Financial Info</a></li>
+}
+@if (@Html.SectionIsEnabled("cch")) { 
+        <li ><a class="pagekey pagekey_CollHist" data-prefix="gen" href="#/CollectionHistory/{{$root.obj.acctNo}}/{{$root.obj.eventId}}">Collection History</a></li>
+}
+    </ul>
+
+</div>
+    @if (Session["UserModules"] != null)
+    {
+        var userAccess = (List<UserIndexAccess>)Session["UserModules"];
+        if (userAccess != null && userAccess.Any())
+        {
+            <div class="sidebar-collapse" routing-menu ng-show="$root.obj._type==='index'">
+                <div class="sidebar-menu" style="margin-top:30px;">
+                    <ul class="nav nav-sidebar">
+
+                        @foreach (var item in userAccess)
+                        {
+                            var url = item.url.Split('/');
+                            <li><a href="@Url.Action(url[1], url[0])"><span class="text">@item.descp</span></a></li>
+                        }
+
+
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+
+}
+
+<div class="main " style="opacity:1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Collection">Collection</a></li>
+                <li class="active">{{obj.acctNo}}</li>
+
+            </ol>
+        </div>
+        <div class="col-lg-12">
+            <div ng-view>             
+            </div>          
+        </div>
+    </div>
+</div>
+@section CustomPageScript
+{
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/Content/scripts/animationManager.js"></script>
+    <script src="~/ng/Apps/Collection/collection.js"></script>
+    <script src="~/ng/Apps/Collection/collectionService.js"></script>
+    <script src="~/ng/Apps/Collection/collectionController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+    <script type="text/javascript">
+        //ignore hiddden element due to contain accordion
+        $.validator.setDefaults({
+            ignore: []
+        })
+
+    </script>
+}

@@ -1,0 +1,204 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.LookupParameters
+
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Home</a></li>
+            <li>Look Up Parameters</li>
+        </ol>
+        <h1><small>Rebate Plan</small></h1>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+            <div class="panel-actions pull-left">
+                @if (!Html.NotAuthorized("rbp", "btnNewRebate"))
+                {
+                    <a href="javascript:;" @(Html.IsReadOnly("rbp", "btnNewRebate") ? "disabled=disabled" : "ng-click=newPlan($event);") class="btn-minimize"><i class="fa fa-plus"></i>&nbsp;New</a>
+                }
+                <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+                <span style="display:none" id="tblAddress-options"><a href="javascript:;"><i class="fa fa-trash-o"></i></a></span>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="table-holder">
+                <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Plan Id</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Effective Date</th>
+                            <th>Expiry Date</th>
+                            <th>Update Date</th>
+                            <th>User ID</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="delete-modal" app-modal trigger="modalOpen">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4 ng-show="isEditMode" class="modal-title">Plan ID Maintenance : {{_Object.PlanId}}</h4>
+                <h4 ng-show="!isEditMode" class="modal-title">Plan ID Creation</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="invoice">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                @*<div class="col-sm-5">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedPaymentType, Model.PaymentType, new { required = true }, new { Name = "PaymentType", @section = "", ng_disabled = "isEdit", on_select = "loadTxnCode($item, $model);" })
+                                    </div>*@
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => model.PlanId, null, new { @section = "rbp", ng_disabled = "isEditMode" })
+                                </div>
+
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.Descp, null, new { @section = "rbp", })
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                @*<div class="col-sm-5">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedPaymentType, Model.PaymentType, new { required = true }, new { Name = "PaymentType", @section = "", ng_disabled = "isEdit", on_select = "loadTxnCode($item, $model);" })
+                                    </div>*@
+                                <div class="col-sm-4">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedType, Model.RebateType, new { required = true }, new { Name = "RebateType", @section = "rbp" })
+                                </div>
+
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.EffectiveFrom, null, new { date_picker = "", @section = "rbp" })
+                                </div>
+
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.ExpiryDate, null, new { date_picker = "", @section = "rbp" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table bootstrap-datatable datatable small-font">
+                        <thead>
+                            <tr>
+                                <th style="width:10%">Tier Value</th>
+                                <th style="width:10%">Basic Value</th>
+                                <th style="width:10%">Billed Value</th>
+                                <th style="width:15%">Update Date</th>
+                                <th style="width:5%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Items" class="fresh-row">
+                                <form>
+                                    <td style="width:7%;vertical-align: middle;">
+                                        <input ng-show="item.isEdit" ng-disabled="isEdit" amount ng-model="item.MinPurchaseAmt" ng-class="input.$valid?'':'errorthere'" class="form-control acctno" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.MinPurchaseAmt}}
+                                        </span>
+                                    </td>
+
+                                    <td style="width:15%;vertical-align: middle;">
+                                        <input ng-show="item.isEdit" ng-disabled="isEdit" amount ng-model="item.SubSeqPurchaseAmt" ng-class="input.$valid?'':'errorthere'" class="form-control acctno" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.SubSeqPurchaseAmt}}
+                                        </span>
+                                    </td>
+
+                                    <td @*class="text-right"*@ style="width:15%;vertical-align: middle;">
+                                        <input ng-show="item.isEdit" ng-disabled="isEdit" amount ng-model="item.SubSeqBillingAmt" ng-class="input.$valid?'':'errorthere'" class="form-control acctno" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.SubSeqBillingAmt}}
+                                        </span>
+                                    </td>
+                                    <td style="width:15%;vertical-align: middle;">
+                                        <input ng-show="item.isEdit" disabled="disabled" ng-model="item.LastUpdated" class="form-control" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.LastUpdated}}
+                                        </span>
+                                    </td>
+
+                                    <td class="hide-print text-right" style="width:15%;vertical-align: middle;">
+
+                                        <div class="btn-group btn-group-justified" ng-show="item.isEdit">
+                                            <a href="javascript:;" id="btnSaveRow" ng-click="finishEdit(item);" @*ng-disabled="!input.$valid"*@ class="btn btn-sm btn-small btn-success"><i class="fa fa-check"></i></a>
+                                        </div>
+                                        <div class="btn-group btn-group-justified" ng-hide="item.isEdit">
+                                            @if (!Html.NotAuthorized("rbp", "btnSaveRow"))
+                                            {
+                                                <a href="javascript:;" id="btnSaveRow" @(Html.IsReadOnly("rbp", "btnSaveRow") ? "disabled=disabled" : "ng-click=item.isEdit=true;") class="btn btn-sm btn-primary btn-small"><i class="fa fa-edit"></i></a>
+                                            }
+                                            @if (!Html.NotAuthorized("rbp", "btnDeleteRow"))
+                                            {
+                                                <a href="javascript:;" id="btnSaveRow" @(Html.IsReadOnly("rbp", "btnDeleteRow") ? "disabled=disabled" : "ng-click=removePrompt(item);") ng-disabled="isEdit" class="btn btn-sm btn-small btn-danger"><i class="fa fa-trash-o"></i></a>
+                                            }
+                                        </div>
+                                    </td>
+                                </form>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @if (!Html.NotAuthorized("rbp", "btnAddNewRebateItem"))
+                    {
+                        <button @(Html.IsReadOnly("rbp", "btnAddNewRebateItem") ? "disabled=disabled" : "ng-click=CreateNewItem($event);") class="btn btn-default hide-print">Add a new item</button>
+                    }
+                    <div class="row" style="margin-top:20px">
+
+
+                        <div class="col-sm-12">
+                            <hr />
+                            <div class="pull-right">
+                                <a href="javascript:;" ng-click="modalOpen=false;" class="btn"> Cancel</a>
+                                @if (!Html.NotAuthorized("rbp", "btnSaveRebate"))
+                                {
+                                    <a href="javascript:;" @(Html.IsReadOnly("rbp", "btnSaveRebate") ? "disabled=disabled" : "ng-click=savePlan($event);") class="btn btn-primary btn-cons">Save</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <style type="text/css">
+                    .invoice-controls {
+                        padding: 20px 20px;
+                        text-align: right;
+                        padding-right: 40px;
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="delete-modal" app-modal trigger="deleteModalOpen">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="deleteModalOpen=false;" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Confirm Delete?</h4>
+            </div>
+            <div class="modal-body">
+                <p>This will delete the record, continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="deleteModalOpen=false;" data-dismiss="modal">Cancel</button>
+                <button type="button" ng-click="removeItem();" class="btn btn-danger">Yes, Continue</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

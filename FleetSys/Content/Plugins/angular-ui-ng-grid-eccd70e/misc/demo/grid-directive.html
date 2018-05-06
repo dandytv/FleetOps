@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="no-js" ng-app="test"><!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <title></title>
+    <meta content="width=device-width" name="viewport">
+    
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+    <link href="/dist/release/ui-grid.css" rel="stylesheet">
+
+    <!--<script src="https://code.jquery.com/jquery-1.11.1.js"></script>-->
+    <script src="/lib/test/angular/1.2.21/angular.js"></script>
+    <script src="/dist/release/ui-grid.js"></script>
+
+    <style>
+      body {
+        padding: 60px;
+        min-height: 600px;
+      }
+
+      .grid {
+        height: 50%;
+        width: auto;
+      }
+
+      .placeholder {
+        height: 50%;
+        width: 50%;
+        border: 3px solid black;
+        background: #ccc;
+      }
+    </style>
+  </head>
+  <body ng-controller="Main">
+    <!-- <h1>Test</h1> -->
+
+      <!-- <div class="row main"> -->
+        <h2>Grid</h2>
+        <div ui-grid="gridOptions" class="grid"></div>
+        <!-- <div class="placeholder"> -->
+      <!-- </div> -->
+
+      <br>
+      <br>
+
+      <script>
+
+      var app = angular.module('test', ['ui.grid']);
+
+      app.controller('Main', function($scope, $http) {
+          // $scope.gridOptions = { data: 'data' };
+          $scope.gridOptions = {};
+          // $scope.gridOptions.columnDefs = [ {name:"First Name", field:"firstName"} ];
+
+          $http.get('/misc/site/data/100.json')
+            .success(function (data) {
+              $scope.gridOptions.data = data;
+            });
+      });
+
+    </script>
+  </body>
+</html>

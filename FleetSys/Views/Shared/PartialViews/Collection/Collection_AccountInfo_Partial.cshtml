@@ -1,0 +1,89 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.CollectionAcctInfoViewModel
+
+<div class="col-lg-12 ng-scope">
+    <div class="panel panel-default row">
+        <div class="panel-heading">
+            <h2>
+                <i class="fa fa-list"></i>Collection
+            </h2>
+            <hr />
+        </div>
+        <div class=" panel-body">
+            <div>
+                <h2 class="panel-title">
+                    Account Information
+                </h2>
+                <br />
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.AcctNo, null, new { id = "txtAccountNo", @section = "cai", Disabled = "true" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.CmpyName, null, new { id = "txtCmpyName", @section = "cai", Disabled = "true" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.ClientType, null, new { id = "txtClientType", @section = "cai", Disabled = "true" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.CorpCode, null, new { id = "txtCorpCode", @section = "cai", Disabled = "true" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.CorpName, null, new { id = "txtCorpName", @section = "cai", Disabled = "true" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.SalesTerritory, null, new { id = "txtSalesTerritory", @section = "cai", Disabled = "true" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { id = "txtCreationDate", @section = "cai", Disabled = "true" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.BlockedDate, null, new { id = "txtBlockedDate", @section = "cai", Disabled = "true" })
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    @Html.CustomNgDateRangeFor(model => model.TempReinstatementDateFrom, model => model.TempReinstatementDateTo, "Temporary Reinstatement Date Range", null, new {@section = "cai", Disabled = "true" }, new { Disabled = "true" })
+                </div>
+
+            </div>
+        </div>
+        <hr />
+        <div class=" panel-body">
+            <div>
+                <h2 class="panel-title">
+                    Contact Information
+                </h2>
+                <br />
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.ContactPerson, null, new { id = "txtContactPerson", @section = "cai", Disabled = "true" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.Occupation, null, new { id = "txtOccupation", @section = "cai", Disabled = "true" })
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.OfficePhone, null, new { id = "txtOfficePhone", @section = "cai", Disabled = "true" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.MobileNo, null, new { id = "txtMobileNo", @section = "cai", Disabled = "true" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.EmailAddr, null, new { id = "txtEmailAddr", @section = "cai", Disabled = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

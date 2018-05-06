@@ -1,0 +1,67 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model  ModelSector.LocationAcceptListModel
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-plus"></i></a>
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="locationHolder" class="zerotop">
+            <table id="tblLocationAcceptance" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Dealer</th>
+                        <th>DBA Name</th>
+                        <th>State</th>
+                        <th>Site Id</th>
+                        <th>User Id</th>
+                        <th>Creation Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="LocationListModal" class="modal hide" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h3 id="contactModalHeader">Location </h3>
+            </div>
+            <div class="modal-body">
+                <form id="frmLocationAccpt" class="form-horizontal">
+                    @Html.CustomNgMultiSelectBoxFor(model => model.SelectedStates, Model.State, null, new { id = "ddlLocationStates", section = "Location Acceptance List" })
+                    @Html.CustomNgTextBoxFor(model => model.UserId, null, new { id = "txtUserId", section = "Location Acceptance List", @readonly = "readonly" })
+                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { id = "txtCreationDate", section = "Location Acceptance List", @readonly = "readonly" })
+                    <input type="hidden" id="xxlocisedit" value="Add" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (!Html.NotAuthorized("Location Acceptance List", "Save"))
+                {
+                    <div class="form-actions">
+                        <button id="btnLocaccptAdd" @(Html.IsReadOnly("Location Acceptance List", "Save") ? "disabled=disabled" : "") style="width: 60px" class="btn btn-primary">Save</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div id="locationDeleteConfirm" data-backdrop="static" class="modal hide">
+            <div class="modal-header deletion-head">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4>Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm the record deletion
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" id="locDeleteConfirmed" class="btn btn-danger">Yes,Delete<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

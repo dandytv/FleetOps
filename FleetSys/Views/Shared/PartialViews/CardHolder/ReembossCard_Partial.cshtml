@@ -1,0 +1,21 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.ReembossCard
+
+<form id="formReembossCard" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomTextBoxFor(model => model.NewCardNo, null, new { section = "ReembossCard", @readonly = "readonly" })
+                @Html.CustomTextBoxFor(model => model.ExpiryDate, null, new { @data_bind = "value:EmbossExpiryDate", id = "cardRepExpiryDate", @readonly = "readonly", @data_type = "datepicker", section = "ReembossCard" })
+                @Html.CustomTextBoxFor(model => model.TerminatedDate, null, new { @data_bind = "value:EmbossTerminatedDate", id = "cardRepTerminatedDate", section = "ReembossCard", @readonly = "readonly", @data_type = "datepicker", })
+                @Html.CustomSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { @data_bind = "value:EmbossStatus", section = "ReembossCard", @readonly = "readonly" })
+                @Html.CustomTextBoxFor(model => model.XReferenceNo, null, new { @data_bind = "value:EmbossXReferenceNo", section = "ReembossCard", @readonly = "readonly" })
+                @Html.CustomTextBoxFor(model => model.Remarks, null, new { @data_bind = "value:EmbossRemark", section = "ReembossCard" })
+                @Html.CustomSelectListFor(model => model.SelectedFeeCd, Model.FeeCd, null, new { @data_bind = "value:EmbossFeeCd", section = "ReembossCard" })
+                @Html.CustomSelectListFor(model => model.SelectedReasonCode, Model.ReasonCd, null, new { @data_bind = "value:EmbossReasonCd", section = "ReembossCard" })
+                </div>
+            </div>
+        </div>
+</form>
+

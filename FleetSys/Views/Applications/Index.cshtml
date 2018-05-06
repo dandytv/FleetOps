@@ -1,0 +1,184 @@
+﻿@using FleetOps.Helpers;
+@{
+    ViewBag.Title = "Application | FleetOps";
+    ViewBag.ng_app = "CardtrendApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+@section ModuleSidebar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            @*<a href="#/" style="color:#fff" class="btn btn-info btn-block"><i class="fa fa-list"></i>&nbsp;&nbsp;Show List</a>*@
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+                @*<a href="#/new" data-redirect="new" class="btn btn-youtube btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; Approval</a>*@
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar" style="margin-top:85px">
+                @if (@Html.SectionIsEnabled("gen"))
+                {
+                    <li><a class="pagekey pagekey_generalInfo" ng-show="$root.obj._type!=='index'" href="#/generalInfo/{{$root.obj.applId}}"><span class="text">Application Info</span></a></li>
+                }
+
+                @if (@Html.SectionIsEnabled("cao"))
+                {
+                    <li><a class="pagekey pagekey_cao" ng-show="$root.obj._type==='edit'" href="#/cao/{{$root.obj.applId}}"><span class="text">Credit@*&amp;*@ Assessment</span></a></li>
+                }
+
+                @if (@Html.SectionIsEnabled("vel"))
+                {
+                    <li><a class="pagekey pagekey_velocity" ng-show="$root.obj._type==='edit'" href="#/velocity/{{$root.obj.applId}}"><span class="text">Transaction Limit</span></a></li>
+                }
+
+                @if (@Html.SectionIsEnabled("dep"))
+                {
+                    <li><a class="pagekey pagekey_depositInfo" ng-show="$root.obj._type==='edit'" href="#/depositInfo/{{$root.obj.applId}}"><span class="text">Security Deposit</span></a></li>
+                }
+
+                @if (@Html.SectionIsEnabled("skd"))
+                {
+                    @*<li><a class="pagekey pagekey_skds" ng-show="$root.obj._type==='edit'" href="#/skds/{{$root.obj.applId}}"><span class="text">Subsidy Plan</span></a></li>*@
+                }
+
+                @if (@Html.SectionIsEnabled("csc"))
+                {
+                    <li><a class="pagekey pagekey_costCentre" ng-show="$root.obj._type==='edit'" href="#/costcentre/{{$root.obj.applId}}"><span class="text">Cost Centre</span></a></li>
+                }
+
+                @if (@Html.SectionIsEnabled("app"))
+                {
+                    <li><a class="pagekey pagekey_applicants" ng-show="$root.obj._type==='edit'" href="#/applicants/{{$root.obj.applId}}"><span class="text">Card Application</span></a></li>@*Applicants*@
+                }
+                @if (@Html.SectionIsEnabled("veh"))
+                {
+                    <li><a class="pagekey pagekey_vehicles" ng-show="$root.obj._type==='edit'" href="#/vehicles/{{$root.obj.applId}}"><span class="text">Vehicles List</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("fil"))
+                {
+                    <li><a class="pagekey pagekey_fileManager" ng-show="$root.obj._type==='edit'" href="#/fileManager/{{$root.obj.applId}}"><span class="text">File Manager</span></a></li>
+                }
+                @*<li><a class="pagekey pagekey_Miscellanious" ng-show="$root.obj._type==='edit'" href="#/Miscellanious/{{$root.obj.applId}}"><span class="text">Miscellanious Info</span></a></li>*@
+                @if (@Html.SectionIsEnabled("add"))
+                {
+                    <li><a class="pagekey pagekey_address" ng-show="$root.obj._type==='edit'" href="#/address/{{$root.obj.applId}}"><span class="text">Address List</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("con"))
+                {
+                    <li><a class="pagekey pagekey_contacts" ng-show="$root.obj._type==='edit'" href="#/contacts/{{$root.obj.applId}}"><span class="text">Contact List</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("apr"))
+                {
+                    @*<li><a class="pagekey pagekey_approval" ng-show="$root.obj._type==='edit'" href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Approval#/Approval/Appl/{{$root.obj.applId}}/{{$root.obj.applId}}"><span class="text">Approval</span></a></li>*@
+                }
+                @*<li><a class="pagekey pagekey_approval" ng-show="$root.obj._type==='edit'" href="#/approval/{{$root.obj.applId}}"><span class="text">Approval</span></a></li>*@
+            </ul>
+        </div>
+        @*<div class="sidebar-footer">*@
+        @*<div class="btn-group btn-group-justified">
+                <a href="#/new" data-redirect="new" class="btn btn-youtube btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; Approval</a>
+            </div>*@
+        @*</div>*@
+    </div>
+}
+
+<div class="main" style="opacity: 1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li>Applications</li>
+                <li class="active">{{$root.obj.applId}}</li>
+            </ol>
+            @*<h1><small>Application Signup</small></h1>*@
+        </div>
+        <div class="col-lg-12">
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+                                <li><a>@*<a class="bg-col">*@<span class="label label-warning">Pending:&nbsp;</span></a></li>
+                                <li class="active"><a href="javascript:;" role="tab" data-toggle="tab" data-target="#Pending">Pending Task</a></li>
+                                <li class=""><a href="javascript:;" ng-click="loadMileStones();" data-toggle="tab" role="tab" data-target="#PendingMilestones">All</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="Pending">
+                                    <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                                <th>Company Name</th>
+                                                <th>Task No</th>
+                                                <th>Task Description</th>
+                                                <th>Priority</th>
+                                                @*<th>Reason Code</th>
+                                                    <th>Remarks</th>
+                                                    <th>Recall Date</th>*@
+                                                <th>Status</th>
+                                                <th>Creation Date</th>
+                                                @*<th>Last Update Date</th>*@
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                @*<a href="/Controllers/Action">Download</a>*@
+                                <div class="tab-pane fade in" id="PendingMilestones">
+                                    <table dtable options="dtOptionsmileStones" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Application Id</th>
+                                                <th>Account No</th>
+                                                <th>Company Name</th>
+                                                <th>Corporate Account</th>
+                                                <th>Credit Limit</th>
+                                                <th>Pending Reasons</th>
+                                                <th>User ID</th>
+                                                <th>Creation Date</th>
+                                                <th>Approved Date</th>
+                                                <th>Approved Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+@section CustomPageScript
+{
+
+<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/angular-sanitize.js"></script>
+<script src="~/Scripts/uiselect.js"></script>
+<script src="~/ng/Utils.js"></script>
+<script src="~/ng/Apps/Applications/application.js"></script>
+<script src="~/ng/Apps/Applications/applicationService.js"></script>
+<script src="~/ng/Apps/Applications/applicationController.js"></script>
+<link href="~/Scripts/dropzone.css" rel="stylesheet" />
+<script src="~/Scripts/dropzone.js"></script>
+
+}

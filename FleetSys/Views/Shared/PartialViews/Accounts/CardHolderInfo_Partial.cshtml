@@ -1,0 +1,44 @@
+﻿@using FleetOps.Helpers;
+<h1>Card List</h1><br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            @if (!Html.NotAuthorized("car", "btnAdd"))
+            {
+                <a href="javascript:;" @(Html.IsReadOnly("car", "btnAdd") ? "disabled=disabled" : "ng-href=" + @System.Configuration.ConfigurationManager.AppSettings["urlPrefix"] + "/ApplicantCard/Index#/generalInfo/{{$root.obj.acctNo}}/new") class="btn-minimize"><i class="fa fa-plus"></i></a>
+            }
+
+            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <table id="tblCards" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+            <thead>
+                <tr>
+                    <th>Card No</th>
+                    <th>Emboss Name</th>
+                    <th>Status</th>
+                    <th>Card Expiry</th>
+                    @*<th>Prev Card No.</th>*@
+                    @*<th>XRef Card No</th>*@
+                    <th>Card Type</th>
+                    <th>PIN Indicator</th>
+                    <th>Vehicle Reg No</th>
+                    <th>Driver Code</th>
+                    <th>Full Name</th>
+                    <th>Blocked Date</th>
+                    <th>Terminated Date</th>
+                    <th>Cost Centre</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    </div>
+    @*<div style="display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; ">
+     <div>
+         content here......................................   
+     </div>
+    </div>*@
+</div>

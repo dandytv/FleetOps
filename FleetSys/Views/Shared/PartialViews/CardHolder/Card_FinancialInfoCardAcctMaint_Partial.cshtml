@@ -1,0 +1,54 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.CardFinancialInfoModel
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("SaveFinancialInfoResult", "CardHolder", FormMethod.Post, new { id = "formFinancialInfo", @class = "form-horizontal" }))
+            {
+                <div class="control-group">
+                    <div class="controls">
+                        @if (!Html.NotAuthorized("Financial Info", "ResetPin"))
+                        {
+                            <a class="btn btn-inverse" @(Html.IsReadOnly("Financial Info", "ResetPin") ? "disabled=disabled" : "") id="btnPinReset">Reset PIN Counter</a>
+                        }
+                    </div>
+                </div>
+                @Html.CustomNgTextBoxFor(model => model.txnLimit, null, new { @data_type = "amount", section = "Financial Info" })
+                @Html.CustomNgTextBoxFor(model => model.litLimit, null, new { @data_bind = "value:litLimit", section = "Financial Info" })
+                @Html.CustomNgTextBoxFor(model => model.PinExceedCnt, null, new { @data_bind = "value:PinExceedCnt", section = "Financial Info", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.PinAttempted, null, new { @data_bind = "value:PinExceedCnt", section = "Financial Info", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.PinTriedUpdDate, null, new { @data_bind = "value:PinTriedUpdDate", section = "Financial Info", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.LastTxnDate, null, new { @data_bind = "value:PinTriedUpdDate", section = "Financial Info", @readonly = "readonly" })
+                <div id="PinChangeConfirm" data-backdrop="static" class="modal hide">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h4>Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        This will change the PIN of the card. Continue?
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                        <a href="#" id="pinChangeConfirmed" class="btn btn-success">Yes,Continue<i class="icon-twitter"></i></a>
+                    </div>
+                </div>
+                <div id="PinResetConfirm" data-backdrop="static" class="modal hide">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h4>Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        This will reset the PIN for this card. Continue?
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                        <a href="#" id="pinResetConfirmed" class="btn btn-success">Yes,Continue<i class="icon-twitter"></i></a>
+                    </div>
+                </div>
+            }
+            <input type="hidden" id="finSaveAccess" value="@Html.GetControlStatus("Save","Financial Info")" />
+            </div>
+        </div> 
+    </div>

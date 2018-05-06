@@ -1,0 +1,189 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using CCMS.ModelSector;
+
+
+namespace ModelSector
+{
+
+<<<<<<< HEAD
+    public class CardAppcInfoModel
+    {
+        [DisplayName("Driving Name")]
+        public string DriverName { get; set; }
+
+        [Required]
+        [DisplayName("Location Max Counter")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public int? LocMaxCnt { get; set; }
+
+        [Required]
+        [DisplayName("Location Max Amount")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? LocMaxAmt { get; set; }
+
+        [Required]
+        [DisplayName("Fuel Litre Per KM")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? FuelLitPerKM { get; set; }
+        [DisplayName("Fuel Check Flag")]
+        public bool FuelCheckFlag { get; set; }
+
+        [DisplayName("Fuel Indicator")]
+        public bool FuelInd { get; set; }
+        [DisplayName("Location Indicator")]
+        public bool LocInd { get; set; }
+        [DisplayName("Location Check Flag")]
+        public bool LocCheckFlag { get; set; }
+        [DisplayName("Dialogue Indicator")]
+        public bool DialogueInd { get; set; }
+        [DisplayName("Vehicle Registration No")]
+        public string vehRegNo { get; set; }
+        [DisplayName("Push Alert Indicator")]
+        public bool PushAlertInd { get; set; }
+        [DisplayName("SKDS Indicator")]
+        public bool SKDSInd { get; set; }
+        [DisplayName("Current Status")]
+        public string SelectedCurrentStatus { get; set; }
+        public IEnumerable<SelectListItem> CurrentStatus { get; set; }
+        [DisplayName("Emboss Name")]
+        public string EmbossName { get; set; }
+        [DisplayName("Card No")]
+=======
+  public class  CardAppcInfoModel 
+  {
+      [DisplayName("Driving Name")]
+      public string DriverName { get; set; }
+      [DisplayName("Location Max Counter")]
+      [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+      public Int16?LocMaxCnt { get; set; }
+      [DisplayName("Location Max Amount")]
+      [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+      public decimal? LocMaxAmt { get; set; }
+      [DisplayName("Fuel Litre Per KM")]
+      [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+      public decimal? FuelLitPerKM { get; set; }
+      [DisplayName("Fuel Check Flag")]
+      public bool FuelCheckFlag { get; set; }
+
+      [DisplayName("Fuel Indicator")]
+      public bool FuelInd { get; set; }
+      [DisplayName("Location Indicator")]
+      public bool LocInd { get; set; }
+      [DisplayName("Location Check Flag")]
+      public bool LocCheckFlag { get; set; }
+      [DisplayName("Dialogue Indicator")]
+      public bool DialogueInd { get; set; }
+      [DisplayName("Vehicle Registration No")]
+      public string vehRegNo { get; set; }
+      [DisplayName("Push Alert Indicator")]
+      public bool PushAlertInd { get; set; }
+      [DisplayName("SKDS Indicator")]
+      public bool SKDSInd { get; set; }
+      [DisplayName("Current Status")]
+      public string SelectedCurrentStatus { get; set; }
+      public IEnumerable<SelectListItem> CurrentStatus { get; set; }
+      [DisplayName("Emboss Name")]
+      public string EmbossName { get; set; }
+      [DisplayName("Card No")]
+>>>>>>> 78439a15ad216f24ba7136f4f156624715bedd7f
+      [Range(16, 19)]
+        public string CardNo { get; set; }
+        [DisplayName("Card Type")]
+        public string SelectedCardType { get; set; }
+        public IEnumerable<SelectListItem> CardType { get; set; }
+
+        [DisplayName("Litre Limit")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? LitreLimit { get; set; }
+        [DisplayName("Transaction Limit")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? TxnLimit { get; set; }
+        [Required]
+        [DisplayName("SKDS Quota")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? SKDSQuota { get; set; }
+
+        [DisplayName("Pin Exceed Counter")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public int? PINExceedCnt { get; set; }
+
+        [DisplayName("Applicant Id")]
+        public string AppcId { get; set; }
+
+        [DisplayName("Entity Id")]
+        public string EntityId { get; set; }
+
+        [DisplayName("Car Maker")]
+        public string Manufacturer { get; set; }
+
+
+    }
+
+    public class CardFinancialInfoModel
+    {
+        [DisplayName("Transaction Limit")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? txnLimit { get; set; }
+
+        [DisplayName("Litre Limit")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? litLimit { get; set; }
+
+        [DisplayName("Pin Exceed Counter")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public int? PinExceedCnt { get; set; }
+
+        [DisplayName("PushAlertInd")]
+        public bool PushAlertInd { get; set; }
+
+        [DisplayName("Pin Attempted")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public int? PinAttempted { get; set; }
+
+        [DisplayName("Pin Tried Update")]
+        public string PinTriedUpdDate { get; set; }
+
+        [DisplayName("Location Max Counter")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public int? LocationMaxCnt { get; set; }
+
+        [DisplayName("Location Max Amount")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? LocationMaxAmt { get; set; }
+
+        [DisplayName("Location Check Flag")]
+        public bool LocationCheckFlag { get; set; }
+
+        [DisplayName("Location Indicator")]
+        public bool LocationInd { get; set; }
+
+
+        [DisplayName("Fuel Check Flag")]
+        public bool FuelCheckFlag { get; set; }
+
+        [DisplayName("Fuel Litre Per KM")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public decimal? FuelLitPerKM { get; set; }
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+

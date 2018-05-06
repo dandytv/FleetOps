@@ -1,0 +1,236 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.CollectionTaskListViewModel
+<form id="formPendingTaskSearch">
+    <div class="modal md-modal md-effect-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen.PendingTask" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" data-toggle="modal">
+                    <button type="button" class="close" ng-click="modalOpen.PendingTask=false;" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h2>Event Search</h2>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @if (!Html.NotAuthorized("dal", "txtAcctNo"))
+                                {
+                                    <label class="control-label " for="txtAcctNo">Account No</label>
+                                    <div class="input-group " autocomplete-accno>
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input @(Html.IsReadOnly("dal", "txtAcctNo") ? "disabled=disabled" : "") type="text" ng-model="_Object.AcctNo" class="form-control" placeholder="Seach Here..." />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @if (!Html.NotAuthorized("dal", "txtCororateCode"))
+                                {
+                                    <label class="control-label " for="txtCororateCode">Corporate Code</label>
+                                    <input @(Html.IsReadOnly("dal", "txtCororateCode") ? "disabled=disabled" : "")
+                                           class="form-control" id="txtCorporateCode" ng-model="_Object.CorporateCode" />
+                                }
+                            </div>
+                        </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedSalesTerritory, Model.SalesTerritory, null, new {@section = "dal", @Name = "SalesTerritory" }, null, null)
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedCollectionSts, Model.Collectionsts, null, new { @section = "dal", @Name = "Collectionsts" }, null, null)
+                        </div>
+                        <div class="col-sm-6">
+@if (!Html.NotAuthorized("dal", "SelectedOwner"))
+{
+    <div class="form-group">
+        <label class="control-label " >Owner</label>
+        <input class="form-control ng-pristine ng-valid" id="SelectedOwner" disabled ng-model="currentUser" />
+    </div>
+}
+                            @*@Html.CustomNgSelectListFor(model => model.SelectedOwner, Model.Owner, null, new { @section = "dal", @Name = "Owner", @disabled = "disabled" }, null, null)*@
+                        </div>
+                        <div class="col-sm-6"></div>
+                        <div class="col-sm-12">
+                            @Html.CustomNgDateRangeFor(model => model.RecallFromDate, model => model.RecallToDate, "Recall Date Range", null, null, null)
+                        </div>
+                        <div class="col-sm-12">
+                            @Html.CustomNgDateRangeFor(model => model.CreationFromDate, model => model.CreationToDate, "Creation Date Range", null, null, null)
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if (!Html.NotAuthorized("dal", "btnSearchPendingTask"))
+                    {
+                        <div class="form-actions pull-right">
+                            <button ng-click="SearchPendingTask();" @(Html.IsReadOnly("dal", "btnSearchPendingTask") ? "disabled=disabled" : "") class="btn btn-primary">Search</button>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<form id="formAllTaskSearch">
+    <div class="modal md-modal md-effect-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen.AllTask" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" data-toggle="modal">
+                    <button type="button" class="close" ng-click="modalOpen.AllTask=false;" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h2>Event Search</h2>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @if (!Html.NotAuthorized("dal", "txtAcctNo"))
+                                {
+                                    <label class="control-label " for="txtAcctNo">Account No</label>
+                                    <div class="input-group " autocomplete-accno>
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input @(Html.IsReadOnly("dal", "txtAcctNo") ? "disabled=disabled" : "") type="text" ng-model="_Object.AcctNo" class="form-control" placeholder="Seach Here..." />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @if (!Html.NotAuthorized("dal", "txtCororateCode"))
+                                {
+                                    <label class="control-label " for="txtCororateCode">Corporate Code</label>
+                                    <input @(Html.IsReadOnly("dal", "txtCororateCode") ? "disabled=disabled" : "")
+                                           class="form-control" id="txtCorporateCode" ng-model="_Object.CorporateCode" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedSalesTerritory, Model.SalesTerritory, null, new { @section = "dal", @Name = "SalesTerritory" }, null, null)
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedCollectionSts, Model.Collectionsts, null, new { @section = "dal", @Name = "Collectionsts" }, null, null)
+                        </div>
+                        <div class="col-sm-6">
+                         
+                           @Html.CustomNgSelectListFor(model => model.SelectedOwner, Model.Owner, null, new { @section = "dal", @Name = "Owner" }, null, null)
+                        </div>
+
+                        <div class="col-sm-6"></div>
+                        <div class="col-sm-12">
+                            @Html.CustomNgDateRangeFor(model => model.RecallFromDate, model => model.RecallToDate, "Recall Date Range", null, null, null)
+                        </div>
+                        <div class="col-sm-12">
+                            @Html.CustomNgDateRangeFor(model => model.CreationFromDate, model => model.CreationToDate, "Creation Date Range", null, null, null)
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if (!Html.NotAuthorized("dal", "btnSearchAllTask"))
+                    {
+                        <div class="form-actions pull-right">
+                            <button ng-click="SearchAllTask();" @(Html.IsReadOnly("dal", "btnSearchAllTask") ? "disabled=disabled" : "") class="btn btn-primary">Search</button>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<div class="panel panel-default" >
+    <div class="panel-heading" style="border-bottom: 1px solid #b5b5b5; ">
+        <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+            <li class="active"><a href="javascript:;" ng-click="loadPendingTask()" role="tab" data-toggle="tab" data-target="#tabPendingTask">Pending Task</a></li>
+            <li class=""><a href="javascript:;" ng-click="loadAllTask();" data-toggle="tab" role="tab" data-target="#tabAllTask">All</a></li>
+            <li class=""><a href="javascript:;" ng-click="loadThresholdLimit();" data-toggle="tab" role="tab" data-target="#tabThresholdLimit">Threshold Limit</a></li>
+
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tabPendingTask">
+                <div class="panel-heading">
+                    @if (!Html.NotAuthorized("dal", "btnSearchPendingTask"))
+                    {<a href="javascript:;" @(Html.IsReadOnly("dal", "btnSearchPendingTask") ? "disabled=disabled" : "ng-click=modalClickPendingTask();")
+                        class="btn-minimize "><i style="color:#222" class="fa fa-search"></i></a>}
+                    <a href="javascript:;" ng-click="refreshPendingTask();" class="btn-minimize  "><i style="color:#222" class="fa fa-refresh"></i></a>
+
+                </div>
+                <br />
+                <table id="tblPendingTask" dtable options="dtOptionsPendingTask" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                    <thead style="white-space:nowrap">
+                        <tr>
+                            <th>Collect No</th>
+                            <th>Account No</th>
+                            <th>Company Name</th>
+                            <th>Sales Territory</th>
+                            <th>Collection Amount</th>
+                            <th>Grace Due Date</th>
+                            <th>Age Code</th>
+                            <th>Priority</th>
+                            <th>Collect Status</th>
+                            <th>Recall Date</th>
+                            <th>Creation Date</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade in " id="tabAllTask">
+                <div class="panel-heading">
+                    @if (!Html.NotAuthorized("dal", "btnSearchAllTask"))
+                    {<a href="javascript:;" @(Html.IsReadOnly("dal", "btnSearchAllTask") ? "disabled=disabled" : "ng-click=modalClickAllTask();")
+                        class="btn-minimize "><i style="color:#222" class="fa fa-search"></i></a>}
+                    <a href="javascript:;" ng-click="refreshAllTask();" class="btn-minimize  "><i style="color:#222" class="fa fa-refresh"></i></a>
+
+                </div>
+                <br />
+                <table id="tblAllTask" dtable options="dtOptionsAllTask" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                    <thead style="white-space:nowrap">
+                        <tr>
+                            <th>Collect No</th>
+                            <th>Account No</th>
+                            <th>Company Name</th>
+                            <th>Corporate Account</th>
+                            <th>Corporate Name</th>
+                            <th>Sales Territory</th>
+                            <th>Collection Amount</th>
+                            <th>Age Code</th>
+                            <th>Account Status</th>
+                            <th>Collect Status</th>
+                            <th>Owner</th>
+                            <th>Recall Date</th>
+                            <th>Creation Date</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade in " id="tabThresholdLimit">
+                <table dtable options="dtOptionsThresholdLimit" id="tbThresholdLimit" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                    <thead style="white-space:nowrap">
+                        <tr>
+                            <th>Account No</th>
+                            <th>Company Name</th>
+                            <th>Corporate Account</th>
+                            <th>Corporate Name</th>
+                            <th>Sales Territory</th>
+                            <th>Permanent Credit Limit</th>
+                            <th>Temporary Credit Limit</th>
+                            <th>Usage (%)</th>
+                            <th>Available Balance</th>
+                            <th>Pukal Account Indicator</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

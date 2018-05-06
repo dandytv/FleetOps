@@ -1,0 +1,80 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.ContactLstModel
+
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-plus"></i></a>
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="contactHolder" class="zerotop">
+            <table id="tblContacts" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Contact Type</th>
+                        <th>Contact Name</th>
+                        <th>Contact No</th>
+                        <th>Status</th>
+                        <th>Function</th>
+                        <th>Email Address</th>
+                        <th>Creation Date</th>
+                        <th>User ID</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="ContactsListModal" class="modal hide" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h3 id="contactModalHeader">Contacts Maintenance</h3>
+            </div>
+            <div class="modal-body">
+                <form id="frmContact" class="form-horizontal">
+
+                    @Html.CustomNgSelectListFor(model => model.SelectedContactType, Model.ContactType, new { required = true }, new { id = "ddlContactType", @section = "Contacts List" })
+                    @Html.HiddenFor(model => model.RefCd, new { @section = "Contacts List" })
+                    @Html.CustomNgTextBoxFor(model => model.ContactNo, new { required = true }, new { id = "txtContactNo", @section = "Contacts List" })
+                    @Html.CustomNgTextBoxFor(model => model.ContactName, new { required = true }, new { id = "txtContactName", @section = "Contacts List" })
+                    @Html.CustomNgTextBoxFor(model => model.EmailAddr, null, new { id = "txtContactEmail", @section = "Contacts List" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedSts, Model.Sts, null, new { id = "ddlContactSts", @section = "Contacts List", @readonly = "readonly" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedOccupation, Model.Occupation, null, new { id = "ddlContactOccupation", @section = "Contacts List" })
+                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { id = "txtContactCreationDate", @section = "Contacts List", @readonly = "readonly" })
+
+                    <input type="hidden" id="xxcontisedit" value="Add" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions">
+                    @if (!Html.NotAuthorized("Contacts List", "Save"))
+                    {
+                        <button id="btnConttoAdd" style="width: 60px" class="btn btn-primary" @(Html.IsReadOnly("Contacts List", "Save") ? "disabled=disabled" : "")>Save</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+        <div id="contactDeleteConfirm" data-backdrop="static" class="modal hide">
+            <div class="modal-header deletion-head">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4>Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm the record deletion
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" id="ContDeleteConfirmed" class="btn btn-danger">Yes,Delete<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

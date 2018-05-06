@@ -1,0 +1,511 @@
+﻿@using FleetOps.Helpers
+@model  ModelSector.Fraud.FraudMainViewModel
+
+@Scripts.Render("~/Scripts/print.js")
+<script type="text/javascript">
+
+    // When the document is ready, initialize the link so
+    // that when it is clicked, the printable area of the
+    // page will print.
+    jQuery(function ($) {
+
+        // Hook up the print link.
+        $("#printFraud")
+            .attr("href", "javascript:void( 0 )")
+            .click(
+                function () {
+                    // Print the DIV.
+                    $(".printable").printPage();
+                    // Cancel click event.
+                    return (false);
+                }
+                )
+        ;
+    }
+        );
+</script>
+
+<style type="text/css">
+    .breakpage {
+        page-break-before: always;
+    }
+
+    .showInPrint {
+        display: none;
+    }
+
+    td {
+        -webkit-column-break-inside: avoid; /* Chrome, Safari, Opera */
+        page-break-inside: avoid !important; /* Firefox */
+        break-inside: avoid; /* IE 10+ */
+        padding: 10px;
+    }
+
+    tr {
+        -webkit-column-break-inside: avoid; /* Chrome, Safari, Opera */
+        page-break-inside: avoid !important; /* Firefox */
+        break-inside: avoid; /* IE 10+ */
+        /* page-break-inside: avoid !important;*/
+    }
+
+    .avoidBreak {
+        /*page-break-inside: avoid !important;*/
+    }
+</style>
+
+<style>
+    /* suppress link for printing */
+
+    @@media only print {
+
+
+        a {
+            display: none;
+        }
+    }
+
+    @@media print {
+        /*thead {
+            display: table-header-group !important;
+        }*/
+        body, div {
+            position: relative;
+        }
+
+
+        tr {
+            -webkit-region-break-inside: avoid;
+            -webkit-column-break-inside: avoid; /* Chrome, Safari, Opera */
+            page-break-inside: avoid !important; /* Firefox */
+            break-inside: avoid; /* IE 10+ */
+            /* page-break-inside: avoid !important;*/
+        }
+
+        td {
+            -webkit-region-break-inside: avoid;
+            -webkit-column-break-inside: avoid !important; /* Chrome, Safari, Opera */
+            page-break-inside: avoid; /* Firefox */
+            break-inside: avoid; /* IE 10+ */
+            padding: 10px;
+        }
+
+        .showInPrint {
+            display: block;
+        }
+    }
+</style>
+
+<div class="col-lg-12 ng-scope   ">
+
+    <div class="panel panel-default row">
+        <div class="printable">
+            @*<table>
+                <thead><tr><td></td></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>*@
+
+
+            <div style=" font-family: Helvetica Neue,Helvetica,Arial,sans-serif; font-weight: bold; font-size: small; position: relative; ">
+                <div class="panel-body">
+                    <table style="width:100% ;">
+                        <tr>
+                            <td style="padding:0"><img src="~/Content/images/pnx-logo.png" style=" float: right; width: 120px; height: 120px; " alt="" /></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0">
+                                <h1 style="   vertical-align:central; text-align:center; color: lightgray; ">
+                                    <strong><u> INCIDENT REPORT </u></strong>
+                                </h1>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width:100%">
+                        <tr>
+                            <td style=" width:25%">
+                                INCIDENT NO
+                            </td>
+
+                            <td>: {{_Object.EventId}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%">
+                                DATE
+                            </td>
+
+                            <td> : {{_Object.todayDate | date:'dd/MM/yyyy'}}</td>
+                        </tr>
+                    </table>
+                    <div class="avoidBreak">
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:25%">
+                                    SECTION A
+                                </td>
+
+                                <td>: NATURE OF INCIDENT</td>
+                            </tr>
+                        </table>
+
+                        <table style="width:100% ; border-collapse:collapse " border="1">
+                            <tr>
+                                <td style="width:25%">
+                                    Incident Reported by
+                                </td>
+
+                                <td colspan="6"> {{_Object.SelectedReportedBy}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Incident Reported via
+                                </td>
+
+                                <td colspan="6"> {{_Object.SelectedReportedViaDescp}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Incident Reported Date
+                                </td>
+
+                                <td colspan="6"> {{_Object.IncidentDate | date:'dd/MM/yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Nature of Incident
+                                </td>
+                                <td colspan="6" style="padding: 0 0 0 0; border-top: hidden; border-left: hidden; ">
+                                    <table  style="width: 100%; border-collapse: collapse; " border="1"><tr>
+
+                                            <td > PIN Compromise</td>
+                                            <td style="width: 8%; text-align: center; font-weight: bolder"> <span ng-show="_Object.SelectedNatureOfIncident =='P'"> / </span> </td>
+                                            <td> KP Involvement/ Collaboration</td>
+                                            <td style="width: 8%; text-align: center; font-weight: bolder; "><span ng-show="_Object.SelectedNatureOfIncident =='K'"> / </span> </td>
+                                            <td> Repeated Case</td>
+                                            <td style="width: 8%; text-align: center; font-weight: bolder; border-right-style: hidden;"><span ng-show=" _Object.SelectedNatureOfIncident =='R'"> / </span> </td>
+                                        </tr>
+                                        <tr>
+                                            <td style=" border-bottom-style:hidden">
+                                                Others
+                                            </td>
+                                            <td colspan="5" style="width: 8%; border-right-style: hidden; border-bottom-style: hidden"> {{_Object.OtherNatureOfIncident}} </td>
+                                        </tr>
+                                    </table>
+                                    @*<td style="width:25%">
+                Nature of Incident
+            </td>
+            <td> PIN Compromise</td>
+            <td style="width: 8%; text-align: center; font-weight: bolder"> <span ng-show="_Object.SelectedNatureOfIncident =='P'"> / </span> </td>
+            <td> KP Involvement/ Collaboration</td>
+            <td style="width: 8%; text-align: center; font-weight: bolder; "><span ng-show="_Object.SelectedNatureOfIncident =='K'"> / </span> </td>
+            <td> Repeated Case/ Others</td>
+            <td style="width: 8%; text-align: center; font-weight:bolder"><span ng-show="_Object.SelectedNatureOfIncident =='O' || _Object.SelectedNatureOfIncident =='R'"> / </span> </td>*@
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Cards Involved
+                                </td>
+
+                                <td colspan="6"> {{_Object.FraudCardsInLine}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Total Estimated Amount Dispute
+                                </td>
+
+                                <td colspan="6"> {{_Object.DisputedAmt}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Brief Description of Incident Raised By Customer
+                                </td>
+
+                                <td colspan="6"> {{_Object.Description}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="avoidBreak">
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:25%">
+                                    SECTION B
+                                </td>
+
+                                <td>: CUSTOMER DETAILS</td>
+                            </tr>
+                        </table>
+
+                        <table style="width: 100%; position:relative; border-collapse:collapse; " border="1">
+                            <tr style="page-break-inside: avoid !important;">
+                                <td style="width:25%">
+                                    Account Type
+                                </td>
+
+                                <td> {{_Object.AccountType}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Card Limit
+                                </td>
+                                <td style="padding: 0 0 0 0; border-top: hidden; border-left: hidden; ">
+                                    <table style="width: 100%; border-collapse: collapse; border-bottom-style: none; border-right-style: none;border-top-style:none;" ng-repeat=" x in _Object.FraudCards"  border="1">
+                                        <tr>
+                                            <td colspan="4" style=" width: 50%;">Cards No</td>
+                                            <td colspan="4" style="width:50%;">{{x.SelectedCardNo}}</td>
+                                        </tr>
+                                        <tr >
+                                            <td rowspan="2" style="border-bottom: none">Amount Limit Per Txn</td>
+                                            <td rowspan="2" style="border-bottom: none">{{x.SingleTxn}}</td>
+                                            <td rowspan="2" style="border-bottom: none">Litre Limit Per Txn</td>
+                                            <td rowspan="2" style="border-bottom: none">{{x.LitLimit}}</td>
+                                            <td>Daily Transaction</td>
+                                            <td>{{x.DailyTxn}}</td>
+                                            <td>{{x.DailyLitre}}</td>
+                                            <td>{{x.DailyCnt}}</td>
+                                        </tr>
+                                        <tr style="border-bottom: none">
+                                            <td style="height: 23px">Monthly Transaction</td>
+                                            <td style="height: 23px">{{x.MonthlyTxn}}</td>
+                                            <td style="height: 23px">{{x.MonthlyLitre}}</td>
+                                            <td style="height: 23px">{{x.MonthlyCnt}}</td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style=" width:25%">
+                                    Subsidy
+                                </td>
+
+                                <td>{{_Object.SubsidyNo}} </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Average Monthly Sales (Account)
+                                </td>
+                                <td>{{_Object.AvgSales}}</td>
+                            </tr>
+                            <tr style=" -webkit-column-break-inside: avoid !important; ">
+                                <td style="width: 25%;  ">
+                                    Average Monthly Sales (Cards)
+                                </td>
+
+                                <td style="padding: 0 0 0 0;border-top: hidden; border-left: hidden; ">
+
+                                    <table ng-repeat="x in  _Object.FraudCards " style="width: 100%; border-collapse: collapse; " border="1">
+
+                                        <tr>
+                                            <td> Cards No</td>
+                                            <td style=" border-right-style:hidden"> {{x.SelectedCardNo}}</td>
+                                        </tr>
+                                        <tr style=" border-bottom: hidden; border-right-style: hidden">
+                                            <td colspan="2">{{x.CardAvgSales}} </td>
+
+                                        </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Ageing Code
+                                </td>
+
+                                <td> {{_Object.AgeingDays}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    @*<div class="breakpage"></div>
+                        <img class="showInPrint" src="~/Content/css/images/ui-bg_diagonals-thick_75_f3d8d8_40x40.png" style=" float:right  " alt="" />
+                        <h1 class="showInPrint" style="   vertical-align:central; text-align:center; color: lightgray; ">
+                            <strong><u> SMARTPAY INCIDENT REPORT </u></strong>
+                        </h1>*@
+                    <div class="avoidBreak">
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:25%">
+                                    SECTION C
+                                </td>
+
+                                <td>: INCIDENT INVESTIGATION TEAM</td>
+                            </tr>
+                        </table>
+
+                        <table style="width:100% ; border-collapse:collapse " border="1">
+                            <tr>
+                                <td style="width:25%">
+                                    Incident Investigation Officer
+                                </td>
+
+                                <td colspan="6"> {{_Object.SelectedInvestigatedBy}}</td>
+                            </tr>
+
+
+                            <tr>
+                                <td style="width:25%">
+                                    Date of Investigation
+                                </td>
+
+                                <td colspan="6"> {{_Object.InvestigationDate  | date:'dd/MM/yyyy'}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Investigation Venue
+                                </td>
+
+                                <td colspan="6"> {{_Object.InvestigationVenue}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="avoidBreak">
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:25%">
+                                    SECTION D
+                                </td>
+
+                                <td>: BRIEF DESCRIPTION OF INCIDENT</td>
+                            </tr>
+                        </table>
+
+                        <table style="width:100% ; border-collapse:collapse " border="1">
+                            <tr>
+                                <td style="width:25%">
+                                    Case Background
+                                </td>
+
+                                <td colspan="6"> {{_Object.CaseBackground}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Investigation Process
+                                </td>
+
+                                <td colspan="6"> {{_Object.InvestigationProcess}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Findings
+                                </td>
+
+                                <td colspan="6"> {{_Object.Findings}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Action Taken
+                                </td>
+
+                                <td colspan="6"> {{_Object.ActionTaken}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Recommendation/ Migration Plan
+                                </td>
+
+                                <td colspan="6"> {{_Object.MitigationPlan}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%">
+                                    Conclusion
+                                </td>
+
+                                <td colspan="6"> {{_Object.Conclusion}}</td>
+                            </tr>
+                        </table>
+                        <br />
+                        <table style="width:100% ; border-collapse:collapse " border="1">
+                            <tr>
+                                <td style="width:50%">
+                                    Prepared By:
+                                </td>
+                                <td>
+                                    Jointly Reviewed By:
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    {{_Object.PreparedByName1}} <br />
+                                    {{_Object.PreparedByPosition1}}
+                                </td>
+                                <td>
+                                    {{_Object.ReviewdByName1}} <br />
+                                    {{_Object.ReviewdByPosition1}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    {{_Object.PreparedByName2}} <br />
+                                    {{_Object.PreparedByPosition2}}
+                                </td>
+                                <td>
+                                    {{_Object.ReviewdByName2}} <br />
+                                    {{_Object.ReviewdByPosition2}}
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <table style="width:100% ; border-collapse:collapse " border="1">
+                            <tr>
+                                <td style="width:50%">
+                                    Endorsed By:
+                                </td>
+                                <td>
+                                    Approved By:
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    {{_Object.EndorsedByName1}} <br />
+                                    {{_Object.EndorsedByPosition1}}
+                                </td>
+                                <td>
+                                    {{_Object.ApprovedByName1}} <br />
+                                    {{_Object.ApprovedByPosition1}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    {{_Object.EndorsedByName2}} <br />
+                                    {{_Object.EndorsedByPosition2}}
+                                </td>
+                                <td>
+                                    {{_Object.ApprovedByName2}} <br />
+                                    {{_Object.ApprovedByPosition2}}
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <table style="width:100% ; border-collapse:collapse " border="0">
+                            <tr>
+                                <td style=" width:25%">
+                                    Comments
+                                </td>
+                                <td>
+                                    : {{_Object.Remarks}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @*</td>
+                        </tr>
+                    </tbody>
+                </table>*@
+        </div>
+        <div class=" panel-body">
+            <div class="col-sm-12">
+                <hr /><div class="pull-right form-actions">
+                    <a class="btn " href="#/events/{{$root.obj.eventId}}">Cancel</a>
+                    @if (!Html.NotAuthorized("prt", "btnPrint"))
+                    {
+                        <a @(Html.IsReadOnly("prt", "btnPrint") ? "disabled=disabled" : "") class="btn btn-success " id="printFraud"><span class="fa fa-print"></span>Print</a>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

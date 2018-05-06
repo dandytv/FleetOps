@@ -1,0 +1,186 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@using System.Reflection;
+@using CCMS.ModelSector;
+@using ModelSector;
+@model ModelSector.Fraud.FraudCaseListViewModel
+
+@{
+    ViewBag.Title = "Fraud | FleetOps";
+    ViewBag.ng_app = "FraudApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+@section ModuleSidebar
+{
+
+    <style type="text/css">
+        .form-group {
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        td.highlight {
+            font-weight: bold;
+            color: blue;
+        }
+
+        .FormatStatus {
+            background-color: red;
+        }
+
+        /*.nav-tabs {
+            border-bottom: 1px solid #ddd !important;
+        }*/
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: #555 !important;
+            background-color: #fff !important;
+            border: 1px solid #b5b5b5 !important;
+            border-bottom-color: transparent !important;
+        }
+        .nav-tabs > li > a {
+            margin-right: 2px !important;
+            line-height: 1.42857143 !important;
+            border: 1px solid transparent !important;
+            border-radius: 4px 4px 0 0 !important;
+        }
+    </style>
+
+    <div class="sidebar-collapse" routing-menu ng-show="$root.obj._type==='edit' || $root.obj._type==='txn' ">
+    <div class="sidebar-header">
+        <div class="btn-group btn-group-justified">
+            <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+            @if (@Html.SectionIsEnabled("fci"))
+{
+            <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+            }
+        </div>
+    </div>
+
+    <div class="sidebar-menu" ng-show="$root.obj._type==='edit'">
+        <ul class="nav nav-sidebar" >
+@if (@Html.SectionIsEnabled("fci"))
+{
+            <li ng-show="$root.obj.eventId !=null"><a class="pagekey pagekey_fraudInfo" data-prefix="gen" href="#/events/{{$root.obj.eventId}}">Fraud Case Info</a></li>
+            <li ng-hide="$root.obj.eventId !=null"><a class="pagekey pagekey_fraudInfo" data-prefix="gen" href="#/new">Fraud Case Info</a></li>
+}
+@if (@Html.SectionIsEnabled("fil"))
+{
+            <li ng-show="$root.obj.eventId !=null"><a class="pagekey pagekey_fraudfileManager " data-prefix="gen" href="#/fileManager/{{$root.obj.eventId}}">File Manager</a></li>
+            <li ng-hide="$root.obj.eventId !=null"><div style=" padding: 8px 0px 8px 0px"> <a data-prefix="gen" style=" pointer-events:none;">File Manager </a></div></li>
+}
+        </ul>
+       
+    </div>
+</div>
+  
+    @if (Session["UserModules"] != null)
+{
+    var userAccess = ((List<UserIndexAccess>)Session["UserModules"]).ToList().OrderBy(x => x.descp);
+    if (userAccess != null && userAccess.Any())
+    {
+        <div class="sidebar-collapse" routing-menu ng-show="$root.obj._type==='index'">
+            <div class="sidebar-menu" style="margin-top:30px;">
+                <ul class="nav nav-sidebar">
+
+                    @foreach (var item in userAccess)
+                    {
+                        var url = item.url.Split('/');
+                         if (item.descp.ToLower() != "pukal account" && item.descp.ToLower() != "pin mailer" && item.descp.ToLower() != "soa summary" && item.descp.ToLower() != "collection" && item.descp.ToLower() != "request tracker")
+                            {
+                             <li><a href="@Url.Action(url[1], url[0])"><span class="text">@item.descp</span></a></li>
+                            }
+                    }
+
+
+                </ul>
+            </div>
+        </div>
+    }
+}
+
+}
+
+
+<div class="main " style="opacity:1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li><a href="#">Fraud</a></li>
+                <li class="active">{{obj.eventId}}</li>
+
+            </ol>
+        </div>
+        <div class="col-lg-12">
+            <div>
+                <ng-view>
+                </ng-view>
+            </div>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12 ">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 style="width:30%"><i class="fa fa-list"></i>Fraud Case List</h2>
+                        @if (@Html.SectionIsEnabled("fci"))
+                        {
+                          <button onclick="location.href = '#/new'" class="btn btn-success  hidden-sm">New Fraud Case</button>
+                        }
+                        </div>
+                        <div class="panel-body">
+                            <table id="tblFraudCastList" data-dtable options="dtOptions" class="table bootstrap-datatable datatable small-font ">
+                                <thead>
+                                    <tr>
+                                        <th>Case No</th>
+                                        <th>Fraud Type</th>
+                                        <th>Account No</th>
+                                        <th>Company Name</th>
+                                        <th>Status</th>
+                                        <th>Close Date</th>
+                                        <th>Updated By</th>
+                                        <th>Updated Date</th>
+                                        <th>Created By</th>
+                                        <th>Created Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <script type="text/ng-template" id="details.html">
+
+            </script>
+
+        </div>
+    </div>
+</div>
+@section CustomPageScript
+{
+<script src="~/Scripts/moment.js"></script>
+
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/Content/scripts/animationManager.js"></script>
+    <script src="~/ng/Apps/Fraud/Fraud.js"></script>
+    <script src="~/ng/Apps/Fraud/FraudService.js"></script>
+    <script src="~/ng/Apps/Fraud/FraudController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+<link href="~/Scripts/dropzone.css" rel="stylesheet" />
+<script src="~/Scripts/dropzone.js"></script>
+    <script type="text/javascript">
+        //ignore hiddden element due to contain accordion
+        $.validator.setDefaults({
+            ignore: []
+        })
+     
+    </script>
+}
+
+
+
+

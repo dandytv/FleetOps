@@ -1,0 +1,53 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model  CCMS.ModelSector.AcctSignUp
+
+
+<form id="frmApplGeneralInfo" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                @{
+                    if (Model.DirCreated)
+                    {
+                        @Html.CustomNgActionLinkFor(model => model.Files, "<i class='icon-folder-open icon-white'></i>", "Index", "FileManager", null, new { id = "btnJumbFm", @class = "btn btn-info", @style = "width:255px", data_val = Model.Files })
+                    }
+                }
+
+                @Html.CustomNgSelectListFor(model => model.selectedPlasticType, Model.PlasticType, new { required = true }, new { id = "ddlPlasticType", @section = "Application General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCycleNo, Model.CycleNo, null, new { id = "ddlCycleNo", @section = "Application General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCorporateAcct, Model.CorporateAcct, null, new { id = "ddlCorporateAcct", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.SapNo, new { required = true }, new { id = "txtApplicationRef", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.ApplicationRef, new { required = true }, new { id = "txtApplicationRef", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CompanyLegalName, new { required = true }, new { id = "txtCmpyLegalName", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CompanyName, null, new { id = "txtCmpyName", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CompanyEmbName, new { required = true }, new { id = "CompanyEmbName", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.ContactPerson, new { required = true }, new { id = "ContactPerson", @section = "Application General Info" })
+                @Html.CustomNgSelectListFor(model => model.selectedPosition, Model.Position, null, new { id = "ddlPosition", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.OfficePhone, null, new { id = "txtOfficePhone", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.MobileNo, null, new { id = "txtMobileNo", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.OfficeFax, null, new { id = "txtOfficeFax", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.emailAddress, null, new { id = "txtemailAddress", @section = "Application General Info" })
+                @Html.CustomNgSelectListFor(model => model.selectedCompanyType, Model.CompanyType, null, new { @section = "Application General Info", id = "ddlCompanyType" })
+                @Html.CustomNgTextBoxFor(model => model.CompanyRegnNo, null, new { id = "txtCompanyRegnNo", @section = "Application General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CompanyRegnDate, null, new { id = "txtCompanyRegnDate", @section = "Application General Info", @data_type = "datepicker" })
+                @Html.CustomNgTextBoxFor(model => model.NatureOfBusiness, null, new { id = "txtNatureOfBusiness", @section = "Application General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedBillingType, Model.BillingType, null, new { @section = "Application General Info", id = "ddlBillingType" })
+                @Html.CustomNgSelectListFor(model => model.SelectedInvoicePref, Model.InvoicePref, null, new { @section = "Application General Info", id = "ddlInvoicePref" })
+                @Html.CustomNgSelectListFor(model => model.SelectedBusinessCategory, Model.BusinessCategory, null, new { @section = "Application General Info", id = "ddlAddrAddrRegion" })
+                @Html.CustomNgTextBoxFor(model => model.EntityId, null, new { id = "txtEntityId", @section = "Application General Info", @readonly = "readonly" })
+                @Html.CustomNgCheckBoxFor(model => model.InvoiceBillingIndicator, null, new { @section = "Application General Info" })
+                @Html.CustomNgCheckBoxFor(model => model.PymtInd, null, new { @section = "Application General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedTaxCategory, Model.TaxCategory, null, new { @section = "Application General Info", id = "ddlTaxCategory" })
+                @Html.CustomNgCheckBoxFor(model => model.WithholdingTaxInd, null, new { @section = "Application General Info" })
+                @Html.CustomNgCheckBoxFor(model => model.VehiclePerformanceReportInd, null, new { @section = "Application General Info" })
+
+
+                <input type="hidden" id="xxApplGeneralInfoisedit" value="Add" />
+                </div>
+            </div>
+        </div>
+</form>
+<input type="hidden" id="appSaveAccess" value="@Html.GetControlStatus("Save","Application General Info")" />
+

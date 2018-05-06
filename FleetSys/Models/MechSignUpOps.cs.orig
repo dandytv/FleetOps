@@ -1,0 +1,987 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using FleetOps.DAL;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Mvc;
+using FleetOps.Models;
+using FleetOps.ViewModel;
+using ModelSector;
+using System.Collections;
+using CCMS.ModelSector;
+namespace FleetOps.Models
+{
+    public class MechSignUpOps : BaseClass
+    {
+        public string AcctNo { get; set; }
+        public string EntityId { get; set; }
+        #region "MechContact"
+        public List<ContactList> GetMechContactList(int issNo, string refto, string refkey)
+        {
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[3];
+            Parameters[0] = new SqlParameter("@IssNo", issNo);
+            Parameters[1] = new SqlParameter("@RefTo", refto);
+            Parameters[2] = new SqlParameter("@RefKey", refkey);
+
+            var execResult = objDataEngine.ExecuteCommand("WebContactListSelect", CommandType.StoredProcedure, Parameters);
+            var _MechContactList = new List<ContactList>();
+
+            while (execResult.Read())
+            {
+                _MechContactList.Add(new ContactList
+                {
+                    RefTo = Convert.ToString(execResult["RefTo"]),
+                    RefCd = Convert.ToString(execResult["RefCd"]),
+                    ContactType = BaseClass.WebGetRefLib("Contact"),
+                    SelectedContactType = Convert.ToString(execResult["ContactType"]),
+                    ContactName = Convert.ToString(execResult["ContactName"]),
+                    ContactNo = Convert.ToString(execResult["Contact No"]),
+                    ContactStatus = BaseClass.WebGetRefLib("ContactSts"),
+                    SelectedContactStatus = Convert.ToString(execResult["Contact Status"]),
+                    JobOccupation = BaseClass.WebGetRefLib("Occupation"),
+                    SelectedJobOccupation = Convert.ToString(execResult["Job Occupation"]),
+                    RawStatus = Convert.ToString(execResult["Status"]),
+                    RawOccupation = Convert.ToString(execResult["Occupation"]),
+                    EmailAddr = Convert.ToString(execResult["EmailAddr"]),
+
+                });
+
+            };
+            return _MechContactList;
+        }
+        public ContactList GetContactDetail( string Refto, string RefKey) 
+        {
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[3];
+            Parameters[0] = new SqlParameter("@IssNo", GetIssNo);
+            Parameters[1] = new SqlParameter("@RefTo", Refto);
+            Parameters[2] = new SqlParameter("@RefKey", RefKey);
+
+            var Reader = objDataEngine.ExecuteCommand("WebContactSelect", CommandType.StoredProcedure, Parameters);
+
+            while (Reader.Read())
+            {
+                
+                var _ContactListInfo = new ContactList
+                {
+                    RefTo = Convert.ToString(Reader["RefTo"]),
+                    RefCd = Convert.ToString(Reader["RefCd"]),
+                    SelectedContactType = Convert.ToString(Reader["ContactType"]),
+                    ContactName = Convert.ToString(Reader["Contact Name"]),
+                    ContactNo = Convert.ToString(Reader["Contact No"]),
+                    ContactStatus = BaseClass.WebGetRefLib("ContactSts"),
+                    SelectedContactStatus = Convert.ToString(Reader["Contact Status"]),
+                    RawStatus = Convert.ToString(Reader["Status"]),
+                    JobOccupation = BaseClass.WebGetRefLib("Occupation"),
+                    SelectedJobOccupation = Convert.ToString(Reader["Job Occupation"]),
+                    RawOccupation = Convert.ToString(Reader["Occupation"]),
+                    EmailAddr = Convert.ToString(Reader["EmailAddr"]),
+
+
+                };
+
+                return _ContactListInfo;
+
+            };
+
+
+
+            return new ContactList();
+        }
+        public string SaveMechContact(ContactList _contactList, string refto, string refkey) 
+        {
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[10];
+            Parameters[0] = new SqlParameter("@Func", GetIssNo);
+            Parameters[1] = new SqlParameter("@IssNo", GetIssNo);
+            Parameters[2] = new SqlParameter("@RefTo", refto);
+            Parameters[3] = new SqlParameter("@RefKey", refkey);
+            Parameters[4] = new SqlParameter("@RefCd", String.IsNullOrEmpty(_contactList.RefCd));
+            Parameters[5] = new SqlParameter("@ContactName", String.IsNullOrEmpty(_contactList.ContactName));
+            Parameters[6] = new SqlParameter("@Occupation", String.IsNullOrEmpty(_contactList.SelectedJobOccupation));
+            Parameters[7] = new SqlParameter("@ContactNo", String.IsNullOrEmpty(_contactList.ContactNo));
+            Parameters[8] = new SqlParameter("@Sts", String.IsNullOrEmpty(_contactList.RawStatus));
+            Parameters[9] = new SqlParameter("@EmailAddr", String.IsNullOrEmpty(_contactList.EmailAddr));
+
+
+            var Reader = objDataEngine.ExecuteCommand("WebContactMaint", CommandType.StoredProcedure, Parameters);
+
+            while (Reader.Read())
+            {
+                return Convert.ToString(Reader);
+            }
+
+            return "Error!";
+            
+        }
+        #endregion
+
+        #region "MechAddress"
+        public List<AddressList> GetMechAddressList(int issNo, string refto, string refkey)
+        {
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[3];
+            Parameters[0] = new SqlParameter("@IssNo", issNo);
+            Parameters[1] = new SqlParameter("@RefTo", refto);
+            Parameters[2] = new SqlParameter("@RefKey", refkey);
+
+            var execResult = objDataEngine.ExecuteCommand("WebAddressListSelect", CommandType.StoredProcedure, Parameters);
+            var _AddressList = new List<AddressList>();
+
+                while (execResult.Read())
+                {
+                     _AddressList.Add( new AddressList{
+                     AddressType = BaseClass.WebGetRefLib("Address"),
+                     selectedAddressType = Convert.ToString(execResult["Address Type"]),
+                     SelectedMailingIndicator = BoolConverter(execResult["Main Mailing"]),
+                     Address1 = Convert.ToString(execResult["Address1"]),
+                     Address2 = Convert.ToString(execResult["Address2"]),
+                     Address3 = Convert.ToString(execResult["Address3"]),
+                     state = BaseClass.WebGetState(GetIssNo),
+                     selectedState = Convert.ToString(execResult["StateCd"]),
+                     PostalCode = Convert.ToString(execResult["ZipCd"]),
+                     country = BaseClass.WebGetRefLib("Country"),
+                     selectedCountry = Convert.ToString(execResult["Country"]),
+                     Refcd = Convert.ToString(execResult["RefCd"]),
+                     Region = BaseClass.WebGetRefLib("RegionCd"),
+                     selectedRegion = Convert.ToString(execResult["Region"]),
+                    });
+
+            }
+                return _AddressList;
+
+        }
+        public AddressList GetMechAddressDetail(int issNo, string refto, string refkey, string refcd)
+        {
+
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[4];
+            Parameters[0] = new SqlParameter("@IssNo", issNo);
+            Parameters[1] = new SqlParameter("@RefTo", refto);
+            Parameters[2] = new SqlParameter("@RefKey", refkey);
+            Parameters[3] = new SqlParameter("@RefCd", refcd);
+            var Reader = objDataEngine.ExecuteCommand("WebAddressSelect", CommandType.StoredProcedure, Parameters);
+
+            while (Reader.Read())
+            {
+
+                var _AddressListInfo = new AddressList
+                {
+                    AddressType = BaseClass.WebGetRefLib("Address"),
+                    selectedAddressType = Convert.ToString(Reader["Address Type"]),
+                    SelectedMailingIndicator = Convert.ToBoolean(Reader["Main Mailing"]),
+                    Address1 = Convert.ToString(Reader["Address1"]),
+                    Address2 = Convert.ToString(Reader["Address2"]),
+                    Address3 = Convert.ToString(Reader["Address3"]),
+                    country = BaseClass.WebGetRefLib("Country"),
+                    selectedCountry = Convert.ToString(Reader["Country"]),
+                    Region = BaseClass.WebGetRefLib("RegionCd"),
+                    selectedRegion = Convert.ToString(Reader["Region"]),
+                    state = BaseClass.WebGetRefLib("State"),
+                    selectedState = Convert.ToString(Reader["StateCd"]),
+                    PostalCode = Convert.ToString(Reader["ZipCd"]),
+                    Refcd = Convert.ToString(Reader["RefCd"]),
+                };
+
+                return _AddressListInfo;
+
+            }
+
+
+
+            return new AddressList();
+        }
+        public string SaveMechAddress(AddressList _addressList,  string refto, string refkey)
+        {
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[12];
+            Parameters[0] = new SqlParameter("@Func", GetIssNo);
+            Parameters[1] = new SqlParameter("@IssNo", GetIssNo);
+            Parameters[2] = new SqlParameter("@RefTo", refto);
+            Parameters[3] = new SqlParameter("@RefKey", refkey);
+            Parameters[4] = new SqlParameter("@RefCd", String.IsNullOrEmpty(_addressList.Refcd));
+            Parameters[5] = new SqlParameter("@street1",String.IsNullOrEmpty( _addressList.Address1));
+            Parameters[6] = new SqlParameter("@street2",String.IsNullOrEmpty( _addressList.Address2));
+            Parameters[7] = new SqlParameter("@street3",String.IsNullOrEmpty( _addressList.Address3));
+            Parameters[8] = new SqlParameter("@state", String.IsNullOrEmpty(_addressList.selectedState));
+            Parameters[9] = new SqlParameter("@zipcd",String.IsNullOrEmpty( _addressList.PostalCode));
+            Parameters[10] = new SqlParameter("@Ctry", String.IsNullOrEmpty(_addressList.selectedCountry));
+            Parameters[11] = new SqlParameter("@MailingInd", BaseClass.BoolConverter(_addressList.MailingIndicator));
+          
+
+            var Reader = objDataEngine.ExecuteCommand("WebAddressMaint", CommandType.StoredProcedure, Parameters);
+
+            while (Reader.Read())
+            {
+                return Convert.ToString(Reader);
+            }
+
+            return "Error!";
+        }
+        #endregion
+
+        #region"Merch General Info"
+        public MA_GeneralInfo GetMAGeneralInfoDetail(string Acctno)
+        {
+
+           var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+           objDataEngine.InitiateConnection();
+           SqlParameter[]Parameters=new SqlParameter[2];
+           Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+           Parameters[1] = new SqlParameter("@AcctNo", String.IsNullOrEmpty(Acctno) ? "" : Acctno);
+           var execResult = objDataEngine.ExecuteCommand("WebMerchGeneralInfoSelect", CommandType.StoredProcedure, Parameters);
+
+           while (execResult.Read())
+           {
+               var _MAGeneralInfo = new MA_GeneralInfo
+               {
+                   AgrmntNo = BaseClass.ConverterDecimal("AgreementNo"),
+                   AgrmntDt = Convert.ToString("AgreementDate"),
+                   AffiliatedWithCorpCode = Convert.ToString("AffiliateWith"), 
+                   PIC = Convert.ToString("PersonInCharge"),
+                   Ownership = Convert.ToString("Ownership"),
+                   BusnSize = Convert.ToString("Establishment"),
+                   CoRegNo = Convert.ToString("CoRegNo"), 
+                   BusnName= Convert.ToString("CoRegName"), 
+                   CoRegDate = BaseClass.DateConverter("CoRegDate"),
+                   PayeeName = Convert.ToString("PayeeName"),
+                   BankDirectDebitInd = Convert.ToString("AutoDebitInd"),
+                   BankName = Convert.ToString("BankName"),
+                   selectedBankAccountType = Convert.ToString("BankAcctType"),
+                   BankAcctNo = Convert.ToString("BankAcctNo"),
+                   SelectedBankBranchCd=Convert.ToString("BankBranchCd"),
+                   Remarks = Convert.ToString("Remarks"),
+                   SelectedCurrentStatus = Convert.ToString("Sts"),
+                   EnttId = Convert.ToString("EntityId"),
+                   TaxId = Convert.ToString("TaxId"),
+                   WithholdingTaxInd = Convert.ToString("WithholdingTaxInd"),
+                   WithholdingTaxRate = Convert.ToString("WithholdingTaxRate"),
+                   CycleNo = Convert.ToString("CycNo"),
+                   SourceCd = Convert.ToString("SourceCode"),
+                   SourceRefNo = Convert.ToString("SourceRefNo"),
+                   UserId = Convert.ToString("UserId"),
+                   CreationDate= BaseClass.DateConverter(DateTime.Now),
+                   SelectedReasonCode = Convert.ToString("ReasonCd")
+               };
+               return _MAGeneralInfo;
+           }
+           return new MA_GeneralInfo();
+
+        }
+        public MsgRetriever SaveMAGeneralInfo(MA_GeneralInfo _MA_GeneralInfo, string Func)
+        {
+
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Mail);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[29];
+            Parameters[0] = new SqlParameter("@Func", String.IsNullOrEmpty(Func) ? "" : Func);
+            Parameters[1] = new SqlParameter("@AcqNo", this.GetAcqNo);
+            Parameters[2] = new SqlParameter("@AcctNo", String.IsNullOrEmpty(_MA_GeneralInfo.AcctNo) ? "" : _MA_GeneralInfo.AcctNo);
+            Parameters[3] = new SqlParameter("@BusnName", String.IsNullOrEmpty(_MA_GeneralInfo.BusnName) ? "" : _MA_GeneralInfo.BusnName);
+            Parameters[4] = new SqlParameter("@AgreeNo", _MA_GeneralInfo.AgrmntNo);
+            Parameters[5] = new SqlParameter("@AgreeDate", String.IsNullOrEmpty(_MA_GeneralInfo.AgrmntDt) ? "" : _MA_GeneralInfo.AgrmntDt);
+            Parameters[6] = new SqlParameter("@AffiliateWith", String.IsNullOrEmpty(_MA_GeneralInfo.AffiliatedWithCorpCode) ? "" : _MA_GeneralInfo.AffiliatedWithCorpCode);
+            Parameters[7] = new SqlParameter("@PersonInChrg", String.IsNullOrEmpty(_MA_GeneralInfo.PIC) ? "" : _MA_GeneralInfo.PIC);
+            Parameters[8] = new SqlParameter("@Ownership", String.IsNullOrEmpty(_MA_GeneralInfo.Ownership) ? "" : _MA_GeneralInfo.Ownership);
+            Parameters[9] = new SqlParameter("@Establishment", String.IsNullOrEmpty(_MA_GeneralInfo.BusnSize) ? "" : _MA_GeneralInfo.BusnSize);
+            Parameters[10] = new SqlParameter("@CoRegsNo", String.IsNullOrEmpty(_MA_GeneralInfo.CoRegNo) ? "" : _MA_GeneralInfo.CoRegNo);
+            Parameters[11] = new SqlParameter("@CoRegsName", String.IsNullOrEmpty(_MA_GeneralInfo.BusnName) ? "" : _MA_GeneralInfo.BusnName);
+            Parameters[12] = new SqlParameter("@CoRegsDate", String.IsNullOrEmpty(_MA_GeneralInfo.CoRegDate) ? "" : _MA_GeneralInfo.CoRegDate);
+            Parameters[13] = new SqlParameter("@PayeeName", String.IsNullOrEmpty(_MA_GeneralInfo.PayeeName) ? "" : _MA_GeneralInfo.PayeeName);
+            Parameters[14] = new SqlParameter("@AutoDebit", String.IsNullOrEmpty(_MA_GeneralInfo.BankDirectDebitInd) ? "" : _MA_GeneralInfo.BankDirectDebitInd);
+            Parameters[15] = new SqlParameter("@BankName", String.IsNullOrEmpty(_MA_GeneralInfo.BankName) ? "" : _MA_GeneralInfo.BankName);
+            Parameters[16] = new SqlParameter("@BankAcctType", String.IsNullOrEmpty(_MA_GeneralInfo.selectedBankAccountType) ? "" : _MA_GeneralInfo.selectedBankAccountType);
+            Parameters[17] = new SqlParameter("@BankAcctNo", String.IsNullOrEmpty(_MA_GeneralInfo.BankAcctNo) ? "" : _MA_GeneralInfo.BankAcctNo);
+            Parameters[18] = new SqlParameter("@BankBranchCd", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedBankBranchCd) ? "" : _MA_GeneralInfo.SelectedBankBranchCd);
+<<<<<<< HEAD
+           // Parameters[19] = new SqlParameter("@Remarks", String.IsNullOrEmpty(_MA_GeneralInfo.Remarks) ? "" : _MA_GeneralInfo.Remarks);
+            Parameters[19] = new SqlParameter("@Sts", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedCurrentStatus) ? "" : _MA_GeneralInfo.SelectedCurrentStatus);
+            Parameters[20] = new SqlParameter("@EntityId", String.IsNullOrEmpty(_MA_GeneralInfo.EnttId) ? "" : _MA_GeneralInfo.EnttId);
+            Parameters[21] = new SqlParameter("@TaxId", String.IsNullOrEmpty(_MA_GeneralInfo.TaxId) ? "" : _MA_GeneralInfo.TaxId);
+            Parameters[22] = new SqlParameter("@WithholdInd", String.IsNullOrEmpty(_MA_GeneralInfo.WithholdingTaxInd) ? "" : _MA_GeneralInfo.WithholdingTaxInd);
+            Parameters[23] = new SqlParameter("@WithholdRate", String.IsNullOrEmpty(_MA_GeneralInfo.WithholdingTaxRate) ? "" : _MA_GeneralInfo.WithholdingTaxRate);
+            Parameters[24] = new SqlParameter("@CycNo", String.IsNullOrEmpty(_MA_GeneralInfo.CycleNo) ? "" : _MA_GeneralInfo.CycleNo);
+          //  Parameters[26] = new SqlParameter("@SourceCode", String.IsNullOrEmpty(_MA_GeneralInfo.SourceCd) ? "" : _MA_GeneralInfo.SourceCd);
+          //  Parameters[27] = new SqlParameter("@SourceRefNo", String.IsNullOrEmpty(_MA_GeneralInfo.SourceRefNo) ? "" : _MA_GeneralInfo.SourceRefNo);
+            Parameters[25] = new SqlParameter("@UserId", this.GetUserId);
+            Parameters[26] = new SqlParameter("@CreationDate", BaseClass.DateConverter(DateTime.Now));
+            Parameters[27] = new SqlParameter("@ReasonCd", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedReasonCode) ? "" : _MA_GeneralInfo.SelectedReasonCode);
+            Parameters[28] = new SqlParameter("@RETURN_VALUE", SqlDbType.BigInt);
+            Parameters[28].Direction = ParameterDirection.ReturnValue;
+            //Parameters[33] = new SqlParameter("oAcctNo", SqlDbType.VarChar, 19); //WebMerchGeneralInfoMaint
+            //Parameters[33].Direction = ParameterDirection.Output;
+            //Parameters[34] = new SqlParameter("oEntityId", SqlDbType.VarChar, 19);
+            //Parameters[34].Direction = ParameterDirection.Output;
+=======
+            Parameters[19] = new SqlParameter("@Remarks", String.IsNullOrEmpty(_MA_GeneralInfo.Remarks) ? "" : _MA_GeneralInfo.Remarks);
+            Parameters[20] = new SqlParameter("@Sts", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedCurrentStatus) ? "" : _MA_GeneralInfo.SelectedCurrentStatus);
+            Parameters[21] = new SqlParameter("@EntityId", String.IsNullOrEmpty(_MA_GeneralInfo.EnttId) ? "" : _MA_GeneralInfo.EnttId);
+            Parameters[22] = new SqlParameter("@TaxId", String.IsNullOrEmpty(_MA_GeneralInfo.TaxId) ? "" : _MA_GeneralInfo.TaxId);
+            Parameters[23] = new SqlParameter("@WithholdInd", String.IsNullOrEmpty(_MA_GeneralInfo.WithholdingTaxInd) ? "" : _MA_GeneralInfo.WithholdingTaxInd);
+            Parameters[24] = new SqlParameter("@WithholdRate", String.IsNullOrEmpty(_MA_GeneralInfo.WithholdingTaxRate) ? "" : _MA_GeneralInfo.WithholdingTaxRate);
+            Parameters[25] = new SqlParameter("@CycNo", String.IsNullOrEmpty(_MA_GeneralInfo.CycleNo) ? "" : _MA_GeneralInfo.CycleNo);
+            Parameters[26] = new SqlParameter("@SourceCode", String.IsNullOrEmpty(_MA_GeneralInfo.SourceCd) ? "" : _MA_GeneralInfo.SourceCd);
+            Parameters[27] = new SqlParameter("@SourceRefNo", String.IsNullOrEmpty(_MA_GeneralInfo.SourceRefNo) ? "" : _MA_GeneralInfo.SourceRefNo);
+            Parameters[28] = new SqlParameter("@UserId", this.GetUserId);
+            Parameters[30] = new SqlParameter("@CreationDate", BaseClass.DateConverter(DateTime.Now));
+            Parameters[31] = new SqlParameter("@ReasonCd", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedReasonCode) ? "" : _MA_GeneralInfo.SelectedReasonCode);
+            Parameters[32] = new SqlParameter("@RETURN_VALUE", SqlDbType.BigInt);
+            Parameters[32].Direction = ParameterDirection.ReturnValue;
+>>>>>>> 989579e0633ef3b3bc5d4e21764ab9492e4a0922
+            var Cmd = objDataEngine.ExecuteWithReturnValue("WebMerchGeneralInfoMaint", CommandType.StoredProcedure, Parameters);
+            var Result = Convert.ToInt32(Cmd.Parameters["@RETURN_VALUE"].Value);
+            var Descp = GetMessageCode(Result);
+
+            return Descp;
+
+        }
+        #endregion
+
+        #region "MerchTerminalsList"
+        public List<TerminalsList> GetMechTerminalsList( string BusnLoc)
+        {
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[2];
+            Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+            Parameters[1] = new SqlParameter("@BusnLocation",BusnLoc);
+
+            var execResult = objDataEngine.ExecuteCommand("WebTerminalListSelect", CommandType.StoredProcedure, Parameters);
+            var _TerminalsList = new List<TerminalsList>();
+                while (execResult.Read())
+                {
+                    _TerminalsList.Add(new TerminalsList
+                    {
+                    TerminalId = Convert.ToString(execResult["Terminal Id"]),
+                    DeployedDate = DateConverter(execResult["Deployed Date"]),
+                    CreationDate = DateConverter(execResult["Creaton Date"]),
+                    CurrentStatus = BaseClass.WebGetRefLib("TermSts"),
+                    SelectedCurrentStatus = Convert.ToString(execResult["Status"]),
+                    ReplacedTerminalId = Convert.ToString(execResult["Replaced By Terminal Id"]),
+                    ReplacedDate = DateConverter(execResult["Replaced Date"]),
+                });
+                
+            }
+
+                return _TerminalsList;
+
+        }
+        public TerminalsList GetTerminalDetail(string busnLoc, string termId) {
+
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[3];
+            Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+            Parameters[1] = new SqlParameter("@BusnLocation", busnLoc);
+            Parameters[2] = new SqlParameter("@TermId", termId);
+
+            var Reader = objDataEngine.ExecuteCommand("WebTerminalSelect", CommandType.StoredProcedure, Parameters);
+
+            while (Reader.Read())
+            {
+
+                var _TerminalsList = new TerminalsList
+                {
+                    TerminalId = Convert.ToString(Reader["TermId"]),
+                    SelectedCurrentStatus = Convert.ToString(Reader["Sts"]),
+                    DeployedDate = Convert.ToString(Reader["DeployDate"]),
+                    SelectedTerminalType = Convert.ToString(Reader["TermType"]),
+                    ReplacedTerminalId = Convert.ToString(Reader["Replacement"]),
+                    ReplacedDate = BaseClass.DateConverter(Reader["ReplacedDate"]),
+                    ReasonCd= Convert.ToString(Reader["ReasonCd"]),
+                    SerialNo = Convert.ToString(Reader["SerialNo"]),
+                    CreationDate = BaseClass.DateConverter(Reader["CreationDate"]),
+                };
+
+                return _TerminalsList;
+
+            };
+            return new TerminalsList();
+        
+        }
+        public string  SaveTerminalList(TerminalsList _terminalLists, string busnloc ) 
+        { 
+        
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[11];
+            Parameters[0] = new SqlParameter("@Func", GetIssNo);
+            Parameters[1] = new SqlParameter("@AcqNo", this.GetAcqNo);
+            Parameters[2] = new SqlParameter("@BusnLocation", busnloc);
+            Parameters[3] = new SqlParameter("@TermId", _terminalLists.TerminalId);
+            Parameters[4] = new SqlParameter("@Sts", String.IsNullOrEmpty(_terminalLists.SelectedCurrentStatus));
+            Parameters[5] = new SqlParameter("@DeployDate", String.IsNullOrEmpty(_terminalLists.DeployedDate));
+            Parameters[6] = new SqlParameter("@TermType", String.IsNullOrEmpty(_terminalLists.SelectedTerminalType));
+            Parameters[7] = new SqlParameter("@SerialNo", String.IsNullOrEmpty(_terminalLists.SerialNo));
+            Parameters[8] = new SqlParameter("@Replacement", String.IsNullOrEmpty(_terminalLists.ReplacedTerminalId));
+            Parameters[9] = new SqlParameter("@ReplacedDate", String.IsNullOrEmpty(_terminalLists.ReplacedDate));
+            Parameters[10] = new SqlParameter("@ReasonCd", _terminalLists.ReasonCd);
+
+            var Reader = objDataEngine.ExecuteCommand("WebTerminalMaint", CommandType.StoredProcedure, Parameters);
+
+            while (Reader.Read())
+            {
+                return Convert.ToString(Reader);
+            }
+
+            return "Error!";   
+        
+        }        
+        #endregion
+
+        //#region "Business Location"
+        //public List<MerchantDetails> GetBusinessLocationList (string acctNo)
+        //{
+        //    var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+        //    objDataEngine.InitiateConnection();
+        //    SqlParameter[] Parameters = new SqlParameter[2];
+        //    Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+        //    Parameters[1] = new SqlParameter("@AcctNo", acctNo);
+
+        //    var execResult = objDataEngine.GetTableAsEnumerable("WebBusnLocationListSelect", CommandType.StoredProcedure, Parameters);
+        //    var getResultObj = objDataEngine.getObjectSet(execResult);
+        //    var _MechBusinessLocationView = new List<MerchantDetails>();
+
+        //    foreach (var x in getResultObj)
+        //    {
+        //        string[] arr = ((IEnumerable)x).Cast<object>().Select(y => y.ToString()).ToArray();
+
+        //        _MechBusinessLocationView.Add(new MerchantDetails
+        //        {
+        //            MerchantNo = Convert.ToString(arr[0]), //
+        //            SiteId = Convert.ToChar(arr[1]), //
+        //            BusinessName = Convert.ToString(arr[2]), //
+        //            DBAName = Convert.ToString(arr[3]), //
+        //            PayeeName = Convert.ToString(arr[4]),
+        //            CoRegNo = Convert.ToString(arr[5]),
+        //            SelectDBAState =  Convert.ToString(arr[6]), //
+        //            PersonInCharge =  Convert.ToString(arr[7]),
+        //            selectedCurrentStatus =  Convert.ToString(arr[8]), //
+        //            CreationDate =  Convert.ToString(arr[9])
+
+        //        });
+
+        //    };
+        //    return _MechBusinessLocationView;
+        //}
+        public MerchantDetails GetBusinessLocationDetail(string BusnLocation)
+        {
+
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[2];
+            Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+            Parameters[1] = new SqlParameter("@BusnLocation", BusnLocation);
+
+
+            var Reader = objDataEngine.ExecuteCommand("WebBusnLocationGeneralInfoSelect", CommandType.StoredProcedure, Parameters);
+
+            while (Reader.Read())
+            {
+
+                var _BusinessLocation = new MerchantDetails
+                {
+                    AcctNo = Convert.ToString(Reader["AcctNo"]),
+                    MerchantNo = Convert.ToString(Reader["BusnLocation"]),
+                    BusinessName = Convert.ToString(Reader["BusnName"]),
+                    SiteId = Convert.ToChar(Reader["SiteId"]),
+                    AgreementNo = Convert.ToString(Reader["AgreementNo"]),
+                    AgreementDate = BaseClass.DateConverter(Reader["AgreementDate"]),
+                    PersonInCharge = Convert.ToString(Reader["PersonInCharge"]),
+                    Ownership = BaseClass.WebGetRefLib("MerchOwnership"),
+                    selectedOwnershsip = Convert.ToString(Reader["Ownership"]),
+                    BusnSize = Convert.ToString(Reader["Establishment"]),
+                    SIC = Convert.ToString(Reader["Sic"]),
+                    MCC = Convert.ToString(Reader["Mcc"]),
+                    CoRegNo = Convert.ToString(Reader["CoRegNo"]),
+                    CoRegName = Convert.ToString(Reader["CoRegName"]),
+                    CoRegDate = BaseClass.DateConverter(Reader["CoRegDate"]),
+                    DBAName = Convert.ToString(Reader["DBAName"]),
+                    DBARegion = BaseClass.WebGetRefLib("RegionCd"),
+                    SelectDBARegion = Convert.ToString(Reader["DBARegion"]),
+                    DBACity = BaseClass.WebGetRefLib("City"),
+                    SelectDBACity = Convert.ToString(Reader["DBACity"]),
+                    DBAState = BaseClass.WebGetRefLib("State"),
+                    SelectDBAState = Convert.ToString(Reader["DBAState"]),
+                    PayeeName = Convert.ToString(Reader["PayeeName"]),
+                    AutoDebitInd = BaseClass.BoolConverter(Reader["AutoDebitInd"]),
+                    BankAcctName = Convert.ToString(Reader["BankName"]),
+                    BankAcctType = BaseClass.WebGetRefLib("BankAcctType"),
+                    selectedBankAcctType = Convert.ToString(Reader["BankAcctType"]),
+                    BankAccountNo = Convert.ToString(Reader["BankAcctNo"]),
+                    SelectedBankBranchCode = Convert.ToString(Reader["BankBranchCd"]),
+                    CurrentStatus = BaseClass.WebGetRefLib("MerchAcctSts"),
+                    selectedCurrentStatus = Convert.ToString(Reader["Sts"]),
+                    EntityId = Convert.ToString(Reader["EntityId"]),
+                    TaxId = Convert.ToString(Reader["TaxId"]),
+                    WithholdingTaxInd = BaseClass.BoolConverter(Reader["WithholdingTaxInd"]),
+                    WithholdingTaxRate = Convert.ToString(Reader["WithholdingTaxRate"]),
+                    cycNo = Convert.ToInt32(Reader["CycNo"]),
+                    UserID = Convert.ToString(Reader["UserId"]),
+                    CreationDate = BaseClass.DateConverter(Reader["CreationDate"]),
+                    SelectedReasonCode = Convert.ToString(Reader["ReasonCd"]),
+                    StmtPrintInd = BaseClass.BoolConverter(Reader["StmtPrintInd"])
+
+                };
+
+                return _BusinessLocation;
+
+            };
+
+
+
+            return new MerchantDetails();
+        }
+        //public MsgRetriever SaveBusinessLocation(MerchantDetails _merchdetails)
+        //{
+        //    var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+        //    objDataEngine.InitiateConnection();
+        //    SqlParameter[] Parameters = new SqlParameter[37];
+        //    Parameters[0] = new SqlParameter("@Func", GetIssNo);
+        //    Parameters[1] = new SqlParameter("@AcqNo", this.GetAcqNo);
+        //    Parameters[2] = new SqlParameter("@AcctNo", _merchdetails.AcctNo);
+        //    Parameters[3] = new SqlParameter("@BusnLocation", _merchdetails.MerchantNo);
+        //    Parameters[4] = new SqlParameter("@BusnName", String.IsNullOrEmpty(_merchdetails.BusinessName));
+        //    Parameters[5] = new SqlParameter("@SiteId", _merchdetails.SiteId    );
+        //    Parameters[6] = new SqlParameter("@AgreeNo", String.IsNullOrEmpty(_merchdetails.AgreementNo));
+        //    Parameters[7] = new SqlParameter("@AgreeDate", BaseClass.DateConverterDB(_merchdetails.AgreementDate));
+        //    Parameters[8] = new SqlParameter("@PersonInChrg", String.IsNullOrEmpty(_merchdetails.PersonInCharge));
+        //    Parameters[9] = new SqlParameter("@Ownership", String.IsNullOrEmpty(_merchdetails.selectedOwnershsip));
+        //    Parameters[10] = new SqlParameter("@Establishment",String.IsNullOrEmpty( _merchdetails.BusnSize));
+        //    Parameters[11] = new SqlParameter("@Sic", String.IsNullOrEmpty(_merchdetails.SIC));
+        //    Parameters[12] = new SqlParameter("@Mcc", String.IsNullOrEmpty(_merchdetails.MCC));
+        //    Parameters[13] = new SqlParameter("@CoRegNo",  String.IsNullOrEmpty(_merchdetails.CoRegNo));
+        //    Parameters[14] = new SqlParameter("@CoRegName", String.IsNullOrEmpty(_merchdetails.CoRegName));
+        //    Parameters[15] = new SqlParameter("@CoRegDate", BaseClass.DateConverterDB(_merchdetails.CoRegDate));
+        //    Parameters[16] = new SqlParameter("@DBAName", String.IsNullOrEmpty(_merchdetails.DBAName));
+        //    Parameters[17] = new SqlParameter("@DBARegion", String.IsNullOrEmpty(_merchdetails.SelectDBARegion));
+        //    Parameters[18] = new SqlParameter("@DBACity", String.IsNullOrEmpty(_merchdetails.SelectDBACity));
+        //    Parameters[19] = new SqlParameter("@DBAState", String.IsNullOrEmpty(_merchdetails.SelectDBAState));
+        //    Parameters[20] = new SqlParameter("@PayeeName", String.IsNullOrEmpty(_merchdetails.PayeeName));
+        //    Parameters[21] = new SqlParameter("@AutoDebit", BaseClass.BoolConverter(_merchdetails.AutoDebitInd));
+        //    Parameters[22] = new SqlParameter("@BankName", String.IsNullOrEmpty(_merchdetails.BankAcctName));
+        //    Parameters[23] = new SqlParameter("@BankAcctType", String.IsNullOrEmpty(_merchdetails.selectedBankAcctType));
+        //    Parameters[24] = new SqlParameter("@BankAcctNo", String.IsNullOrEmpty(_merchdetails.BankAccountNo));
+        //    Parameters[25] = new SqlParameter("@BankBranchCd", String.IsNullOrEmpty(_merchdetails.SelectedBankBranchCode));
+        //    Parameters[26] = new SqlParameter("@Sts", String.IsNullOrEmpty(_merchdetails.selectedCurrentStatus));
+        //    Parameters[27] = new SqlParameter("@EntityId", String.IsNullOrEmpty(_merchdetails.EntityId));
+        //    Parameters[28] = new SqlParameter("@TaxId", String.IsNullOrEmpty(_merchdetails.TaxId));
+        //    Parameters[29] = new SqlParameter("@WithholdInd", BaseClass.BoolConverter(_merchdetails.WithholdingTaxInd));
+        //    Parameters[30] = new SqlParameter("@WithholdRate", String.IsNullOrEmpty(_merchdetails.WithholdingTaxRate));
+        //    Parameters[31] = new SqlParameter("@CycNo", _merchdetails.cycNo);
+        //    Parameters[32] = new SqlParameter("@UserId", _merchdetails.UserID);
+        //    Parameters[33] = new SqlParameter("@CreationDate",BaseClass.DateConverterDB( _merchdetails.CreationDate));
+        //    Parameters[34] = new SqlParameter("@ReasonCd", String.IsNullOrEmpty(_merchdetails.SelectedReasonCode));
+        //    Parameters[35] = new SqlParameter("@StmtPrint", BaseClass.BoolConverter(_merchdetails.StmtPrintInd));
+        //    Parameters[36] = new SqlParameter("@RETURN_VALUE", SqlDbType.BigInt);
+        //    Parameters[36].Direction = ParameterDirection.ReturnValue;
+
+        //    var Cmd = objDataEngine.ExecuteWithReturnValue("WebBusnLocationGeneralInfoMaint", CommandType.StoredProcedure, Parameters);
+        //    var Result = Convert.ToInt32(Cmd.Parameters["@RETURN_VALUE"].Value);
+        //    var Descp = GetMessageCode(Result);
+
+        //    return Descp;
+
+
+        //}
+        //#endregion
+
+        #region "MerchAgreement"
+        public List<MA_GeneralInfo> GetMerchAgreementList()
+        {
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[1];
+            Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+
+            var execResult = objDataEngine.ExecuteCommand("WebMerchAgreementListSelect", CommandType.StoredProcedure, Parameters);
+            var _MerchBusinessAgreementView = new List<MA_GeneralInfo>();
+
+            while (execResult.Read())
+            {
+                _MerchBusinessAgreementView.Add(new MA_GeneralInfo
+                {
+                    AcctNo = Convert.ToString(execResult["Merchant Account"]),
+                    PIC = Convert.ToString(execResult["Person In Charge"]),
+                    BusnName = Convert.ToString(execResult["Business Name"]),
+                    AffiliatedWithCorpCode = Convert.ToString(execResult["Affiliated With"]),
+                    WithholdingTaxInd = Convert.ToString(execResult["Withholding Tax Ind"]),
+                    WithholdingTaxRate = Convert.ToString(execResult["Withholding Tax Rate"]),
+                    TaxId = Convert.ToString(execResult["Tax Id"]),
+                    SelectedCurrentStatus = Convert.ToString(execResult["Status"]),
+                    CreationDate = Convert.ToString(execResult["Creation Date"])
+                });
+
+            };
+            return _MerchBusinessAgreementView;
+        }
+        public MA_GeneralInfo GetMerchAgreementDetail(string AcctNo)
+        {
+
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[2];
+            Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+            Parameters[1] = new SqlParameter("@AcctNo", AcctNo);
+
+
+            var Reader = objDataEngine.ExecuteCommand("WebMerchAgreementSelect", CommandType.StoredProcedure, Parameters);
+
+            while (Reader.Read())
+            {
+
+                var _MerchAgreement = new MA_GeneralInfo
+                {
+                    AcctNo = Convert.ToString(Reader["Merchant Account"]),
+                    BusnName = Convert.ToString(Reader["BusnName"]),
+                    AgrmntNo = BaseClass.ConverterDecimal(Reader["AgreementNo"]),
+                    AgrmntDt = Convert.ToString(Reader["AgreementDate"]),
+                    CoRegNo = Convert.ToString(Reader["CoRegNo"]),
+                    CoRegName = Convert.ToString(Reader["CoRegName"]),
+                    CoRegDate = Convert.ToString(Reader["CoRegDate"]),
+                    PIC = Convert.ToString(Reader["PersonInCharge"]),
+                    Ownership = Convert.ToString(Reader["Ownership"]),
+                    BusnEst = BaseClass.WebGetRefLib("BusnEst"),
+                    SelectedBusnEst = Convert.ToString(Reader["BusnEstablishment"]),
+                    PayeeName = Convert.ToString(Reader["PayeeName"]),
+                    AutoDebitInd = Convert.ToString(Reader["AutoDebitInd"]),
+                    BankName = Convert.ToString(Reader["BankCd"]),
+                    BankAcctType = BaseClass.WebGetRefLib("BankAcctType"),
+                    selectedBankAccountType = Convert.ToString(Reader["BankAcctType"]),
+                    BankAcctNo = Convert.ToString(Reader["BankAcctNo"]),
+                    BankBranchCd = BaseClass.WebGetRefLib("BranchCd"),
+                    SelectedBankBranchCd = Convert.ToString(Reader["BankBranchCd"]),
+                    AffiliatedWithCorpCode = Convert.ToString(Reader["Affiliated With"]),
+                    WithholdingTaxInd =Convert.ToString(Reader["WithholdingTaxInd"]),
+                    WithholdingTaxRate = Convert.ToString(Reader["WithholdingTaxRate"]),
+                    TaxId = Convert.ToString(Reader["TaxId"]),
+                    SelectedCurrentStatus = Convert.ToString(Reader["Sts"]),
+                    CreationDate = Convert.ToString(Reader["Creation Date"])             
+                    
+                };
+
+                return _MerchAgreement;
+
+            };
+            return new MA_GeneralInfo();
+        }
+         public MsgRetriever SaveMerchAgreement(MA_GeneralInfo _MA_GeneralInfo)
+        {
+            var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+            objDataEngine.InitiateConnection();
+            SqlParameter[] Parameters = new SqlParameter[21];
+            Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+            Parameters[1] = new SqlParameter("@AcctNo", String.IsNullOrEmpty(_MA_GeneralInfo.AcctNo) ? "" : _MA_GeneralInfo.AcctNo);
+            Parameters[2] = new SqlParameter("@BusnName", String.IsNullOrEmpty(_MA_GeneralInfo.BusnName) ? "" : _MA_GeneralInfo.BusnName);
+            Parameters[3] = new SqlParameter("@AgreementNo", ConverterDecimal(_MA_GeneralInfo.AgrmntNo));
+            Parameters[4] = new SqlParameter("@AgreementDate", String.IsNullOrEmpty(_MA_GeneralInfo.AgrmntDt) ? "" : _MA_GeneralInfo.AgrmntDt);
+            Parameters[5] = new SqlParameter("@CoRegNo", String.IsNullOrEmpty(_MA_GeneralInfo.CoRegNo) ? "" : _MA_GeneralInfo.CoRegNo);
+            Parameters[6] = new SqlParameter("@CoRegName", String.IsNullOrEmpty(_MA_GeneralInfo.CoRegDate) ? "" : _MA_GeneralInfo.CoRegDate);
+            Parameters[7] = new SqlParameter("@CoRegDate", String.IsNullOrEmpty(_MA_GeneralInfo.CoRegDate) ? "" : _MA_GeneralInfo.CoRegDate);
+            Parameters[8] = new SqlParameter("@PersonInCharge", String.IsNullOrEmpty(_MA_GeneralInfo.PIC) ? "" : _MA_GeneralInfo.PIC);
+            Parameters[9] = new SqlParameter("@Ownership", String.IsNullOrEmpty(_MA_GeneralInfo.Ownership) ? "" : _MA_GeneralInfo.Ownership);
+            Parameters[10] = new SqlParameter("@BusnEstablishment", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedBusnEst) ? "" : _MA_GeneralInfo.SelectedBusnEst);
+            Parameters[11] = new SqlParameter("@AutoDebitInd", String.IsNullOrEmpty(_MA_GeneralInfo.BankDirectDebitInd) ? "" : _MA_GeneralInfo.BankDirectDebitInd);
+            Parameters[12] = new SqlParameter("@BankCd", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedBankBranchCd) ? "" : _MA_GeneralInfo.SelectedBankBranchCd);
+            Parameters[13] = new SqlParameter("@BankAcctType", String.IsNullOrEmpty(_MA_GeneralInfo.selectedBankAccountType) ? "" : _MA_GeneralInfo.selectedBankAccountType);
+            Parameters[14] = new SqlParameter("@BankAcctNo", String.IsNullOrEmpty(_MA_GeneralInfo.BankAcctNo) ? "" : _MA_GeneralInfo.BankAcctNo);
+            Parameters[15] = new SqlParameter("@BankBranchCd", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedBankBranchCd) ? "" : _MA_GeneralInfo.SelectedBankBranchCd);
+            Parameters[16] = new SqlParameter("@AffiliatedWith", String.IsNullOrEmpty(_MA_GeneralInfo.AffiliatedWithCorpCode) ? "" : _MA_GeneralInfo.AffiliatedWithCorpCode);
+            Parameters[17] = new SqlParameter("@WithholdingTaxInd", String.IsNullOrEmpty(_MA_GeneralInfo.WithholdingTaxInd) ? "" : _MA_GeneralInfo.WithholdingTaxInd);
+            Parameters[18] = new SqlParameter("@WithholdingTaxRate", String.IsNullOrEmpty(_MA_GeneralInfo.WithholdingTaxRate) ? "" : _MA_GeneralInfo.WithholdingTaxRate);
+            Parameters[19] = new SqlParameter("@Sts", String.IsNullOrEmpty(_MA_GeneralInfo.SelectedCurrentStatus) ? "" : _MA_GeneralInfo.SelectedCurrentStatus);
+            Parameters[20] = new SqlParameter("@RETURN_VALUE", SqlDbType.BigInt);
+            Parameters[20].Direction = ParameterDirection.ReturnValue;
+            //Parameters[21] = new SqlParameter("oApplId", SqlDbType.VarChar, 19); //WebMerchAgreementMaint
+            //Parameters[21].Direction = ParameterDirection.Output;
+            //Parameters[22] = new SqlParameter("oEntityId", SqlDbType.VarChar, 19);
+            //Parameters[22].Direction = ParameterDirection.Output;
+
+            var Cmd = objDataEngine.ExecuteWithReturnValue("WebMerchAgreementMaint", CommandType.StoredProcedure, Parameters);
+            var Result = Convert.ToInt32(Cmd.Parameters["@RETURN_VALUE"].Value);
+            //this.AcctNo = Convert.ToString(Cmd.Parameters[21].Value);
+            //this.EntityId = Convert.ToString(Cmd.Parameters[22].Value);
+             var Descp = GetMessageCode(Result);
+
+            return Descp;
+        }
+        #endregion
+
+        #region "Merch Business Location"
+
+         //public List<MerchantDetails> GetBusinessLocationList(string acctNo)
+         //{
+         //    var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+         //    objDataEngine.InitiateConnection();
+         //    SqlParameter[] Parameters = new SqlParameter[2];
+         //    Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+         //    Parameters[1] = new SqlParameter("@AcctNo", acctNo);
+
+         //    var execResult = objDataEngine.ExecuteCommand("WebBusnLocationAgreementListSelect", CommandType.StoredProcedure, Parameters);
+         //    var _MechBusinessLocationView = new List<MerchantDetails>();
+
+         //    while (execResult.Read())
+         //    {
+
+         //        _MechBusinessLocationView.Add(new MerchantDetails
+         //        {
+         //            MerchantNo = Convert.ToString(execResult["Dealer"]), //
+         //            BusinessName = Convert.ToString(execResult["Business Name"]), //
+         //            PersonInCharge = Convert.ToString(execResult["Person In Charge"]),
+         //            TaxId = Convert.ToString(execResult["Tax Id"]),
+         //            CurrentStatus = BaseClass.WebGetRefLib("MerchAcctSts"),
+         //            selectedCurrentStatus = Convert.ToString(execResult["Status"]), //
+         //            UserID = Convert.ToString(execResult["User Id"]),
+         //            LastUpdDate = DateConverter(execResult["Last Update Date"]),
+         //            CreationDate = Convert.ToString(execResult["Creation Date"]),
+         //            //SiteId = Convert.ToChar(execResult[1]), //
+         //            //DBAName = Convert.ToString(execResult[3]), //
+         //            //PayeeName = Convert.ToString(execResult[4]),
+         //            //CoRegNo = Convert.ToString(execResult[5]),
+         //            //SelectDBAState = Convert.ToString(execResult[6]), //                   
+
+         //        });
+
+         //    };
+         //    return _MechBusinessLocationView;
+         //} // sp dropped
+         //public MerchantDetails GetBusinessLocationDetail(string acctNo, string BusnLocation)
+         //{
+
+         //    var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+         //    objDataEngine.InitiateConnection();
+         //    SqlParameter[] Parameters = new SqlParameter[3];
+         //    Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+         //    Parameters[1] = String.IsNullOrEmpty(acctNo) ? new SqlParameter("@AcctNo", DBNull.Value) : new SqlParameter("@AcctNo", acctNo);
+         //    Parameters[2] = String.IsNullOrEmpty(BusnLocation) ? new SqlParameter("@BusnLocation", DBNull.Value) : new SqlParameter("@BusnLocation", BusnLocation);
+
+         //    var Reader = objDataEngine.ExecuteCommand("WebBusnLocationAgreementSelect", CommandType.StoredProcedure, Parameters);
+
+         //    while (Reader.Read())
+         //    {
+
+         //        var _BusinessLocation = new MerchantDetails
+         //        {
+         //            BusinessName = Convert.ToString(Reader["BusnName"]),//
+         //            SiteId = Convert.ToChar(Reader["SiteId"]),//
+         //            AgreementNo = Convert.ToString(Reader["AgreementNo"]),
+         //            AgreementDate = BaseClass.DateConverter(Reader["AgreementDate"]),
+         //            PersonInCharge = Convert.ToString(Reader["PersonInCharge"]),
+         //            Ownership = BaseClass.WebGetRefLib("MerchOwnership"),
+         //            selectedOwnershsip = Convert.ToString(Reader["Ownership"]),
+         //            BusnSize = Convert.ToString(Reader["Establishment"]),
+         //            CoRegNo = Convert.ToString(Reader["CoRegNo"]),
+         //            CoRegName = Convert.ToString(Reader["CoRegName"]),
+         //            CoRegDate = BaseClass.DateConverter(Reader["CoRegDate"]),
+         //            DBAName = Convert.ToString(Reader["DBAName"]),
+         //            DBARegion = BaseClass.WebGetRefLib("RegionCd"),
+         //            SelectDBARegion = Convert.ToString(Reader["DBARegion"]),
+         //            DBACity = BaseClass.WebGetRefLib("City"),
+         //            SelectDBACity = Convert.ToString(Reader["DBACity"]),
+         //            DBAState = BaseClass.WebGetRefLib("State"),
+         //            SelectDBAState = Convert.ToString(Reader["DBAState"]),
+         //            PayeeName = Convert.ToString(Reader["PayeeName"]),
+         //            AutoDebitInd = BaseClass.BoolConverter(Reader["AutoDebitInd"]),
+         //            BankAcctName = Convert.ToString(Reader["BankName"]),
+         //            BankAcctType = BaseClass.WebGetRefLib("BankAcctType"),
+         //            selectedBankAcctType = Convert.ToString(Reader["BankAcctType"]),
+         //            BankAccountNo = Convert.ToString(Reader["BankAcctNo"]),
+         //            SelectedBankBranchCode = Convert.ToString(Reader["BankBranchCd"]),
+         //            CurrentStatus = BaseClass.WebGetRefLib("MerchAcctSts"),
+         //            selectedCurrentStatus = Convert.ToString(Reader["Sts"]),
+         //            EntityId = Convert.ToString(Reader["EntityId"]),
+         //            TaxId = Convert.ToString(Reader["TaxId"]),
+         //            cycNo = Convert.ToInt32(Reader["CycNo"]),
+         //            UserID = Convert.ToString(Reader["UserId"]),
+         //            CreationDate = BaseClass.DateConverter(Reader["CreationDate"]),
+         //            ReasonCd = BaseClass.WebGetRefLib("ApplReasonCd"),
+         //            SelectedReasonCode = Convert.ToString(Reader["ReasonCd"]),
+         //            PartnerRefNo = Convert.ToString(Reader["PartnerRefNo"]),
+         //            CancelDate = DateConverter(Reader["CancelDate"])
+         //        };
+
+         //        return _BusinessLocation;
+
+         //    };
+
+
+
+         //    return new MerchantDetails();
+         //}// sp dropped
+         //public MsgRetriever SaveBusinessLocation(MerchantDetails _merchdetails)
+         //{
+         //    var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+         //    objDataEngine.InitiateConnection();
+         //    SqlParameter[] Parameters = new SqlParameter[30];
+         //    Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+         //    Parameters[1] = String.IsNullOrEmpty(_merchdetails.AcctNo) ? new SqlParameter("@AcctNo", DBNull.Value) : new SqlParameter("@AcctNo", _merchdetails.AcctNo);
+         //    Parameters[2] = String.IsNullOrEmpty(_merchdetails.MerchantNo) ? new SqlParameter("@BusnLocation", DBNull.Value) : new SqlParameter("@BusnLocation", _merchdetails.MerchantNo);
+         //    Parameters[3] = String.IsNullOrEmpty(_merchdetails.BusinessName) ? new SqlParameter("@BusnName", DBNull.Value) : new SqlParameter("@BusnName", _merchdetails.BusinessName);
+         //    Parameters[4] = Char.IsWhiteSpace(_merchdetails.SiteId) ? new SqlParameter("@SiteId", DBNull.Value) : new SqlParameter("@SiteId", _merchdetails.SiteId);
+         //    Parameters[5] = String.IsNullOrEmpty(_merchdetails.PartnerRefNo) ? new SqlParameter("@PartnerRefNo", DBNull.Value) : new SqlParameter("@PartnerRefNo", _merchdetails.PartnerRefNo);
+         //    Parameters[6] = String.IsNullOrEmpty(_merchdetails.AgreementNo) ? new SqlParameter("@AgreeNo", DBNull.Value) : new SqlParameter("@AgreeNo", _merchdetails.AgreementNo);
+         //    Parameters[7] = String.IsNullOrEmpty(_merchdetails.AgreementDate) ? new SqlParameter("@AgreeDate", DBNull.Value) : new SqlParameter("@AgreeDate", _merchdetails.AgreementDate);
+         //    Parameters[8] = String.IsNullOrEmpty(_merchdetails.CoRegNo) ? new SqlParameter("@CoRegNo", DBNull.Value) : new SqlParameter("@CoRegNo", _merchdetails.CoRegNo);
+         //    Parameters[9] = String.IsNullOrEmpty(_merchdetails.CoRegName) ? new SqlParameter("@CoRegName", DBNull.Value) : new SqlParameter("@CoRegName", _merchdetails.CoRegName);
+         //    Parameters[10] = String.IsNullOrEmpty(_merchdetails.CoRegDate) ? new SqlParameter("@CoRegDate", DBNull.Value) : new SqlParameter("@CoRegDate", _merchdetails.CoRegDate);
+         //    Parameters[11] = String.IsNullOrEmpty(_merchdetails.PersonInCharge) ? new SqlParameter("@PersonInChrg", DBNull.Value) : new SqlParameter("@PersonInChrg", _merchdetails.PersonInCharge);
+         //    Parameters[12] = String.IsNullOrEmpty(_merchdetails.selectedOwnershsip) ? new SqlParameter("@Ownership", DBNull.Value) : new SqlParameter("@Ownership", _merchdetails.selectedOwnershsip);
+         //    Parameters[13] = String.IsNullOrEmpty(_merchdetails.PayeeName) ? new SqlParameter("@PayeeName", DBNull.Value) : new SqlParameter("@PayeeName", _merchdetails.PayeeName);
+         //    Parameters[14] = new SqlParameter("@AutoDebitInd", _merchdetails.AutoDebitInd);
+         //    Parameters[15] = String.IsNullOrEmpty(_merchdetails.BankAcctName) ? new SqlParameter("@BankCd", DBNull.Value) : new SqlParameter("@BankCd", _merchdetails.BankAcctName);
+         //    Parameters[16] = String.IsNullOrEmpty(_merchdetails.selectedBankAcctType) ? new SqlParameter("@BankAcctType", DBNull.Value) : new SqlParameter("@BankAcctType", _merchdetails.selectedBankAcctType);
+         //    Parameters[17] = String.IsNullOrEmpty(_merchdetails.BankAccountNo) ? new SqlParameter("@BankAcctNo", DBNull.Value) : new SqlParameter("@BankAcctNo", _merchdetails.BankAccountNo);
+         //    Parameters[18] = String.IsNullOrEmpty(_merchdetails.SelectedBankBranchCode) ? new SqlParameter("@BankBranchCd", DBNull.Value) : new SqlParameter("@BankBranchCd", _merchdetails.SelectedBankBranchCode);
+         //    Parameters[19] = String.IsNullOrEmpty(_merchdetails.DBAName) ? new SqlParameter("@DBAName", DBNull.Value) : new SqlParameter("@DBAName", _merchdetails.DBAName);
+         //    Parameters[20] = String.IsNullOrEmpty(_merchdetails.SelectDBAState) ? new SqlParameter("@DBAState", DBNull.Value) : new SqlParameter("@DBAState", _merchdetails.SelectDBAState);
+         //    Parameters[21] = String.IsNullOrEmpty(_merchdetails.SelectDBACity) ? new SqlParameter("@DBACity", DBNull.Value) : new SqlParameter("@DBACity", _merchdetails.SelectDBACity);
+         //    Parameters[22] = String.IsNullOrEmpty(_merchdetails.SelectDBARegion) ? new SqlParameter("@DBARegion", DBNull.Value) : new SqlParameter("@DBARegion", _merchdetails.SelectDBARegion);
+         //    Parameters[23] = String.IsNullOrEmpty(_merchdetails.TaxId) ? new SqlParameter("@TaxId", DBNull.Value) : new SqlParameter("@TaxId", _merchdetails.TaxId);
+         //    Parameters[24] = new SqlParameter("@CycNo", _merchdetails.cycNo);
+         //    Parameters[25] = String.IsNullOrEmpty(_merchdetails.selectedCurrentStatus) ? new SqlParameter("@Sts", DBNull.Value) : new SqlParameter("@Sts", _merchdetails.selectedCurrentStatus);
+         //    Parameters[26] = String.IsNullOrEmpty(_merchdetails.CreationDate) ? new SqlParameter("@CreationDate", DBNull.Value) : new SqlParameter("@CreationDate", _merchdetails.CreationDate);
+         //    Parameters[27] = String.IsNullOrEmpty(_merchdetails.UserID) ? new SqlParameter("@UserId", DBNull.Value) : new SqlParameter("@UserId", _merchdetails.UserID);
+         //    Parameters[28] = String.IsNullOrEmpty(_merchdetails.EntityId) ? new SqlParameter("@EntityId", DBNull.Value) : new SqlParameter("@EntityId", _merchdetails.EntityId);
+         //    Parameters[28].Direction = ParameterDirection.Output;
+         //    Parameters[29] = new SqlParameter("@RETURN_VALUE", SqlDbType.BigInt);
+         //    Parameters[29].Direction = ParameterDirection.ReturnValue;
+
+         //    var Cmd = objDataEngine.ExecuteWithReturnValue("WebBusnLocationAgreementMaint", CommandType.StoredProcedure, Parameters);
+         //    var Result = Convert.ToInt32(Cmd.Parameters["@RETURN_VALUE"].Value);
+         //    var Descp = GetMessageCode(Result);
+
+         //    return Descp;
+
+
+         //} // sp dropped
+
+         #endregion
+
+        #region "MerchBusnLocTerm"
+         public List<BusnLocTerminal> GetBusnLocTermList(string BusnLocation)
+         {
+             var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+             objDataEngine.InitiateConnection();
+             SqlParameter[] Parameters = new SqlParameter[2];
+             Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+             Parameters[1] = new SqlParameter("@BusnLocation", BusnLocation);
+
+             var execResult = objDataEngine.ExecuteCommand("WebBusnLocationTerminalListSelect", CommandType.StoredProcedure, Parameters);
+             var _BusnLocTermList = new List<BusnLocTerminal>();
+
+             while (execResult.Read())
+             {
+                 _BusnLocTermList.Add(new BusnLocTerminal
+                 {
+                     TermId = Convert.ToString(execResult["TermId"]),
+                     Status = Convert.ToString(execResult["Status"]),
+                     DeployDate = DateConverter(execResult["DeployDate"]),
+                     Replacement = Convert.ToString(execResult["ReplacedByTermId"]),
+                     ReplacedDate = DateConverter(execResult["ReplacedDate"]),
+                     Reason = Convert.ToString(execResult["Reason"]),
+                     IPEK = Convert.ToString(execResult["IPEK"]),
+                     SettlementStart = DateConverter(execResult["SettleFromTime"]),
+                     SettlementEnd = DateConverter(execResult["SettleToTime"]),
+                     LastBatchId = ConvertInt(execResult["LastBatchId"]),
+                     SettleTxnId = ConvertInt(execResult["SettleTxnId"]),
+                     ProdType = BaseClass.WebGetRefLib("ProdType"),
+                     SelectedProdType = Convert.ToString(execResult["DeviceModel"]),
+                     SerialNo = Convert.ToString(execResult["SerialNo"]),
+                     Remarks = Convert.ToString(execResult["Remarks"]),
+                     CreationDate = DateConverter(execResult["CreationDate"]),
+                     UserId = Convert.ToString(execResult["UserId"]),
+                     LastUpdDate = DateConverter(execResult["LastUpdDate"]),
+                     RawReasonCd = Convert.ToString(execResult["ReasonCd"]),
+                     RawStatus = Convert.ToString(execResult["Sts"])
+                 });
+                 
+             };
+             return _BusnLocTermList;
+         }
+         public BusnLocTerminal GetBusnLocTermDetail(string TermId, string BusnLocation)
+         {
+
+             var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+             objDataEngine.InitiateConnection();
+             SqlParameter[] Parameters = new SqlParameter[3];
+             Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+             Parameters[1] = String.IsNullOrEmpty(BusnLocation) ? new SqlParameter("@BusnLocation", DBNull.Value) : new SqlParameter("@BusnLocation", BusnLocation);
+             Parameters[2] = String.IsNullOrEmpty(TermId) ? new SqlParameter("@TermId", DBNull.Value) : new SqlParameter("@TermId", TermId);
+
+             var execResult = objDataEngine.ExecuteCommand("WebBusnLocationTerminalSelect", CommandType.StoredProcedure, Parameters);
+
+             while (execResult.Read())
+             {
+                 var _BusnLocTermDetail = new BusnLocTerminal
+                 {
+                     TermId = Convert.ToString(execResult["TermId"]),
+                     Status = Convert.ToString(execResult["Sts"]),
+                     DeployDate = DateConverter(execResult["DeployDate"]),
+                     SaleTerritory = Convert.ToString(execResult["SaleTerritory"]),
+                     Replacement = Convert.ToString(execResult["ReplacedByTermId"]),
+                     ReplacedDate = DateConverter(execResult["ReplacedDate"]),
+                     RawReasonCd = Convert.ToString(execResult["ReasonCd"]),
+                     IPEK = Convert.ToString(execResult["IPEK"]),
+                     SettlementStart = DateConverter(execResult["SettleFromTime"]),
+                     SettlementEnd = DateConverter(execResult["SettleToTime"]),
+                     LastBatchId = ConvertInt(execResult["LastBatchId"]),
+                     SettleTxnId = ConvertInt(execResult["SettleTxnId"]),
+                     ProdType = BaseClass.WebGetRefLib("ProdType"),
+                     SelectedProdType = Convert.ToString(execResult["DeviceModel"]),
+                     SerialNo = Convert.ToString(execResult["SerialNo"]),
+                     Remarks = Convert.ToString(execResult["Remarks"]),
+                     CreationDate = DateConverter(execResult["CreationDate"]),
+                     UserId = Convert.ToString(execResult["UserId"]),
+                     LastUpdDate = DateConverter(execResult["LastUpdDate"]),                    
+                 };
+
+                 return _BusnLocTermDetail;
+
+             };
+             return new BusnLocTerminal();
+
+         }
+         public MsgRetriever SaveBusnLocTerm(BusnLocTerminal _MerchTerminal)
+         {
+             var objDataEngine = new FleetDataEngine(AccessMode.CustomerService, DBType.Maint);
+             objDataEngine.InitiateConnection();
+             SqlParameter[] Parameters = new SqlParameter[30];
+             Parameters[0] = new SqlParameter("@AcqNo", this.GetAcqNo);
+             Parameters[1] = String.IsNullOrEmpty(_MerchTerminal.BusnLocation) ? new SqlParameter("@BusnLocation", DBNull.Value) : new SqlParameter("@BusnLocation", _MerchTerminal.BusnLocation);
+             Parameters[2] = String.IsNullOrEmpty(_MerchTerminal.TermId) ? new SqlParameter("@TermId", DBNull.Value) : new SqlParameter("@TermId", _MerchTerminal.TermId);
+             Parameters[3] = String.IsNullOrEmpty(_MerchTerminal.RawStatus) ? new SqlParameter("@Sts", DBNull.Value) : new SqlParameter("@Sts", _MerchTerminal.RawStatus);
+             Parameters[4] = String.IsNullOrEmpty(_MerchTerminal.DeployDate) ? new SqlParameter("@DeployDate", DBNull.Value) : new SqlParameter("@DeployDate", _MerchTerminal.DeployDate);
+             Parameters[5] = String.IsNullOrEmpty(_MerchTerminal.SaleTerritory) ? new SqlParameter("@SaleTerritory", DBNull.Value) : new SqlParameter("@SaleTerritory", _MerchTerminal.SaleTerritory);
+             Parameters[6] = String.IsNullOrEmpty(_MerchTerminal.Replacement) ? new SqlParameter("@ReplacedByTermId", DBNull.Value) : new SqlParameter("@ReplacedByTermId", _MerchTerminal.Replacement);
+             Parameters[7] = String.IsNullOrEmpty(_MerchTerminal.ReplacedDate) ? new SqlParameter("@ReplacedDate", DBNull.Value) : new SqlParameter("@ReplacedDate", _MerchTerminal.ReplacedDate);
+             Parameters[8] = String.IsNullOrEmpty(_MerchTerminal.RawReasonCd) ? new SqlParameter("@ReasonCd", DBNull.Value) : new SqlParameter("@ReasonCd", _MerchTerminal.RawReasonCd);
+             Parameters[9] = String.IsNullOrEmpty(_MerchTerminal.IPEK) ? new SqlParameter("@IPEK", DBNull.Value) : new SqlParameter("@IPEK", _MerchTerminal.IPEK);
+             Parameters[10] = String.IsNullOrEmpty(_MerchTerminal.DeviceModel) ? new SqlParameter("@DeviceModel", DBNull.Value) : new SqlParameter("@DeviceModel", _MerchTerminal.DeviceModel);
+             Parameters[11] = String.IsNullOrEmpty(_MerchTerminal.SerialNo) ? new SqlParameter("@SerialNo", DBNull.Value) : new SqlParameter("@SerialNo", _MerchTerminal.SerialNo);
+             Parameters[12] = String.IsNullOrEmpty(_MerchTerminal.Remarks) ? new SqlParameter("@Remarks", DBNull.Value) : new SqlParameter("@Remarks", _MerchTerminal.Remarks);
+             Parameters[13] = String.IsNullOrEmpty(_MerchTerminal.UserId) ? new SqlParameter("@UserId", DBNull.Value) : new SqlParameter("@UserId", this.GetUserId);
+            
+             Parameters[29] = new SqlParameter("@RETURN_VALUE", SqlDbType.BigInt);
+             Parameters[29].Direction = ParameterDirection.ReturnValue;
+
+             var Cmd = objDataEngine.ExecuteWithReturnValue("WebBusnLocationTerminalMaint", CommandType.StoredProcedure, Parameters);
+             var Result = Convert.ToInt32(Cmd.Parameters["@RETURN_VALUE"].Value);
+             var Descp = GetMessageCode(Result);
+
+             return Descp;
+
+
+         }
+         #endregion
+
+    }
+}

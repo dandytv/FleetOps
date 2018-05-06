@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="acctname" xml:space="preserve">
+    <value>ชื่อบัญชี</value>
+  </data>
+  <data name="addresslist" xml:space="preserve">
+    <value>รายการที่อยู่</value>
+  </data>
+  <data name="addresstype" xml:space="preserve">
+    <value>ประเภทของที่อยู่</value>
+  </data>
+  <data name="agrmntdate" xml:space="preserve">
+    <value>วันที่ความตกลง</value>
+  </data>
+  <data name="bankacctno" xml:space="preserve">
+    <value>บัญชีธนาคารไม่มี</value>
+  </data>
+  <data name="bankname" xml:space="preserve">
+    <value>ชื่อธนาคาร</value>
+  </data>
+  <data name="bloodgroup" xml:space="preserve">
+    <value>กรุ๊ปเลือด</value>
+  </data>
+  <data name="cntrycd" xml:space="preserve">
+    <value>รหัสประเทศ</value>
+  </data>
+  <data name="contactname" xml:space="preserve">
+    <value>ชื่อผู้ติดต่อ</value>
+  </data>
+  <data name="contactno" xml:space="preserve">
+    <value>ติดต่อไม่มี</value>
+  </data>
+  <data name="contactslist" xml:space="preserve">
+    <value>รายการที่ติดต่อ</value>
+  </data>
+  <data name="contacttype" xml:space="preserve">
+    <value>ประเภทที่ติดต่อ</value>
+  </data>
+  <data name="coregsno" xml:space="preserve">
+    <value>CoRegs ไม่มี</value>
+  </data>
+  <data name="corporatecode" xml:space="preserve">
+    <value>รหัส บริษัท</value>
+  </data>
+  <data name="createdby" xml:space="preserve">
+    <value>สร้างโดย</value>
+  </data>
+  <data name="creationdate" xml:space="preserve">
+    <value>วันที่สร้าง</value>
+  </data>
+  <data name="department" xml:space="preserve">
+    <value>แผนก</value>
+  </data>
+  <data name="dob" xml:space="preserve">
+    <value>วันเกิด</value>
+  </data>
+  <data name="emailid" xml:space="preserve">
+    <value>อีเมล์ ID</value>
+  </data>
+  <data name="employmentdtl" xml:space="preserve">
+    <value>รายละเอียดการจ้างงาน</value>
+  </data>
+  <data name="enablewizard" xml:space="preserve">
+    <value>เปิดใช้งานตัวช่วยสร้าง</value>
+  </data>
+  <data name="entityid" xml:space="preserve">
+    <value>ID นิติบุคคล</value>
+  </data>
+  <data name="entity_title" xml:space="preserve">
+    <value>ชื่อเรื่อง</value>
+  </data>
+  <data name="establishment" xml:space="preserve">
+    <value>สถานประกอบการ</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>เพศ</value>
+  </data>
+  <data name="income" xml:space="preserve">
+    <value>เงินได้</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>อนุญาต</value>
+  </data>
+  <data name="maritalstatus" xml:space="preserve">
+    <value>สถานภาพการสมรส</value>
+  </data>
+  <data name="mcc" xml:space="preserve">
+    <value>MCC</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>ชื่อ</value>
+  </data>
+  <data name="newic" xml:space="preserve">
+    <value>IC ใหม่</value>
+  </data>
+  <data name="newmerchant" xml:space="preserve">
+    <value>ผู้ขายรายใหม่</value>
+  </data>
+  <data name="occupation" xml:space="preserve">
+    <value>อาชีพ</value>
+  </data>
+  <data name="oldic" xml:space="preserve">
+    <value>IC เก่า</value>
+  </data>
+  <data name="ownership" xml:space="preserve">
+    <value>กรรมสิทธิ์</value>
+  </data>
+  <data name="passportno" xml:space="preserve">
+    <value>หนังสือเดินทาง</value>
+  </data>
+  <data name="personalbankingdtls" xml:space="preserve">
+    <value>รายละเอียดธนาคารส่วนบุคคล</value>
+  </data>
+  <data name="personalparticulars" xml:space="preserve">
+    <value>รายการส่วนบุคคล</value>
+  </data>
+  <data name="personincharge" xml:space="preserve">
+    <value>ผู้รับผิดชอบ</value>
+  </data>
+  <data name="pincd" xml:space="preserve">
+    <value>รหัส PIN</value>
+  </data>
+  <data name="reasoncd" xml:space="preserve">
+    <value>รหัสเหตุผล</value>
+  </data>
+  <data name="registeredname" xml:space="preserve">
+    <value>ชื่อที่ลงทะเบียน</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>ตั้งใหม่</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>ประหยัด</value>
+  </data>
+  <data name="sic" xml:space="preserve">
+    <value>SIC</value>
+  </data>
+  <data name="state" xml:space="preserve">
+    <value>รัฐ</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>สถานะ</value>
+  </data>
+  <data name="street1" xml:space="preserve">
+    <value>ถนน1</value>
+  </data>
+  <data name="street2" xml:space="preserve">
+    <value>ถนน2</value>
+  </data>
+  <data name="street3" xml:space="preserve">
+    <value>ถนน3</value>
+  </data>
+  <data name="taxid" xml:space="preserve">
+    <value>ประจำตัวผู้เสียภาษี</value>
+  </data>
+  <data name="taxinfo" xml:space="preserve">
+    <value>ข้อมูลภาษี</value>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>บัญชีใหม่</value>
+  </data>
+  <data name="Town" xml:space="preserve">
+    <value>ตัวเมือง</value>
+  </data>
+  <data name="tabaddress" xml:space="preserve">
+    <value>ที่อยู่</value>
+  </data>
+  <data name="tabcontacts" xml:space="preserve">
+    <value>ติดต่อ</value>
+  </data>
+  <data name="tabdetail" xml:space="preserve">
+    <value>รายละเอียด</value>
+  </data>
+  <data name="tabentity" xml:space="preserve">
+    <value>เอกลักษณ์</value>
+  </data>
+  <data name="tabreview" xml:space="preserve">
+    <value>ทบทวน</value>
+  </data>
+</root>

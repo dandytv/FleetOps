@@ -1,0 +1,725 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Msg50068" xml:space="preserve">
+    <value>Event has been created successfully</value>
+  </data>
+  <data name="Msg50069" xml:space="preserve">
+    <value>Event has been updated successfully</value>
+  </data>
+  <data name="Msg50071" xml:space="preserve">
+    <value>Entity has been updated successfully</value>
+  </data>
+  <data name="Msg50078" xml:space="preserve">
+    <value>Corporate Code has been created successfully</value>
+  </data>
+  <data name="Msg50079" xml:space="preserve">
+    <value>Corporate Code has been updated successfully</value>
+  </data>
+  <data name="Msg50091" xml:space="preserve">
+    <value>Account has been updated successfully</value>
+  </data>
+  <data name="Msg50102" xml:space="preserve">
+    <value>Card Financial Info has been updated successfully</value>
+  </data>
+  <data name="Msg50103" xml:space="preserve">
+    <value>Card Detail has been updated successfully</value>
+  </data>
+  <data name="Msg50104" xml:space="preserve">
+    <value>Transaction has been processed successfully</value>
+  </data>
+  <data name="Msg50161" xml:space="preserve">
+    <value>Reference has been added successfully</value>
+  </data>
+  <data name="Msg50168" xml:space="preserve">
+    <value>Application has been created successfully</value>
+  </data>
+  <data name="Msg50169" xml:space="preserve">
+    <value>Application has been updated successfully</value>
+  </data>
+  <data name="Msg50176" xml:space="preserve">
+    <value>Merchant Acceptance has been updated successfully</value>
+  </data>
+  <data name="Msg50180" xml:space="preserve">
+    <value>Merchant has been created successfully</value>
+  </data>
+  <data name="Msg50181" xml:space="preserve">
+    <value>Merchant has been updated successfully</value>
+  </data>
+  <data name="Msg50186" xml:space="preserve">
+    <value>Manual Batch has been deleted successfully</value>
+  </data>
+  <data name="Msg50211" xml:space="preserve">
+    <value>Adjustment has been inserted successfully</value>
+  </data>
+  <data name="Msg50215" xml:space="preserve">
+    <value>Merchant Card Acceptance has been updated successfully</value>
+  </data>
+  <data name="Msg50226" xml:space="preserve">
+    <value>Batch has been updated successfully</value>
+  </data>
+  <data name="Msg50263" xml:space="preserve">
+    <value>Transaction Detail has been updated successfully</value>
+  </data>
+  <data name="Msg50301" xml:space="preserve">
+    <value>Bank Account has been inserted successfully</value>
+  </data>
+  <data name="Msg50302" xml:space="preserve">
+    <value>Bank Account has been updated successfully</value>
+  </data>
+  <data name="Msg50303" xml:space="preserve">
+    <value>Card has been transferred successfully</value>
+  </data>
+  <data name="Msg50571" xml:space="preserve">
+    <value>Information has been updated successfully</value>
+  </data>
+  <data name="Msg50572" xml:space="preserve">
+    <value>Reference has been updated successfully</value>
+  </data>
+  <data name="Msg54038" xml:space="preserve">
+    <value>PIN generated successfully</value>
+  </data>
+  <data name="Msg54040" xml:space="preserve">
+    <value>Task action has been inserted successfully</value>
+  </data>
+  <data name="Msg54143" xml:space="preserve">
+    <value>Process successfully completed</value>
+  </data>
+  <data name="Msg54145" xml:space="preserve">
+    <value>Card PIN reset successfully</value>
+  </data>
+  <data name="Msg54148" xml:space="preserve">
+    <value>Data has been updated successfully</value>
+  </data>
+  <data name="Msg54155" xml:space="preserve">
+    <value>Event configuration has been deleted successfully</value>
+  </data>
+  <data name="Msg55003" xml:space="preserve">
+    <value>Plastic Type is a compulsory field</value>
+  </data>
+  <data name="Msg55009" xml:space="preserve">
+    <value>Corporate Code is a compulsory field</value>
+  </data>
+  <data name="Msg55020" xml:space="preserve">
+    <value>Billing Method  is a compulsory field</value>
+  </data>
+  <data name="Msg55033" xml:space="preserve">
+    <value>Application ID is a compulsory field</value>
+  </data>
+  <data name="Msg55036" xml:space="preserve">
+    <value>Account Number is a compulsory field</value>
+  </data>
+  <data name="Msg55055" xml:space="preserve">
+    <value> Reason Code is a compulsory field</value>
+  </data>
+  <data name="Msg55065" xml:space="preserve">
+    <value>Bank Name is a compulsory field</value>
+  </data>
+  <data name="Msg55067" xml:space="preserve">
+    <value>Card Number is a compulsory field</value>
+  </data>
+  <data name="Msg55069" xml:space="preserve">
+    <value>Transaction Code is a compulsory field</value>
+  </data>
+  <data name="Msg55081" xml:space="preserve">
+    <value>Priority is a compulsory field</value>
+  </data>
+  <data name="Msg55084" xml:space="preserve">
+    <value>Contact Name is a compulsory field</value>
+  </data>
+  <data name="Msg55085" xml:space="preserve">
+    <value>Contact No. is a compulsory field</value>
+  </data>
+  <data name="Msg55089" xml:space="preserve">
+    <value>Contact Type Code is a compulsory field</value>
+  </data>
+  <data name="Msg55092" xml:space="preserve">
+    <value>Status is a compulsory field</value>
+  </data>
+  <data name="Msg55112" xml:space="preserve">
+    <value>Reference Key is a compulsory field</value>
+  </data>
+  <data name="Msg55113" xml:space="preserve">
+    <value>Reference To is a compulsory field</value>
+  </data>
+  <data name="Msg55114" xml:space="preserve">
+    <value>Ownership is a compulsory field</value>
+  </data>
+  <data name="Msg55119" xml:space="preserve">
+    <value>Amount is a compulsory field</value>
+  </data>
+  <data name="Msg55122" xml:space="preserve">
+    <value>Transaction Date is a compulsory field</value>
+  </data>
+  <data name="Msg55123" xml:space="preserve">
+    <value>Transaction Amount is a compulsory field</value>
+  </data>
+  <data name="Msg55125" xml:space="preserve">
+    <value>Slip No/ Invoice No is a compulsory field</value>
+  </data>
+  <data name="Msg55141" xml:space="preserve">
+    <value>Name is a compulsory field</value>
+  </data>
+  <data name="Msg55145" xml:space="preserve">
+    <value>Terminal Id is a compulsory field</value>
+  </data>
+  <data name="Msg55154" xml:space="preserve">
+    <value>Bank Name is a compulsory field</value>
+  </data>
+  <data name="Msg55163" xml:space="preserve">
+    <value>Payment Mode is a compulsory field</value>
+  </data>
+  <data name="Msg55164" xml:space="preserve">
+    <value>Delivery Type is a compulsory field</value>
+  </data>
+  <data name="Msg55171" xml:space="preserve">
+    <value>Language is a compulsory field</value>
+  </data>
+  <data name="Msg55185" xml:space="preserve">
+    <value>User Id is a compulsory field</value>
+  </data>
+  <data name="Msg55212" xml:space="preserve">
+    <value>Cheque No is a compulsory field</value>
+  </data>
+  <data name="Msg55260" xml:space="preserve">
+    <value>Receipt No is a compulsory field</value>
+  </data>
+  <data name="Msg55302" xml:space="preserve">
+    <value>Channel Code is a compulsory field</value>
+  </data>
+  <data name="Msg55311" xml:space="preserve">
+    <value>Site Id is a compulsory field</value>
+  </data>
+  <data name="Msg55313" xml:space="preserve">
+    <value>Deposit Type is a compulsory field</value>
+  </data>
+  <data name="Msg55314" xml:space="preserve">
+    <value>Deposit Amount is a compulsory field</value>
+  </data>
+  <data name="Msg55315" xml:space="preserve">
+    <value>Bank Guarantee serial number is a compulsory field</value>
+  </data>
+  <data name="Msg55322" xml:space="preserve">
+    <value>Settlement Party is a compulsory field</value>
+  </data>
+  <data name="Msg55329" xml:space="preserve">
+    <value>Event Plan Id is a compulsory field</value>
+  </data>
+  <data name="Msg55330" xml:space="preserve">
+    <value>Owner is a compulsory field</value>
+  </data>
+  <data name="Msg55331" xml:space="preserve">
+    <value>Period type frequency is a compulsory field</value>
+  </data>
+  <data name="Msg55332" xml:space="preserve">
+    <value>Event period type is a compulsory field</value>
+  </data>
+  <data name="Msg55336" xml:space="preserve">
+    <value>Event Configuration Id is a compulsory field</value>
+  </data>
+  <data name="Msg55337" xml:space="preserve">
+    <value>Event Type Id is a compulsory field</value>
+  </data>
+  <data name="Msg55340" xml:space="preserve">
+    <value>Reported By is a compulsory field</value>
+  </data>
+  <data name="Msg55341" xml:space="preserve">
+    <value>Reported Via is a compulsory field</value>
+  </data>
+  <data name="Msg55342" xml:space="preserve">
+    <value>Investigated By is a compulsory field</value>
+  </data>
+  <data name="Msg60000" xml:space="preserve">
+    <value>Account not found</value>
+  </data>
+  <data name="Msg60003" xml:space="preserve">
+    <value>Card Number not found</value>
+  </data>
+  <data name="Msg60006" xml:space="preserve">
+    <value>Transaction Code not found</value>
+  </data>
+  <data name="Msg60010" xml:space="preserve">
+    <value>Merchant not found</value>
+  </data>
+  <data name="Msg60013" xml:space="preserve">
+    <value>Plastic Type not found</value>
+  </data>
+  <data name="Msg60031" xml:space="preserve">
+    <value>Entity not found</value>
+  </data>
+  <data name="Msg60032" xml:space="preserve">
+    <value>Terminal Id not found</value>
+  </data>
+  <data name="Msg60048" xml:space="preserve">
+    <value>Merchant Account not found</value>
+  </data>
+  <data name="Msg60054" xml:space="preserve">
+    <value>Transaction Category not found</value>
+  </data>
+  <data name="Msg60073" xml:space="preserve">
+    <value>Bank Account not found
+Bank Account not found</value>
+  </data>
+  <data name="Msg65065" xml:space="preserve">
+    <value>Another Application Id (same company registered number) already exists</value>
+  </data>
+  <data name="Msg65118" xml:space="preserve">
+    <value>Application Reference already exists</value>
+  </data>
+  <data name="Msg70046" xml:space="preserve">
+    <value>Failed to create Vehicle Type</value>
+  </data>
+  <data name="Msg70084" xml:space="preserve">
+    <value>Failed to insert Contact Number</value>
+  </data>
+  <data name="Msg70109" xml:space="preserve">
+    <value>Failed to insert into itx_SourceTxn table</value>
+  </data>
+  <data name="Msg70110" xml:space="preserve">
+    <value>Failed to update Entity</value>
+  </data>
+  <data name="Msg70111" xml:space="preserve">
+    <value>Failed to insert Corporate Code</value>
+  </data>
+  <data name="Msg70112" xml:space="preserve">
+    <value>Failed to update Corporate Code</value>
+  </data>
+  <data name="Msg70124" xml:space="preserve">
+    <value>Failed to update Account</value>
+  </data>
+  <data name="Msg70126" xml:space="preserve">
+    <value>Failed to update account financial info</value>
+  </data>
+  <data name="Msg70131" xml:space="preserve">
+    <value>Failed to update Card Financial Info</value>
+  </data>
+  <data name="Msg70132" xml:space="preserve">
+    <value>Failed to update Card Detail</value>
+  </data>
+  <data name="Msg70133" xml:space="preserve">
+    <value>Failed to replace card</value>
+  </data>
+  <data name="Msg70143" xml:space="preserve">
+    <value>Failed to insert Merchant Acceptance</value>
+  </data>
+  <data name="Msg70146" xml:space="preserve">
+    <value>Failed to update Contact Number</value>
+  </data>
+  <data name="Msg70148" xml:space="preserve">
+    <value> Failed to update iss_Address</value>
+  </data>
+  <data name="Msg70151" xml:space="preserve">
+    <value>Failed to delete Account Acceptance Location</value>
+  </data>
+  <data name="Msg70180" xml:space="preserve">
+    <value>Failed to insert Reference</value>
+  </data>
+  <data name="Msg70188" xml:space="preserve">
+    <value>Failed to update application</value>
+  </data>
+  <data name="Msg70190" xml:space="preserve">
+    <value>Failed to create Card</value>
+  </data>
+  <data name="Msg70194" xml:space="preserve">
+    <value>Failed to create event</value>
+  </data>
+  <data name="Msg70196" xml:space="preserve">
+    <value>Failed to insert Event Detail</value>
+  </data>
+  <data name="Msg70197" xml:space="preserve">
+    <value>Failed to create held transaction</value>
+  </data>
+  <data name="Msg70199" xml:space="preserve">
+    <value>Failed to update held transaction</value>
+  </data>
+  <data name="Msg70201" xml:space="preserve">
+    <value>Failed to insert record in Maint Audit</value>
+  </data>
+  <data name="Msg70203" xml:space="preserve">
+    <value>Failed to update Layaway transaction</value>
+  </data>
+  <data name="Msg70222" xml:space="preserve">
+    <value>Failed to update Merchant</value>
+  </data>
+  <data name="Msg70227" xml:space="preserve">
+    <value>Failed to delete Manual Batch</value>
+  </data>
+  <data name="Msg70230" xml:space="preserve">
+    <value>Failed to delete Manual Txn</value>
+  </data>
+  <data name="Msg70234" xml:space="preserve">
+    <value>Failed to update Merchant Status</value>
+  </data>
+  <data name="Msg70239" xml:space="preserve">
+    <value>Failed to update Event</value>
+  </data>
+  <data name="Msg70256" xml:space="preserve">
+    <value>Failed to insert Merchant Card Acceptance</value>
+  </data>
+  <data name="Msg70258" xml:space="preserve">
+    <value>Failed to delete Merchant Card Acceptance</value>
+  </data>
+  <data name="Msg70265" xml:space="preserve">
+    <value>Failed to update Batch</value>
+  </data>
+  <data name="Msg70270" xml:space="preserve">
+    <value>Failed to create temporary table</value>
+  </data>
+  <data name="Msg70271" xml:space="preserve">
+    <value>Failed to insert into temporary table</value>
+  </data>
+  <data name="Msg70272" xml:space="preserve">
+    <value>Failed to insert transaction</value>
+  </data>
+  <data name="Msg70281" xml:space="preserve">
+    <value>Failed to update temporary table</value>
+  </data>
+  <data name="Msg70339" xml:space="preserve">
+    <value>Failed to add Settlement</value>
+  </data>
+  <data name="Msg70352" xml:space="preserve">
+    <value> Failed to create Plastic Card</value>
+  </data>
+  <data name="Msg70394" xml:space="preserve">
+    <value>Failed to add Settlement</value>
+  </data>
+  <data name="Msg70396" xml:space="preserve">
+    <value>Failed to update Transaction Detail</value>
+  </data>
+  <data name="Msg70436" xml:space="preserve">
+    <value>Failed to create Bank Account</value>
+  </data>
+  <data name="Msg70437" xml:space="preserve">
+    <value>Failed to update Bank Account</value>
+  </data>
+  <data name="Msg70465" xml:space="preserve">
+    <value>Failed to create PIN Mailer</value>
+  </data>
+  <data name="Msg70486" xml:space="preserve">
+    <value>Failed to update settlement</value>
+  </data>
+  <data name="Msg71149" xml:space="preserve">
+    <value>Failed to reset PIN attempted counter</value>
+  </data>
+  <data name="Msg71153" xml:space="preserve">
+    <value>Failed to create next milestone</value>
+  </data>
+  <data name="Msg71157" xml:space="preserve">
+    <value>Failed to update reference</value>
+  </data>
+  <data name="Msg71164" xml:space="preserve">
+    <value>Failed to insert event plan detail</value>
+  </data>
+  <data name="Msg71165" xml:space="preserve">
+    <value>Failed to update event plan detail</value>
+  </data>
+  <data name="Msg71166" xml:space="preserve">
+    <value>Failed to delete event plan detail</value>
+  </data>
+  <data name="Msg71167" xml:space="preserve">
+    <value>Failed to insert event configuration</value>
+  </data>
+  <data name="Msg71168" xml:space="preserve">
+    <value>Failed to update event configuration</value>
+  </data>
+  <data name="Msg71169" xml:space="preserve">
+    <value>Failed to delete event configuration</value>
+  </data>
+  <data name="Msg95005" xml:space="preserve">
+    <value>No changes are allowed</value>
+  </data>
+  <data name="Msg95007" xml:space="preserve">
+    <value>Invalid User ID</value>
+  </data>
+  <data name="Msg95015" xml:space="preserve">
+    <value>Card number check digit validation failed</value>
+  </data>
+  <data name="Msg95020" xml:space="preserve">
+    <value>Card already expired</value>
+  </data>
+  <data name="Msg95028" xml:space="preserve">
+    <value>Invalid vehicle or payment card</value>
+  </data>
+  <data name="Msg95030" xml:space="preserve">
+    <value>Wrong entry in Auth Card field</value>
+  </data>
+  <data name="Msg95045" xml:space="preserve">
+    <value>Card No already exist</value>
+  </data>
+  <data name="Msg95055" xml:space="preserve">
+    <value>Failed to replace card because card is expiring this month</value>
+  </data>
+  <data name="Msg95064" xml:space="preserve">
+    <value>Check on the Card Status</value>
+  </data>
+  <data name="Msg95067" xml:space="preserve">
+    <value>Card termination already done to this card</value>
+  </data>
+  <data name="Msg95072" xml:space="preserve">
+    <value>Data integrity problem</value>
+  </data>
+  <data name="Msg95092" xml:space="preserve">
+    <value>Invalid Batch ID</value>
+  </data>
+  <data name="Msg95094" xml:space="preserve">
+    <value> Unable to generate new card number</value>
+  </data>
+  <data name="Msg95122" xml:space="preserve">
+    <value>Check the Bank Account and Bank Name</value>
+  </data>
+  <data name="Msg95125" xml:space="preserve">
+    <value>Invalid From Date and To Date</value>
+  </data>
+  <data name="Msg95143" xml:space="preserve">
+    <value>Transaction Date is greater than system date</value>
+  </data>
+  <data name="Msg95155" xml:space="preserve">
+    <value>This card has been terminated. No update is allowed</value>
+  </data>
+  <data name="Msg95172" xml:space="preserve">
+    <value>Failed to change account status</value>
+  </data>
+  <data name="Msg95174" xml:space="preserve">
+    <value>Failed to generate new batch ID</value>
+  </data>
+  <data name="Msg95176" xml:space="preserve">
+    <value>Settlement Date greater than Merchant cancellation date</value>
+  </data>
+  <data name="Msg95178" xml:space="preserve">
+    <value>Invalid card expiry date</value>
+  </data>
+  <data name="Msg95188" xml:space="preserve">
+    <value>Invalid input parameter</value>
+  </data>
+  <data name="Msg95189" xml:space="preserve">
+    <value>Unable to generate PIN</value>
+  </data>
+  <data name="Msg95194" xml:space="preserve">
+    <value>This card has been replaced</value>
+  </data>
+  <data name="Msg95205" xml:space="preserve">
+    <value>Failed to insert into atx_SourceSettlement</value>
+  </data>
+  <data name="Msg95211" xml:space="preserve">
+    <value>Incomplete parameter setup</value>
+  </data>
+  <data name="Msg95215" xml:space="preserve">
+    <value>Check field: array counter, total count, litre or amount</value>
+  </data>
+  <data name="Msg95267" xml:space="preserve">
+    <value>Check account status</value>
+  </data>
+  <data name="Msg95274" xml:space="preserve">
+    <value>Unable to change status. This status is not allowed.</value>
+  </data>
+  <data name="Msg95283" xml:space="preserve">
+    <value>Amount must be positive</value>
+  </data>
+  <data name="Msg95304" xml:space="preserve">
+    <value>Transaction amount does not tally with transaction detail amount</value>
+  </data>
+  <data name="Msg95313" xml:space="preserve">
+    <value>Invalid Driver Card</value>
+  </data>
+  <data name="Msg95326" xml:space="preserve">
+    <value>Invalid Card No</value>
+  </data>
+  <data name="Msg95405" xml:space="preserve">
+    <value>Check on override status &amp; expiry date</value>
+  </data>
+  <data name="Msg95407" xml:space="preserve">
+    <value>Wrong entry on Diesel Subsidy Number/ Quota or Indicator</value>
+  </data>
+  <data name="Msg95408" xml:space="preserve">
+    <value>Credit limit for postpaid account only</value>
+  </data>
+  <data name="Msg95409" xml:space="preserve">
+    <value>Company embossing name is required</value>
+  </data>
+  <data name="Msg95416" xml:space="preserve">
+    <value>User Id not found or access denied</value>
+  </data>
+  <data name="Msg95425" xml:space="preserve">
+    <value>Comparing to system date, the transaction date already past 6 months</value>
+  </data>
+  <data name="Msg95428" xml:space="preserve">
+    <value>Invalid transaction code</value>
+  </data>
+  <data name="Msg95591" xml:space="preserve">
+    <value>Length of Embossing Name exceeded 26 characters</value>
+  </data>
+  <data name="Msg95593" xml:space="preserve">
+    <value>This is supposes to be a single card transaction</value>
+  </data>
+  <data name="Msg95595" xml:space="preserve">
+    <value>To complete dealer or merchant capturing before change merchant account status to active</value>
+  </data>
+  <data name="Msg95596" xml:space="preserve">
+    <value>Invalid status</value>
+  </data>
+  <data name="Msg95597" xml:space="preserve">
+    <value>Unable to generate PIN. Check card or account status</value>
+  </data>
+  <data name="Msg95598" xml:space="preserve">
+    <value>Generating new PIN in progress</value>
+  </data>
+  <data name="Msg95601" xml:space="preserve">
+    <value>SKDS No applicable for vehicle card only</value>
+  </data>
+  <data name="Msg95606" xml:space="preserve">
+    <value>Duplicates of manual sale slip entered, please check</value>
+  </data>
+  <data name="Msg95608" xml:space="preserve">
+    <value>Check invalid effective date
+Check invalid effective date</value>
+  </data>
+  <data name="Msg95610" xml:space="preserve">
+    <value>This is cash deposit and bank info should be blank</value>
+  </data>
+  <data name="Msg95611" xml:space="preserve">
+    <value>Duplicates of BG Serial No</value>
+  </data>
+  <data name="Msg95614" xml:space="preserve">
+    <value>Update is not allowed due to bad account status</value>
+  </data>
+  <data name="Msg95619" xml:space="preserve">
+    <value>It is either Billing or Delivery address does not exists</value>
+  </data>
+  <data name="Msg95621" xml:space="preserve">
+    <value>Transaction date greater than card creation date</value>
+  </data>
+  <data name="Msg95622" xml:space="preserve">
+    <value>Transaction date less than account creation date</value>
+  </data>
+  <data name="Msg95664" xml:space="preserve">
+    <value>Invalid record length</value>
+  </data>
+  <data name="Msg95673" xml:space="preserve">
+    <value>Invalid date format</value>
+  </data>
+  <data name="Msg95678" xml:space="preserve">
+    <value>At least one Min / Max value is required</value>
+  </data>
+  <data name="Msg95681" xml:space="preserve">
+    <value>There is an existing case related to this account number</value>
+  </data>
+  <data name="Msg95682" xml:space="preserve">
+    <value>Maximum 10 records can be stored</value>
+  </data>
+</root>

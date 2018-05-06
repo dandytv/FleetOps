@@ -1,0 +1,281 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+@section ModuleSideBar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                <li><a ng-show="$root.obj._type==='edit'" href="#/velocity/{{$root.obj.corpcd}}"><span class="text">Velocity Limit</span></a></li>
+                <li><a ng-show="$root.obj._type==='edit'" href="#/securityDeposit/{{$root.obj.corpcd}}"><span class="text">Security Deposit</span></a></li>
+                <li><a ng-show="$root.obj._type==='edit'" href="#/contacts/{{$root.obj.corpcd}}"><span class="text">Contacts List</span></a></li>
+                <li><a ng-show="$root.obj._type==='edit'" href="#/address/{{$root.obj.corpcd}}"><span class="text">Address List</span></a></li>
+            </ul>
+        </div>
+    </div>
+}
+<div id="theme-settings" class="hidden-sm hidden-xs">
+    <div id="open-close" class="closed">
+        <i class="fa fa-bars"></i>
+    </div>
+    <h4>Section bar</h4>
+
+    <div class="page-todo">
+        <div class="timeline">
+
+            <div class="timeslot">
+
+                <div class="task">
+                    <span>
+                        <span class="type">Data Entry</span>
+                        <span class="details">
+                            User001
+                        </span>
+                        <span>
+                            <label class="label label-success">Approved</label>
+                        </span>
+                    </span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="icon">
+                    1
+                </div>
+                <div class="time">
+                    3.43 PM
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="timeslot alt">
+
+                <div class="task">
+                    <span>
+                        <span class="type">Data Entry</span>
+                        <span class="details">
+                            User001
+                        </span>
+                        <span>
+                            <label class="label label-success">Approved</label>
+                        </span>
+                    </span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="icon">
+                    2
+                </div>
+                <div class="time">
+                    3.43 PM
+                </div>
+            </div>
+
+            <div class="timeslot">
+
+                <div class="task">
+                    <span>
+                        <span class="type">Data Entry</span>
+                        <span class="details">
+                            User001
+                        </span>
+                        <span>
+                            <label class="label label-warning">Pending</label>
+                        </span>
+                    </span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="icon">
+                    3
+                </div>
+                <div class="time">
+                    3.43 PM
+                </div>
+            </div>
+
+            <div class="timeslot alt">
+                
+                <div class="task">
+                    <span>
+                        <span class="type">Data Entry</span>
+                        <span class="details">
+                            User001
+                        </span>
+                        <span>
+                            <label class="label label-danger">Rejected</label>
+                        </span>
+                    </span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="icon">
+                    4
+                </div>
+                <div class="time">
+                    3.43 PM
+                </div>
+            </div>
+
+            <div class="timeslot">
+
+                <div class="task">
+                    <span>
+                        <span class="type">Data Entry</span>
+                        <span class="details">
+                            User001
+                        </span>
+                        <span>
+                            <label class="label label-success">Approved</label>
+                        </span>
+                    </span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="icon">
+                    5
+                </div>
+                <div class="time">
+                    3.43 PM
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="timeslot alt">
+
+                <div class="task">
+                    <span>
+                        <span class="type">Data Entry</span>
+                        <span class="details">
+                            User001
+                        </span>
+                        <span>
+                            <label class="label label-warning">Pending</label>
+                        </span>
+                    </span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="icon">
+                    6
+                </div>
+                <div class="time">
+                    3.43 PM
+                </div>
+            </div>
+
+            <div class="timeslot">
+
+                <div class="task">
+                    <span>
+                        <span class="type">Data Entry</span>
+                        <span class="details">
+                            User001
+                        </span>
+                        <span>
+                            <label class="label label-warning">Pending</label>
+                        </span>
+                    </span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="icon">
+                    7
+                </div>
+                <div class="time">
+                    3:43 PM
+                </div>
+
+            </div>
+
+            <div class="timeslot alt">
+                <div class="task">
+                    <span>
+                        <span class="type">Data Entry</span>
+                        <span class="details">
+                            User001
+                        </span>
+                        <span>
+                            <label class="label label-success">Approved</label>
+                        </span>
+                    </span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="icon">
+                    8
+                </div>
+                <div class="time">
+                    3:43 PM
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <button type="button" class="btn btn-success btn-block" id="restore">default settings</button>
+</div>
+
+<div class="main" style="opacity:1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Applications</a></li>
+                <li>Index</li>
+                <li class="active">{{root.obj.corpcd}}</li>
+            </ol>
+        </div>
+        <div class="col-lg-12">
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2><i class="fa fa-list"></i>Latest Processed Accounts</h2>
+                        </div>
+                        <div class="panel-body">
+                            <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font">
+                                <thead>
+                                    <tr>
+                                        <th>Application Id</th>
+                                        <th>Account No</th>
+                                        <th>Company Name</th>
+                                        <th>Corporate Account</th>
+                                        <th>Credit Limit</th>
+                                        <th>Pending Reasons</th>
+                                        <th>User ID</th>
+                                        <th>Creation Date</th>
+                                        <th>Approved Date</th>
+                                        <th>Approved Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+@section CustomPageScript
+{
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Applications/application.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}
+

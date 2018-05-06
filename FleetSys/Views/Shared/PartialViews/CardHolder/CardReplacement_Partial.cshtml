@@ -1,0 +1,21 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.CardReplacement
+
+<form id="formCardReplacement" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomNgTextBoxFor(model => model.NewCardNo, null, new { @data_bind = "value:EmbossNewCardNo", section = "Card Replacement", @readonly = "readonly", @id = "txtCardRepNewCardNo" })
+                @Html.CustomNgTextBoxFor(model => model.ExpiryDate, null, new { id = "cardRepExpiryDate", section = "Card Replacement", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.TerminatedDate, null, new { id = "cardRepTerminatedDate", section = "Card Replacement", @readonly = "readonly" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { section = "Card Replacement", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.XReferenceNo, null, new { section = "Card Replacement", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.Remarks, null, new { section = "Card Replacement" })
+                @Html.CustomNgSelectListFor(model => model.SelectedFeeCd, Model.FeeCd, null, new { section = "Card Replacement" })
+                @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCd, null, new { section = "Card Replacement" })
+                </div>
+            </div>
+        </div>
+</form>
+<input type="hidden" id="repSaveAccess" value="@Html.GetControlStatus("Save","Card Replacement")" />

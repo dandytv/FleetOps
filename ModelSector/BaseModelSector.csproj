@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6523D5ED-02B7-4379-90D0-434D230074A0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ModelSector</RootNamespace>
+    <AssemblyName>ModelSector</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DAL">
+      <HintPath>..\FleetSys\bin\DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.3.1.3.3\lib\net35\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelHandler">
+      <HintPath>..\packages\ExcelHandler.1.0.1\lib\Net40\ExcelHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\NPOI.1.2.5\lib\net40\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\packages\NPOI.1.2.5\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="AcctSOA.cs" />
+    <Compile Include="AuditLogger.cs" />
+    <Compile Include="AuditLogTracking.cs" />
+    <Compile Include="Calendar.cs" />
+    <Compile Include="CardCourierCollection.cs" />
+    <Compile Include="CardHolder.cs" />
+    <Compile Include="CardReplacement.cs" />
+    <Compile Include="CollAgeingHistViewModel.cs" />
+    <Compile Include="CollectionAcctInfoViewModel.cs" />
+    <Compile Include="CollectionFollowUpViewModel.cs" />
+    <Compile Include="CollectionHistoryViewModel.cs" />
+    <Compile Include="CollectionTaskListViewModel.cs" />
+    <Compile Include="Collection\CollPaymentHistViewModel.cs" />
+    <Compile Include="CollInfoViewModel.cs" />
+    <Compile Include="CorpCardAcctMaint.cs" />
+    <Compile Include="Corporate.cs" />
+    <Compile Include="DebtsCollection.cs" />
+    <Compile Include="EventConfiguration.cs" />
+    <Compile Include="EventLogger.cs" />
+    <Compile Include="Export.cs" />
+    <Compile Include="Fraud.cs" />
+    <Compile Include="Fraud\FraudCardDetailsViewModel.cs" />
+    <Compile Include="Fraud\FraudCaseListViewModel.cs" />
+    <Compile Include="Fraud\FraudCustomerDetailsViewModel.cs" />
+    <Compile Include="Fraud\FraudIncidentsViewModel.cs" />
+    <Compile Include="Fraud\FraudMainViewModel.cs" />
+    <Compile Include="Fraud\FraudTxnDisputeViewModel.cs" />
+    <Compile Include="General.cs" />
+    <Compile Include="GhostCards.cs" />
+    <Compile Include="GlobalVariables.cs" />
+    <Compile Include="Global_Resources\Home\locale_home_index.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_home_index.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Home\locale_home_index.ms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_home_index.ms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\locale.ar.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale.ar.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\locale.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\locale.ms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale.ms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\locale.th.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale.th.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\locale.zh.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale.zh.resx</DependentUpon>
+    </Compile>
+    <Compile Include="CardAcctSignup.cs" />
+    <Compile Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.ar.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_ghoscard_index.ar.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_ghoscard_index.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.ms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_ghoscard_index.ms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.th.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_ghoscard_index.th.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.zh.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_ghoscard_index.zh.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.ar.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_index.ar.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_index.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.ms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_index.ms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.th.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_index.th.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.zh.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_index.zh.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.ar.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_new.ar.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_new.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.ms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_new.ms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.th.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_new.th.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.zh.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_operations_merchagrmnt_new.zh.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Shared\locale_shared.ar.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_shared.ar.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Shared\locale_shared.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_shared.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Shared\locale_shared.ms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_shared.ms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global_Resources\Shared\locale_shared.th.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>locale_shared.th.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\DisplayNameLocalizedAttribute.cs" />
+    <Compile Include="ManualSlipEntry.cs" />
+    <Compile Include="MerchantAcctSignUp.cs" />
+    <Compile Include="MerchantAgreement.cs" />
+    <Compile Include="MerchantInfo.cs" />
+    <Compile Include="MultiPayment.cs" />
+    <Compile Include="MultipleTxn.cs" />
+    <Compile Include="NegativeFiles.cs" />
+    <Compile Include="NonFleetTxn.cs" />
+    <Compile Include="ObjectDetail.cs" />
+    <Compile Include="PinGeneration.cs" />
+    <Compile Include="PinMailer.cs" />
+    <Compile Include="PrePaid.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PukalAcctBatchList.cs" />
+    <Compile Include="PukalAcctBatchView.cs" />
+    <Compile Include="PukalAcctInfo.cs" />
+    <Compile Include="PukalAcctMaintInfo.cs" />
+    <Compile Include="PukalApproval.cs" />
+    <Compile Include="PukalPaymentSummSelect.cs" />
+    <Compile Include="RembossCard.cs" />
+    <Compile Include="ReportViewer.cs" />
+    <Compile Include="Security.cs" />
+    <Compile Include="StatusMaintanance.cs" />
+    <Compile Include="TerminalInventory.cs" />
+    <Compile Include="TxnAdjustment.cs" />
+    <Compile Include="UnallocateTxn.cs" />
+    <Compile Include="UnbalanceTxn.cs" />
+    <Compile Include="VoiceAuth.cs" />
+    <Compile Include="WebPukalSedutList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Global_Resources\Home\locale_home_index.ar.resx" />
+    <EmbeddedResource Include="Global_Resources\Home\locale_home_index.ms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_home_index.ms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Home\locale_home_index.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_home_index.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Home\locale_home_index.th.resx" />
+    <EmbeddedResource Include="Global_Resources\Home\locale_home_index.zh.resx" />
+    <EmbeddedResource Include="Global_Resources\locale.ar.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale.ar.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\locale.ms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale.ms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\locale.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\locale.th.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale.th.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\locale.zh.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale.zh.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.ar.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_ghoscard_index.ar.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.ms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_ghoscard_index.ms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_ghoscard_index.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.th.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_ghoscard_index.th.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\GhostCard\locale_operations_ghoscard_index.zh.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_ghoscard_index.zh.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.ar.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_index.ar.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.ms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_index.ms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_index.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.th.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_index.th.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_index.zh.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_index.zh.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.ar.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_new.ar.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.ms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_new.ms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_new.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.th.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_new.th.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Operations\MerchAgreement\locale_operations_merchagrmnt_new.zh.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_operations_merchagrmnt_new.zh.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Shared\locale_shared.ar.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_shared.ar.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Shared\locale_shared.ms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_shared.ms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Shared\locale_shared.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_shared.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Shared\locale_shared.th.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>locale_shared.th.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global_Resources\Shared\locale_shared.zh.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Global_Resources\Operations\CardAccountSignup\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\ar\ModelSector.resources.dll" />
+    <Content Include="bin\Debug\EPPlus.dll" />
+    <Content Include="bin\Debug\EPPlus.xml" />
+    <Content Include="bin\Debug\ExcelHandler.dll" />
+    <Content Include="bin\Debug\Ionic.Zip.dll" />
+    <Content Include="bin\Debug\LINQtoCSV.dll" />
+    <Content Include="bin\Debug\ModelSector.dll" />
+    <Content Include="bin\Debug\ModelSector.pdb" />
+    <Content Include="bin\Debug\ms\ModelSector.resources.dll" />
+    <Content Include="bin\Debug\NPOI.dll" />
+    <Content Include="bin\Debug\NPOI.xml" />
+    <Content Include="bin\Debug\th\ModelSector.resources.dll" />
+    <Content Include="bin\Debug\zh\ModelSector.resources.dll" />
+    <Content Include="bin\Release\ar\ModelSector.resources.dll" />
+    <Content Include="bin\Release\EPPlus.dll" />
+    <Content Include="bin\Release\EPPlus.xml" />
+    <Content Include="bin\Release\ExcelHandler.dll" />
+    <Content Include="bin\Release\Ionic.Zip.dll" />
+    <Content Include="bin\Release\LINQtoCSV.dll" />
+    <Content Include="bin\Release\ModelSector.dll" />
+    <Content Include="bin\Release\ModelSector.pdb" />
+    <Content Include="bin\Release\ms\ModelSector.resources.dll" />
+    <Content Include="bin\Release\NPOI.dll" />
+    <Content Include="bin\Release\NPOI.xml" />
+    <Content Include="bin\Release\th\ModelSector.resources.dll" />
+    <Content Include="bin\Release\zh\ModelSector.resources.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CardTrend.Domain\CardTrend.Domain.csproj">
+      <Project>{f5b1fbfd-8cde-4f17-9330-4a4cb48bc491}</Project>
+      <Name>CardTrend.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,93 @@
+﻿@model ModelSector.CardFinancialInfoModel
+@using FleetOps.Helpers
+@using ModelSector.Global_Resources
+
+<h1>Financial Information</h1><br/>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <form>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6" style="border-right: 1px solid #E4E4E4;">
+                        <fieldset>
+                        @if (!Html.NotAuthorized("fin", "BtnResetPinCnt"))
+                        {
+                            <input type="button" ng-click="SaveWebPinReset();" @(Html.IsReadOnly("fin", "BtnResetPinCnt") ? "disabled=disabled" : "") class="btn btn-inverse btn-sm" name="finish" value="Reset PIN Count">
+                        }
+                            @*<button class="btn btn-inverse btn-sm">Reset PIN Count</button>*@
+                            <div class="row">
+                                <br />
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.txnLimit, null, new { @amount = "", section = "fin" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.litLimit, null, new {@amount = "", section = "fin" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.PinExceedCnt, null, new { section = "fin"})@*, @readonly = "readonly"*@ 
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.PinAttempted, null, new { section = "fin", @readonly = "readonly" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.PinTriedUpdDate, null, new { section = "fin", @readonly = "readonly" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.LastTxnDate, null, new { date_picker = "", section = "fin", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                @if (!Html.NotAuthorized("fin", "SaveFinInfoCard"))
+                {
+                    <div class="form-actions">
+                        <input type="button" data-validation-form data-customsubmit="SaveFinancialInfo();" @(Html.IsReadOnly("fin", "SaveFinInfoCard") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" name="finish" value="Save">
+                        @*<button id="SaveFinancialInfo();" @(Html.IsReadOnly("fin", "Save") ? "disabled=disabled" : "") style="width: 60px" class="btn btn-primary">Save</button>*@
+                    </div>
+                }
+                @*<input type="button" data-validation-form data-customsubmit="SaveFinancialInfo();" class="btn btn-primary btn-cons" name="finish" value="Save">*@
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="pinChangemodalOpen" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" ng-click="pinChangemodalOpen=false;" aria-hidden="true">X</button>
+                <h2>Change PIN : </h2>
+            </div>
+            <div class="modal-body">
+                This will change the PIN of the card. Continue?
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" data-dismiss="modal" ng-click="pinChangemodalOpen=false;" class="btn">Cancel</a>
+                <a href="javascript:;" id="pinChangeConfirmed" class="btn btn-success">Yes,Continue<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="resetPinModalOpen" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" ng-click="resetPinModalOpen=false;" aria-hidden="true">X</button>
+                <h2>Reset PIN : </h2>
+            </div>
+            <div class="modal-body">
+                This will reset the PIN for this card. Continue?
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" ng-click="resetPinModalOpen=false;" class="btn">Cancel</a>
+                <a href="#" id="pinResetConfirmed" class="btn btn-success">Yes,Continue<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+

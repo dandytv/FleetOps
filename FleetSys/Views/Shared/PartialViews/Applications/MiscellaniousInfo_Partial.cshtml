@@ -1,0 +1,34 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.MiscellaneousInfoModel
+<form id="formApplicationGeneralInfo">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="panel panel-default">
+            @*<div class="panel-heading">
+                    <h2><strong>Application General Info</strong></h2>
+                    <div class="panel-actions">
+                        <a href="#" class="btn-minimize"><i class="fa fa-check"></i></a>
+                        <a href="#" class="btn-close"><i class="fa fa-camera"></i></a>
+                    </div>
+                </div>*@
+            <div class="panel-body">
+                <h2>Miscellaneous Info</h2>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-4">
+                        @Html.CustomNgTextBoxFor(model => model.AuthName, null, new { @section = "Miscellanious Info" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.CustomNgSelectListFor(model => model.SelectedDesignation, Model.Designation, null, new { @Name = "Designation" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.CustomNgTextBoxFor(model => model.AuthDate, null, new { @date_Picker = "" })
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <input type="button" data-validation-form data-customsubmit="Save();" class="btn btn-primary" name="finish" value="Save">
+            </div>
+        </div>
+    </div>
+</form>

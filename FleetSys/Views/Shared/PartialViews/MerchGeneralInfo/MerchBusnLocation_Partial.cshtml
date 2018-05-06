@@ -1,0 +1,52 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+<h1>Stations</h1><br/>
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+        @if (!Html.NotAuthorized("bus", "AddBusinessLocationTbl"))
+        {
+            <a href="javascript:;"  @(Html.IsReadOnly("bus", "AddBusinessLocationTbl") ? "disabled=disabled" : "ng-click=new();") class="btn-minimize"><i class="fa fa-plus"></i></a>
+        }
+            
+            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="BusnLocationsHolder" class="zerotop">
+            <table id="tblBusnLocations" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Merchant Id</th>
+                        <th>Site Id</th>
+                        <th>Business Name</th>
+                        <th>DBA Name</th>
+                        <th>Payee Name</th>
+                        <th>CoReg No</th>
+                        <th>DBA State</th>
+                        <th>Person In Charge</th>
+                        <th>Current Status</th>
+                        <th>Creation Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="BusnLocDeleteConfirm" data-backdrop="static" class="modal hide">
+            <div class="modal-header deletion-head">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4>Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm the record deletion
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" id="BusnLocDeleteConfirmed" class="btn btn-danger">Yes,Delete<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

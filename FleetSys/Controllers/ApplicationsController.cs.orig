@@ -1,0 +1,947 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using MaxMind.GeoIP;
+using ModelSector;
+using CCMS.ModelSector;
+using FleetOps.Models;
+using System.Threading.Tasks;
+using FleetOps.App_Start;
+using FleetOps.ViewModel;
+using FleetSys.Models;
+using System.IO;
+using FleetSys.Common;
+namespace FleetSys.Controllers
+{
+    [Authorize(Roles = "Internal")]
+    public class ApplicationsController : BaseClass
+    {
+        private CardAcctSignUpOps objCardAcctSignUpOps = new CardAcctSignUpOps();
+        private AccountOps objAcctOps = new AccountOps();
+        // GET: Applications
+        [Accessibility]
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [AccessibilityXtra]
+        public ActionResult Tmpl(string Prefix)
+        {
+            switch (Prefix)
+            {
+                case "gen":
+                    return PartialView(this.getPartialPath("Applications", "ApplicationGeneralInfo_Partial"), new AcctSignUp());
+                case "fin":
+                    return PartialView(this.getPartialPath("Applications", "FinancialInfo_Partial"), new FinancialInfoModel());
+                case "cao":
+                    return PartialView(this.getPartialPath("Applications", "AcctSignUp_CreditAssessmentOperation_Partial"), new CreditAssesOperation());
+                case "skd":
+                    return PartialView(this.getPartialPath("Applications", "DieselSubsidy_Partial"), new SKDS());
+                case "vel":
+                    return PartialView(this.getPartialPath("Applications", "VelocityLimit_Partial"), new VeloctyLimitListMaintModel());
+                case "veh":
+                    return PartialView(this.getPartialPath("Applications", "VehiclesList_Partial"), new VehiclesListModel());
+                case "app":
+                    return PartialView(this.getPartialPath("Applications", "ApplicantsListPartial"));
+                case "con":
+                    return PartialView(this.getPartialPath("Applications", "Contacts_Partial"), new ContactLstModel());
+                case "add":
+                    return PartialView(this.getPartialPath("Applications", "Address_Partial"), new AddrListMaintModel());
+                case "dep":
+                    return PartialView(this.getPartialPath("Applications", "DepositInfo_Partial"), new CreditAssesOperation());
+                case "csc":
+                    return PartialView(this.getPartialPath("Applications", "CostCentre_Partial"), new CostCentreViewModel());
+                case "mis":
+                    return PartialView(this.getPartialPath("Applications", "MiscellaniousInfo_Partial"), new MiscellaneousInfoModel());
+                case "apr":
+                    return PartialView(this.getPartialPath("Applications", "Approval_Partial"), new Milestone());
+                case "fil":
+                    return PartialView(this.getPartialPath("Applications", "FileManager_Partial"));
+                case "ccv":
+                    ViewBag.SectionCd = "ccv";
+                    return PartialView(this.getPartialPath("Applications", "VelocityLimit_Partial"), new VeloctyLimitListMaintModel());
+                default:
+                    return PartialView();
+            }
+        }
+        public async Task<JsonResult> FillData(string Prefix, string ApplId)
+        {
+            switch (Prefix)
+            {
+                case "gen":
+                    var _Info = await objCardAcctSignUpOps.GetApplicationGeneralInfo(ApplId);
+
+                    var Selects = new AcctSignUp
+                    {
+
+                        CycleNo = await BaseClass.WebGetCycle("I"),
+                        PlasticType = await BaseClass.WebPlasticTypeSelect(),
+                        CorporateAcct = await BaseClass.WebGetCorpCd(),
+                        //Position = await BaseClass.WebGetRefLib("Occupation"),
+                        CompanyType = await BaseClass.WebGetRefLib("CmpyType"),
+                        BillingType = await BaseClass.WebGetRefLib("BillingType"),
+                        InvoicePref = await BaseClass.WebGetRefLib("InvPrefer"),
+                        BusinessCategory = await BaseClass.WebGetRefLib("BusnCategory"),
+                        LangId = await BaseClass.WebGetRefLib("Language"),
+                        TaxCategory = await WebGetRefLib("TaxCategory"),
+                        NatureOfBusiness = await WebGetRefLib("IndustryCd"),
+                        ClientClass = await WebGetRefLib("ClientClass"),
+                        ClientType = await WebGetRefLib("ClientType"),
+                        PaymentMode = await WebGetRefLib("PaymtMethod"),
+                        ReasonCd = await WebGetCAOReasonCd(),
+                    };
+                    return Json(new { Model = _Info, Selects = Selects }, JsonRequestBehavior.AllowGet);
+
+
+                case "fin":
+                    var _finInfo = await objCardAcctSignUpOps.GetFinancialInfo(1, ApplId);
+                    return Json(_finInfo, JsonRequestBehavior.AllowGet);
+
+
+
+                case "cao":
+                    var _credAssesIInfo = await objCardAcctSignUpOps.GetCAOGeneralInfo(null, ApplId);
+                    var PaymentTerm = await BaseClass.WebGetRefLib("PaymtTerm");
+                    var temp = PaymentTerm.SkipWhile(p => p.Value == "").ToList();
+                    PaymentTerm = (temp.OrderBy(p => Convert.ToInt32(p.Value))).ToList();
+                    //list.Add(new SelectListItem { Text = "", Value = "" });
+
+                    var _CaoSelects = new CreditAssesOperation
+                    {
+                        PaymentMode = await WebGetRefLib("PaymtMethod"),
+                        PaymentTerm = PaymentTerm,
+                        TerritoryCd = await BaseClass.WebGetRefLib("SaleTerritory"),
+                        RiskCategory = await BaseClass.WebGetRefLib("RiskCategory"),
+                        AssesmtType = await BaseClass.WebGetRefLib2("AssessmentType"),
+                        DepositType = await BaseClass.WebGetRefLib("DepositType"),
+                        BankAcctType = await BaseClass.WebGetRefLib("BankAcctType"),
+                        BankName = await BaseClass.WebGetRefLib("Bank"),
+                        ReasonCd = await WebGetCAOReasonCd(),
+                        AppvStsBackOff = await BaseClass.WebGetRefLib("ApplSts"),
+                        AppvStsEDP = await BaseClass.WebGetRefLib("ApplSts"),
+                        AppvStsQAOff = await BaseClass.WebGetRefLib("ApplSts"),
+                        Qualitative = await BaseClass.WebGetRefLib("QualitativeRating"),
+                        Quantitative = await BaseClass.WebGetRefLib("QuantitativeRating")
+                    };
+                    // var _credAssesIInfo = await objCardAcctSignUpOps.GetCAOGeneralInfo(null, ApplId);
+                    _credAssesIInfo.GracePeriod = 20;
+                    return Json(new { Model = _credAssesIInfo, Selects = _CaoSelects }, JsonRequestBehavior.AllowGet);
+
+
+
+                case "vel":
+                    var velocityLimitsList = new VeloctyLimitListMaintModel
+                    {
+                        VelocityInd = await BaseClass.WebGetRefLib("VelocityInd"),
+                        ProdCd = await BaseClass.WebGetProduct(null),
+                        CtrlType = await BaseClass.WebGetRefLib("CollateralType"),
+                    };
+                    var _Model = new VeloctyLimitListMaintModel
+                    {
+                        UserId = HttpContext.User.Identity.Name,
+                        CreationDate = System.DateTime.Now.ToString("dd/MM/yyyy")
+                    };
+                    return Json(new { Selects = velocityLimitsList, Model = _Model }, JsonRequestBehavior.AllowGet);
+
+
+
+                case "dep":
+                    var _adi = new CreditAssesOperation
+                    {
+                        DepositType = await BaseClass.WebGetRefLib("DepositType", null, "1"),
+                        BankAcctType = await BaseClass.WebGetRefLib("BankAcctType"),
+                        BankName = await BaseClass.WebGetRefLib("SecurityDepositBank"),
+                    };
+                    return Json(new { Selects = _adi, Model = new CreditAssesOperation() }, JsonRequestBehavior.AllowGet);
+
+                case "skd":
+                    var Model = new SKDS
+                    {
+                        UserId = this.GetUserId,
+                        CreationDate = DateConverter(DateTime.Now.ToShortDateString()),
+                    };
+                    var selects = new SKDS
+                    {
+                        Sts = await BaseClass.WebGetRefLib("prodsts"),
+                        SubsidyType = await BaseClass.WebGetRefLib("SubsidyLevel"),
+                        Category = BaseClass.GetDataVersion(),
+                        SubsidyLevel = await WebGetRefLib("SubsidyLevel")
+                    };
+                    return Json(new { Selects = selects, Model = Model }, JsonRequestBehavior.AllowGet);
+
+                case "add":
+                    var AddrSelects = new AddrListMaintModel
+                    {
+                        addrtype = await BaseClass.WebGetRefLib("Address"),
+                        Country = await BaseClass.WebGetRefLib("Country"),
+                        region = await BaseClass.WebGetRefLib("RegionCd"),
+                    };
+                    var AddrModel = new AddrListMaintModel
+                    {
+                        UserId = this.GetUserId,
+                        CreationDate = System.DateTime.Now.ToString(),
+                        RefTo = "APPL"
+                    };
+                    return Json(new { Selects = AddrSelects, Model = AddrModel }, JsonRequestBehavior.AllowGet);
+                case "con":
+                    var otherContactList = new ContactLstModel
+                    {
+                        ContactType = await BaseClass.WebGetRefLib("Contact"),
+                        Occupation = await BaseClass.WebGetRefLib("Occupation"),
+                        Sts = await BaseClass.WebGetRefLib("ContactSts"),
+                    };
+                    var model = new ContactLstModel
+                    {
+                        UserId = HttpContext.User.Identity.Name,
+                        CreationDate = System.DateTime.Now.ToString()
+                    };
+                    return Json(new { Selects = otherContactList, Model = model }, JsonRequestBehavior.AllowGet);
+
+                case "veh":
+                    var _VehiclesListModel = new VehiclesListModel
+                    {
+                        VehColor = await BaseClass.WebGetRefLib("Color"),
+                        VehMaker = await BaseClass.WebGetRefLib("VehMaker"),
+                        VehModel = await BaseClass.WebGetRefLib("VehSubModel"),
+                        CardType = await BaseClass.WebGetCardType(),
+                        Sts = await BaseClass.WebGetRefLib("AcctSts"),
+                        VehYr = BaseClass.WebGetYear(),
+                        VehType = await BaseClass.WebGetRefLib("VehType")
+                    };
+                    return Json(new { Selects = _VehiclesListModel, Model = new VehiclesListModel() }, JsonRequestBehavior.AllowGet);
+
+                case "mis":
+                    var _Mis = new MiscellaneousInfoModel
+                    {
+                        Designation = await BaseClass.WebGetRefLib("Occupation")
+                    };
+                    return Json(new { Model = new MiscellaneousInfoModel(), Selects = _Mis }, JsonRequestBehavior.AllowGet);
+                case "csc":
+                    return Json(new { Model = new CostCentre(), Selects = "" }, JsonRequestBehavior.AllowGet);
+                case "apr":
+                    var _milestone = new Milestone
+                    {
+                        Priority = await BaseClass.WebGetRefLib("MilestonePriority"),
+                        ReasonCd = await BaseClass.WebGetRefLib("ReasonCd"),
+                        Status = await BaseClass.WebGetRefLib("MilestoneSts"),
+                        Owner = await BaseClass.WebUserAccessListSelect(),
+                        //TaskNo = await BaseClass.WebGetNextMilestone(),
+                    };
+
+                    var _Status = _milestone.Status.ToList();
+                    var PendingItem = _Status.FirstOrDefault(p => p.Value == "P");
+                    _Status.Remove(PendingItem);
+
+
+                    _milestone.Status = _Status;
+
+
+
+                    return Json(new { Selects = _milestone, Model = new Milestone() }, JsonRequestBehavior.AllowGet);
+
+                default:
+                    HttpContext.Response.StatusCode = 404;
+                    return Json(null, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public async Task<ActionResult> ftGetAcctDepositInfoList(jQueryDataTableParamModel Params, string ApplId, string acctNo, string CorpCd)//, string acctNo, string CorpCd
+        {
+            var _filtered = new List<CreditAssesOperation>();
+            var list = await objCardAcctSignUpOps.GetAcctDepositInfoList(ApplId, acctNo, CorpCd);
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                Params.sSearch = Params.sSearch.ToLower();
+            }
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                _filtered = list.Where(p => p.SelectedDepositType.ToLower().Contains(Params.sSearch) || p.SelectedBankName.ToLower().Contains(Params.sSearch) || p.Txnid.Contains(Params.sSearch) || p.SelectedBankAcctType.ToLower().Contains(Params.sSearch) || p.BankAcctNo.Contains(Params.sSearch) || p.UserId.ToLower().Contains(Params.sSearch) || p.DepositAmt.Contains(Params.sSearch)).ToList();
+                _filtered = _filtered.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            else
+            {
+                _filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+
+            return Json(new
+            {
+                sEcho = Params.sEcho,
+                iTotalRecords = list.Count(),
+                iTotalDisplayRecords = list.Count(),
+                aaData = _filtered.Select(x => new object[] { x.DirectDebitInd,
+                    x.SelectedDepositType,
+                    x.SelectedBankAcctType, 
+                    x.SelectedBankName,
+                    x.BankAcctNo, 
+                    x.DepositAmt, 
+                    x.Txnid,
+                    x.BgSerialNo,
+                    x.SAPRefNo,
+                    x.UserId,
+                    x.Creationdt,
+                    x.DepositFromDate+"-"+x.DepositToDate})
+            }, JsonRequestBehavior.AllowGet);
+
+
+        }
+        public async Task<ActionResult> ftGetGetAcctDepositInfoDetail(string _applId, string TxnId, string CorpCd)
+        {
+            var data = await objCardAcctSignUpOps.GetAcctDepositInfoDetail(_applId, null, TxnId, CorpCd);
+
+            return Json(new { Adi = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveAcctDepositInfoOps(CreditAssesOperation _AcctDepositInfo, string applId, string CorpCd)//, string acctNo
+        {
+            var _SaveTxn = await objAcctOps.AcctDepositInfoMaint(_AcctDepositInfo, applId, CorpCd);
+
+            return Json(new { result = _SaveTxn }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadFiles(string applId, string FolderPath)
+        {
+            try
+            {
+<<<<<<< HEAD
+=======
+                var rootPath = System.Configuration.ConfigurationManager.AppSettings["uploadPath"];
+>>>>>>> dbeb831772728b15b106bae079b3851e23aefbd6
+                IEnumerable<string> values = Request.Headers.GetValues("ApplId");
+                applId = values.FirstOrDefault().Split(',').First();
+
+                var rootPath = GetDirectory(applId, FolderPath);
+
+                var _Path = Path.Combine(rootPath, applId);
+                var files = new List<fileManagerFiles>();
+                if (!Directory.Exists(_Path))
+                    Directory.CreateDirectory(_Path);
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+                    var FileName = Path.Combine(rootPath, applId, file.FileName);
+                    file.SaveAs(FileName);
+
+                    var Info = new fileManagerFiles
+                    {
+                        FileName = file.FileName,
+                        Size = (file.ContentLength / 1024).ToString(),
+                        Extension = MimeMapping.GetMimeMapping(file.FileName),
+                        CreatedDate = DateTime.Now.ToString()
+                    };
+                    files.Add(Info);
+                }
+                return Json(files);
+            }
+            catch (Exception)
+            {
+                return Json(new { });
+            }
+        }
+
+        public async Task<ActionResult> GetFiles(string ApplId, string FolderPath)
+        {
+            var _Dir = GetDirectory(ApplId, FolderPath);
+          _Dir = Path.Combine(_Dir, ApplId);
+            if (!Directory.Exists(_Dir))
+                return Json(new { files = new List<fileManagerFiles>() }, JsonRequestBehavior.AllowGet);
+            var _Files = new DirectoryInfo(_Dir).GetFiles();
+            var InfoList = new List<fileManagerFiles>();
+            foreach (var item in _Files)
+            {
+                var file = new fileManagerFiles();
+                file.FileName = item.Name;
+                file.Extension = MimeMapping.GetMimeMapping(item.Name);
+                file.CreatedDate = item.CreationTime.ToString();
+                file.Size = (item.Length / 1024).ToString();
+                InfoList.Add(file);
+            }
+            return Json(new { files = InfoList }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> RemoveFile(string FileName, string ApplId, string FolderPath)
+        {
+            var _Dir = GetDirectory(ApplId, FolderPath);
+            var _File = Path.Combine(_Dir, ApplId, FileName);
+            System.IO.File.Delete(_File);
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> DownloadFile(string FileName, string ApplId, string FolderPath)
+        {
+            var _Dir = GetDirectory(ApplId, FolderPath);
+            var _File = Path.Combine(_Dir, ApplId, FileName);
+            Byte[] fileContent = System.IO.File.ReadAllBytes(_File);
+            string contentType = MimeMapping.GetMimeMapping(FileName);
+            return File(fileContent, contentType, FileName);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveMisecInfo(MiscellaneousInfoModel _miscsInfo)
+        {
+            var _SaveFinancialInfoMaint = await objCardAcctSignUpOps.SaveMiscellaneousInfo(_miscsInfo);
+            return Json(new { resultCd = _SaveFinancialInfoMaint }, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> ftMiscellaneousInfoDetail(int applId)
+        {
+            var data = await objCardAcctSignUpOps.GetMiscellaneousInfoDetail(applId);
+
+            return Json(new { mis = data }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<ActionResult> SaveCreditAssessmentOperation(CreditAssesOperation _SaveCreditAssesOperation)
+        {
+            var _saveCreditAssesOperation = await objCardAcctSignUpOps.SaveCreditAssessmentOperation(_SaveCreditAssesOperation);
+            return Json(new { resultCd = _saveCreditAssesOperation }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveContact(ContactLstModel _ContactList, string RefTo, string Func)
+        {
+            var _saveContactMaint = await objCardAcctSignUpOps.SaveContactsList(_ContactList, RefTo, Func);
+            return Json(new { resultCd = _saveContactMaint }, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> DelContact(string RefTo, string RefKey, string RefCd)
+        {
+            var _deleteContactMaint = await objCardAcctSignUpOps.DelContact(RefTo, RefKey, RefCd);
+            return Json(new { resultCd = _deleteContactMaint }, JsonRequestBehavior.AllowGet);
+        }
+        [CompressFilter]
+        public async Task<ActionResult> ftContactList(jQueryDataTableParamModel Params, string RefTo, string RefKey)
+        {
+            var _filtered = new List<ContactLstModel>();
+            var list = await objCardAcctSignUpOps.GetContactlist(RefTo, RefKey);
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                Params.sSearch = Params.sSearch.ToLower();
+            }
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                _filtered = list.Where(p => p.SelectedContactType.ToLower().Contains(Params.sSearch) || p.ContactName.ToLower().Contains(Params.sSearch) || p.ContactNo.Contains(Params.sSearch) || p.SelectedSts.ToLower().Contains(Params.sSearch) || p.EmailAddr.ToLower().Contains(Params.sSearch)).ToList();
+                _filtered = _filtered.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            else
+            {
+                _filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+
+            return Json(new
+            {
+                sEcho = Params.sEcho,
+                iTotalRecords = list.Count,
+                iTotalDisplayRecords = list.Count,
+                aaData = _filtered.Select(x => new object[] { x.RefCd, x.SelectedContactType, x.ContactName, x.ContactNo, x.SelectedSts, x.EmailAddr, x.CreationDate, x.UserId })
+            }, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> ftContactDetail(string RefTo, string RefKey, string RefCd)
+        {
+            var data = await objCardAcctSignUpOps.GetContactDetail(RefTo, RefKey, RefCd);
+
+            return Json(new { contact = data }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> SaveApplicationGeneralInfo(AcctSignUp _ApplicationSignUp)
+        {
+            var _SaveAcctSignUp = await objCardAcctSignUpOps.SaveApplicationGeneralInfoResult(_ApplicationSignUp);
+            return Json(new { resultCd = _SaveAcctSignUp, ApplId = objCardAcctSignUpOps.ApplId, EntityId = objCardAcctSignUpOps.EntityId }, JsonRequestBehavior.AllowGet);
+        }
+
+        [CompressFilter]
+        // [OutputCache(Duration = 30, VaryByParam = "iDisplayStart")]
+        public async Task<ActionResult> ftAcctSignUpList(jQueryDataTableParamModel Params, bool isExport = false)
+        {
+            var _filtered = new List<AcctSignUp>();
+            var list = await objCardAcctSignUpOps.GetAcctSignUpList(null, null);
+            //var list = new List<AcctSignUp>();
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                Params.sSearch = Params.sSearch.ToLower();
+            }
+
+            //if (System.Web.HttpContext.Current.Cache["WebApplListSelect"] == null)
+            //{
+            //    list = await objCardAcctSignUpOps.GetAcctSignUpList(null, null);
+            //    System.Web.HttpContext.Current.Cache["WebApplListSelect"] = list;
+            //}
+            //else
+            //{
+            //    list = (List<AcctSignUp>)System.Web.HttpContext.Current.Cache["WebApplListSelect"];
+            //}
+            if (isExport)
+            {
+                var title = "Applications List-" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+                var toExport = new List<string[]>();
+                var Header = list.First().Excelheader();
+                foreach (var item in list)
+                {
+                    toExport.Add(item.ExcelBody());
+                }
+                var ExcelPkg = CreateExcel(Header, toExport, title);
+                return File(ExcelPkg.GetAsByteArray(), "application/vnd.ms-excel", title + ".xlsx");
+                //return this.File(new UTF8Encoding().GetBytes(toExport.ToString()), "text/csv", "CardsList-"+AcctNo+".csv");
+            }
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                _filtered = list.Where(p => p.ApplicationId.Contains(Params.sSearch) || p.AcctNo.Contains(Params.sSearch) || p.CompanyName.ToLower().Contains(Params.sSearch.ToLower())).ToList();
+                _filtered = _filtered.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            else
+            {
+                _filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            return Json(new
+            {
+                sEcho = Params.sEcho,
+                iTotalRecords = list.Count,
+                iTotalDisplayRecords = list.Count,
+                aaData = _filtered.Select(x => new object[] { x.ApplicationId, x.AcctNo, x.CompanyName, x.SelectedCorporateAcct, x.ShownCreditLimit, x.PendingReasons, x.CreationDatenUserid.UserId, x.CreationDatenUserid.CreationDate, x.ApprovedDate, x.AppvCd })
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [CompressFilter]
+        public async Task<ActionResult> ftVelocityList(jQueryDataTableParamModel Params, VeloctyLimitListMaintModel _CustAcctVelocity, CardnAccNo cardnAccNo)
+        {
+            _CustAcctVelocity._CardnAccNo = cardnAccNo;
+            var _filtered = new List<VeloctyLimitListMaintModel>();
+            var list = await objCardAcctSignUpOps.GetCustAcctVelocityList(_CustAcctVelocity);
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                Params.sSearch = Params.sSearch.ToLower();
+            }
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                _filtered = list.Where(p => p.VelocityIndDescp.ToLower().Contains(Params.sSearch) || p.SelectedProdCd.ToLower().Contains(Params.sSearch) || p.velocityCounter.Contains(Params.sSearch) || p.ddlVelocityLimit.Contains(Params.sSearch) || p.ddlVelocityLitre.ToString().Contains(Params.sSearch) || p.LastUpdateDate.Contains(Params.sSearch) || p.UserId.ToLower().Contains(Params.sSearch) || p.CreationDate.Contains(Params.sSearch) || p.SelectedVelocityInd.ToLower().Contains(Params.sSearch) || p.SelectedProdCd.ToLower().Contains(Params.sSearch)).ToList();
+                _filtered = _filtered.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            else
+            {
+                _filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            return Json(new
+            {
+                sEcho = Params.sEcho,
+                iTotalRecords = list.Count(),
+                iTotalDisplayRecords = list.Count(),
+                aaData = _filtered.Select(x => new object[] { x.VelocityIndDescp, x.velocityCounter, x.ddlVelocityLimit, x.LastUpdateDate, x.UserId, x.CreationDate, x.SpentCnt, x.SpentLimit, x.SpentLitre, x.SelectedVelocityInd, x.SelectedProdCd })//, x.ddlVelocityLitre
+
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> ftVelocityDetail(VeloctyLimitListMaintModel _VelocityLimit, CardnAccNo _CardnAcct)
+        {
+            _VelocityLimit._CardnAccNo = _CardnAcct;
+            var data = await objCardAcctSignUpOps.GetCustAcctVelocityDetail(_VelocityLimit);
+
+            return Json(new { velocity = data }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<ActionResult> SaveVelocityLimit(VeloctyLimitListMaintModel _VelocityLimitnList, string applId, CardnAccNo _cardnAcct, string Func)
+        {
+            _VelocityLimitnList._CardnAccNo = _cardnAcct;
+            var _saveCustAcctVelocity = await objCardAcctSignUpOps.SaveCustAcctVelocity(_VelocityLimitnList, applId, Func);
+            return Json(new { resultCd = _saveCustAcctVelocity }, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> DelVelocityLimit(string AccNo, string CardNo, string ApplId, string AppcId, string VelInd, string ProdCd, string CostCentre, string corpCd)
+        {
+            var _deleteCustAcctVelocity = await objCardAcctSignUpOps.DelCustAcctVelocity(AccNo, CardNo, ApplId, AppcId, VelInd, ProdCd, CostCentre, corpCd);
+            return Json(new { resultCd = _deleteCustAcctVelocity }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveAddress(AddrListMaintModel _AddressList, string RefCd, string RefTo, string RefKey, string Func)
+        {
+            var _saveAddressMaint = await objCardAcctSignUpOps.SaveAddressList(_AddressList, RefTo, RefCd, RefKey, Func);
+            return Json(new { resultCd = _saveAddressMaint }, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> DelAddress(string RefTo, string RefKey, string RefCd)
+        {
+            var _deleteAddressResult = await objCardAcctSignUpOps.DelAddress(RefTo, RefKey, RefCd);
+            return Json(new { result = _deleteAddressResult }, JsonRequestBehavior.AllowGet);
+        }
+        [CompressFilter]
+        public async Task<ActionResult> ftAddressList(jQueryDataTableParamModel Params, string RefTo, string RefKey)
+        {
+            var _filtered = new List<AddrListMaintModel>();
+            var list = await objCardAcctSignUpOps.GetAddressList(RefTo, RefKey);
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                Params.sSearch = Params.sSearch.ToLower();
+            }
+
+            if (!string.IsNullOrEmpty(Params.sSearch) && list != null)
+            {
+                _filtered = list.Where(p => p.Address1.ToLower().Contains(Params.sSearch) || p.Address2.ToLower().Contains(Params.sSearch) | p.Address3.ToLower().Contains(Params.sSearch) || p.SelectedAddrType.ToLower().Contains(Params.sSearch) || p.Selectedstate.ToLower().Contains(Params.sSearch) || p.City.ToLower().Contains(Params.sSearch) || p.PostalCode.Contains(Params.sSearch)).ToList();
+                _filtered = _filtered.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            else
+            {
+                _filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+
+            return Json(new
+            {
+                sEcho = Params.sEcho,
+                iTotalRecords = list.Count,
+                iTotalDisplayRecords = list.Count,
+
+                aaData = _filtered.Select(x => new object[] { x.SelectedRefCd, x.SelectedAddrType, x.SelectedMailInd, x.Address1, x.Address2, x.Address3, x.Address4, x.Address5, x.City, x.Selectedstate, x.PostalCode, x.SelectedCountry, x.selectedregion, x.SelectedRefCd })//  
+
+
+            }, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> ftAddressDetail(string RefTo, string RefKey, string RefCd)
+        {
+            var data = await objCardAcctSignUpOps.GetAddressDetail(RefTo, RefKey, RefCd);
+
+            return Json(new { address = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> WebGetState(string CountryCd)
+        {
+            var States = await BaseClass.WebGetState(GetIssNo, CountryCd);
+            return Json(States, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> SaveVehicleLimit(VehiclesListModel _VehiclesListModel)
+        {
+            var _saveCustAcctVelocity = await objCardAcctSignUpOps.SaveVehicleList(_VehiclesListModel);
+            return Json(new { resultCd = _saveCustAcctVelocity }, JsonRequestBehavior.AllowGet);
+        }
+        [CompressFilter]
+        public async Task<ActionResult> ftVehicleList(jQueryDataTableParamModel Params, string ApplId = null, string AcctNo = null, bool isExport = false)
+        {
+            var _filtered = new List<VehiclesListModel>();
+            var list = await objCardAcctSignUpOps.GetVehicleList(AcctNo, ApplId);
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                Params.sSearch = Params.sSearch.ToLower();
+            }
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                _filtered = list.Where(p => p.CardNo.Contains(Params.sSearch) || p.SelectedCardType.ToString().ToLower().Contains(Params.sSearch) || p.pin.Contains(Params.sSearch) || p.VehRegtNo.ToLower().Contains(Params.sSearch) || p.VehRegDate.Contains(Params.sSearch) || p.SelectedVehMaker.ToLower().Contains(Params.sSearch) || p.SelectedSts.ToLower().Contains(Params.sSearch) || p.XrefCardNo.Contains(Params.sSearch) || p.OdoMeterReading.Contains(Params.sSearch) || p.OdoMeterUpdate.ToLower().Contains(Params.sSearch) || p.AppcId.Contains(Params.sSearch)).ToList();
+                _filtered = _filtered.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            else
+            {
+                _filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+
+            //var list = await objCardAcctSignUpOps.GetVehicleList(AcctNo, ApplId);
+
+            //var filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength);
+
+            if (isExport)
+            {
+                var title = "Vehicle List- Application ID: " + ApplId;
+                var toExport = new List<string[]>();
+                var Header = list.First().CsvHeader();
+                foreach (var item in list)
+                {
+                    toExport.Add(item.ToCsv());
+                }
+                var ExcelPkg = CreateExcel(Header, toExport, title);
+                return File(ExcelPkg.GetAsByteArray(), "application/vnd.ms-excel", title + ".xlsx");
+            }
+            if (!string.IsNullOrEmpty(AcctNo))
+            {
+                return Json(new
+                {
+                    sEcho = Params.sEcho,
+                    iTotalRecords = list.Count(),
+                    iTotalDisplayRecords = list.Count(),
+                    aaData = _filtered.Select(x => new object[] { x.CardNo, x.SelectedCardType, x.pin, x.VehRegtNo, x.SelectedSts, x.XrefCardNo, x.OdoMeterReading, x.OdoMeterUpdate, x.PolicyExpDate, x.AppcId })
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    sEcho = Params.sEcho,
+                    iTotalRecords = list.Count(),
+                    iTotalDisplayRecords = list.Count(),
+                    aaData = _filtered.Select(x => new object[] { x.AppcId, x.SelectedCardType, x.pin, x.VehRegtNo, x.SelectedSts, x.XrefCardNo, x.OdoMeterReading, x.OdoMeterUpdate, x.PolicyExpDate, x.AppcId })
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public async Task<ActionResult> ftVehicleDetail(VehiclesListModel _VehiclesListModel)
+        {
+            var data = await objCardAcctSignUpOps.GetVehicleDetail(_VehiclesListModel);
+
+            return Json(new { vehicle = data }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> SaveSKDS(SKDS _SKDS, CardnAccNo _CardnAcctNo)
+        {
+            _SKDS._CardnAccNo = _CardnAcctNo;
+            var _SaveSkds = await objCardAcctSignUpOps.SaveSKDS(_SKDS);
+            return Json(new { result = _SaveSkds }, JsonRequestBehavior.AllowGet);
+        }
+        [CompressFilter]
+        public async Task<ActionResult> ftSKDSList(jQueryDataTableParamModel Params, SKDS _SKDS, CardnAccNo _CardnAcct)
+        {
+            _SKDS._CardnAccNo = _CardnAcct;
+            var _filtered = new List<SKDS>();
+            var list = await objCardAcctSignUpOps.GetSKDSList(_SKDS);
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                Params.sSearch = Params.sSearch.ToLower();
+            }
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                _filtered = list.Where(p => p.SKDSNo.Contains(Params.sSearch) || p.TxnId.Contains(Params.sSearch) || p.EffFromDate.Contains(Params.sSearch) || p.EffToDate.Contains(Params.sSearch) || p.CreationDate.Contains(Params.sSearch) || p.UserId.ToLower().Contains(Params.sSearch) || p.CreationDate.Contains(Params.sSearch)).ToList();
+                _filtered = _filtered.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            else
+            {
+                _filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+
+            return Json(new
+            {
+                sEcho = Params.sEcho,
+                iTotalRecords = list.Count(),
+                iTotalDisplayRecords = list.Count(),
+                aaData = _filtered.Select(x => new object[] { x.SKDSNo, x.SelectedSubsidyLevel, x.SKDSLitreQuota, x.EffFromDate, x.EffToDate, x.Refference, x.UserId, x.CreationDate, x.TxnId })
+            }, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> ftSKDSDetail(SKDS _SKDS, CardnAccNo _CardNAcctNo)
+        {
+            _SKDS._CardnAccNo = _CardNAcctNo;
+            var data = await objCardAcctSignUpOps.GetSKDSDetail(_SKDS);
+            return Json(new { subs = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public string GetDirectory(string ApplId, string FolderPath)
+        {
+            string _Dir = string.Empty;
+
+            if (!String.IsNullOrEmpty(FolderPath))
+            {
+                if (FolderPath.ToLower() == Convert.ToString((int)Enums.FileFolderPath.Fraud).ToLower())
+                {
+                    _Dir = System.Configuration.ConfigurationManager.AppSettings["uploadPathFraud"];
+                }
+                else
+                {
+                    //amended by max, 20160512 - just to make sure do not miss out any possibilities
+                    _Dir = System.Configuration.ConfigurationManager.AppSettings["uploadPath"];
+                }
+            }
+            else
+            {
+                _Dir = System.Configuration.ConfigurationManager.AppSettings["uploadPath"];
+            }
+
+            return _Dir;
+        }
+
+        #region "Milestone"
+        [CompressFilter]
+        public async Task<ActionResult> WebMilestoneListSelect(jQueryDataTableParamModel Params, Milestone _milestone)
+        {
+            var _filtered = new List<Milestone>();
+            var list = await objCardAcctSignUpOps.WebMilestoneListSelect(_milestone);//new List<Milestone>();
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                Params.sSearch = Params.sSearch.ToLower();
+            }
+
+            //if (_milestone.workflowcd == "APPL")
+            //{
+            //    if (System.Web.HttpContext.Current.Cache["WebMilestoneListSelect"] != null)
+            //    {
+            //        list = (List<Milestone>)System.Web.HttpContext.Current.Cache["WebMilestoneListSelect"];
+            //    }
+            //    else
+            //    {
+            //        list = await objCardAcctSignUpOps.WebMilestoneListSelect(_milestone);
+            //        System.Web.HttpContext.Current.Cache["WebMilestoneListSelect"] = list;
+            //    }
+            //}
+            //else if (_milestone.workflowcd == "Adj")
+            //{
+            //    if (System.Web.HttpContext.Current.Cache["WebAdjMilestoneListSelect"] != null)
+            //    {
+            //        list = (List<Milestone>)System.Web.HttpContext.Current.Cache["WebAdjMilestoneListSelect"];
+            //    }
+            //    else
+            //    {
+            //        list = await objCardAcctSignUpOps.WebMilestoneListSelect(_milestone);
+            //        System.Web.HttpContext.Current.Cache["WebAdjMilestoneListSelect"] = list;
+            //    }
+            //}
+            //else
+            //{
+            //    if (System.Web.HttpContext.Current.Cache["WebPymtMilestoneListSelect"] != null)
+            //    {
+            //        list = (List<Milestone>)System.Web.HttpContext.Current.Cache["WebPymtMilestoneListSelect"];
+            //    }
+            //    else
+            //    {
+            //        list = await objCardAcctSignUpOps.WebMilestoneListSelect(_milestone);
+            //        System.Web.HttpContext.Current.Cache["WebPymtMilestoneListSelect"] = list;
+            //    }
+            //}
+
+            if (!string.IsNullOrEmpty(Params.sSearch))
+            {
+                _filtered = list.Where(p => p.RefKey.ToString().Contains(Params.sSearch) || p.CompanyName.ToLower().Contains(Params.sSearch) || p.SelectedTaskNo.Contains(Params.sSearch) || p.selectedPriority.ToLower().Contains(Params.sSearch) || p.selectedStatus.ToLower().Contains(Params.sSearch) || p.CreationDate.Contains(Params.sSearch)).ToList();
+                _filtered = _filtered.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            else
+            {
+                _filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength).ToList();
+            }
+            if (_milestone.workflowcd == "Adj" || _milestone.workflowcd == "Pymt")
+            {
+                return Json(new
+                {
+                    sEcho = Params.sEcho,
+                    iTotalRecords = list.Count(),
+                    iTotalDisplayRecords = list.Count(),
+                    aaData = _filtered.Select(x => new object[] { x.RefKey, x.AcctNo, x.CompanyName, x.SelectedTaskNo, x.TaskDescp, x.selectedPriority, x.selectedStatus, x.CreationDate, x.LastUpdDate })
+                    //aaData = _filtered.Select(x => new object[] { x.RefKey, x.SelectedTaskNo, x.selectedPriority, x.selectedStatus, x.CreationDate, x.LastUpdDate })// x.selectedReasonCd, x.Remarks, x.Remarks, x.RecallDate,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    sEcho = Params.sEcho,
+                    iTotalRecords = list.Count(),
+                    iTotalDisplayRecords = list.Count(),
+                    aaData = _filtered.Select(x => new object[] { x.RefKey, x.CompanyName, x.SelectedTaskNo, x.TaskDescp, x.selectedPriority, x.selectedStatus, x.CreationDate, x.LastUpdDate })
+                    //aaData = _filtered.Select(x => new object[] { x.RefKey, x.AcctNo, x.SelectedTaskNo, x.selectedPriority, x.selectedStatus, x.CreationDate, x.LastUpdDate })// x.selectedReasonCd, x.Remarks, x.Remarks, x.RecallDate,
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+
+            //var list = await objCardAcctSignUpOps.WebMilestoneListSelect(_milestone);
+            //var filtered = list.Skip(Params.iDisplayStart).Take(Params.iDisplayLength);
+            //return Json(new
+            //{
+            //    sEcho = Params.sEcho,
+            //    iTotalRecords = list.Count(),
+            //    iTotalDisplayRecords = list.Count(),
+            //    aaData = filtered.Select(x => new object[] { x.RefKey,
+            //        x.SelectedTaskNo, x.selectedPriority, x.selectedReasonCd, x.Remarks,x.RecallDate,x.selectedStatus,x.CreationDate,x.LastUpdDate})
+            //}, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> WebMilestoneHistorySelect(Milestone _milestone)
+        {
+            var data = await objCardAcctSignUpOps.WebMilestoneHistorySelect(_milestone);
+            return Json(new { result = data, user = BaseClass.GetClaimsInfo("userid") }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> WebMilestoneApplValidation(Milestone _milestone)
+        {
+            var data = await objCardAcctSignUpOps.WebMilestoneApplValidation(_milestone);
+            return Json(new { result = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveMileStone(Milestone _milestone)
+        {
+            var SaveMile = await objCardAcctSignUpOps.SaveMilestone(_milestone);
+            return Json(new { result = SaveMile }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> ftMilestoneInfo(Milestone _milestone)
+        {
+            var data = await objCardAcctSignUpOps.MilestoneInfo(_milestone);
+            data.aprId = _milestone.aprId;
+            if (!string.IsNullOrEmpty(data.validationSP))
+            {
+                await objCardAcctSignUpOps.WebMilestoneApplValidation(data);
+            }
+            return Json(new { result = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> GetTaskNo(int CurrentTaskNo, string WorkFlowCd)//, string WorkFlowCd
+        {
+            var data = await BaseClass.WebGetNextMilestone(CurrentTaskNo, WorkFlowCd);// "APPL"
+
+            return Json(new { result = data }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<ActionResult> GetTaskNos(List<int> TaskNos, string WorkFlowCd)
+        {
+            var _list = new List<IEnumerable<SelectListItem>>();
+            foreach (var item in TaskNos)
+            {
+                var data = await BaseClass.WebGetNextMilestone(item, WorkFlowCd);// "APPL"
+                _list.Add(data);
+            }
+            return Json(new { list = _list }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> FtMileStoneInfoList(List<Milestone> _milestones)
+        {
+            var _list = new List<Milestone>();
+            foreach (var item in _milestones)
+            {
+                var data = await objCardAcctSignUpOps.MilestoneInfo(item);
+                data.aprId = item.aprId;
+                if (!string.IsNullOrEmpty(data.validationSP))
+                {
+                    await objCardAcctSignUpOps.WebMilestoneApplValidation(data);
+                }
+                _list.Add(data);
+            }
+            return Json(new { lsItems = _list }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveMilestoneAdj(Milestone _milestone)
+        {
+            var SaveMileAdj = await objCardAcctSignUpOps.SaveMilestoneAdj(_milestone);
+            return Json(new { result = SaveMileAdj }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveMilestonePayment(Milestone _milestone)
+        {
+            var SaveMilePymt = await objCardAcctSignUpOps.SaveMilestonePayment(_milestone);
+            return Json(new { result = SaveMilePymt }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveMilestoneMerchant(Milestone _milestone)
+        {
+            var SaveMileMerch = await objCardAcctSignUpOps.SaveMilestoneMerchant(_milestone);
+            return Json(new { result = SaveMileMerch }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+    }
+}

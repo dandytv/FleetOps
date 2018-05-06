@@ -1,0 +1,146 @@
+﻿@using FleetOps.Models;
+@using FleetSys.Models;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.TItle</title>
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+</head>
+
+<body class="container">
+    <style type="text/css">
+        .navbar-brand {
+            padding: 3px 15px;
+        }
+
+        .sidebar ul.nav.nav-sidebar li a {
+            font-size: 14px;
+            text-transform: none;
+        }
+
+            .sidebar ul.nav.nav-sidebar li a:hover {
+                background: #2c3334;
+                color: white;
+            }
+    </style>
+    <div class="hideScrollBar">
+        <div class="sidebar">
+            @RenderSection("ModuleSidebar", false)
+        </div>
+    </div>
+        <div class="mm-page">
+            <div class="navbar" role="navigation">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"> <img style="width: 55%;height: 44px;position: relative;left: 52px;" src="~/Content/images/Edenred_Logo.png" /></a>
+                    @*<a class="navbar-brand" href="#"> <img style="width: 55%;height: 44px;position: relative;left: 52px;" src="~/Content/images/pnx-logo.png" /></a>*@
+                </div>
+                <ul class="nav navbar-nav navbar-actions navbar-left">
+                    <li class="visible-md visible-lg"><a href="#" id="main-menu-toggle"><i class="fa fa-compress"></i></a></li>
+                    <li class="visible-xs visible-sm"><a href="#" id="sidebar-menu"><i class="fa fa-compress"></i></a></li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" id="txt-top-search" placeholder="Search here">
+                </form>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown visible-md visible-lg">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i></a>
+                        <ul class="dropdown-menu" id="ul-searchParams">
+                            <li class="dropdown-menu-header text-center"><strong>Shortcuts</strong></li>
+                            <li><a href="#"><i class="fa fa-bell-o"></i>Applications<span class="label label-info">apl</span></a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i>Accounts<span class="label label-success">acc</span></a></li>
+                            <li><a href="#"><i class="fa fa-tasks"></i> Merchants <span class="label label-danger">mid</span></a></li>
+                            <li><a href="#"><i class="fa fa-comments"></i> Business Location<span class="label label-warning">bsn</span></a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-nav">
+
+                    <li class="dropdown visible-md visible-lg">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear"></i></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-menu-header text-center">
+                                <strong>Account</strong>
+                            </li>
+                            <li><a href="#"><i class="fa fa-bell-o"></i> Updates <span class="label label-info">42</span></a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i> Messages <span class="label label-success">42</span></a></li>
+                            <li><a href="#"><i class="fa fa-tasks"></i> Tasks <span class="label label-danger">42</span></a></li>
+                            <li><a href="#"><i class="fa fa-comments"></i> Comments <span class="label label-warning">42</span></a></li>
+                            <li class="dropdown-menu-header text-center">
+                                <strong>Settings</strong>
+                            </li>
+                            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                            <li><a href="#"><i class="fa fa-wrench"></i> Settings</a></li>
+                            <li><a href="#"><i class="fa fa-usd"></i> Payments <span class="label label-default">42</span></a></li>
+                            <li><a href="#"><i class="fa fa-file"></i> Projects <span class="label label-primary">42</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-shield"></i> Lock Profile</a></li>
+                            <li><a href="#"><i class="fa fa-lock"></i> Logout</a></li>
+                        </ul>
+
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right visible-md visible-lg" style="margin-right:20px;">
+                    <li><button onclick="location.href='Applications#/new'" class="btn btn-success">New Application</button></li>
+                    <li><span class="timer"><i class="fa fa-clock-o"></i><span id="clock"><!-- JavaScript clock will be displayed here, if you want to remove clock delete parent <li> --></span></span></li>
+                    <li><a class="user" href="javascript:;"><i class="fa fa-user"></i>&nbsp;<h5 class="text-primary">@BaseClass.GetClaimsInfo("userid")</h5></a></li>
+                    <li class="dropdown visible-md visible-lg">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear"></i><span class="badge">!</span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-menu-header text-center">
+                                <strong>Account</strong>
+                            </li>
+                            <li><a href="#"><i class="fa fa-bell-o"></i> Updates <span class="label label-info">42</span></a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i> Messages <span class="label label-success">42</span></a></li>
+                            <li><a href="#"><i class="fa fa-tasks"></i> Tasks <span class="label label-danger">42</span></a></li>
+                            <li class="dropdown-menu-header text-center">
+                                <strong>Settings</strong>
+                            </li>
+                            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                            <li><a href="#"><i class="fa fa-wrench"></i> Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-shield"></i> Lock Profile</a></li>
+                            <li><a href="#"><i class="fa fa-lock"></i> Logout</a></li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </div>
+            <!-- end: Header -->
+            @RenderBody()
+        </div>
+        <script src="~/Content/scripts/jquery-2.1.1.min.js"></script>
+        <script src="~/Content/scripts/jquery-migrate-1.2.1.min.js"></script>
+        <script src="~/Content/scripts/pace.min.js"></script>
+        <script src="~/Content/scripts/jquery.mmenu.min.js"></script>
+        <script src="~/Content/scripts/core.min.js"></script>
+        <script src="~/Content/scripts/jquery.cookie.min.js"></script>
+        <script src="~/Content/scripts/pageScripts.js"></script>
+        <script src="~/Scripts/angular.js"></script>
+        <script src="~/Scripts/angular-route.js"></script>
+        <script src="~/Content/scripts/bootstrap.min.js"></script>
+        @RenderSection("CustomPageScript", false)
+        <script type="text/javascript">
+            $(function () {
+                $("#open-close").addClass("closed");
+                $("#open-close").click(function () {
+                    alert();
+                    if ($(this).hasClass("closed")) {
+                        $(this).parent().animate({
+                            right: "+=200"
+                        }, 500);
+                        $(this).removeClass("closed")
+                    } else {
+                        $(this).parent().animate({
+                            right: "-=200"
+                        }, 500);
+                        $(this).addClass("closed")
+                    }
+                });
+            })
+        </script>
+</body>
+</html>

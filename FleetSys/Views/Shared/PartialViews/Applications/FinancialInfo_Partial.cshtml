@@ -1,0 +1,47 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model ModelSector.FinancialInfoModel
+
+
+<form id="formApplicationGeneralInfo" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            @*<div class="panel-heading">
+                    <h2><strong>Application General Info</strong></h2>
+                    <div class="panel-actions">
+                        <a href="#" class="btn-minimize"><i class="fa fa-check"></i></a>
+                        <a href="#" class="btn-close"><i class="fa fa-camera"></i></a>
+                    </div>
+                </div>*@
+            <div class="panel-body">
+                <br />
+                <br />
+                @Html.CustomNgTextBoxFor(model => model.TaxId, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.CredtAllowanceFact, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.AccrdInterest, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.AccrdCrdtUsg, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.PromPaymtRebate, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.PPRGracePeriod, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.LitreLimitPerTxn, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.AmtLimitPerTxn, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.CycNo, null, new { width = "1-2" })
+                @Html.CustomNgSelectListFor(model => model.SelectedStmtType, Model.StmtType, null, new { @Name = "StmtType", @section = "fin", width = "1-2" })
+                @Html.CustomNgSelectListFor(model => model.SelectedStmtInd, Model.StmtInd, null, new { @Name = "StmtInd", @section = "fin", width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.StmtDate, null, new { width = "1-2" })
+                @Html.CustomNgSelectListFor(model => model.SelectedPaymtMethod, Model.PaymtMethod, null, new { @Name = "PaymtMethod", @section = "fin", width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.PaymtTerm, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.GracePeriod, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.DirectDebitInd, null, new { width = "1-2" })
+                @Html.CustomNgSelectListFor(model => model.SelectedBankAcctType, Model.BankAcctType, null, new { @Name = "BankAcctType", @section = "fin", width = "1-2" })
+                @Html.CustomNgSelectListFor(model => model.selectedBankName, Model.BankName, null, new { @Name = "BankName", @section = "fin", width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.BankAcctNo, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.BankBranchCD, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.VATRate, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.WriteoffDate, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.LastPaymtType, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.LastPaymtReceived, null, new { width = "1-2" })
+                @Html.CustomNgTextBoxFor(model => model.LastPaymtDate, null, new { width = "1-2" })
+                </div>
+            </div>
+        </div>
+    </form>

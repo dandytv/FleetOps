@@ -1,0 +1,92 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model ModelSector.UpToDateBal
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form id="formUpToDateBal" class="form-horizontal">
+
+                @*@Html.HiddenFor(model => model.SelectedAcctType, null)*@
+                @Html.CustomNgTextBoxFor(model => model.CreditLimit, null, new { @section = "Up-To-Date-Balance", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.OpeningBal, null, new { @section = "Up-To-Date-Balance", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.InstantAmt, null, new { @section = "Up-To-Date-Balance", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.UnpostedAmt, null, new { @section = "Up-To-Date-Balance", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.ClosingBal, null, new { @section = "Up-To-Date-Balance", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.OpeningPtsBal, null, new { @section = "Up-To-Date-Balance", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.InstantPts, null, new { @section = "Up-To-Date-Balance", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.UnpostedPts, null, new { @section = "Up-To-Date-Balance", @readonly = "readonly" })
+            </form>
+            <div class="subnav subsub" id="finInfiToggler" style="margin-bottom:90px">
+                <div class="navbar">
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle tooltip-toggle" rel="tooltip" data-placement="bottom" data-original-title="Options"
+                               data-toggle="dropdown"
+                               href="#">
+                                <i class="icon-align-justify"></i>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                @if (!Html.NotAuthorized("Up-To-Date-Balance", "InstantTxn"))
+                                {
+                                    <li><a @(Html.IsReadOnly("Up-To-Date-Balance", "InstantTxn") ? "" : "id=viewFinInstTxnList") href="#">Instant Transactions List</a></li>
+                                }
+                                @if (!Html.NotAuthorized("Up-To-Date-Balance", "UnpostedTxn"))
+                                {
+                                    <li><a @(Html.IsReadOnly("Up-To-Date-Balance", "UnpostedTxn") ? "" : "id=viewFinUnpostedTxnList") href="#">Unposted Transactions List</a></li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="financialInfoTblInstHolder" class="zerotop" style="display:none">
+                <table id="tblFinInfoInstTxnList">
+                    <thead>
+                        <tr>
+                            <th>TxnId</th>
+                            <th>LBE</th>
+                            <th>CardNo</th>
+                            <th>TxnAmt</th>
+                            <th>BookingDate</th>
+                            <th>TxnDate</th>
+                            <th>DueDate</th>
+                            <th>Descp</th>
+                            <th>UserId</th>
+                            <th>CreationDate</th>
+                            <th>RcptNo</th>
+                            <th>TxnCd</th>
+                            <th>ShortDescp</th>
+                            <th>SiteId</th>
+                            <th>Driver CardNo</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div id="financialInfoTblUnpostedHolder" class="zerotop" style="display:none">
+                <table id="tblFinInfoUnpostedTxnList">
+                    <thead>
+                        <tr>
+                            <th>TxnId</th>
+                            <th>LBE</th>
+                            <th>CardNo</th>
+                            <th>BillingTxnAmt</th>
+                            <th>BookingDate</th>
+                            <th>TxnDate</th>
+                            <th>DueDate</th>
+                            <th>Descp</th>
+                            <th>UserId</th>
+                            <th>CreationDate</th>
+                            <th>TxnCd</th>
+                            <th>ShortDescp</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,168 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model  ModelSector.VeloctyLimitListMaintModel
+
+
+<style type="text/css">
+    .sub-nav-bar {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+</style>
+<br />
+<br />
+<style type="text/css">
+    .panel .panel-heading .panel-actions a i.fa {
+        color: #666666;
+        font-weight: bold;
+    }
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2><strong>Transaction Limit</strong></h2>
+    </div>
+    <div class="panel-heading">
+        @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+        <div class="panel-actions pull-left">
+            @if (!Html.NotAuthorized("vel", "New"))
+            {
+                <a href="javascript:;" @(Html.IsReadOnly("vel", "New") ? "disabled=disabled" : "ng-click=newVelocity();") style="color:#222"><i class="fa fa-plus"></i></a>
+            }
+            <a href="javascript:;" ng-click="refresh();" style="color:#222"><i class="fa fa-refresh"></i></a>
+            @if (!Html.NotAuthorized("vel", "New"))
+            {
+            <span style="display:none" id="tblVelocity-options"><a href="javascript:;" @(Html.IsReadOnly("vel", "New") ? "disabled=disabled" : "ng-click=delete();") style="color:#222"><i class="fa fa-trash-o"></i></a></span>
+            }
+            @*<p>
+                    <button style="margin-bottom: 4px" ng-click="newVelocity();" class="btn btn-sm btn-primary"><span><i class="fa fa-plus"></i></span></button>
+                    <button style="margin-bottom: 4px" ng-click="refresh();" class="btn btn-sm btn-success"><span><i class="fa fa-refresh"></i></span></button>
+                </p>*@
+
+
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="sub-nav-bar">
+
+            @*<span class="btn-group">
+                    <button class="btn btn-default"><span class="fa fa-mail-reply"></span></button>
+                    <button class="btn btn-default"><span class="fa fa-mail-reply-all"></span></button>
+                    <button class="btn btn-default"><span class="fa fa-mail-forward"></span></button>
+                </span>
+
+                <button class="btn btn-default"><span class="fa fa-trash-o"></span></button>
+
+                <span class="btn-group">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="fa fa-tags"></span> <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">add label <span class="label label-danger"> Home</span></a></li>
+                        <li><a href="#">add label <span class="label label-info">Job</span></a></li>
+                        <li><a href="#">add label <span class="label label-success">Clients</span></a></li>
+                        <li><a href="#">add label <span class="label label-warning">News</span></a></li>
+                    </ul>
+                </span>
+
+                <span class="btn-group pull-right">
+                    <button class="btn btn-default"><span class="fa fa-chevron-left"></span></button>
+                    <button class="btn btn-default"><span class="fa fa-chevron-right"></span></button>
+                </span>*@
+        </div>
+
+
+
+
+        <div id="velocityHolder">
+            <table class="table bootstrap-datatable datatable small-font" id="tblVelocity" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Transaction Limit Type</th>
+                        <th>Product Code</th>
+                        <th>Transaction Count</th>
+                        <th>Transaction Amount</th>
+                        <th>Transaction Litre</th>
+                        <th>Last Update Date </th>
+                        <th>User Id</th>
+                        <th>Creation Date</th>
+                        @*<th>Transaction Indicator</th>
+                        <th>Product Code </th>*@
+                    </tr>
+                </thead>
+                @* <tbody>
+               <tr ng-repeat="item in velocity">
+                    <td>{{item.VelocityIndicator}}</td>
+                    <td>{{item.ProdCd}}</td>
+                    <td>{{item.Counter}}</td>                                                                                                                                                                                                                                                                         </th>
+                </tr>
+            </tbody>*@
+            </table>
+        </div>
+        <div id="VelocityListModal" class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" data-toggle="modal">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h2>Transaction Limit : {{_Object.VelocityIndDescp}} </h2>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmVelocityLimit" class="form-horizontal">
+                            @Html.CustomNgSelectListFor(model => model.SelectedVelocityInd, Model.VelocityInd, null, new { @Name = "VelocityInd", @section = "vel" })
+                           @* @Html.CustomNgSelectListFor(model => model.SelectedProdCd, Model.ProdCd, null, new { @Name = "ProdCd", @section = "vel" })*@
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.CntrLimit, null, new { @section = "vel", @amount = "" })
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.VelocityLitre, null, new { @section = "vel"})
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.VelocityLimit, null, new { @section = "vel", @amount = "" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.LastUpdateDate, null, new { @readonly = "readonly", @section = "vel" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { @readonly = "readonly", @section = "vel" })
+                                </div>
+                            </div>
+                            @Html.HiddenFor(model => model._CardnAccNo.AccNo, new { @section = "vel" })
+                            @Html.HiddenFor(model => model._CardnAccNo.CardNo, new { @section = "vel" })
+                            @Html.CustomNgTextBoxFor(model => model.UserId, null, new { @readonly = "readonly", @section = "vel" })
+                            <input type="hidden" id="xxVelocisedit" value="Add" />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-actions">
+                        @if (!Html.NotAuthorized("vel", "Save"))
+                        {
+                            <button ng-click="SaveVelocityLimit();" id="saveVelocityLimit" @(Html.IsReadOnly("vel", "Save") ? "disabled=disabled" : "") class="btn btn-primary">Save</button>
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="velocityDeleteConfirm" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header deletion-head">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h4>Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        Please confirm the record deletion
+                    </div>
+                    <div class="modal-footer">
+                        0
+                        <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                        <a href="#" id="velocityDeleteConfirmed" class="btn btn-danger">Yes,Delete<i class="icon-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

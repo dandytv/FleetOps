@@ -1,0 +1,210 @@
+﻿@using FleetOps.Helpers
+@model  ModelSector.Fraud.FraudTxnDisputeViewModel
+<form id="formPostTxnSearch">
+    <div class="modal md-modal md-effect-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen.PostTxn" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" data-toggle="modal">
+                    <button type="button" class="close" ng-click="modalOpen.PostTxn=false;" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h2>Notification Search</h2>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedTxnCategory, Model.TxnCategory, null, new { @Name = "FraudTxnDisputeViewModel.TxnCategory" }, null, null, "FraudTxnDisputeViewModel")
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedTxnCd, Model.TxnCd, null, new { @Name = "FraudTxnDisputeViewModel.TxnCd" }, null, null, "FraudTxnDisputeViewModel")
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @if (!Html.NotAuthorized("txn", "txtAcctNoSearch"))
+                                {
+                                    <label class="control-label " for="txtAcctNo">Account No</label>
+                                    <input disabled="disabled" @(Html.IsReadOnly("txn", "txtAcctNoSearch") ? "disabled=disabled" : "")class=" form-control" id="txtAcctNo" ng-model="$root.obj.acctNo" />
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @if (!Html.NotAuthorized("txn", "txtCardNoSearch"))
+                                {
+                                    <label class="control-label " for="txtCardNo">Card No</label>
+                                    <input disabled="disabled" @(Html.IsReadOnly("txn", "txtCardNoSearch") ? "disabled=disabled" : "")class="form-control" id="txtCardNo" ng-model="$root.obj.cardNo" />
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            @Html.CustomNgDateRangeFor(model => model.FromDate, model => model.ToDate, "Date Range", null, null, null, "FraudTxnDisputeViewModel")
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if (!Html.NotAuthorized("txn", "btnSearchTxn"))
+                    {
+                        <div class="form-actions pull-right">
+                            <button ng-click="SearchTxn();" @(Html.IsReadOnly("txn", "btnSearchTxn") ? "disabled=disabled" : "") class="btn btn-primary">Search</button>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<form id="formTransactionDisputeList">
+    <div class="col-lg-12 ng-scope">
+        <div class="panel panel-default row">
+            <div class="panel-heading">
+                <h2>
+                    <i class="fa fa-list"></i>Transaction Dispute
+                </h2>
+                <hr />
+            </div>
+
+            <div class=" panel-body">
+                <div>
+                    <h2 class="panel-title">
+                        Customer Details
+                    </h2>
+
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            @if (!Html.NotAuthorized("txn", "txtAcctNo"))
+                            {
+                                <label class="control-label " for="txtAcctNo">Account No</label>
+                                <input @(Html.IsReadOnly("txn", "txtAcctNo") ? "disabled=disabled" : "") disabled="disabled"
+                                       class=" form-control" id="txtAcctNo" ng-model="$root.obj.acctNo" />
+                            }
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            @if (!Html.NotAuthorized("txn", "txtCmpyName"))
+                            {
+                                <label class="control-label " for="txtCmpyName">Company Name</label>
+                                <input @(Html.IsReadOnly("txn", "txtCmpyName") ? "disabled=disabled" : "") disabled="disabled" class=" form-control" id="txtCmpyName" ng-model="$root.obj.cmpyName" />
+                            }
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            @if (!Html.NotAuthorized("txn", "txtCardNo"))
+                            {
+                                <label class="control-label " for="txtCardNo">Card No</label>
+                                <input @(Html.IsReadOnly("txn", "txtCardNo") ? "disabled=disabled" : "") disabled="disabled" class="form-control" id="txtCardNo" ng-model="$root.obj.cardNo" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                 
+                <div class="panel-heading " style="border-bottom: 1px solid #b5b5b5; ">
+                    <ul class="nav nav-tabs pull-left">
+                        <li class="active"><a href="javascript:;" ng-click="loadPostedTxn();" data-toggle="tab" data-target="#tabPostedTxn">Posted Txn</a></li>
+                        <li><a href="javascript:;" ng-click="loadDisputedTxn();" data-toggle="tab" data-target="#tabDisputeTxn">Dispute Txn</a></li>
+                    </ul>
+                </div>
+                <div class=" panel-body">
+
+                    <div class="tab-content">
+
+
+                        <div id="tabPostedTxn" class="tab-pane fade in active">
+                            <div class=" pull-left">
+                                @if (!Html.NotAuthorized("txn", "btnSearchPostTxn"))
+                                {<a href="javascript:;" @(Html.IsReadOnly("txn", "btnSearchPostTxn") ? "disabled=disabled" : "ng-click=modalClick();")
+                                    class="btn-minimize btn">Transaction Search &nbsp;<i class="fa fa-search"></i></a>}
+                            </div>
+                            <br /> <br /><br />
+                            <div class="table-holder">
+                                <table id="tblPostedTxn" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptionsPostedTxn">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="chkAll" /></th>
+                                            <th>Txn Id</th>
+                                            <th>Txn Description</th>
+                                            <th>Txn Date</th>
+                                            <th style="min-width:80px">Auth Card No</th>
+                                            <th style="min-width:80px">Vehicle Reg. No</th>
+                                            <th>Stan</th>
+                                            <th>RRN</th>
+                                            <th>BSN Location</th>
+                                            <th style="min-width:150px">BSN Location Name</th>
+                                            <th>Terminal Id</th>
+                                            <th>Txn Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <div class="col-sm-12">
+                                    <hr /><div class="pull-right form-actions">
+                                        <a href="#/events/{{$root.obj.eventId}}" class="btn"> Cancel</a>
+
+                                        @if (!Html.NotAuthorized("txn", "btnSavePostedTxn"))
+                                        {
+                                            <a data-validation-form data-customsubmit="SavePostedTxn();" href="javascript:;" @(Html.IsReadOnly("txn", "btnSavePostedTxn") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="tabDisputeTxn" class="tab-pane fade">
+                            <div class=" pull-left">
+                                @if (!Html.NotAuthorized("txn", "btnSearchDisputeTxn"))
+                                    {<a href="javascript:;" @(Html.IsReadOnly("txn", "btnSearchDisputeTxn") ? "disabled=disabled" : "ng-click=modalClick();")
+                                        class="btn-minimize btn">Transaction Search &nbsp;<i class="fa fa-search"></i></a>}
+                            </div>
+                            <br /> <br /><br />
+                            <div class="table-holder">
+                                <table id="tblDisputeTxn" class="table bootstrap-datatable datatable small-font " data-dtable options="dtOptionsDisputeTxn">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="chkAll" /></th>
+                                            <th>Txn Id</th>
+                                            <th>Txn Description</th>
+                                            <th>Txn Date</th>
+                                            <th style="min-width:80px">Auth Card No</th>
+                                            <th style="min-width:80px">Vehicle Reg. No</th>
+                                            <th>Stan</th>
+                                            <th>RRN</th>
+                                            <th>BSN Location</th>
+                                            <th style="min-width:150px">BSN Location Name</th>
+                                            <th>Terminal Id</th>
+                                            <th>Txn Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                                <div class="col-sm-12">
+                                    <hr /><div class="pull-right form-actions">
+                                        <a href="#/events/{{$root.obj.eventId}}" class="btn"> Cancel</a>
+                                        @if (!Html.NotAuthorized("txn", "btnSaveDisputeTxn"))
+                                        {
+                                            <a data-validation-form data-customsubmit="SaveDisputeTxn();" href="javascript:;" @(Html.IsReadOnly("txn", "btnSaveDisputeTxn") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>

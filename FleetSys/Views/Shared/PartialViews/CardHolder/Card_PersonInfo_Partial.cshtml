@@ -1,0 +1,26 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.PersonInfoModel
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("SavePersonInfo", "CardHolder", FormMethod.Post, new { id = "formPersonInfo", @class = "form-horizontal" }))
+            {
+                @Html.CustomNgSelectListFor(model => model.SelectedTitle, Model.title, null, new { section = "Person Info" })
+                @Html.CustomNgTextBoxFor(model => model.FirstName, null, new { section = "Person Info" })
+                @Html.CustomNgTextBoxFor(model => model.LastName, null, new { section = "Person Info" })
+                @Html.CustomNgTextBoxFor(model => model.IdNo, null, new { section = "Person Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedIdType, Model.IdType, null, new { section = "Person Info" })
+                @Html.CustomNgTextBoxFor(model => model.AltIdNo, null, new { section = "Person Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedAltIdType, Model.AltIdType, null, new { section = "Person Info" })
+                @Html.CustomNgSelectListFor(model => model.Selectedgender, Model.gender, null, new { section = "Person Info" })
+                @Html.CustomNgTextBoxFor(model => model.DOB, null, new { id = "txtPersonDob", section = "Person Info" })
+                @Html.CustomNgTextBoxFor(model => model.AnnualIncome, null, new { section = "Person Info", @data_type = "amount" })
+                @Html.CustomNgSelectListFor(model => model.SelectedOccupation, Model.Occupation, null, new { section = "Person Info" })
+                @Html.CustomNgTextBoxFor(model => model.SelectedDeptId, null, new { section = "Person Info" })
+                @Html.CustomNgTextBoxFor(model => model.DrivingLicense, null, new { section = "Person Info" })
+            }
+            <input type="hidden" id="perSaveAccess" value="@Html.GetControlStatus("Save","Person Info")" />
+            </div>
+        </div>
+    </div>

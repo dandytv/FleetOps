@@ -1,0 +1,65 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.MerchProductPrize
+
+
+<h1>Product Price</h1><br />
+<div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h2>Product Price Search</h2>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        @Html.CustomNgSelectListFor(model => model.SelectedProdCd, Model.ProdCd, null, new { @Name = "ProdCd", id = "mppddlTxnCd", @section = "prs" })
+
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.CustomNgDateRangeFor(model => model.EffDateFrom, model => model.EffDateTo, "Effective Range", new { @section = "prs" })
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="xxaddrisedit" value="Add" />
+            <div class="modal-footer">
+                @if (!Html.NotAuthorized("prs", "Save"))
+                {
+                    <div class="form-actions">
+                        <button id="btnAcctSearch" ng-click="search();" @(Html.IsReadOnly("prs", "Save") ? "disabled=disabled" : "") class="btn btn-primary">Search</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-search"></i>&nbsp;Search</a>
+            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+            <span style="display:none" id="tblContacts-options"><a ng-click="deleteModalOpen=true;" href="javascript:;"><i class="fa fa-trash-o"></i></a></span>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-holder">
+            <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Starts From</th>
+                        <th>Ends On</th>
+                        <th>Description</th>
+                        <th>Prize</th>
+                        <th>Creation Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>

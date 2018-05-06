@@ -1,0 +1,209 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.LookupParameters
+<style type="text/css">
+    .panel-group .panel + .panel {
+        margin-top: 0px;
+    }
+
+    .parent-row {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .child-column {
+        display: flex;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
+<div class="col-lg-12">
+    <h2><strong>Event Type</strong></h2>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse0" aria-expanded="true" aria-controls="collapse0">
+                        <strong>Event Information</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse0" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                @Html.CustomNgTextBoxFor(model => model.Id, null, new { @section = "evt", @disabled = "disabled" })
+                            </div>
+                             <div class="col-sm-3">
+                                @Html.CustomNgTextBoxFor(model => model.ShortDescp, null, new { @section = "evt", @disabled = "disabled" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                @Html.CustomNgTextBoxFor(model => model.TypeDesc, null, new { @section = "evt", @disabled = "disabled" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.CustomNgSelectListFor(model => model.SelectedPriority, Model.Priority, null, new { Name = "Priority", @section = "evt", @disabled = "disabled" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.CustomNgSelectListFor(model => model.SelectedOwner, Model.Owner, null, new { Name = "Owner", @section = "evt", @disabled = "disabled" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextAreaFor(model => model.DetailedDescp, null, new { @section = "evt", @rows = "4", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        <strong>Event Details</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            @Html.CustomNgSelectListFor(model => model.SelectedRefTo, Model.RefTo, null, new { Name = "RefTo", @section = "evt", @disabled = "disabled" })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.CustomNgTextBoxFor(model => model.RefKey, null, new { @section = "evt", @disabled = "disabled", @ng_blur = "updateCompanyName();" })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.CustomNgTextBoxFor(model => model.CompanyName, null, new { @section = "evt", @disabled = "disabled" })
+                        </div>
+                    </div>
+                    <h3><strong>How often do you want the notification to be pushed?</strong></h3><br />
+                    <div class="row">
+                        <div class="col-md-12 p-t-23">
+                            <label class="radio-inline" for="inline-radio1">
+                                <input type="radio" id="inline-radio1" name="inline-radios" disabled ng-change="selectedOccurChanged(_Object.SelectedOccur);" ng-model="_Object.SelectedOccur" value="E">Every Time
+                            </label>
+                            <label class="radio-inline" for="inline-radio2">
+                                <input type="radio" id="inline-radio2" ng-model="_Object.SelectedOccur" disabled ng-change="selectedOccurChanged(_Object.SelectedOccur);" name="inline-radios" value="S">Set Frequency
+                            </label>
+                        </div>
+                        <div class="col-sm-2 p-t-23">
+                            @Html.CustomNgTextBoxFor(model => model.MaxOccur, null, new { @section = "evt", @disabled = "disabled", @only_digits = "" })
+                        </div>
+                        <div class="col-sm-3 p-t-23">
+                            @Html.CustomNgSelectListFor(model => model.SelectedFrequency, Model.Frequency, null, new { Name = "Frequency", @section = "evt", @disabled = "disabled" })
+                        </div>
+                    </div>
+                    <br />
+                    @Html.CustomNgCheckBoxFor(model => model.DefaultInd, null, new { @disabled = "disabled" })
+                    <hr class="soften" />
+                    <h3><strong>Set the criteria for the notification to be pushed:</strong></h3><br />
+                    <div class="row parent-row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width:40%"></th>
+                                    <th style="width:20%">Occur Type</th>
+                                    <th style="width:10%">Interval</th>
+                                    <th style="width:10%">Period Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in Items track by item.id" ng-hide="item.BitmapAmt==0">
+                                    <td>
+                                        <div class="form-group" ng-repeat="inner in bitmapControls[Items.indexOf(item)]" ng-class="inner.class" ng-hide="inner.dataType=='x'">
+                                            <label for="name">{{inner.placeholder}}</label>
+                                            <p>{{item[inner.type]}}</p>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <span><strong>{{item.SelectedOccur=='C'?'Current Cycle':item.SelectedOccur=='S'?'Set Checking Period':''}}</strong></span>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <p>{{item.PeriodInterval}}</p>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        {{item.PeriodType}}
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingFour">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse3" aria-expanded="false" aria-controls="collapse0">
+                        <strong>Notification Recipients</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                <div class="panel-body" style="margin-top:30px;margin-bottom:30px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table bootstrap-datatable datatable small-font">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%">Medium</th>
+                                        <th style="width:25%;">Recipient Name</th>
+                                        <th style="width:20%;">Email/Phone</th>
+                                        <th style="width:20%;">Language</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Recipients" class="fresh-row">
+                                        <form>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                                    <button type="button" disabled ng-class="item.NotifyIndSms?'btn btn-success':'btn btn-default'">SMS</button>
+                                                    <button type="button" disabled ng-class="item.NotifyIndEmail?'btn btn-success':'btn btn-default'">EMail</button>
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                <span>
+                                                    {{item.ContactName}}
+                                                </span>
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                <span>
+                                                    {{item.ContactNo}}
+                                                </span>
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                <span>
+                                                    {{item.LangInd}}
+                                                </span>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</div>
+
+

@@ -1,0 +1,16 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.MiscellaneousInfoModel
+
+<form id="formMiscellaneousInfo" class="form-horizontal">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @Html.CustomNgTextBoxFor(model => model.AuthName, null, new { @section = "Miscellanious Info" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedDesignation, Model.Designation, null, new { id = "ddlDesignation", @section = "Miscellanious Info" })
+                    @Html.CustomNgTextBoxFor(model => model.AuthDate, null, new { id = "txtAuthDate", @section = "Miscellanious Info", data_type = "datepicker" })
+                </div>
+            </div>
+        </div>
+    </form>
+    <input type="hidden" id="misSaveAccess" value="@Html.GetControlStatus("Save","Miscellanious Info")" />

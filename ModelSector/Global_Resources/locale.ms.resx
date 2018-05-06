@@ -1,0 +1,645 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="accordion_admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="accordion_help" xml:space="preserve">
+    <value>Bantuan</value>
+  </data>
+  <data name="accordion_loyaltyops" xml:space="preserve">
+    <value>Kesetiaan Operasi</value>
+  </data>
+  <data name="accordion_operations" xml:space="preserve">
+    <value>Operasi</value>
+  </data>
+  <data name="accordion_tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="acctname" xml:space="preserve">
+    <value>Nama Akaun</value>
+  </data>
+  <data name="acordion_security" xml:space="preserve">
+    <value>Keselamatan</value>
+  </data>
+  <data name="addresslist" xml:space="preserve">
+    <value>Senarai Alamat</value>
+  </data>
+  <data name="addresstype" xml:space="preserve">
+    <value>Taip Alamat</value>
+  </data>
+  <data name="agrmentbyacctno" xml:space="preserve">
+    <value>Perjanjian Dengan No Akaun</value>
+  </data>
+  <data name="agrmentbyMerchant" xml:space="preserve">
+    <value>Perjanjian Dengan Saudagar</value>
+  </data>
+  <data name="agrmntdate" xml:space="preserve">
+    <value>Tarikh perjanjian</value>
+  </data>
+  <data name="bankacctno" xml:space="preserve">
+    <value>Akaun Bank Tiada</value>
+  </data>
+  <data name="bankname" xml:space="preserve">
+    <value>Nama Bank</value>
+  </data>
+  <data name="bloodgroup" xml:space="preserve">
+    <value>Kumpulan darah</value>
+  </data>
+  <data name="byacctno" xml:space="preserve">
+    <value>Dengan No Akaun</value>
+  </data>
+  <data name="bymerchant" xml:space="preserve">
+    <value>oleh Saudagar</value>
+  </data>
+  <data name="calendar" xml:space="preserve">
+    <value>Kalendar</value>
+  </data>
+  <data name="cardlogo" xml:space="preserve">
+    <value>Logo kad</value>
+  </data>
+  <data name="cardtype" xml:space="preserve">
+    <value>Jenis Kad</value>
+  </data>
+  <data name="cntrycd" xml:space="preserve">
+    <value>Kod Negara</value>
+  </data>
+  <data name="contactname" xml:space="preserve">
+    <value>Nama Kenalan</value>
+  </data>
+  <data name="contactno" xml:space="preserve">
+    <value>Contact No</value>
+  </data>
+  <data name="contactslist" xml:space="preserve">
+    <value>Senarai kenalan</value>
+  </data>
+  <data name="contacttype" xml:space="preserve">
+    <value>Hubungi Jenis</value>
+  </data>
+  <data name="copyrightmsg" xml:space="preserve">
+    <value>Copyright 2012 Cardtrend Systems Sdn Bhd. All Rights Reserved®</value>
+  </data>
+  <data name="companyregistrationnumber" xml:space="preserve">
+    <value>Nombor Pendaftaran Syarikat</value>
+  </data>
+  <data name="corporatecode" xml:space="preserve">
+    <value>Kod korporat</value>
+  </data>
+  <data name="createdby" xml:space="preserve">
+    <value>Dibuat Oleh</value>
+  </data>
+  <data name="creationdate" xml:space="preserve">
+    <value>Tarikh Penciptaan</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="department" xml:space="preserve">
+    <value>Jabatan</value>
+  </data>
+  <data name="dob" xml:space="preserve">
+    <value>Tarikh Lahir</value>
+  </data>
+  <data name="emailid" xml:space="preserve">
+    <value>Email ID</value>
+  </data>
+  <data name="employmentdtl" xml:space="preserve">
+    <value>Detail Pekerjaan</value>
+  </data>
+  <data name="enablewizard" xml:space="preserve">
+    <value>Dayakan Wizard</value>
+  </data>
+  <data name="entityid" xml:space="preserve">
+    <value>ID entiti</value>
+  </data>
+  <data name="entity_title" xml:space="preserve">
+    <value>Tajuk</value>
+  </data>
+  <data name="establishment" xml:space="preserve">
+    <value>penubuhan</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>jantina</value>
+  </data>
+  <data name="generate" xml:space="preserve">
+    <value>menjana</value>
+  </data>
+  <data name="Ghostcard" xml:space="preserve">
+    <value>Hantu Kad / Kad Maya Generasi Batch</value>
+  </data>
+  <data name="ghostcardtitle" xml:space="preserve">
+    <value>Hantu Kad / Kad Maya kumpulan Generasi</value>
+  </data>
+  <data name="grdBusnlocation" xml:space="preserve">
+    <value>Lokasi Perniagaan</value>
+  </data>
+  <data name="grdBusnName" xml:space="preserve">
+    <value>nama perniagaan</value>
+  </data>
+  <data name="grdcreatedby" xml:space="preserve">
+    <value>dicipta oleh</value>
+  </data>
+  <data name="grdcreationDate" xml:space="preserve">
+    <value>tarikh penciptaan</value>
+  </data>
+  <data name="grdstatus" xml:space="preserve">
+    <value>status</value>
+  </data>
+  <data name="grgAcctNo" xml:space="preserve">
+    <value>akaun Tiada</value>
+  </data>
+  <data name="hidepanel" xml:space="preserve">
+    <value>Hide Panel</value>
+  </data>
+  <data name="income" xml:space="preserve">
+    <value>pendapatan</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>lesen</value>
+  </data>
+  <data name="loggedinas" xml:space="preserve">
+    <value>Logged in sebagai</value>
+  </data>
+  <data name="maritalstatus" xml:space="preserve">
+    <value>Status Perkahwinan</value>
+  </data>
+  <data name="mcc" xml:space="preserve">
+    <value>MCC</value>
+  </data>
+  <data name="merchagreementindextitle" xml:space="preserve">
+    <value>Perjanjian saudagar</value>
+  </data>
+  <data name="merchagreementnewtitle" xml:space="preserve">
+    <value>Akaun Baru</value>
+  </data>
+  <data name="MerchantAccount" xml:space="preserve">
+    <value>Perjanjian Saudagar Akaun</value>
+  </data>
+  <data name="Merchantaccountlist" xml:space="preserve">
+    <value>Senarai Saudagar Akaun</value>
+  </data>
+  <data name="Merchantterminaldevice" xml:space="preserve">
+    <value>Terminal Peranti Saudagar</value>
+  </data>
+  <data name="messages" xml:space="preserve">
+    <value>mesej</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nama</value>
+  </data>
+  <data name="newic" xml:space="preserve">
+    <value>IC Baru</value>
+  </data>
+  <data name="newmerchant" xml:space="preserve">
+    <value>Saudagar baru</value>
+  </data>
+  <data name="noofaccounts" xml:space="preserve">
+    <value>Bilangan Akaun</value>
+  </data>
+  <data name="noofcards" xml:space="preserve">
+    <value>Bilangan Kad</value>
+  </data>
+  <data name="occupation" xml:space="preserve">
+    <value>pekerjaan</value>
+  </data>
+  <data name="oldic" xml:space="preserve">
+    <value>IC Lama</value>
+  </data>
+  <data name="ownership" xml:space="preserve">
+    <value>pemilikan</value>
+  </data>
+  <data name="passportno" xml:space="preserve">
+    <value>No Pasport</value>
+  </data>
+  <data name="personalbankingdtls" xml:space="preserve">
+    <value>Perbankan Maklumat Peribadi</value>
+  </data>
+  <data name="personalparticulars" xml:space="preserve">
+    <value>Butir-butir peribadi</value>
+  </data>
+  <data name="personincharge" xml:space="preserve">
+    <value>Orang Penjaga</value>
+  </data>
+  <data name="pincd" xml:space="preserve">
+    <value>Kod pin</value>
+  </data>
+  <data name="plastictype" xml:space="preserve">
+    <value>Jenis plastik</value>
+  </data>
+  <data name="reasoncd" xml:space="preserve">
+    <value>Kod sebab</value>
+  </data>
+  <data name="registeredname" xml:space="preserve">
+    <value>Nama berdaftar</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>menetapkan semula</value>
+  </data>
+  <data name="reset1" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Simpan</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Keselamatan</value>
+  </data>
+  <data name="security1" xml:space="preserve">
+    <value>Keselamatan</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>Tetapan</value>
+  </data>
+  <data name="sic" xml:space="preserve">
+    <value>SIC</value>
+  </data>
+  <data name="signout" xml:space="preserve">
+    <value>Log keluar</value>
+  </data>
+  <data name="Specialpromo" xml:space="preserve">
+    <value>Khas Promosi</value>
+  </data>
+  <data name="state" xml:space="preserve">
+    <value>Negeri</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>status</value>
+  </data>
+  <data name="street1" xml:space="preserve">
+    <value>Street 1</value>
+  </data>
+  <data name="street2" xml:space="preserve">
+    <value>street 2</value>
+  </data>
+  <data name="street3" xml:space="preserve">
+    <value>Street 3</value>
+  </data>
+  <data name="tabaddress" xml:space="preserve">
+    <value>alamat</value>
+  </data>
+  <data name="tabcontacts" xml:space="preserve">
+    <value>Hubungi</value>
+  </data>
+  <data name="tabdetail" xml:space="preserve">
+    <value>detail</value>
+  </data>
+  <data name="tabentity" xml:space="preserve">
+    <value>entiti</value>
+  </data>
+  <data name="tabreview" xml:space="preserve">
+    <value>mengkaji</value>
+  </data>
+  <data name="taxid" xml:space="preserve">
+    <value>ID Cukai</value>
+  </data>
+  <data name="taxinfo" xml:space="preserve">
+    <value>Maklumat cukai</value>
+  </data>
+  <data name="Town" xml:space="preserve">
+    <value>bandar</value>
+  </data>
+  <data name="Unpostedtransaction" xml:space="preserve">
+    <value>Transaksi Search dipos</value>
+  </data>
+  <data name="Unsettletransaction" xml:space="preserve">
+    <value>Menggoncang Search Transaksi</value>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>tajuk</value>
+  </data>
+  <data name="transactionid" xml:space="preserve">
+    <value>ID Transaksi</value>
+  </data>
+  <data name="accountno" xml:space="preserve">
+    <value>No. Akaun</value>
+  </data>
+  <data name="cardno" xml:space="preserve">
+    <value>No. Kad</value>
+  </data>
+  <data name="changetostatus" xml:space="preserve">
+    <value>Status diubah kepada</value>
+  </data>
+  <data name="collectionid" xml:space="preserve">
+    <value>ID Pungutan</value>
+  </data>
+  <data name="courierconsignmentnote" xml:space="preserve">
+    <value>Nota Konsainan Kurier</value>
+  </data>
+  <data name="currentstatus" xml:space="preserve">
+    <value>Status Semasa</value>
+  </data>
+  <data name="deliveredby" xml:space="preserve">
+    <value>dihantar Oleh</value>
+  </data>
+  <data name="deliverymethod" xml:space="preserve">
+    <value>Kaedah Penghantaran</value>
+  </data>
+  <data name="deliverystatus" xml:space="preserve">
+    <value>Status Penghantaran</value>
+  </data>
+  <data name="descp" xml:space="preserve">
+    <value>Huraian</value>
+  </data>
+  <data name="endorsedby" xml:space="preserve">
+    <value>Disahkan Oleh</value>
+  </data>
+  <data name="endorseddate" xml:space="preserve">
+    <value>Tarikh Pengesahan</value>
+  </data>
+  <data name="invoicenumber" xml:space="preserve">
+    <value>Nombor Invois</value>
+  </data>
+  <data name="reasoncode" xml:space="preserve">
+    <value>Kod sebab</value>
+  </data>
+  <data name="recieveddate" xml:space="preserve">
+    <value>Tarikh Terima</value>
+  </data>
+  <data name="recipientname" xml:space="preserve">
+    <value>Nama Penerima</value>
+  </data>
+  <data name="referencetype" xml:space="preserve">
+    <value>Jenis rujukan</value>
+  </data>
+  <data name="referenceid" xml:space="preserve">
+    <value>ID Rujukan</value>
+  </data>
+  <data name="remarks" xml:space="preserve">
+    <value>Catatan</value>
+  </data>
+  <data name="totalpoints" xml:space="preserve">
+    <value>Jumlah Point</value>
+  </data>
+  <data name="txnAmnt" xml:space="preserve">
+    <value>Amaun Transaksi</value>
+  </data>
+  <data name="txncd" xml:space="preserve">
+    <value>Kod Transaksi</value>
+  </data>
+  <data name="userid" xml:space="preserve">
+    <value>ID Pengguna</value>
+  </data>
+  <data name="totalamount" xml:space="preserve">
+    <value>Amaun Total</value>
+  </data>
+  <data name="accountnumber" xml:space="preserve">
+    <value>No akaun</value>
+  </data>
+  <data name="agingno" xml:space="preserve">
+    <value>Bilangan penuaan</value>
+  </data>
+  <data name="applicationid" xml:space="preserve">
+    <value>IDPemohonan</value>
+  </data>
+  <data name="approvalcode" xml:space="preserve">
+    <value>Kod kelulusan</value>
+  </data>
+  <data name="array" xml:space="preserve">
+    <value>Array</value>
+  </data>
+  <data name="assigndate" xml:space="preserve">
+    <value>Tarikh yang diberikan</value>
+  </data>
+  <data name="authorizationcardexpiry" xml:space="preserve">
+    <value>Kebenaran Tamat Kad</value>
+  </data>
+  <data name="authorizationcardno" xml:space="preserve">
+    <value>Nombor Kad Kebenaran</value>
+  </data>
+  <data name="natureofbusiness" xml:space="preserve">
+    <value>Jenis Perniagaan</value>
+  </data>
+  <data name="cardexpiry" xml:space="preserve">
+    <value>Tempot Tamat Kad</value>
+  </data>
+  <data name="chequeno" xml:space="preserve">
+    <value>No Cek</value>
+  </data>
+  <data name="city" xml:space="preserve">
+    <value>Bandar</value>
+  </data>
+  <data name="collectorid" xml:space="preserve">
+    <value>ID Pemungut</value>
+  </data>
+  <data name="companylegalname" xml:space="preserve">
+    <value>Nama Syarikat yang sah</value>
+  </data>
+  <data name="companyregistrationdate" xml:space="preserve">
+    <value>Tarikh Pendaftaran Syarikat</value>
+  </data>
+  <data name="companyregistrationname" xml:space="preserve">
+    <value>Nama Pendaftaran Syarikat </value>
+  </data>
+  <data name="companytype" xml:space="preserve">
+    <value>Jenis syarikat</value>
+  </data>
+  <data name="corporatename" xml:space="preserve">
+    <value>Nama korporat</value>
+  </data>
+  <data name="cycledate" xml:space="preserve">
+    <value>Kitaran Tarikh</value>
+  </data>
+  <data name="cyclenumber" xml:space="preserve">
+    <value>Bilangan kitaran</value>
+  </data>
+  <data name="feecd" xml:space="preserve">
+    <value>Kod bayaran</value>
+  </data>
+  <data name="lastupdatedate" xml:space="preserve">
+    <value>Tarikh Kemaskini Terakhir</value>
+  </data>
+  <data name="newcardexpirydate" xml:space="preserve">
+    <value>Tarikh Tamat Baru Kad</value>
+  </data>
+  <data name="odometerreading" xml:space="preserve">
+    <value>Bacaan Odometer</value>
+  </data>
+  <data name="pinmailingtype" xml:space="preserve">
+    <value>PIN Jenis Mel</value>
+  </data>
+  <data name="position" xml:space="preserve">
+    <value>Kedudukan</value>
+  </data>
+  <data name="postalcode" xml:space="preserve">
+    <value>Poskod</value>
+  </data>
+  <data name="productcode" xml:space="preserve">
+    <value>Kod Produk</value>
+  </data>
+  <data name="reassignedcollectorid" xml:space="preserve">
+    <value>ID Pemungut Ditugaskan</value>
+  </data>
+  <data name="reassigneddate" xml:space="preserve">
+    <value>Tarikh ditugaskan</value>
+  </data>
+  <data name="receiptno" xml:space="preserve">
+    <value>Nombor resit</value>
+  </data>
+  <data name="region" xml:space="preserve">
+    <value>Wilayah</value>
+  </data>
+  <data name="retrivalreferencenumber" xml:space="preserve">
+    <value>No Rujukan Semula </value>
+  </data>
+  <data name="sequenceno" xml:space="preserve">
+    <value>Nombor turutan</value>
+  </data>
+  <data name="settleddate" xml:space="preserve">
+    <value>Tarikh diselesaikan</value>
+  </data>
+  <data name="shortname" xml:space="preserve">
+    <value>Nama Pendek</value>
+  </data>
+  <data name="stan" xml:space="preserve">
+    <value>Stan</value>
+  </data>
+  <data name="statementtype" xml:space="preserve">
+    <value>Jenis penyata</value>
+  </data>
+  <data name="taskno" xml:space="preserve">
+    <value>No. Tugasan</value>
+  </data>
+  <data name="terminalid" xml:space="preserve">
+    <value>ID Terminal</value>
+  </data>
+  <data name="totalcount" xml:space="preserve">
+    <value>Jumlah Kiraan</value>
+  </data>
+  <data name="totalquantity" xml:space="preserve">
+    <value>Jumlah Kuantiti</value>
+  </data>
+  <data name="transactioncode" xml:space="preserve">
+    <value>Kod transaksi</value>
+  </data>
+  <data name="transactiondate" xml:space="preserve">
+    <value>Tarikh transaksi</value>
+  </data>
+  <data name="unitprice" xml:space="preserve">
+    <value>Unit Harga</value>
+  </data>
+  <data name="vehicleperformancereport" xml:space="preserve">
+    <value>Laporan Prestasi Kenderaan</value>
+  </data>
+  <data name="xreferenceid" xml:space="preserve">
+    <value>Rujukan ID X</value>
+  </data>
+  <data name="velocitytype" xml:space="preserve">
+    <value>Jenis halaju</value>
+  </data>
+</root>

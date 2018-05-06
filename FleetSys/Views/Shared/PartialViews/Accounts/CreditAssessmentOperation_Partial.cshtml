@@ -1,0 +1,148 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model  ModelSector.CreditAssesOperation
+<h1>Credit Assessment</h1><br />
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <form id="formCAO" class="form-horizontal">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+                @*<h2>Credit Assessment Operation</h2>*@
+                @*<hr />*@
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        @Html.CustomNgTextBoxFor(model => model.CreditLimit, null, new { @section = "cao", @data_type = "amount" })
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedPaymentMode, Model.PaymentMode, null, new { @Name = "PaymentMode", @section = "cao" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedPaymentTerm, Model.PaymentTerm, new { required = true }, new { @Name = "PaymentTerm", @section = "cao" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedTerritoryCd, Model.TerritoryCd, null, new { @Name = "TerritoryCd", @section = "cao" })
+                            </div>
+                            @*<div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedRiskCategry, Model.RiskCategory, null, new { @Name = "RiskCategory", @section = "cao", disabled = true })
+                                </div>*@
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedTradingArea, Model.TradingArea, null, new { @Name = "TradingArea", @section = "cao" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.RecommendCreditLimit, null, new { @amount = "", @section = "cao", disabled = "true" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.ProposeCreditLimit, null, new { @amount = "", @section = "cao", disabled = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedAssesmtType, Model.AssesmtType, null, new { @Name = "AssesmtType", @section = "cao" })
+                            </div>
+                            @*<div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCd, null, new { @Name = "ReasonCd", @section = "cao" })
+                                </div>*@
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.SecurityAmt, null, new { @readonly = "readonly", @section = "cao" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.ValidityDate, new { required = true }, new { @section = "cao", @date_Picker = "" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.NRID, null, new { @section = "cao", @date_Picker = "" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedQuantitative, Model.Quantitative, null, new { @Name = "Quantitative", @section = "cao" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedQualitative, Model.Qualitative, null, new { @Name = "Qualitative", @section = "cao" })
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            @*<div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.RecommendSecurityAmt, null, new { @amount = "", @section = "cao" })
+                                </div>*@
+
+                            <div class="col-sm-6">
+                                @Html.HiddenFor(model => model.ValidityDate, new { @section = "cao" })
+                                @Html.HiddenFor(model => model.NRID, new { @section = "cao" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.RecommendSecurityAmt, null, new { @amount = "", @section = "cao", disabled = "true" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.ProposeSecurityAmt, null, new { @amount = "", @section = "cao", disabled = "true" })
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextAreaFor(model => model.SaleProposal, null, new { id = "txtCostCentreDescp", @section = "cao", rows = "5", disabled = "true" })
+                    </div>
+                    <div class="col-lg-6">
+                        @Html.CustomNgTextAreaFor(model => model.remarks, null, new { id = "txtRemarks", @section = "cao", rows = "5" })
+                    </div>
+                    <input type="hidden" id="caoSaveAccess" value="@Html.GetControlStatus("Save","Credit & Appl Assessment")" />
+                </div>
+                <div>
+                    <div class="panel-footer text-center">
+                        @if (!Html.NotAuthorized("cao", "SaveCAOacct"))
+                        {
+                            <input type="button" data-validation-form data-customsubmit="SaveCreditAssessmentOperation();" @(Html.IsReadOnly("cao", "SaveCAOacct") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" name="finish" value="Save">
+                        }
+                    </div>
+                    @*<div ng-show ="_Object.remarkHistory.length > 0">*@
+                        <div class="panel-footer ">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <table id="tblRemarksHistoryOptions" dtable options="dtRemarksHistoryOptions" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Remarks History</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @*</div>*@
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h2><i class="fa fa-list"></i>Credit Limit History</h2></div>
+                <div class="panel-body">
+                    <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Account No</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>User ID</th>
+                                <th>Maintenance Date/Time</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        
+    </form>
+</div>

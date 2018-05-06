@@ -1,0 +1,116 @@
+﻿
+@using FleetOps.Helpers;
+@{
+    ViewBag.Title = "Merchant Signup | FleetOps";
+    ViewBag.ng_app = "MerchantApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+@section ModuleSideBar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                                            @if (@Html.SectionIsEnabled("gen"))
+                {
+                <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+                }
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                                        @if (@Html.SectionIsEnabled("gen"))
+                {
+                <li><a class="pagekey pagekey_generalInfo" ng-show="$root.obj._type==='edit'" href="#/generalInfo/{{$root.obj.acctNo}}"><span class="text">General Info</span></a></li>
+               }
+                                           @if (@Html.SectionIsEnabled("bus"))
+                {
+                <li><a class="pagekey pagekey_businessLocations" ng-show="$root.obj._type==='edit'" href="#/businessLocations/{{$root.obj.acctNo}}"><span class="text">Station</span></a></li>
+                }
+                                            @if (@Html.SectionIsEnabled("con"))
+                {
+                <li><a class="pagekey pagekey_contacts" ng-show="$root.obj._type==='edit'" href="#/contacts/{{$root.obj.acctNo}}"><span class="text">Contact List</span></a></li>
+               }
+                                           @if (@Html.SectionIsEnabled("add"))
+                {
+                <li><a class="pagekey pagekey_address" ng-show="$root.obj._type==='edit'" href="#/address/{{$root.obj.acctNo}}"><span class="text">Address List</span></a></li>
+               }
+                                           @if (@Html.SectionIsEnabled("mps"))
+                {
+                <li><a class="pagekey pagekey_txnSearch" ng-show="$root.obj._type==='edit'" href="#/txnSearch/{{$root.obj.acctNo}}"><span class="text">Transaction Search</span></a></li>
+                }
+                                            @if (@Html.SectionIsEnabled("sta"))
+                {
+                <li><a class="pagekey pagekey_statusMaint" ng-show="$root.obj._type==='edit'" href="#/statusMaint/{{$root.obj.acctNo}}"><span class="text">Status Maintenance</span></a></li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
+
+<div class="main" style="opacity:1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li>Merchant</li>
+                <li class="active">{{$root.obj.acctNo}}</li>
+            </ol>
+        </div>
+        <div class="col-lg-12">
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2><i class="fa fa-list"></i>Merchant List</h2>
+                        </div>
+                        <div class="panel-body">
+                            <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font">
+                                <thead>
+                                    <tr>
+                                        <th>Acct No</th>
+                                        <th>Person in Charge</th>
+                                        <th>SAP No</th>
+                                        <th>Business Name</th>
+                                        <th>Affiliated Corporate Code</th>
+                                        @*<th>Withholding tax Indicator</th>
+                                        <th>Withholding Tax Rate</th>*@
+                                        <th>Tax Id</th>
+                                        <th>Current Status</th>
+                                        <th>Creation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+@section CustomPageScript
+{
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Merchant/Merchant.js"></script>
+    <script src="~/ng/Apps/Merchant/MerchantService.js"></script>
+    <script src="~/ng/Apps/Merchant/MerchantController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}

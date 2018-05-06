@@ -1,0 +1,121 @@
+﻿@using FleetOps.Helpers;
+@{
+
+    ViewBag.Title = "Dealer | FleetOps";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.ng_app = "dealerApp";
+}
+
+@section ModuleSideBar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="#/{{$root.obj.acctNo}}" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                @if (@Html.SectionIsEnabled("gen"))
+                {
+                    <a href="#/new/{{$root.obj.acctNo}}" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+                }
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                @if (@Html.SectionIsEnabled("gen"))
+                {
+                    <li><a class="pagekey pagekey_generalInfo" ng-show="$root.obj._type==='edit'" href="#/generalInfo/{{$root.obj.acctNo}}/{{$root.obj.dealerId}}"><span class="text">General Info</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("ter"))
+                {
+                    <li><a class="pagekey pagekey_terminals" ng-show="$root.obj._type==='edit'" href="#/terminals/{{$root.obj.acctNo}}/{{$root.obj.dealerId}}"><span class="text">Terminals List</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("con"))
+                {
+                    <li><a class="pagekey pagekey_contacts" ng-show="$root.obj._type==='edit'" href="#/contacts/{{$root.obj.acctNo}}/{{$root.obj.dealerId}}"><span class="text">Contact List</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("add"))
+                {
+                    <li><a class="pagekey pagekey_address" ng-show="$root.obj._type==='edit'" href="#/address/{{$root.obj.acctNo}}/{{$root.obj.dealerId}}"><span class="text">Address List</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("sta"))
+                {
+                    <li><a class="pagekey pagekey_statusMaint" ng-show="$root.obj._type==='edit'" href="#/statusMaint/{{$root.obj.acctNo}}/{{$root.obj.dealerId}}"><span class="text">Status Maintenance</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("moc"))
+                {
+                    <li><a class="pagekey pagekey_ownershipChange" ng-show="$root.obj._type==='edit'" href="#/ownershipChange/{{$root.obj.acctNo}}/{{$root.obj.dealerId}}"><span class="text">Ownership Change</span></a></li>
+                }
+                @*<li><a class="pagekey pagekey_prodprize" ng-show="$root.obj._type==='edit'" href="#/prodprize/{{$root.obj.acctNo}}/{{$root.obj.dealerId}}"><span class="text">Product Price</span></a></li>*@
+            </ul>
+        </div>
+    </div>
+}
+
+
+
+<div class="main" style="opacity:1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Merchant#/generalInfo/{{$root.obj.acctNo}}">Merchant: {{$root.obj.acctNo}}</a></li>
+                <li class="active">Dealer: {{$root.obj.dealerId}}</li>
+                @*<li class="active">{{root.obj.corpcd}}</li>*@
+            </ol>
+        </div>
+        <div class="col-lg-12">
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2><i class="fa fa-list"></i>Dealer</h2>
+                        </div>
+                        <div class="panel-body">
+                            <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font">
+                                <thead>
+                                    <tr>
+                                        <th>Merchant Id</th>
+                                        <th>Site Id</th>
+                                        <th>Business Name</th>
+                                        <th>DBA Name</th>
+                                        <th>Payee Name</th>
+                                        <th>CoReg No</th>
+                                        <th>DBA State</th>
+                                        <th>Person In Charge</th>
+                                        <th>Current Status</th>
+                                        <th>Creation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+@section CustomPageScript
+{
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Dealer/dealer.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}
+
+
+

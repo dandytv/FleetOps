@@ -1,0 +1,161 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.eService
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Plugins/PNotify/pnotify.custom.css" rel="stylesheet" />
+    <link href="~/Content/Plugins/Datatables/dataTables.colVis.css" rel="stylesheet" />
+    <title>SmartPayFrame</title>
+</head>
+<body ng-app="MerchantApp">
+    <style type="text/css">
+        ul.profile-details li {
+            display: inline;
+            margin-left: 10px;
+            max-width: 300px;
+            display: inline-block;
+            font-weight: bold;
+            color: #2DB69F;
+            font-size: 14px;
+        }
+
+            ul.profile-details li div {
+                display: block;
+                color: #8B8B8B;
+                font-weight: normal;
+            }
+
+        .table > thead > tr > th {
+            text-align: center;
+        }
+    </style>
+    <div class="panel panel-default" style="padding-top:20px;" ng-controller="mainController" ng-init="initController('@((string)ViewBag.Id)');">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="profile-details text-center" ng-cloak>
+                        <li>
+                            <div>Merchant ID</div>
+                            <span ng-show="_Object.BusnLocation">{{_Object.BusnLocation}}</span>
+                            <span ng-show="!_Object.BusnLocation">---</span>
+                        </li>
+                        <li>
+                            <div> Trading Name</div>
+                            <span ng-show="_Object.TradingName">{{_Object.TradingName}}</span>
+                            <span ng-show="!_Object.TradingName">---</span>
+                        </li>
+
+                        <li>
+                            <div> Site ID</div>
+                            <span ng-show="_Object.Siteid">{{_Object.Siteid}}</span>
+                            <span ng-show="!_Object.Siteid">---</span>
+                        </li>
+                        <li>
+                            <div> Bank</div>
+                            <span ng-show="_Object.bankName">{{_Object.bankName}}</span>
+                            <span ng-show="!_Object.bankName">---</span>
+                        </li>
+                        <li>
+                            <div> Station Name</div>
+                            <span ng-show="_Object.BusnName">{{_Object.BusnName}}</span>
+                            <span ng-show="!_Object.BusnName">---</span>
+                        </li>
+                        <li>
+                            <div> Bank Account No.</div>
+                            <span ng-show="_Object.BankAcctNo">{{_Object.BankAcctNo}}</span>
+                            <span ng-show="!_Object.BankAcctNo">---</span>
+                        </li>
+                    </ul>
+                    <hr />
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-4 col-sm-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2><strong>Search</strong> Transactions</h2>
+                        </div>
+                        <div class="panel-body">
+                            <form action="" method="post">
+                                @Html.CustomNgNativeSelectListFor(model => model.SelectedTxnType, Model.TxnType, null, new { @Name = "TxnType" })
+                                @Html.CustomNgNativeSelectListFor(model => model.SelectedTxnDateRange, Model.TxnDateRange, null, new { @Name = "TxnDateRange" })
+                                <span class="help-block">select the month</span>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                            <button ng-click="search();" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Search</button> or
+                            <button ng-click="DownloadExcelReport();" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Download Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <hr />
+            <div ng-hide="searchOn" style="text-align:center"><i style="font-size:140px;color:#eeeeee" class="fa fa-ban"></i></div>
+
+            <div class="row" ng-show="searchOn">
+                <div class="col-sm-12 text-center">
+                    <br />
+                    <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Posting Date</th>
+                                <th>Transaction Date</th>
+                                <th>Transaction Time</th>
+                                <th>Card No</th>
+                                <th>RRN</th>
+                                <th>Quantity</th>
+                                <th>Amount (RM)</th>
+                                <th>MDR</th>
+                                <th>VAT</th>
+                                <th>Net Amount</th>
+                                @*PostingDate = DateConverter(execResult["PrcsDate"]),
+                                    TxnDate = DateConverter(execResult["LocalDate"]),
+                                    TxnTime = DateConverter(execResult["LocalTime"]),
+                                    CardNo = Convert.ToString(execResult["CardNo"]),
+                                    RRN = Convert.ToString(execResult["Rrn"]),
+                                    Quantity = ConvertToInt32(execResult["Qty"]),
+                                    Amount = ConverterDecimal(execResult["BillingAmt"]),
+                                    MDR = ConverterDecimal(execResult["MDR"]),
+                                    VatAmount = ConverterDecimal(execResult["VATAmt"]),
+                                    NetAmount = ConverterDecimal(execResult["NetAmt"]),
+                                    Multiplier = Convert.ToString("Multiplier")*@
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Content/scripts/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/scripts/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/Content/scripts/core.min.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Content/scripts/bootstrap.min.js"></script>
+    <link href="~/Content/Plugins/Datatables/dataTables.css" rel="stylesheet" />
+    <script src="~/Content/Plugins/Datatables/dataTables.js"></script>
+    <script src="~/Content/Plugins/Datatables/bootstrap.dataTables.js"></script>
+    <script src="~/Content/Plugins/Datatables/dataTables.colVis.js"></script>
+    <link href="~/Content/Plugins/Datepicker/css/datepicker3.css" rel="stylesheet" />
+
+    <script src="~/Content/Plugins/PNotify/pnotify.custom.js"></script>
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Merchant/smartpayframe.js"></script>
+
+</body>
+</html>

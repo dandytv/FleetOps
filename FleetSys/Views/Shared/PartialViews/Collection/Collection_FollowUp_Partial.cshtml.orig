@@ -1,0 +1,78 @@
+﻿@using FleetOps.Helpers
+@model FleetSys.ViewModel.CollectionFollowUpViewModel
+
+<div class="col-lg-12 ng-scope">
+    <div class="panel panel-default row">
+        <div class="panel-heading">
+            <h2>
+                <i class="fa fa-list"></i>Collection
+            </h2>
+            <hr />
+        </div>
+        <div class=" panel-body">
+            <div>
+                <h2 class="panel-title">
+                    Collection Case Information
+                </h2>
+                <br />
+            </div>
+            <div class="row">
+
+                <div class="col-sm-4">
+                    @*@Html.CustomNgSelectListFor(model => model.SelectedCollectionSts, Model.CollectionSts, null, new { @Name = "CollectionSts" })*@
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedPriority, Model.Priority, null, new { @Name = "Priority", @section = "cfu" })
+                </div>
+              
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { id = "txtCreationDate", @section = "cfu", Disabled = "true" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.CustomNgTextBoxFor(model => model.RecallDate, null, new { id = "txtRecallDate", @section = "cfu", Disabled = "true" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.CustomNgTextBoxFor(model => model.LastUpdate, null, new { id = "txtLastUpdate", @section = "cfu", Disabled = "true" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.CustomNgTextBoxFor(model => model.UserId, null, new { id = "txtUserId", @section = "cfu", Disabled = "true" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { id = "txtRemarks", @section = "cfu", @rows = "6" })
+                </div>             
+            </div>         
+        </div>
+        <hr />
+        <div class=" panel-body">
+                     <table>
+                     <thead>
+                         <tr>
+                             <th width="70%">
+                                 Note/ Action
+                             </th>
+                             <th>
+                                 Recall Date
+                             </th>
+                         </tr>
+                     </thead>
+                         <tbody>
+                             <tr  >
+                                 <td row  width="70%" >
+                                     <textarea rows="3" >
+
+                                     </textarea>
+                                 </td>
+                                 <td>
+                                     <input autocomplete="on" class="form-control ng-isolate-scope ng-pristine ng-valid" date_picker id="txtRecallDate" name="RecallDate"  type="text" value="" />
+                                 </td>
+                             </tr>
+                         </tbody>
+                     </table>
+          
+        </div>
+    </div>
+</div>

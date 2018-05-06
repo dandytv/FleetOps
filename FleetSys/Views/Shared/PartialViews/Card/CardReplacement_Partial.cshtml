@@ -1,0 +1,54 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.CardReplacement
+<h1>Card Replacement</h1><br/>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <form>
+        <div class="panel panel-default">
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.NewCardNo, null, new { @data_bind = "value:EmbossNewCardNo", @section = "rep", @readonly = "readonly", @id = "txtCardRepNewCardNo" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.ExpiryDate, null, new { id = "cardRepExpiryDate", @section = "rep", @readonly = "readonly" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.TerminatedDate, null, new { id = "cardRepTerminatedDate", @section = "rep", @readonly = "readonly" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { @Name = "CurrentStatus", @section = "rep", @disabled = "true" })
+                            </div>
+                            @*<div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.XReferenceNo, null, new { @section = "rep", @readonly = "readonly" })
+                            </div>*@
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedFeeCd, Model.FeeCd, null, new { @Name = "FeeCd", @section = "rep" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedCardMediaType, Model.CardMedia, new { required = true }, new { @Name = "CardMedia", @section = "rep" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCd, new { required = true }, new { @Name = "ReasonCd", @section = "rep" })
+                            </div>
+                        </div>
+                        @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { @section = "rep" })
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                @if (!Html.NotAuthorized("rep", "SaveReplacementCard"))
+                {
+                    <div class="form-actions">
+                        <input type="button" data-validation-form data-customsubmit="Save();" @(Html.IsReadOnly("rep", "SaveReplacementCard") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" name="finish" value="Save">
+                        @*<button id="saveVelocityLimit" @(Html.IsReadOnly("rep", "Save") ? "disabled=disabled" : "") style="width: 60px" class="btn btn-primary">Save</button>*@
+                    </div>
+                }
+                @*<input type="button" data-validation-form data-customsubmit="Save();" class="btn btn-primary btn-cons" name="finish" value="Save">*@
+            </div>
+        </div>
+    </form>
+</div>

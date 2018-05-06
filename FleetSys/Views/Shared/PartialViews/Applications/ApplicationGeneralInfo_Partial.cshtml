@@ -1,0 +1,158 @@
+﻿@using FleetOps.Helpers;
+@model CCMS.ModelSector.AcctSignUp
+<h1>Application Info <small></small></h1><br />
+<form id="formApplicationGeneralInfo">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        </div>
+        @*<div class="panel-heading">
+                <h2><strong>Application General Info</strong></h2>
+                <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-check"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-camera"></i></a>
+                </div>
+            </div>*@ 
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    @Html.CustomNgSelectListFor(model => model.selectedPlasticType, Model.PlasticType, new { required = true }, new { @Name = "PlasticType", @section = "gen" })
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedClientClass, Model.ClientClass, null, new { @Name = "ClientClass", @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedClientType, Model.ClientType, null, new { @Name = "ClientType", @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedCycleNo, Model.CycleNo, new { required = true }, new { @Name = "CycleNo", @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.ApplicationRef, null, new {@section = "gen" })
+                        </div>
+                        <div class="col-sm-12">
+                            @Html.CustomNgSelectListFor(model => model.SelectedCorporateAcct, Model.CorporateAcct, null, new { @Name = "CorporateAcct", @section = "gen" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        @*<div class="col-sm-12">
+                            @Html.CustomNgTextBoxFor(model => model.CompanyLegalName, new { required = true }, new { @section = "gen" })
+                        </div>*@
+                        <div class="col-sm-12">
+                            @Html.CustomNgTextBoxFor(model => model.CompanyName, new { required = true }, new { @section = "gen", maxlength="50" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.selectedCompanyType, Model.CompanyType, null, new { @Name = "CompanyType", @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.CompanyEmbName, new { required = true }, new { @section = "gen", maxlength="26" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.CompanyRegnNo, null, new { @section = "gen", maxlength="15" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.CompanyRegnDate, null, new { @date_Picker = "", @section = "gen" })
+                        </div>
+                        @*<div class="col-sm-4">
+                            @Html.CustomNgSelectListFor(model => model.SelectedNatureOfBusiness, Model.NatureOfBusiness, null, new { @Name = "NatureOfBusiness", @section = "gen" })
+                        </div>*@
+                    </div>
+
+                    <div class="row">
+
+                        @*<div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.EntityId, null, new { @section = "gen", @readonly = "readonly" })
+                        </div>*@
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedBillingType, Model.BillingType, null, new { @Name = "BillingType", @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedInvoicePref, Model.InvoicePref, null, new { @Name = "InvoicePref", @section = "gen" })
+                        </div>
+                        @*<div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCd, null, new { @Name = "ReasonCd", @section = "gen" })
+                        </div>*@
+                    </div>
+                </div>
+                <div class="col-sm-6">
+
+                    <input type="hidden" id="xxApplGeneralInfoisedit" value="Add" />
+                    @*<input type="hidden" id="appSaveAccess" value="@Html.GetControlStatus("Save","Application gen")" />*@
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @Html.CustomNgSelectListFor(model => model.SelectedBusinessCategory, Model.BusinessCategory, null, new { @Name = "BusinessCategory", @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.ContactPerson, new { required = true }, new { @section = "gen", maxlength="100" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.Position, null , new { @section = "gen" })
+                            @*@Html.CustomNgTextBoxFor(model => model.selectedPosition, null, new { @Name = "Position", @section = "gen" })*@
+                            @*@Html.CustomNgSelectListFor(model => model.selectedPosition, Model.Position, null, new { @Name = "Position", @section = "gen" })*@
+                        </div>
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedTaxCategory, Model.TaxCategory, null, new { @Name = "TaxCategory", @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.OfficePhone, null, new { @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.MobileNo, null, new { @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.OfficeFax, null, new { @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.emailAddress, null, new { @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedLangId, Model.LangId, null, new { @Name = "LangId", @section = "gen" })
+                        </div>
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.website, null, new { @section = "gen" })
+                        </div>
+                        @*<div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedPaymentMode, Model.PaymentMode, null, new { @Name = "PaymentMode", @section = "gen" })
+                        </div>*@
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.AuthSignatory, null, new { @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgCheckBoxFor(model => model.PymtInd, null, new { @section = "gen" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgCheckBoxFor(model => model.InvoiceBillingIndicator, null, new { @section = "gen" })
+                        </div>
+                        @*<div class="col-sm-6">
+                            @Html.CustomNgCheckBoxFor(model => model.WithholdingTaxInd, null, new { @section = "gen" })
+                        </div>*@
+                       
+                        <div class="col-sm-6">
+                            @Html.CustomNgCheckBoxFor(model => model.VehiclePerformanceReportInd, null, new { @section = "gen" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-actions">
+                        <div class="panel-footer">
+                            <div class="text-right">
+                                @if (!Html.NotAuthorized("gen", "postGeneralInfo"))
+                                {
+                                    <input type="button" data-validation-form data-customsubmit="postGeneralInfo();" @(Html.IsReadOnly("gen", "postGeneralInfo") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" name="finish" value="Save">
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

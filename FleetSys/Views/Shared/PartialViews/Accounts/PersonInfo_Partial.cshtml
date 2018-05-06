@@ -1,0 +1,27 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.PersonInfoModel
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <form id="formPersonInfo" class="form-horizontal">
+                @Html.CustomNgTextBoxFor(model => model.EntityId, null, new { @data_bind = "value:ClsAmtBal", Class = "span5" })
+                @Html.CustomNgSelectListFor(model => model.SelectedTitle, Model.title, null, new { @class = "span5", @data_bind = "selectedText:title" })
+                @Html.CustomNgTextBoxFor(model => model.FirstName, null, new { @data_bind = "value:FirstName", Class = "span5" })
+                @Html.CustomNgTextBoxFor(model => model.LastName, null, new { @data_bind = "value:LastName", Class = "span5" })
+                @Html.CustomNgTextBoxFor(model => model.IdNo, null, new { @data_bind = "value:IdNo", Class = "span5" })
+                @Html.CustomNgSelectListFor(model => model.SelectedIdType, Model.IdType, null, new { @class = "span5", @data_bind = "selectedText:IdType" })
+                @Html.CustomNgTextBoxFor(model => model.AltIdNo, null, new { @data_bind = "value:AltIdNo", Class = "span5" })
+                @Html.CustomNgSelectListFor(model => model.SelectedAltIdType, Model.AltIdType, null, new { @class = "span5", @data_bind = "selectedText:AltIdType" })
+                @Html.CustomNgRadioButtonListFor(model => model.Selectedgender, Model.gender, null, new { @class = "span5", @data_bind = "selectedText:gender" })
+                @Html.CustomNgTextBoxFor(model => model.DOB, null, new { @data_bind = "value:DOB", Class = "span5" })
+                @Html.CustomNgTextBoxFor(model => model.AnnualIncome, null, new { @data_bind = "value:AnnualIncome", Class = "span5" })
+                @Html.CustomNgSelectListFor(model => model.SelectedOccupation, Model.Occupation, null, new { @class = "span5", @data_bind = "selectedText:Occupation" })
+                @Html.CustomNgSelectListFor(model => model.SelectedDeptId, Model.DeptId, null, new { @class = "span5", @data_bind = "selectedText:DeptId" })
+                @Html.CustomNgTextBoxFor(model => model.DrivingLicense, null, new { @data_bind = "value:DrivingLicense", Class = "span5" })
+            </form>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,80 @@
+﻿@model FleetSys.Models.GeneralInfoContructor
+@using FleetOps.Helpers;
+<form id="formApplicationGeneralInfo">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            @*<div class="panel-heading">
+                    <h2><strong>Application General Info</strong></h2>
+                    <div class="panel-actions">
+                        <a href="#" class="btn-minimize"><i class="fa fa-check"></i></a>
+                        <a href="#" class="btn-close"><i class="fa fa-camera"></i></a>
+                    </div>
+                </div>*@
+            <div class="panel-body">
+                <br />
+
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <a @(Html.IsReadOnly("General Info", "btnMailMerge") ? "" : "id=btnMailMerge") href="#">Mail Merge</a>
+                    </div>
+                </div>
+
+
+                @Html.CustomNgTextBoxFor(model => model.AcctNo, null, new { id = "txtAcctNo", @section = "General Info", Disabled = "true" })
+
+
+                @Html.CustomNgTextBoxFor(model => model.CmpyName, null, new { @section = "General Info" })
+              
+                @Html.CustomSelectListFor(model => model.SelectedPlasticType, Model.PlasticType, null, new { @section = "General Info", @readonly = "readonly" })
+                @Html.CustomSelectListFor(model => model.SelectedCmpyType, Model.CmpyType, null, new { @section = "General Info"})
+                @Html.CustomTextBoxFor(model => model.CmpyRegsNo, null, new { @section = "General Info" })
+                @Html.CustomTextBoxFor(model => model.SapNo, null, new { @section = "General Info" })
+                @Html.CustomTextBoxFor(model => model.RegsDate, null, new { @data_type = "datepicker", @section = "General Info" })
+                @Html.CustomSelectListFor(model => model.SelectedCorpName, Model.CorpName, null, new {@Name="CorpName", @section = "General Info" })
+                @Html.CustomTextBoxFor(model => model.RegsDate, null, new { @data_type = "datepicker", @section = "General Info" })
+                @Html.CustomSelectListFor(model => model.SelectedBusnEstablishment, Model.BusnEstablishment, null, new { @section = "General Info" })
+                @Html.CustomTextBoxFor(model => model.SourceCode, null, new { @section = "General Info", @readonly = "readonly" })
+                @Html.CustomTextBoxFor(model => model.SourceRefNo, null, new { @section = "General Info" })
+                @Html.CustomSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { @section = "General Info", @readonly = "readonly" })
+                @Html.CustomTextBoxFor(model => model.CreationDate, null, new { @section = "General Info", @readonly = "readonly", @data_type = "datepicker" })
+                @Html.CustomTextBoxFor(model => model.BlockedDate, null, new { @section = "General Info", @readonly = "readonly"})
+                @Html.CustomTextBoxFor(model => model.TerminatedDate, null, new { id = "txtGeneralTerminatedDate", @section = "General Info", @data_type = "datepicker" })
+                @Html.CustomSelectListFor(model => model.SelectedReasonCode, Model.ReasonCode, null, new { @section = "General Info", @readonly = "readonly" })
+                @Html.CustomTextBoxFor(model => model.OvrStatusTaggedByUserId, null, new { @section = "General Info", @readonly = "readonly" })
+                @Html.CustomSelectListFor(model => model.SelectedOvrStatus, Model.OvrStatus, null, new { @section = "General Info" })
+                @Html.CustomTextBoxFor(model => model.OvrExpDate, null, new { id = "txtOvrExpDate", @section = "General Info", @data_type = "datepicker" })
+                @Html.CustomTextBoxFor(model => model.ApplId, null, new { Disabled = "true", @section = "General Info" })
+                @Html.CustomTextBoxFor(model => model.ApplRef, null, new { @section = "General Info", @readonly = "readonly" })
+                @Html.CustomTextBoxFor(model => model.ApplCreationDate, null, new { @data_type = "datepicker", @readonly = "readonly", @section = "General Info" })
+                @Html.CustomSelectListFor(model => model.SelectedClientClass, Model.ClientClass, null, new { @readonly = "readonly", @section = "General Info" })
+                @Html.CustomSelectListFor(model => model.SelectedCustomerGroup, Model.CustomerGroup, null, new { @readonly = "readonly", @section = "General Info" })
+                @Html.CustomTextAreaFor(model => model.Remarks, null, new { @section = "General Info", rows = "3" })
+                @Html.CustomTextBoxFor(model => model.WebUserId, null, new { @section = "General Info", @readonly = "readonly" })
+                @Html.CustomTextBoxFor(model => model.LoyaltyCardNo, null, new { @class = "span5" })
+
+                @Html.CustomTextBoxFor(model => model.EntityId, null, new { @class = "span5" })
+                @Html.CustomTextBoxFor(model => model.AuditId, null, new { @class = "span5" })
+
+                @Html.CustomTextBoxFor(model => model.WebPassword, null, new { @class = "span5" })
+                @Html.CustomTextBoxFor(model => model.CustSvcId, null, new { @class = "span5" })
+
+                @Html.CustomSelectListFor(model => model.SelectedBusnCategory, Model.BusnCategory, null, new { @section = "General Info" })
+                @Html.CustomTextBoxFor(model => model.TaxId, null, new { @class = "span5" })
+                @Html.CustomSelectListFor(model => model.SelectedSaleTerritory, Model.SaleTerritory, null, new { @section = "General Info" })
+                @Html.CustomSelectListFor(model => model.SelectedAccountType, Model.AccountType, null, new { @section = "General Info" })
+                @Html.CustomTextBoxFor(model => model.CutOff, null, new { @class = "span5" })
+                @Html.CustomTextBoxFor(model => model.PaymentTerms, null, new { @class = "span5" })
+
+                <input type="hidden" value="@Model.AcctNo" id="hdnAcctNo" />
+                }
+
+                <input type="hidden" id="genSaveAccess" value="@Html.GetControlStatus("Save", "General Info")" />
+
+
+                <br />
+            </div>
+        </div>
+    </div>
+</form>
+

@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AcctNoLbl" xml:space="preserve">
+    <value>Account No</value>
+  </data>
+  <data name="AgreementDateLbl" xml:space="preserve">
+    <value>Agreement Date</value>
+  </data>
+  <data name="AgreementNoLbl" xml:space="preserve">
+    <value>Agreement No</value>
+  </data>
+  <data name="AutoDebitIndLbl" xml:space="preserve">
+    <value>Bank Direct Debit Indicator</value>
+  </data>
+  <data name="BankAccountNoLbl" xml:space="preserve">
+    <value>Bank Account No</value>
+  </data>
+  <data name="BankDirectDebitIndicatorLbl" xml:space="preserve">
+    <value>Bank Direct Debit Indicator</value>
+  </data>
+  <data name="BusinessNameLbl" xml:space="preserve">
+    <value>Business Name</value>
+  </data>
+  <data name="BusnLocLbl" xml:space="preserve">
+    <value>Merchant No.</value>
+  </data>
+  <data name="BusnSizeLbl" xml:space="preserve">
+    <value>Establishment</value>
+  </data>
+  <data name="CancelDateLbl" xml:space="preserve">
+    <value>Cancel Date</value>
+  </data>
+  <data name="CoRegDateLbl" xml:space="preserve">
+    <value>Company Registered Date</value>
+  </data>
+  <data name="CoRegNameLbl" xml:space="preserve">
+    <value>Company Registered Name</value>
+  </data>
+  <data name="CoRegNoLbl" xml:space="preserve">
+    <value>Company Registered No</value>
+  </data>
+  <data name="CreationDateLbl" xml:space="preserve">
+    <value>Creation Date</value>
+  </data>
+  <data name="DBANameLbl" xml:space="preserve">
+    <value>Doing Business As (DBA)</value>
+  </data>
+  <data name="EndorsedByUserIdLbl" xml:space="preserve">
+    <value>Endorsed By User Id</value>
+  </data>
+  <data name="EndorsedDateLbl" xml:space="preserve">
+    <value>Endorsed Date</value>
+  </data>
+  <data name="EntityIdLbl" xml:space="preserve">
+    <value>Entity Id</value>
+  </data>
+  <data name="LastUpdDateLbl" xml:space="preserve">
+    <value>Last Update Date</value>
+  </data>
+  <data name="MerchantNoLbl" xml:space="preserve">
+    <value>Dealer</value>
+  </data>
+  <data name="OwnershipToLbl" xml:space="preserve">
+    <value>Change Ownership To</value>
+  </data>
+  <data name="OwnershipTrsfDateLbl" xml:space="preserve">
+    <value>Ownership Transfer Date</value>
+  </data>
+  <data name="PartnerRefNoLbl" xml:space="preserve">
+    <value>Partner Ref No</value>
+  </data>
+  <data name="PayeeNameLbl" xml:space="preserve">
+    <value>Payee Name</value>
+  </data>
+  <data name="PaymentTermsLbl" xml:space="preserve">
+    <value>Payment Terms</value>
+  </data>
+  <data name="PersonInChargeLbl" xml:space="preserve">
+    <value>Dealer Name</value>
+  </data>
+  <data name="SelectDBACityDdl" xml:space="preserve">
+    <value>Doing Business As - City</value>
+  </data>
+  <data name="SelectDBARegionDdl" xml:space="preserve">
+    <value>Doing Business As - Region</value>
+  </data>
+  <data name="SelectDBAStateDdl" xml:space="preserve">
+    <value>Doing Business As - State</value>
+  </data>
+  <data name="SelectedAreaCodeDdl" xml:space="preserve">
+    <value>Area Code</value>
+  </data>
+  <data name="SelectedBankAcctNameDdl" xml:space="preserve">
+    <value>Bank Name</value>
+  </data>
+  <data name="selectedBankAcctTypeDdl" xml:space="preserve">
+    <value>Bank Account Type</value>
+  </data>
+  <data name="SelectedBankBranchCodeDdl" xml:space="preserve">
+    <value>Bank Branch Code</value>
+  </data>
+  <data name="selectedCurrentStatusDdl" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="SelectedcycNoDdl" xml:space="preserve">
+    <value>Cycle No</value>
+  </data>
+  <data name="SelectedDBARegionDdl" xml:space="preserve">
+    <value>DBA Region</value>
+  </data>
+  <data name="SelectedMCCDdl" xml:space="preserve">
+    <value>Merchant Category Code</value>
+  </data>
+  <data name="selectedOwnershsipDdl" xml:space="preserve">
+    <value>Ownership</value>
+  </data>
+  <data name="SelectedPaymtModeDdl" xml:space="preserve">
+    <value>Payment Mode</value>
+  </data>
+  <data name="SelectedReasonCodeDdl" xml:space="preserve">
+    <value>Reason Code</value>
+  </data>
+  <data name="SelectedSICDdl" xml:space="preserve">
+    <value>Standard Industry Code</value>
+  </data>
+  <data name="SelectedTaxCodeDdl" xml:space="preserve">
+    <value>Tax Code</value>
+  </data>
+  <data name="SiteIdLbl" xml:space="preserve">
+    <value>Site Id</value>
+  </data>
+  <data name="StmtPrintIndLbl" xml:space="preserve">
+    <value>Statement Print Indicator</value>
+  </data>
+  <data name="TaxIdLbl" xml:space="preserve">
+    <value>Tax Id</value>
+  </data>
+  <data name="TaxRegistrationNameLbl" xml:space="preserve">
+    <value>Tax Registration Name</value>
+  </data>
+  <data name="TopupAmtLbl" xml:space="preserve">
+    <value>Topup Amt</value>
+  </data>
+  <data name="TopupLimitLbl" xml:space="preserve">
+    <value>Topup Limit</value>
+  </data>
+  <data name="TxnCodeDdl" xml:space="preserve">
+    <value>Tax Registration Name</value>
+  </data>
+  <data name="UserIDLbl" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="VATRateLbl" xml:space="preserve">
+    <value>VAT Rate</value>
+  </data>
+  <data name="WithholdingTaxIndLbl" xml:space="preserve">
+    <value>With Holding Tax Indicator</value>
+  </data>
+  <data name="WithholdingTaxRateLbl" xml:space="preserve">
+    <value>With Holding Tax Rate</value>
+  </data>
+  <data name="WithholdPaymtFlagLbl" xml:space="preserve">
+    <value>With Hold Payment Flag</value>
+  </data>
+  <data name="AgrmntDtLbl" xml:space="preserve">
+    <value>Agreement Date</value>
+  </data>
+  <data name="AgrmntNoLbl" xml:space="preserve">
+    <value>Agreement No</value>
+  </data>
+  <data name="ApprovalDateLbl" xml:space="preserve">
+    <value>Approval Date</value>
+  </data>
+  <data name="ApprovedByUserIdLbl" xml:space="preserve">
+    <value>Approved By User Id</value>
+  </data>
+  <data name="AutoDebitIndChk" xml:space="preserve">
+    <value>Auto Debit Indicator</value>
+  </data>
+  <data name="BankAcctNameLbl" xml:space="preserve">
+    <value>Bank Account Name</value>
+  </data>
+  <data name="BankAcctNoLbl" xml:space="preserve">
+    <value>Bank Account No</value>
+  </data>
+  <data name="BankDirectDebitIndChk" xml:space="preserve">
+    <value>Bank Direct Debit Indicator</value>
+  </data>
+  <data name="BusnNameLbl" xml:space="preserve">
+    <value>Business Name</value>
+  </data>
+  <data name="CycleDateLbl" xml:space="preserve">
+    <value>Cycle Date</value>
+  </data>
+  <data name="EnttIdLbl" xml:space="preserve">
+    <value>Entity Id</value>
+  </data>
+  <data name="FloorLimitLbl" xml:space="preserve">
+    <value>Floor Limit</value>
+  </data>
+  <data name="MsfLbl" xml:space="preserve">
+    <value>MDR (%)</value>
+  </data>
+  <data name="PICLbl" xml:space="preserve">
+    <value>Dealer Name</value>
+  </data>
+  <data name="RemarksLbl" xml:space="preserve">
+    <value>Remarks</value>
+  </data>
+  <data name="SAPNoLbl" xml:space="preserve">
+    <value>SAP No</value>
+  </data>
+  <data name="SelectedAffiliatedWithCorpCodeDdl" xml:space="preserve">
+    <value>Affiliated With (Corporate Code)</value>
+  </data>
+  <data name="selectedBankAccountTypeDdl" xml:space="preserve">
+    <value>Bank Account Type</value>
+  </data>
+  <data name="SelectedBankBranchCdDdl" xml:space="preserve">
+    <value>Bank Branch Code</value>
+  </data>
+  <data name="SelectedBankNameDdl" xml:space="preserve">
+    <value>Bank Name</value>
+  </data>
+  <data name="SelectedBusnEstDdl" xml:space="preserve">
+    <value>Business Establishment</value>
+  </data>
+  <data name="SelectedBusnModelDdl" xml:space="preserve">
+    <value>MOSO</value>
+  </data>
+  <data name="SelectedBusnSizeDdl" xml:space="preserve">
+    <value>Business Size</value>
+  </data>
+  <data name="SelectedCycleNoDdl" xml:space="preserve">
+    <value>Cycle No</value>
+  </data>
+  <data name="SelectedOwnershipDdl" xml:space="preserve">
+    <value>Ownership</value>
+  </data>
+  <data name="SelectedReasonCodeLbl" xml:space="preserve">
+    <value>Reason Code</value>
+  </data>
+  <data name="SourceCdLbl" xml:space="preserve">
+    <value>Source Code</value>
+  </data>
+  <data name="SourceRefNoLbl" xml:space="preserve">
+    <value>Source Reference No</value>
+  </data>
+  <data name="CurrentSiteIdLbl" xml:space="preserve">
+    <value>Current Site Id</value>
+  </data>
+  <data name="CutoffDateLbl" xml:space="preserve">
+    <value>Cut-Off Date</value>
+  </data>
+  <data name="CutOffTimeLbl" xml:space="preserve">
+    <value>Cut-Off Time</value>
+  </data>
+  <data name="DealerContactLbl" xml:space="preserve">
+    <value>Dealer Contact</value>
+  </data>
+  <data name="DealerNameLbl" xml:space="preserve">
+    <value>Dealer Name</value>
+  </data>
+  <data name="FloatAcctIndLbl" xml:space="preserve">
+    <value>Floating Account Ind.</value>
+  </data>
+  <data name="FromMerchantIdLbl" xml:space="preserve">
+    <value>Merchant No.</value>
+  </data>
+  <data name="NewSiteIdLbl" xml:space="preserve">
+    <value>New Site Id</value>
+  </data>
+  <data name="SelectedDBAStateDdl" xml:space="preserve">
+    <value>Doing Business As-State</value>
+  </data>
+  <data name="Address1Lbl" xml:space="preserve">
+    <value>Address1</value>
+  </data>
+  <data name="Address2Lbl" xml:space="preserve">
+    <value>Address2</value>
+  </data>
+  <data name="Address3Lbl" xml:space="preserve">
+    <value>Address3</value>
+  </data>
+  <data name="EffDateFromLbl" xml:space="preserve">
+    <value>Effective Date From</value>
+  </data>
+  <data name="EffDateToLbl" xml:space="preserve">
+    <value>Effective Date To</value>
+  </data>
+  <data name="PostalCodeLbl" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="RefcdLbl" xml:space="preserve">
+    <value>Reference Code</value>
+  </data>
+  <data name="SelectedAddressTypeDdl" xml:space="preserve">
+    <value>Address Type</value>
+  </data>
+  <data name="SelectedCityDdl" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="SelectedCountryDdl" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="SelectedMailingIndicatorDdl" xml:space="preserve">
+    <value>Mailing Indicator</value>
+  </data>
+  <data name="SelectedProdCdDdl" xml:space="preserve">
+    <value>Product Code</value>
+  </data>
+  <data name="SelectedRegionDdl" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="SelectedStateDdl" xml:space="preserve">
+    <value>State</value>
+  </data>
+</root>

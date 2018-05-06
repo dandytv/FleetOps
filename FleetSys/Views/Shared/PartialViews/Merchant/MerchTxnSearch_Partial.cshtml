@@ -1,0 +1,72 @@
+﻿
+@using FleetOps.Helpers;
+@model  ModelSector.MerchPostedTxnSearch
+@using ModelSector.Global_Resources;
+
+
+<div class="modal md-modal md-effect-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h2>Transaction Search</h2>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedDealer, Model.Dealer, null, new { @Name = "Dealer"})
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedTxnCd, Model.TxnCd, null, new { @Name = "TxnCd"})
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.TxnDate, null, new { @date_Picker = "" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (!Html.NotAuthorized("Location", "Save"))
+                {
+                    <div class="form-actions">
+                        <button ng-click="SearchTxn();" @(Html.IsReadOnly("Location", "Save") ? "disabled=disabled" : "") class="btn btn-primary">Search</button>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-search"></i></a>
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+            <thead>
+                <tr>
+                    <th>Dealer</th>
+                    <th>Term Batch</th>
+                    <th>Txn Date</th>
+                    <th>Card No</th>
+                    <th>Txn Descp</th>
+                    <th>Txn Amt</th>
+                    <th>Term Id</th>
+                    <th>Auth No</th>
+                    <th>Auth Card No</th>
+                    <th>Prcs Date</th>
+                    <th>Txn Id</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>

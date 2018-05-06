@@ -1,0 +1,698 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SysdataExcelPackage</name>
+    </assembly>
+    <members>
+        <member name="P:Sysdata.Interop.Excel.ConversionOptions.StrictMapping">
+            <summary>
+            Modo strict. Se attivo indica che tutte le colonne della tabella dovranno avere un corrispettivo sullo schema
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.ConversionOptions.TrimStrings">
+            <summary>
+            Ottiene o imposta un valore che indica se effettuare il Trim delle stringhe
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.ConversionOptions.CultureForStrings">
+            <summary>
+            Ottiene o imposta una cultura da applicare per la conversione dei dati di tipo stringa.
+            Se lasciato a Null la cultura sarà rilevata automaticamente per ogni tipo di dato numerico.
+            </summary>
+            <remarks>Viene utilizzata per default la cultura del thread corrente</remarks>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IDataHelper`1.ConvertTable``1(System.Data.DataTable,Sysdata.Interop.Excel.Interfaces.ITableSchema{``0},Sysdata.Interop.Excel.ConversionOptions)">
+            <summary>
+            Converte una tabella in un elenco di oggetti
+            </summary>
+            <param name="table"></param>
+            <param name="schema"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IDataHelper`1.ConvertRow``1(System.Data.DataTable,Sysdata.Interop.Excel.Interfaces.ITableSchema{``0},System.Int32,Sysdata.Interop.Excel.ConversionOptions)">
+            <summary>
+            Converte una tabella in un elenco di oggetti
+            </summary>
+            <param name="table"></param>
+            <param name="schema"></param>
+            <param name="rowIndex"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IDataHelper`1.ConvertList``1(Sysdata.Interop.Excel.Interfaces.IDataRow[],Sysdata.Interop.Excel.Interfaces.ITableSchema{``0})">
+            <summary>
+            Converte un elenco di oggetti in una tabella 
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelController.WriteTable(System.Data.DataTable,Sysdata.Interop.Excel.Model.ExcelArea,Sysdata.Interop.Excel.Interfaces.IExcelWritingOptions)">
+            <summary>
+            Scrive un insieme di dati sul documento
+            </summary>
+            <param name="data"></param>
+            <param name="targetArea"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelController.ReadTable``1(Sysdata.Interop.Excel.Interfaces.ITableSchema{``0},Sysdata.Interop.Excel.Model.ExcelArea)">
+            <summary>
+            Legge un insieme di dati dal documento
+            </summary>
+            <param name="schema"></param>
+            <param name="targetArea"></param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelController.FindTable``1(``0,Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy{``0})">
+            <summary>
+            Ricerca uno specifico schema di tabella nel documento
+            restituendo tutti i risultati che soddisfano la strategia
+            </summary>
+            <param name="structureToFind">Schema di tabella da ricercare</param>
+            <param name="strategy">Imposta la strategia di ricerca da utilizzare</param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelController.FindTableExact``1(``0,Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy{``0})">
+            <summary>
+            Ricerca uno specifico schema di tabella nel documento
+             </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelController.FindDataExact``2(``1,Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy{``1},Sysdata.Interop.Excel.ConversionOptions)">
+            <summary>
+            Ricerca e legge un insieme dati nel documento mappandoli in oggetti
+             </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelController.FindData``2(``1,Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy{``1},Sysdata.Interop.Excel.ConversionOptions)">
+            <summary>
+            Ricerca e legge un insieme dati nel documento mappandoli in oggetti
+             </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ColumnInfo.Name">
+            <summary>
+            Ottiene o imposta un'identificativo per questa colonna
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ColumnInfo.Items">
+            <summary>
+            Ottiene o imposta il numero di elementi in questa colonna
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ColumnInfo.Title">
+            <summary>
+            Ottiene o imposta il titolo di questa colonna
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ColumnInfo.Index">
+            <summary>
+            Ottiene o imposta l'indice  (base 1) di questa colonna sul foglio Excel
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ColumnInfo.MatchAccuracy">
+            <summary>
+            Ottiene o imposta una percentuale di accuratezza per la corrispondenza
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ColumnInfo.IsEmpty">
+            <summary>
+            Ottiene un valore che indica se la colonna contiene almeno un elemento
+            </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.IExcelWorksheet">
+            <summary>Rappresenta un foglio di lavoro</summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelWorksheet.ReadData(Sysdata.Interop.Excel.Model.ExcelArea)">
+            <summary>
+            Metodo principale per la lettura dei dati
+            </summary>
+            <param name="area"></param> 
+            <returns></returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelWorksheet.WriteData(System.Data.DataTable,System.Int32,System.Int32,Sysdata.Interop.Excel.Interfaces.IExcelWritingOptions)">
+            <summary>
+            Metodo principale per la scrittura
+            </summary>
+            <param name="data"></param>
+            <param name="row"></param>
+            <param name="column"></param>
+            <param name="options"></param>
+        </member>
+        <member name="E:Sysdata.Interop.Excel.Interfaces.IExcelWorksheet.WorksheetChanged">
+            <summary>Richiamato alla modifica del foglio di lavoro</summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IExcelWorksheet.Name">
+            <summary>
+            Nome del foglio di lavoro
+            </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.IExcelWritingOptions">
+            <summary>
+            Rappresenta un insieme di parametri per la scrittura di un file excel
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IExcelWritingOptions.CreateWorksheets">
+            <summary>
+            Indica se consentire la creazione di nuovi worksheet
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IExcelWritingOptions.WriteHeaderRow">
+            <summary>
+            Indica se scrivere la riga di intestazione della tabella
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IExcelWritingOptions.HeaderStyle">
+            <summary>
+            Ottiene o imposta uno stile per l'intestazione
+            </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.IExcelDocumentProperties">
+            <summary>
+            Rappresenta un modello per le proprietà di un documento excel
+            </summary>
+        </member>
+        <member name="E:Sysdata.Interop.Excel.Interfaces.IExcelDocumentProperties.PropertyChanged">
+            <remarks>Richiamato alla modifica di una proprietà</remarks>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Model.ColumnMap">
+            <summary>
+            Definisce il mapping di una colonna di dati per l'importazione/esportazione
+            </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.IColumnMap">
+            <summary>
+            Rappresenta una corrispondenza tra una colonna di un documento excel e una proprietà di un oggetto
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IColumnMap.PropertyName">
+            <summary>Ottiene il nome della proprietà sull'oggetto di riferimento</summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IColumnMap.ExportName">
+            <summary>Ottiene o imposta il nome di colonna da utilizzare nell'esportazione</summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IColumnMap.PreferredIndex">
+            <summary>Ottiene o imposta la posizione preferenziale della colonna rispetto alle altre</summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IColumnMap.DataType">
+            <summary>Ottiene o imposta il tipo di dato della proprietà dell'oggetto</summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IColumnMap.ImportNames">
+            <summary>Ottiene o imposta un'elenco di possibili nomi della colonna su un documento</summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.DataHelper`1.MapColumnNames``1(System.Data.DataTable,Sysdata.Interop.Excel.Interfaces.ITableSchema{``0},Sysdata.Interop.Excel.DataHelper{`0}.MapMode,System.Boolean)">
+            <summary>
+            Crea una corrispondenza dal nome della colonna alla proprietà
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.DataHelper`1.ConvertTable``1(System.Data.DataTable,Sysdata.Interop.Excel.Interfaces.ITableSchema{``0},Sysdata.Interop.Excel.ConversionOptions)">
+            <summary>
+            Converte una tabella in un elenco di oggetti
+            </summary>
+            <param name="table"></param>
+            <param name="schema"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.DataHelper`1.ConvertRow``1(System.Data.DataTable,Sysdata.Interop.Excel.Interfaces.ITableSchema{``0},System.Int32,Sysdata.Interop.Excel.ConversionOptions)">
+            <summary>
+            Converte una tabella in un elenco di oggetti
+            </summary>
+            <param name="table"></param>
+            <param name="schema"></param>
+            <param name="rowIndex"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.DataHelper`1.ConvertList``1(Sysdata.Interop.Excel.Interfaces.IDataRow[],Sysdata.Interop.Excel.Interfaces.ITableSchema{``0})">
+            <summary>
+            Converte un elenco di oggetti in una tabella 
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.WorkbookInfo.Worksheets">
+            <summary>
+            Ottiene informazioni sui worksheet del documento corrente
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.WorkbookInfo.ActiveWorksheets">
+            <summary>
+            Ottiene tutte i fogli utilizzati (contenenti almeno un elemento) in questo documento
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.WorkbookInfo.ActiveColumns">
+            <summary>
+            Ottiene tutte le lingue utilizzate (contenenti almeno un elemento) in questo documento
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.WorksheetInfo.IsEmpty">
+            <summary>
+            Indica se un documento è vuoto (non contiene valori)
+            </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy`1">
+            <summary>
+            Rappresenta una strategia per l'identificazione di tabelle in un documento excel
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy`1.FindAllSchema(`0,Sysdata.Interop.Excel.Interfaces.IExcelDocument)">
+            <summary>
+            Trova tutte le possibili tabelle che corrispondono a un <see cref="T:Sysdata.Interop.Excel.Model.TableSchema"/> in  un documento excel
+            </summary>
+            <param name="structureToFind"></param>
+            <param name="document"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Strategies.AbstractTableFinderStrategy.FindAllSchema(Sysdata.Interop.Excel.Model.TableSchema,Sysdata.Interop.Excel.Interfaces.IExcelDocument)">
+            <summary>
+            Ottiene un'elenco di corrispondenze per la struttura cercata su un documento Excel
+            </summary>
+            <param name="structureToFind"></param>
+            <param name="document"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Model.ExcelArea">
+            <remarks>Definisce un'area all'interno di un documento Excel</remarks>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ExcelArea.Worksheet">
+            <remarks>Ottiene o imposta il nome del foglio di lavoro</remarks>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ExcelArea.Row">
+            <remarks>Ottiene o imposta l'indice della prima riga (base 1)</remarks>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ExcelArea.Column">
+            <remarks>Ottiene o imposta l'indice della prima colonna (base 1)</remarks>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ExcelArea.Rows">
+            <remarks>Ottiene o imposta il numero di righe su cui estendere la selezione</remarks>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Model.ExcelArea.Columns">
+            <remarks>Ottiene o imposta il numero di colonne su cui estendere la selezione</remarks>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.ExcelController.WriteTable(System.Data.DataTable,Sysdata.Interop.Excel.Model.ExcelArea,Sysdata.Interop.Excel.Interfaces.IExcelWritingOptions)">
+            <summary>
+            Scrive un insieme di dati sul documento
+            </summary>
+            <param name="data"></param>
+            <param name="targetArea"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.ExcelController.ReadTable``1(Sysdata.Interop.Excel.Interfaces.ITableSchema{``0},Sysdata.Interop.Excel.Model.ExcelArea)">
+            <summary>
+            Legge un insieme di dati dal documento
+            </summary>
+            <param name="schema"></param>
+            <param name="targetArea"></param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.ExcelController.FindTable``1(``0,Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy{``0})">
+            <summary>
+            Ricerca uno specifico schema di tabella nel documento
+            restituendo tutti i risultati che soddisfano la strategia
+            </summary>
+            <param name="structureToFind">Schema di tabella da ricercare</param>
+            <param name="strategy">Imposta la strategia di ricerca da utilizzare</param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.ExcelController.FindTableExact``1(``0,Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy{``0})">
+            <summary>
+            Ricerca uno specifico schema di tabella nel documento
+             </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.ExcelController.FindDataExact``2(``1,Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy{``1},Sysdata.Interop.Excel.ConversionOptions)">
+            <summary>
+            Ricerca e legge un insieme dati nel documento mappandoli in oggetti
+             </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.ExcelController.FindData``2(``1,Sysdata.Interop.Excel.Interfaces.ITableFinderStrategy{``1},Sysdata.Interop.Excel.ConversionOptions)">
+            <summary>
+            Ricerca e legge un insieme dati nel documento mappandoli in oggetti
+             </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.IExcelDocument">
+            <summary>
+            Rappresenta un documento excel
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelDocument.ReadData(Sysdata.Interop.Excel.Model.ExcelArea)">
+            <summary>Legge tutti i dati da un'area di lavoro</summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelDocument.WriteTable(System.Data.DataTable,Sysdata.Interop.Excel.Model.ExcelArea,Sysdata.Interop.Excel.Interfaces.IExcelWritingOptions)">
+            <summary>Scrive una tabella su un'atra di lavoro</summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelDocument.SaveAs(System.IO.Stream)">
+            <summary>Salva il documento</summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelDocument.Crop(Sysdata.Interop.Excel.Model.ExcelArea)">
+            <summary>Ritaglia un'area di lavoro nelle sole celle utilizzate</summary>
+            <param name="excelArea"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IExcelDocument.SaveToFile(System.String)">
+            <summary>
+            Salva il documento su un file
+            </summary>
+            <param name="targetFile"></param>
+        </member>
+        <member name="E:Sysdata.Interop.Excel.Interfaces.IExcelDocument.DocumentChanged">
+            <summary>Richiamato alla modifica del documento</summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IExcelDocument.Worksheets">
+            <summary>Ottiene la lista dei fogli di lavoro presenti in questo documento</summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.IExcelDocument.Properties">
+            <summary>Racchiude informazioni globali e metadati relativi al documento</summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.ExcelDocument.FromFile(System.String)">
+            <summary>
+            Crea un nuovo documento da un file esistente
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.IDataRow">
+            <summary> Rappresenta una riga di dati in una tabella</summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IDataRow.GetPropertyValue(System.String)">
+            <summary> Legge una proprietà dell'oggetto </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.IDataRow.SetPropertyValue(System.String,System.Type,System.Object,System.IFormatProvider)">
+            <summary> Scrive una proprietà dell'oggetto </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.ITableSchema">
+            <summary>
+            Rappresenta un binding tra una tabella excel e un oggetto
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.ITableSchema.ToXml(System.IO.Stream)">
+            <summary>Salva una rappresentazione Xml di questo schema</summary>
+            <param name="outStream"></param>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.ITableSchema.TableName">
+            <summary>
+            Ottiene o imposta il nome della tabella
+            </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Interfaces.ITableSchema`1">
+            <summary>
+            Rappresenta un binding tra una tabella excel e un oggetto
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Interfaces.ITableSchema`1.GetProperty(System.String)">
+            <summary>
+            Ottiene il binding associato alla proprietà di un oggetto con il nome specificato
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Interfaces.ITableSchema`1.Columns">
+            <summary>
+            Insieme di associazioni tra colonne-proprietà
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.DuplicateFinder.FindDuplicates``1(System.Collections.Generic.List{``0})">
+            <summary> Trova tutte le righe duplicate organizzandole in gruppi </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Utilities.DuplicateGroup`1">
+            <summary> Rappresenta un gruppo di righe duplicate </summary> 
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Utilities.DuplicateGroup`1.Key">
+            <summary> Chiave degli oggetti del gruppo, utilizzata per l'identificazione dei duplicati </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Utilities.DuplicateGroup`1.Rows">
+            <summary> Righe che rispondono alla chiave del gruppo </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.LevenshteinDistance.Compute(System.String,System.String)">
+            <summary>
+            Calcola la distanza tra due stringhe come numero di cambiamenti necessari per il passaggio da una all'altra
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.LevenshteinDistance.ComputeWeighted(System.String,System.String,System.Boolean)">
+            <summary>
+            Ottiene una misura di similarità tra due stringhe espressa in percentuale
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.FindAllSchema(Sysdata.Interop.Excel.Model.TableSchema,Sysdata.Interop.Excel.Interfaces.IExcelDocument)">
+            <summary>
+            Ottiene un'elenco di corrispondenze per la struttura cercata su un documento Excel
+            </summary>
+            <param name="structureToFind"></param>
+            <param name="document"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.MatchMode">
+            <summary> Ottiene o imposta una modalità per la ricerca dei match. </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.Accuracy">
+            <summary> Ottiene o imposta una percentuale di accuratezza. 
+            Verranno considerate per la creazione di un match solo le colonne con valore maggiore o uguale a questo. </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.HeaderRowIndex">
+            <summary> Ottiene o imposta l'indice (base 1) della riga di intestazione.  </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.SmartHeaderSearch">
+            <summary> Indica che verrà effettuata una ricerca per la posizione dell'intestazione </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.IgnoreCase">
+            <summary> Ottiene o imposta il confronto come case-insensitive </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.IgnoreAnonymousColumns">
+            <summary> Esclude le colonne del file excel senza titolo nella creazione dei match </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.HeaderSearchLimit">
+            <summary>
+            Ottiene o imposta il numero massimo di righe entro il quale ricercare un'intestazione
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.CropOnEmptyLine">
+            <summary>
+            Indica che nella ricerca l'area della tabella sarà ritagliata 
+            in corrispondenza della prima riga vuota
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.GlobalHeaderTollerance">
+            <summary>
+            Imposta una tolleranza per la validità delle intestazioni
+            </summary>
+        </member>
+        <member name="P:Sysdata.Interop.Excel.Strategies.LevenshteinTableFinderStrategy.MultipleLineMatches">
+            <summary>
+            Restituisce più match per foglio (a seconda delle righe di intestazione)
+            </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Model.TableSchemaMatch">
+            <summary>
+            Rappresenta le corrispondenze trovate tra le colonne di una tabella excel e un mapping
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Model.TableSchemaMatch.CreateSchema(System.String)">
+            <summary>
+            Crea un mapping tra colonne e proprietà dai match trovati
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Utilities.DataRowExtension">
+            <summary>
+            Estensione di IDataRow che aggiunge metodi di utilità 
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.DataRowExtension.SetPropertyValueForPercentage(Sysdata.Interop.Excel.Interfaces.IDataRow,System.String,System.Type,System.Object,System.IFormatProvider)">
+            <summary>
+            Imposta il valore per una proprietà di tipo percentuale normalizzata [0-1]
+            </summary>
+            <remarks>
+            Applica la rimozione del simbolo % 
+            edivide il valore per 100 se >1 
+            </remarks>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.DataRowExtension.GetRowKey(Sysdata.Interop.Excel.Interfaces.IDataRow)">
+            <summary> Genera una chiave da una IDataRow </summary>
+            <remarks>La chiave generata viene ottenuta dall'insieme dei valori marcati con <see cref="T:System.ComponentModel.DataAnnotations.KeyAttribute"/></remarks>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Utilities.SerializedFormat">
+            <summary>
+            Serialization format types.
+            </summary>
+        </member>
+        <member name="F:Sysdata.Interop.Excel.Utilities.SerializedFormat.Binary">
+            <summary>
+            Binary serialization format.
+            </summary>
+        </member>
+        <member name="F:Sysdata.Interop.Excel.Utilities.SerializedFormat.Document">
+            <summary>
+            Document serialization format.
+            </summary>
+        </member>
+        <member name="T:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1">
+            <summary>
+            Facade to XML serialization and deserialization of strongly typed objects to/from an XML file.
+            
+            References: XML Serialization at http://samples.gotdotnet.com/:
+            http://samples.gotdotnet.com/QuickStart/howto/default.aspx?url=/quickstart/howto/doc/xmlserialization/rwobjfromxml.aspx
+            </summary>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Load(System.String)">
+            <summary>
+            Loads an object from an XML file in Document format.
+            </summary>
+            <example>
+            <code>
+            serializableObject = ObjectXMLSerializer&lt;SerializableObject&gt;.Load(@"C:\XMLObjects.xml");
+            </code>
+            </example>
+            <param name="path">Path of the file to load the object from.</param>
+            <returns>Object loaded from an XML file in Document format.</returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Load(System.String,Sysdata.Interop.Excel.Utilities.SerializedFormat)">
+            <summary>
+            Loads an object from an XML file using a specified serialized format.
+            </summary>
+            <example>
+            <code>
+            serializableObject = ObjectXMLSerializer&lt;SerializableObject&gt;.Load(@"C:\XMLObjects.xml", SerializedFormat.Binary);
+            </code>
+            </example>		
+            <param name="path">Path of the file to load the object from.</param>
+            <param name="serializedFormat">XML serialized format used to load the object.</param>
+            <returns>Object loaded from an XML file using the specified serialized format.</returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Load(System.String,System.Type[])">
+            <summary>
+            Loads an object from an XML file in Document format, supplying extra data types to enable deserialization of custom types within the object.
+            </summary>
+            <example>
+            <code>
+            serializableObject = ObjectXMLSerializer&lt;SerializableObject&gt;.Load(@"C:\XMLObjects.xml", new Type[] { typeof(MyCustomType) });
+            </code>
+            </example>
+            <param name="path">Path of the file to load the object from.</param>
+            <param name="extraTypes">Extra data types to enable deserialization of custom types within the object.</param>
+            <returns>Object loaded from an XML file in Document format.</returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Load(System.String,System.IO.IsolatedStorage.IsolatedStorageFile)">
+            <summary>
+            Loads an object from an XML file in Document format, located in a specified isolated storage area.
+            </summary>
+            <example>
+            <code>
+            serializableObject = ObjectXMLSerializer&lt;SerializableObject&gt;.Load("XMLObjects.xml", IsolatedStorageFile.GetUserStoreForAssembly());
+            </code>
+            </example>
+            <param name="fileName">Name of the file in the isolated storage area to load the object from.</param>
+            <param name="isolatedStorageDirectory">Isolated storage area directory containing the XML file to load the object from.</param>
+            <returns>Object loaded from an XML file in Document format located in a specified isolated storage area.</returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Load(System.String,System.IO.IsolatedStorage.IsolatedStorageFile,Sysdata.Interop.Excel.Utilities.SerializedFormat)">
+            <summary>
+            Loads an object from an XML file located in a specified isolated storage area, using a specified serialized format.
+            </summary>
+            <example>
+            <code>
+            serializableObject = ObjectXMLSerializer&lt;SerializableObject&gt;.Load("XMLObjects.xml", IsolatedStorageFile.GetUserStoreForAssembly(), SerializedFormat.Binary);
+            </code>
+            </example>		
+            <param name="fileName">Name of the file in the isolated storage area to load the object from.</param>
+            <param name="isolatedStorageDirectory">Isolated storage area directory containing the XML file to load the object from.</param>
+            <param name="serializedFormat">XML serialized format used to load the object.</param>        
+            <returns>Object loaded from an XML file located in a specified isolated storage area, using a specified serialized format.</returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Load(System.String,System.IO.IsolatedStorage.IsolatedStorageFile,System.Type[])">
+            <summary>
+            Loads an object from an XML file in Document format, located in a specified isolated storage area, and supplying extra data types to enable deserialization of custom types within the object.
+            </summary>
+            <example>
+            <code>
+            serializableObject = ObjectXMLSerializer&lt;SerializableObject&gt;.Load("XMLObjects.xml", IsolatedStorageFile.GetUserStoreForAssembly(), new Type[] { typeof(MyCustomType) });
+            </code>
+            </example>		
+            <param name="fileName">Name of the file in the isolated storage area to load the object from.</param>
+            <param name="isolatedStorageDirectory">Isolated storage area directory containing the XML file to load the object from.</param>
+            <param name="extraTypes">Extra data types to enable deserialization of custom types within the object.</param>
+            <returns>Object loaded from an XML file located in a specified isolated storage area, using a specified serialized format.</returns>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Save(`0,System.String)">
+            <summary>
+            Saves an object to an XML file in Document format.
+            </summary>
+            <example>
+            <code>        
+            SerializableObject serializableObject = new SerializableObject();
+            
+            ObjectXMLSerializer&lt;SerializableObject&gt;.Save(serializableObject, @"C:\XMLObjects.xml");
+            </code>
+            </example>
+            <param name="serializableObject">Serializable object to be saved to file.</param>
+            <param name="path">Path of the file to save the object to.</param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Save(`0,System.String,Sysdata.Interop.Excel.Utilities.SerializedFormat)">
+            <summary>
+            Saves an object to an XML file using a specified serialized format.
+            </summary>
+            <example>
+            <code>
+            SerializableObject serializableObject = new SerializableObject();
+            
+            ObjectXMLSerializer&lt;SerializableObject&gt;.Save(serializableObject, @"C:\XMLObjects.xml", SerializedFormat.Binary);
+            </code>
+            </example>
+            <param name="serializableObject">Serializable object to be saved to file.</param>
+            <param name="path">Path of the file to save the object to.</param>
+            <param name="serializedFormat">XML serialized format used to save the object.</param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Save(`0,System.String,System.Type[])">
+            <summary>
+            Saves an object to an XML file in Document format, supplying extra data types to enable serialization of custom types within the object.
+            </summary>
+            <example>
+            <code>        
+            SerializableObject serializableObject = new SerializableObject();
+            
+            ObjectXMLSerializer&lt;SerializableObject&gt;.Save(serializableObject, @"C:\XMLObjects.xml", new Type[] { typeof(MyCustomType) });
+            </code>
+            </example>
+            <param name="serializableObject">Serializable object to be saved to file.</param>
+            <param name="path">Path of the file to save the object to.</param>
+            <param name="extraTypes">Extra data types to enable serialization of custom types within the object.</param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Save(`0,System.String,System.IO.IsolatedStorage.IsolatedStorageFile)">
+            <summary>
+            Saves an object to an XML file in Document format, located in a specified isolated storage area.
+            </summary>
+            <example>
+            <code>        
+            SerializableObject serializableObject = new SerializableObject();
+            
+            ObjectXMLSerializer&lt;SerializableObject&gt;.Save(serializableObject, "XMLObjects.xml", IsolatedStorageFile.GetUserStoreForAssembly());
+            </code>
+            </example>
+            <param name="serializableObject">Serializable object to be saved to file.</param>
+            <param name="fileName">Name of the file in the isolated storage area to save the object to.</param>
+            <param name="isolatedStorageDirectory">Isolated storage area directory containing the XML file to save the object to.</param>
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Save(`0,System.String,System.IO.IsolatedStorage.IsolatedStorageFile,Sysdata.Interop.Excel.Utilities.SerializedFormat)">
+            <summary>
+            Saves an object to an XML file located in a specified isolated storage area, using a specified serialized format.
+            </summary>
+            <example>
+            <code>        
+            SerializableObject serializableObject = new SerializableObject();
+            
+            ObjectXMLSerializer&lt;SerializableObject&gt;.Save(serializableObject, "XMLObjects.xml", IsolatedStorageFile.GetUserStoreForAssembly(), SerializedFormat.Binary);
+            </code>
+            </example>
+            <param name="serializableObject">Serializable object to be saved to file.</param>
+            <param name="fileName">Name of the file in the isolated storage area to save the object to.</param>
+            <param name="isolatedStorageDirectory">Isolated storage area directory containing the XML file to save the object to.</param>
+            <param name="serializedFormat">XML serialized format used to save the object.</param>        
+        </member>
+        <member name="M:Sysdata.Interop.Excel.Utilities.ObjectXMLSerializer`1.Save(`0,System.String,System.IO.IsolatedStorage.IsolatedStorageFile,System.Type[])">
+            <summary>
+            Saves an object to an XML file in Document format, located in a specified isolated storage area, and supplying extra data types to enable serialization of custom types within the object.
+            </summary>
+            <example>
+            <code>
+            SerializableObject serializableObject = new SerializableObject();
+            
+            ObjectXMLSerializer&lt;SerializableObject&gt;.Save(serializableObject, "XMLObjects.xml", IsolatedStorageFile.GetUserStoreForAssembly(), new Type[] { typeof(MyCustomType) });
+            </code>
+            </example>		
+            <param name="serializableObject">Serializable object to be saved to file.</param>
+            <param name="fileName">Name of the file in the isolated storage area to save the object to.</param>
+            <param name="isolatedStorageDirectory">Isolated storage area directory containing the XML file to save the object to.</param>
+            <param name="extraTypes">Extra data types to enable serialization of custom types within the object.</param>
+        </member>
+    </members>
+</doc>

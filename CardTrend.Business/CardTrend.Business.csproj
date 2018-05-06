@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9EEE873F-4A92-4545-AF70-0309FE81CEF5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CardTrend.Business</RootNamespace>
+    <AssemblyName>CardTrend.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.3.0\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseService.cs" />
+    <Compile Include="CcmsServices\IAccountSOAOpService.cs" />
+    <Compile Include="CcmsServices\IAccountOpService.cs" />
+    <Compile Include="CcmsServices\IApplicantSignUpService.cs" />
+    <Compile Include="CcmsServices\ICardHolderService.cs" />
+    <Compile Include="CcmsServices\ICardAcctSignUpService.cs" />
+    <Compile Include="CcmsServices\ICollectionOpService.cs" />
+    <Compile Include="CcmsServices\ICorporateOpService.cs" />
+    <Compile Include="CcmsServices\IEventConfigService.cs" />
+    <Compile Include="CcmsServices\IGlobalVariableOpService.cs" />
+    <Compile Include="CcmsServices\IManualSlipEntryOpService.cs" />
+    <Compile Include="CcmsServices\IMechSignUpService.cs" />
+    <Compile Include="CcmsServices\IMerchMultitxnAdjustmentService.cs" />
+    <Compile Include="CcmsServices\IMultiPaymentOpService.cs" />
+    <Compile Include="CcmsServices\IMultipleTxnOpService.cs" />
+    <Compile Include="CcmsServices\INotifSearchService.cs" />
+    <Compile Include="CcmsServices\IPinMailerOpService.cs" />
+    <Compile Include="CcmsServices\IPukalAcctOpService.cs" />
+    <Compile Include="CcmsServices\IFraudOpService.cs" />
+    <Compile Include="CcmsServices\IReportOpService.cs" />
+    <Compile Include="CcmsServices\ITransactionSearchService.cs" />
+    <Compile Include="CcmsWebServices\SecurityOpService.cs" />
+    <Compile Include="CcmsWebServices\UserAccessService.cs" />
+    <Compile Include="MessageBase\ResponseStatus.cs" />
+    <Compile Include="MessageBase\ResponseBase.cs" />
+    <Compile Include="MessageContracts\AccountOpResponse.cs" />
+    <Compile Include="MessageContracts\AcctSOASummResponse.cs" />
+    <Compile Include="MessageContracts\AcctSOASummSelectResponse.cs" />
+    <Compile Include="MessageContracts\ApplicantSignUpResponse.cs" />
+    <Compile Include="MessageContracts\CardHolderResponse.cs" />
+    <Compile Include="MessageContracts\CardAcctSignUpResponse.cs" />
+    <Compile Include="MessageContracts\ControlListResponse.cs" />
+    <Compile Include="MessageContracts\CorporateResponse.cs" />
+    <Compile Include="MessageContracts\CreditAssesOperationListResponse.cs" />
+    <Compile Include="MessageContracts\EventConfigResponse.cs" />
+    <Compile Include="MessageContracts\GeneralInfoResponse.cs" />
+    <Compile Include="MessageContracts\GetAcctSOATxnCategoryListResponse.cs" />
+    <Compile Include="MessageContracts\GetAcctSOATxnListResponse.cs" />
+    <Compile Include="MessageContracts\GetAllAcctCollectionResponse.cs" />
+    <Compile Include="MessageContracts\GetCardTypeResponse.cs" />
+    <Compile Include="MessageContracts\GetDataVersionResponse.cs" />
+    <Compile Include="MessageContracts\ManualSlipEntryResponse.cs" />
+    <Compile Include="MessageContracts\MechSignUpResponse.cs" />
+    <Compile Include="MessageContracts\LoginResponse.cs" />
+    <Compile Include="MessageContracts\LookupParameterListResponse.cs" />
+    <Compile Include="MessageContracts\MerchMultitxnAdjustmentResponse.cs" />
+    <Compile Include="MessageContracts\MilestoneResponse.cs" />
+    <Compile Include="MessageContracts\MultiPaymentResponse.cs" />
+    <Compile Include="MessageContracts\MultipleTxnOpResponse.cs" />
+    <Compile Include="MessageContracts\NotificationSearchResponse.cs" />
+    <Compile Include="MessageContracts\PinMailerBatchResponse.cs" />
+    <Compile Include="MessageContracts\FraudResponse.cs" />
+    <Compile Include="MessageContracts\PukalPaymentResponse.cs" />
+    <Compile Include="MessageContracts\SaveAcctDepositInfoResponse.cs" />
+    <Compile Include="MessageContracts\SaveAcctSignUpResponse.cs" />
+    <Compile Include="MessageContracts\SaveCorpAcctResponse.cs" />
+    <Compile Include="MessageContracts\SaveGeneralInfoResponse.cs" />
+    <Compile Include="MessageContracts\SecurityOpResponse.cs" />
+    <Compile Include="MessageContracts\TransactionSearchResponse.cs" />
+    <Compile Include="MessageContracts\UserAccessResponse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CardTrend.Common\CardTrend.Common.csproj">
+      <Project>{90b7ca88-c913-47cb-a336-2f8b4119ec15}</Project>
+      <Name>CardTrend.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardTrend.DAL\CardTrend.DAL.csproj">
+      <Project>{ce61bce4-72dd-4a64-827d-981c5edc3035}</Project>
+      <Name>CardTrend.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardTrend.Domain\CardTrend.Domain.csproj">
+      <Project>{f5b1fbfd-8cde-4f17-9330-4a4cb48bc491}</Project>
+      <Name>CardTrend.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModelSector\BaseModelSector.csproj">
+      <Project>{6523d5ed-02b7-4379-90d0-434d230074a0}</Project>
+      <Name>BaseModelSector</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

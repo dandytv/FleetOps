@@ -1,0 +1,136 @@
+﻿@using FleetOps.Helpers;
+@model CCMS.ModelSector.Milestone
+
+<div class="col-lg-12">
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><h2><strong>New Multipayment</strong></h2></div>
+        <div class="panel-body">
+            <div class="invoice">
+                <h2 style="font-weight:bold; margin-top:20px;">Payment Approval:</h2>
+                <table class="table bootstrap-datatable datatable small-font">
+                    <thead>
+                        <tr>
+                            <th style="width:10%">Batch ID</th>
+                            <th style="width:10%">Ref Key</th>
+                            <th style="width:10%">Txn Count</th>
+                            <th style="width:10%">Txn Amt</th>
+                            <th style="width:10%">Task No</th>
+                            <th style="width:10%">Priority</th>
+                            <th style="width:10%">Status</th>
+                            <th style="width:10%">Owner</th>
+                            <th style="width:10%">Remarks</th>
+                            <th style="width:5%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in Items" class="fresh-row">
+                            <td style="width:10%">
+                                <input ng-show="item.isEdit" name="BatchID" ng-model="item.BatchID" ng-class="form.$valid?'':'errorthere'" class="form-control" type="number" />
+                                <span ng-hide="item.isEdit">
+                                    {{item.BatchID}}
+                                </span>
+                            </td>
+                            <td style="width:10%">
+                                <input ng-show="item.isEdit" name="RefKey" ng-model="item.TxnAmt" ng-disabled="isEdit" amount class="form-control" type="text" />
+                                <span ng-hide="item.isEdit">
+                                    {{item.RefKey}}
+                                </span>
+                            </td>
+                            <td style="width:15%">
+                                <input ng-show="item.isEdit" ng-model="item.TxnCount" class="form-control" type="text" />
+                                <span ng-hide="item.isEdit">
+                                    {{item.TxnCount}}
+                                </span>
+                            </td>
+                            <td style="width:15%">
+                                <input ng-show="item.isEdit" ng-model="item.TxnAmt" class="form-control" type="text" />
+                                <span ng-hide="item.isEdit">
+                                    {{item.TxnAmt}}
+                                </span>
+                            </td>
+                            <td style="width:15%">
+                                <input ng-show="item.isEdit" ng-options="item.Value as item.Text for item in _Selects.TaskNo" ng-model="item.SelectedTaskNo" class="form-control" type="text" />
+                                <span ng-hide="item.isEdit">
+                                    {{item.SelectedTaskNo}}
+                                </span>
+                            </td>
+                            <td style="width:15%">
+                                <input ng-show="item.isEdit" ng-options="item.Value as item.Text for item in _Selects.Priority" ng-model="item.selectedPriority" class="form-control" type="text" />
+                                <span ng-hide="item.isEdit">
+                                    {{item.selectedPriority}}
+                                </span>
+                            </td>
+                            <td style="width:15%">
+                                <input ng-show="item.isEdit" ng-options="item.Value as item.Text for item in _Selects.Status" ng-model="item.selectedStatus" class="form-control" type="text" />
+                                <span ng-hide="item.isEdit">
+                                    {{item.selectedStatus}}
+                                </span>
+                            </td>
+                            <td style="width:7%">
+                                <select ng-show="item.isEdit" ng-options="item.Value as item.Text for item in _Selects.Owner" class="form-control" ng-model="item.SelectedOwner"></select>
+                                <span ng-hide="item.isEdit">
+                                    {{item.SelectedOwner}}
+                                </span>
+                            </td>
+                            <td style="width:15%">
+                                <input ng-show="item.isEdit" ng-model="item.Remarks" class="form-control" type="text" />
+                                <span ng-hide="item.isEdit">
+                                    {{item.Remarks}}
+                                </span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row" style="margin-top:20px">
+
+                    <div class="col-lg-4 col-lg-offset-4 col-sm-5 col-sm-offset-2 recap">
+                        <hr />
+                        <table class="table table-clear">
+                            <tbody>
+                                <tr>
+                                    <td class="left"><strong>Total amount (RM)</strong></td>
+                                    <td class="right">{{Total | currency:"RM"}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="left"><strong>Cheque Amount (RM)</strong></td>
+                                    <td class="right">{{_Object.CheQueAmt|currency:"RM"}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="left"><strong>Difference</strong></td>
+                                    <td class="right"><strong ng-class="Difference==0.00?'text text-success':'text'">{{ Difference|currency:"RM"}}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table><br />
+
+                    </div><!--/col-->
+                    <br />
+                    <div class="col-sm-12">
+                        <hr /><div class="pull-right">
+                            <a href="#" class="btn"> Cancel</a>
+                            @if (!Html.NotAuthorized("MultiPayment", "btnSave"))
+                            {
+                                <a href="javascript:;" data-validation-form data-customsubmit="AddTxn();" ng-hide="batchId" @(Html.IsReadOnly("MultiPayment", "btnSave") ? "" : "id=Save") ng-disabled="Difference!=0.00" class="btn btn-primary btn-cons">Save</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <style type="text/css">
+                .invoice-controls {
+                    padding: 20px 20px;
+                    text-align: right;
+                    padding-right: 40px;
+                }
+            </style>
+
+
+
+        </div>
+    </div>
+</div>
+

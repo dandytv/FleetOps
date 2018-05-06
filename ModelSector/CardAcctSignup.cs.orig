@@ -1,0 +1,551 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Security.AccessControl;
+using ModelSector.Global_Resources;
+
+
+namespace CCMS.ModelSector
+{
+
+    public class AccountDetails
+    {
+        [DisplayName("Account No")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public string AcctNo { get; set; }
+        [DisplayName("Corporate Name")]
+        public string CorporateName { get; set; }
+        [DisplayName("Source Code")]
+        public string SourceCode { get; set; }
+        [DisplayName("Source Reference No")]
+        public string SourceRefNo { get; set; }
+        [DisplayName("Status")]
+        public string SelectedStatus { get; set; }
+        public IEnumerable<SelectListItem> Status { get; set; }
+        [DisplayName("Credit Limit")]
+        public string CreditLimit { get; set; }
+        [DisplayName("Transaction Litre Limit")]
+        public string TransLitreLimit { get; set; }
+        [DisplayName("Transaction Amount Limit")]
+        public string TransAmtLimit { get; set; }
+        [DisplayName("Cycle No & Date")]
+        public string CycleNonDate { get; set; }
+        [DisplayName("Statement Type")]
+        public string SelectedStatementType { get; set; }
+        public IEnumerable<SelectListItem> StatementType { get; set; }
+        public MerchpersonalBankingDtl PersonalBankingDtl { get; set; }
+        public ApplicationDts ApplicationDetails { get; set; }
+    }
+
+    public class AcctSignUp
+    {
+
+        [DisplayName("Application Id")]
+        public string ApplicationId { get; set; }
+
+        [DisplayName("Application Ref")]
+        public string ApplicationRef { get; set; }
+
+        [DisplayName("Approved Date")]
+        public string ApprovedDate { get; set; }
+
+        [DisplayName("Receive Date")]
+        public string ReceiveDate { get; set; }
+
+        [DisplayName("Rejected Date")]
+        public string RejectedDate { get; set; }
+
+        [DisplayName("Account Number")]
+        [Required]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public string AcctNo { get; set; }
+
+        [DisplayName("Corporate Name")]
+        public string CorporateName { get; set; }
+
+        [DisplayName("Company Registration Number")]
+        public string CompanyRegnNo { get; set; }
+
+        [DisplayName("Company Name")]
+        public string CompanyName { get; set; }
+
+        [DisplayName("Company Legal Name")]
+        public string CompanyLegalName { get; set; }
+
+        [DisplayName("Corporate Account")]
+        public string SelectedCorporateAcct { get; set; }
+        public IEnumerable<SelectListItem> CorporateAcct { get; set; }
+
+        [DisplayName("Short Name")]
+        public string ShortName { get; set; }
+        [DisplayName("Person In Charge")]
+        public string PersonInCharge { get; set; }
+
+        [DisplayName("Position")]
+        [Required]
+        [Display(Name = "position", ResourceType = typeof(locale))]
+        public string selectedPosition { get; set; }
+        public IEnumerable<SelectListItem> Position { get; set; }
+
+        [DisplayName("Company Type")]
+        [Required]
+        public string selectedCompanyType { get; set; }
+        public IEnumerable<SelectListItem> CompanyType { get; set; }
+
+        [DisplayName("Plastic Type")]
+<<<<<<< HEAD
+        // [Display(Name = "PlasticType ", ResourceType = typeof(locale))]
+
+            [Required]
+=======
+>>>>>>> 78439a15ad216f24ba7136f4f156624715bedd7f
+        public string selectedPlasticType { get; set; }
+        public IEnumerable<SelectListItem> PlasticType { get; set; }
+
+        [DisplayName("Company Registration Name")]
+        public string CompanyRegnName { get; set; }
+
+        [DisplayName("Company Emboss Name")]
+        public string CompanyEmbName { get; set; }
+
+        [DisplayName("Company Registration Date")]
+        public string CompanyRegnDate { get; set; }
+
+        [DisplayName("Contact Person")]
+        public string ContactPerson { get; set; }
+
+        [DisplayName("Business Category")]
+        public string SelectedBusinessCategory { get; set; }
+        public IEnumerable<SelectListItem> BusinessCategory { get; set; }
+
+        [DisplayName("Nature Of Business")]
+        public string NatureOfBusiness { get; set; }
+
+        [DisplayName("Cycle No")]
+        public string CycleNo { get; set; }
+
+        [DisplayName("Credit Limit")]
+        public decimal CreditLimit { get; set; }
+
+        [DisplayName("Statement Type")]
+        public string SelectedStatementType { get; set; }
+        public IEnumerable<SelectListItem> StatementType { get; set; }
+
+        [DisplayName("Status")]
+        public string SelectedStatus { get; set; }
+        public IEnumerable<SelectListItem> Status { get; set; }
+
+        public CreationDatenUserId CreationDatenUserid { get; set; }
+
+        [DisplayName("Last Update Date ")]
+        public string lastUpdateDate { get; set; }
+
+        [DisplayName("region")]
+        public string SelectedRegion { get; set; }
+        public IEnumerable<SelectListItem> Region { get; set; }
+
+        [DisplayName("vehicle performance report")]
+        public string VehiclePerformanceReport { get; set; }
+
+        //[DisplayName("User Id")]
+        //public string userId { get; set; }
+
+        //[DisplayName("Creation Date")]
+        //public string creationDate { get; set; }
+
+        [DisplayName("Office Phone")]
+        [MaxLength (11)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        public string OfficePhone { get; set; }
+
+        [DisplayName("Mobile No")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{3})$", ErrorMessage = "Entered phone format is not valid.")]
+        [Range(10,11)]
+        public string MobileNo { get; set; }
+
+        [DisplayName("Office Fax")]
+        [MaxLength(11)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        public string OfficeFax { get; set; }
+
+        [DisplayName("Email Address")]
+        [RegularExpression((@"^([\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+\.)*[\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$"), ErrorMessage = "Not a valid Email Address")]
+        public string emailAddress { get; set; }
+
+        [DisplayName("Billing Type")]
+        public string SelectedBillingType { get; set; }
+        public IEnumerable<SelectListItem> BillingType { get; set; }
+
+        [DisplayName("Invoice Preference")]
+        public string SelectedInvoicePref { get; set; }
+        public IEnumerable<SelectListItem> InvoicePref { get; set; }
+
+        [DisplayName("Loyalty Card No")]
+        public string LoyaltyCardNo { get; set; }
+
+        [DisplayName("Loyalty Full Name")]
+        public string LoyaltyFullName { get; set; }
+
+        [DisplayName("Loyalty Ic No")]
+        public string LoyaltyIcNo { get; set; }
+
+        [DisplayName("Loyalty Contact No")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        [Range(11, 12)]
+        public string LoyaltyContactNo { get; set; }
+
+        [DisplayName("Loyalty Business")]
+        public bool LoyaltyeBusn { get; set; }
+
+        [DisplayName("Entity Id")]
+        public string EntityId { get; set; }
+
+    }
+
+    public class ReferenceInfo
+    {
+        [DisplayName("Reference Key")]
+
+        public string ReferenceKey { get; set; }
+        [DisplayName("Reference Type")]
+        public string SelectedReferenceType { get; set; }
+        public IEnumerable<SelectListItem> ReferenceType { get; set; }
+
+
+        public string RefKey { get; set; }
+        [DisplayName("Reference Type")]
+        public string SelectedRefType { get; set; }
+        public IEnumerable<SelectListItem> RefType { get; set; }
+
+
+
+
+        [DisplayName("Reference Code")]
+        public string RefCd { get; set; }
+    }
+
+    public class ApplicationDts
+    {
+        [DisplayName("Application ID")]
+        public string ApplicationId { get; set; }
+        [DisplayName("Application Reference")]
+        public string ApplicationReference { get; set; }
+        [DisplayName("Creation Date")]
+        public string CreationDate { get; set; }
+        [DisplayName("Approval Date")]
+        public string ApprovalDate { get; set; }
+        [DisplayName("Transfered Date")]
+        public string TransferredDate { get; set; }
+        [DisplayName("Remarks")]
+        public string Remarks { get; set; }
+    }
+    public class FinancialInfo
+    {
+
+        [DisplayName("Credit Allowance Factor")]
+        public string CreditAllowanceFactor { get; set; }
+
+        //[DisplayName("Accrued Interest")]
+        //public string Accruedinterest { get; set; }
+
+        //[DisplayName("Accrued Credit Usage")]
+        //public string AccruedCreditUsage { get; set; }
+
+        //[DisplayName("Credit Limit")]
+        //public string CreditLimit { get; set; }
+
+        //[DisplayName("Litre Limit")]
+        //public string LitreLimit { get; set; }
+
+        public MerchpersonalBankingDtl _BankingDtl { get; set; }
+
+        [DisplayName("Customer No")]
+        public string CustomerNo { get; set; }
+
+        [DisplayName("Banker")]
+        public string Banker { get; set; }
+
+
+        [DisplayName("Cash Deposit")]
+        public string CashDeposit { get; set; }
+
+        [DisplayName("Source Code")]
+        public string SourceCode { get; set; }
+
+        [DisplayName("State")]
+        public string selectedState { get; set; }
+        public IEnumerable<SelectListItem> State { get; set; }
+
+        [DisplayName("Industry Code")]
+        public string IndustryCode { get; set; }
+
+        [DisplayName("Approved By")]
+        public string ApprovedBy { get; set; }
+
+        [DisplayName("Approved Date")]
+        public string ApprovedDate { get; set; }
+
+        [DisplayName("Endorsed Date")]
+        public string EndorsedDate { get; set; }
+
+
+        [DisplayName("Endorsed By")]
+        public string EndorsedBy { get; set; }
+
+        [DisplayName("Transferred Date")]
+        public string TransferredDate { get; set; }
+
+        [DisplayName("Remarks")]
+        public string Remarks { get; set; }
+    }
+    public class VelocityLimitnList
+    {
+        public ReferenceInfo _ReferenceInfo { get; set; }
+
+        [DisplayName("Velocity Type")]
+        public string SelectedVelocityType { get; set; }
+        public IEnumerable<SelectListItem> VelocityType { get; set; }
+
+        [DisplayName("Control Type")]
+        public string SelectedControlType { get; set; }
+        public IEnumerable<SelectListItem> ControlType { get; set; }
+
+        [DisplayName("Product Code")]
+        public string ProductCode { get; set; }
+
+        [DisplayName("Litre Limits")]
+        public Int64 LimitLitres { get; set; }
+
+        [DisplayName("Amount Limits")]
+        public Int64 AmountLimits { get; set; }
+
+        [DisplayName("Counter Limits")]
+        public Int64 CounterLimits { get; set; }
+
+        public CreationDatenUserId _CreationDatenUserId { get; set; }
+
+        [Display(Name = "lastupdatedate", ResourceType = typeof(locale))]
+        public string lastUpdateDate { get; set; }
+    }
+    public class CardDetailsnSelect
+    {
+        public ReferenceInfo _ReferenceInfo { get; set; }
+
+        [DisplayName("Card No")]
+        [Range(16,19)]
+        public string CardNo { get; set; }
+
+        public GhostCardModel CardModel { get; set; }
+
+        [DisplayName("Emboss Name")]
+        public string EmbossName { get; set; }
+
+        [DisplayName("Full Name")]
+        public string FullName { get; set; }
+
+        [DisplayName("Status")]
+        public string SelectedStatus { get; set; }
+        public IEnumerable<SelectListItem> Status { get; set; }
+
+        [DisplayName("National Identity No")]
+        public string NationalIdentityNo { get; set; }
+
+        [DisplayName("National Identity Type")]
+        public string SelectedNationalIdentityType { get; set; }
+        public IEnumerable<SelectListItem> NationalIdentityType { get; set; }
+
+        [DisplayName("Alternate National Identity No")]
+        public string AlternateNationalIdentityNo { get; set; }
+
+        [DisplayName("AlternateNational Identity Type")]
+        public string SelectedAlternateNationalIdentitype { get; set; }
+        public IEnumerable<SelectListItem> AlternateNationalIdentitype { get; set; }
+
+        [DisplayName("Nationality")]
+        public string SelectedNationality { get; set; }
+        public IEnumerable<SelectListItem> Nationality { get; set; }
+
+        [DisplayName("Transaction Litre Limit")]
+        public string TransactionLiterLimit { get; set; }
+
+        [DisplayName("Transaction Amount Limit")]
+        public string TransactionAmountLimit { get; set; }
+
+        [DisplayName("Passport ID")]
+        public string PassportId { get; set; }
+
+        [DisplayName("Passport Issued")]
+        public string PassportIssued { get; set; }
+
+        [DisplayName("Gender")]
+        public string Gender { get; set; }
+
+        [DisplayName("Date of Birth")]
+        public string DOB { get; set; }
+
+        [DisplayName("Annual Income")]
+        public string SelectedAnnualIncome { get; set; }
+        public IEnumerable<SelectListItem> AnnualIncome { get; set; }
+
+        [Required]
+        [Display(Name = "occupation", ResourceType = typeof(locale))]
+        public string selectedPosition { get; set; }
+        public IEnumerable<SelectListItem> Position { get; set; }
+
+        [Display(Name = "License", ResourceType = typeof(locale))]
+        public string License { get; set; }
+        public IEnumerable<SelectListItem> Drivinglicense { get; set; }
+
+        [DisplayName("Vehicle Registration No")]
+        public string VehicleRegNo { get; set; }
+
+        [DisplayName("Driver Code")]
+        public string DriverCode { get; set; }
+    }
+
+    public class VehicleDetails
+    {
+        public ReferenceInfo _ReferenceInfo { get; set; }
+        [DisplayName("Vehicle Registration No")]
+        public string VehicleRegnNo { get; set; }
+        [DisplayName("Vehicle Maker")]
+        public string VehicleMaker { get; set; }
+        [DisplayName("Vehicle Model")]
+        public string VehicleModel { get; set; }
+        [DisplayName("Vehicle Registration Date")]
+        public string VehicleRegnDate { get; set; }
+        [DisplayName("Vehicle Year")]
+        public string VehicleYear { get; set; }
+        [DisplayName("Vehicle Color")]
+        public string VehicleColor { get; set; }
+        [DisplayName("Odometer Reading")]
+        public string OdoMeterreading { get; set; }
+        [DisplayName("Odometer Update")]
+        public string OdoMeterUpdate { get; set; }
+        [DisplayName("Road Tax Expirt Date")]
+        public string RoadTaxExpiryDate { get; set; }
+        [DisplayName("Road Tax Amount")]
+        public string RoadTaxAmount { get; set; }
+        [DisplayName("Renewal Period")]
+        public string RenewalPeriod { get; set; }
+        [DisplayName("Insurance No")]
+        public string InsuranceNo { get; set; }
+        [DisplayName("Policy No")]
+        public string PolicyNo { get; set; }
+        [DisplayName("Policy Expiry Date")]
+        public string PolicyExpiryDate { get; set; }
+        [DisplayName("Premium Amount")]
+        public Int64 PremiumAmount { get; set; }
+        [DisplayName("Policy Amount")]
+        public Int64 PolicyAmount { get; set; }
+        [DisplayName("Vehicle Service Date")]
+        public string VehicleServiceDate { get; set; }
+    }
+
+    public class ProductAcceptance
+    {
+        [DisplayName("Card No")]
+        [Range(16, 19)]
+        public string CardNo { get; set; }
+        [DisplayName("Product Group")]
+        public string ProductGroup { get; set; }
+    }
+    public class LocationAcceptance
+    {
+        public ReferenceInfo _ReferenceInfo { get; set; }
+
+        [DisplayName("Merchant ID")]
+        public string MerchantId { get; set; }
+    }
+
+    public class CreationDatenUserId
+    {
+        [Display(Name = "creationdate", ResourceType = typeof(locale))]
+        public string CreationDate { get; set; }
+        [Display(Name = "userid", ResourceType = typeof(locale))]
+        public string UserId { get; set; }
+    }
+    public class ContactDetailsnList
+    {
+        public ReferenceInfo _ReferenceInfo { get; set; }
+        [DisplayName("Contact No")]
+        [Range(11, 12)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+
+        public string ContactNo { get; set; }
+        public CreationDatenUserId CreationDatenUserid { get; set; }
+    }
+    public class TemporaryCreditnList
+    {
+        [DisplayName("Account No")]
+        [RegularExpression(@"[-+]?[0-9]*\.?[0-9]?[0-9]", ErrorMessage = "Numbers only")]
+        public string AcctNo { get; set; }
+        [DisplayName("Date From")]
+        public string FromDate { get; set; }
+        [DisplayName("Date To")]
+        public string ToDate { get; set; }
+        [DisplayName("Credit Limit")]
+        public string CreditLimit { get; set; }
+        [DisplayName("Status")]
+        public string SelectedStatus { get; set; }
+        public IEnumerable<SelectListItem> Status { get; set; }
+        public CreationDatenUserId CreationDatenUserid { get; set; }
+    }
+    public class MiscInfo
+    {
+        [DisplayName("Company Type")]
+        public string SelectedCompanyType { get; set; }
+        public IEnumerable<SelectListItem> CompanyType { get; set; }
+        [DisplayName("Company Registration Name")]
+        public string CompanyRegnName { get; set; }
+        [DisplayName("Trade No")]
+        public string TradeNo { get; set; }
+        [DisplayName("Trade Id")]
+        public string TaxId { get; set; }
+
+        [DisplayName("Business Category")]
+        public string SelectedBusinessCategory { get; set; }
+        public IEnumerable<SelectListItem> BusinessCategory { get; set; }
+        [DisplayName("Business Registration Date")]
+        public string BusnRegnDate { get; set; }
+        [DisplayName("Place of Registration")]
+        public string PlaceofRegn { get; set; }
+        [DisplayName("Legal Date")]
+        public string LegalDate { get; set; }
+
+        [DisplayName("Authorized Signatory")]
+        public string AuthorizedSignatory { get; set; }
+        [DisplayName("Authorized Full Name")]
+        public string AuthorizedFullName { get; set; }
+        [Display(Name = "occupation", ResourceType = typeof(locale))]
+        public string selectedPosition { get; set; }
+        public IEnumerable<SelectListItem> Position { get; set; }
+        [DisplayName("Authorized Date")]
+        public string AuthorizedDate { get; set; }
+        [DisplayName("Smiles Driver FullName")]
+        public string SmilesDriverFullName { get; set; }
+        [DisplayName("Smiles ICNo.")]
+        public string SmilesICNo { get; set; }
+        [DisplayName("Smiles IC Type")]
+        public string selectedSmilesICType { get; set; }
+        public IEnumerable<SelectListItem> SmilesICType { get; set; }
+        [DisplayName("Contact No")]
+        [Range(11, 12)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        public string ContactNo { get; set; }
+        [DisplayName("eBusiness Type")]
+        public string selectedeBusinessType { get; set; }
+        public IEnumerable<SelectListItem> eBusnType { get; set; }
+    }
+
+
+
+
+
+
+
+}

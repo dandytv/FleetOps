@@ -1,0 +1,342 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.LookupParameters
+
+<style type="text/css">
+    .panel-group .panel + .panel {
+        margin-top: 0px;
+    }
+
+    .parent-row {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .child-column {
+        display: flex;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
+
+<div class="col-lg-12">
+    <h2><strong>Event Type</strong></h2>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse0" aria-expanded="true" aria-controls="collapse0">
+                        <strong>Event Information</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse0" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                @Html.CustomNgTextBoxFor(model => model.EventTypeId, null, new { @section = "evt", @disabled = "disabled" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.ShortDescp, null, new { @section = "evt", @disabled = "disabled", })
+                            </div>
+                            <div class="col-sm-3 p-t-30">
+                                <span><strong>Applicable for all accounts:</strong></span>
+                                <label class="switch switch-success" style="margin-left:6px;">
+                                    <input type="checkbox" class="switch-input" ng-model="_Object.ApplyAllInd" ng-checked="_Object.ApplyAllInd">
+                                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                @Html.CustomNgSelectListFor(model => model.SelectedEventType, Model.EventType, null, new { Name = "EventType", @section = "evt", @disabled = "disabled" })
+                            </div>
+
+                            <div class="col-sm-3">
+                                @Html.CustomNgSelectListFor(model => model.SelectedPriority, Model.Priority, null, new { Name = "Priority", @section = "evt" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.CustomNgSelectListFor(model => model.SelectedOwner, Model.Scope, null, new { Name = "Owner", @section = "evt" })
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="btn-group btn-group-sm p-t-23" role="group" aria-label="...">
+                                @if (!Html.NotAuthorized("evt", "btnSaveAll"))
+                                    {
+                                    <button type="button" ng-click="toggleStatus('E');" ng-class="_Object.SelectedStatus=='E'?'btn btn-success':'btn btn-default'">Active</button>
+                                    <button type="button" ng-click="toggleStatus('D');" ng-class="_Object.SelectedStatus!='E'?'btn btn-danger':'btn btn-default'">Disabled</button>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextAreaFor(model => model.DetailedDescp, null, new { @section = "evt", @rows = "4", @ng_disabled = "isEditMode", })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        <strong>Event Details</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                    <h3><strong>How often do you want the notification to be pushed?</strong></h3><br />
+                    <div class="row">
+                        <div class="col-md-4 p-t-23">
+                            <label class="radio-inline" for="inline-radio1">
+                                <input type="radio" id="inline-radio1" name="inline-radios" ng-change="selectedOccurChanged(_Object.SelectedOccur);" ng-model="_Object.SelectedOccur" value="E">Every Time
+                            </label>
+                            <label class="radio-inline" for="inline-radio2">
+                                <input type="radio" id="inline-radio2" ng-model="_Object.SelectedOccur" ng-change="selectedOccurChanged(_Object.SelectedOccur);" name="inline-radios" value="S">Set Frequency
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row p-t-23">
+                        <div class="col-sm-2">
+                            @Html.CustomNgTextBoxFor(model => model.MaxOccur, null, new { @section = "evt", @only_digits="", @ng_disabled = "_Object.SelectedOccur=='E'" })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.CustomNgSelectListFor(model => model.SelectedFrequency, Model.Frequency, null, new { Name = "Frequency", @section = "evt", @ng_disabled = "_Object.SelectedOccur=='E'" })
+                        </div>
+                    </div>
+                    <br />
+                    <hr class="soften" />
+                    <h3><strong>Set the criteria for the notification to be pushed:</strong></h3><br />
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width:40%"></th>
+                                <th style="width:20%">Occur Type</th>
+                                <th style="width:10%">Interval</th>
+                                <th style="width:10%">Period Type</th>
+                                <th style="width:20%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Items track by item.id" ng-hide="item.BitmapAmt==0">
+                                <td>
+                                    <div class="form-group" ng-repeat="inner in bitmapControls[Items.indexOf(item)]" ng-class="inner.class" ng-hide="inner.dataType=='x'">
+                                        <label for="name">{{inner.placeholder}}</label>
+                                        <p>{{item[inner.type]}}</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span ng-if="containsBitmap(Items.indexOf(item),1)"><strong>{{item.SelectedOccur=='C'?'Current Cycle':item.SelectedOccur=='S'?'Set Checking Period':''}}</strong></span>
+                                </td>
+                                <td>
+                                    <p>{{item.PeriodInterval}}</p>
+                                </td>
+                                <td>
+                                    {{item.PeriodType}}
+                                </td>
+                                <td>
+                                    <div style="vertical-align: middle;">
+                                        <div class="btn-group btn-group-justified">
+                                            @if (!Html.NotAuthorized("evt", "btnEditBitmap"))
+                                            {
+                                                <a href="javascript:;" ng-click="editItem(item);" @(Html.IsReadOnly("evt", "btnEditBitmap") ? "disabled=disabled" : "") id="btnSaveRow" class="btn btn-sm btn-primary btn-small"><i class="fa fa-edit"></i></a>
+                                            }
+                                            @if (!Html.NotAuthorized("evt", "btnDeleteBitmap"))
+                                            {
+                                                if (Html.IsReadOnly("evt", "btnDeleteBitmap"))
+                                                {
+                                                  <a href="javascript:;" id="btnSaveRow" @(Html.IsReadOnly("evt", "btnDeleteBitmap") ? "disabled=disabled" : "") ng-click="removeItem(item);" class="btn btn-sm btn-small btn-danger"><i class="fa fa-trash-o"></i></a>
+                                                }else
+                                                {
+                                                  <a href="javascript:;" id="btnSaveRow" ng-disabled="isEdit" @(Html.IsReadOnly("evt", "btnDeleteBitmap") ? "disabled=disabled" : "") ng-click="removeItem(item);" class="btn btn-sm btn-small btn-danger"><i class="fa fa-trash-o"></i></a>
+                                                }
+
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                   @if (!Html.NotAuthorized("evt", "btnAddNewBitMapInfo"))
+                    {
+                        @*<button type="submit" ng-click="saveAll();" @(Html.IsReadOnly("evt", "btnSaveAll") ? "disabled=disabled" : "") class="btn btn-cons btn-primary">Save</button>*@
+                        if (Html.IsReadOnly("evt", "btnAddNewBitMapInfo"))
+                        {
+                          <button ng-click="CreateNewItem($event);" disabled class="btn btn-default hide-print"> Add a new item</button>
+                        }else
+                        {
+                           <button ng-click="CreateNewItem($event);"  ng-disabled="_Object.BitmapAmt=='0'" class="btn btn-default hide-print"> Add a new item</button>
+                        }
+
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingFour">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse3" aria-expanded="false" aria-controls="collapse0">
+                        <strong>Notification Channels</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                <div class="panel-body" style="margin-top:30px;margin-bottom:30px;">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="vertical-align:middle;text-align:center">
+                                            <span><strong>Email:</strong></span>
+                                            <label class="switch switch-success" style="margin-left:6px;">
+                                                <input type="checkbox" class="switch-input" ng-model="_Object.NotifyIndEmail" ng-checked="_Object.NotifyIndEmail">
+                                                <span class="switch-label" data-on="Yes" data-off="No"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <div style="display:inline" ng-repeat="item in templateDisplayer| filter:{Type:'E'}">
+                                                <a target="_blank" href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/GlobalVariables/DownloadTmpl?path={{item.ContentTmplt}}" style="margin-bottom: 4px;margin-right:5px" ng-class="item.LangInd=='EN'?'btn btn-vine':'btn btn-spotify'"><span>Download-{{item.LangInd}}</span></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:middle;text-align:center">
+                                            <span><strong>SMS:</strong></span>
+                                            <label class="switch switch-success" style="margin-left:6px;">
+                                                <input type="checkbox" class="switch-input" ng-model="_Object.NotifyIndSms" ng-checked="_Object.NotifyIndSms">
+                                                <span class="switch-label" data-on="Yes" data-off="No"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <div style="display:inline" ng-repeat="item in templateDisplayer| filter:{Type:'S'}">
+                                                <a target="_blank" href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/GlobalVariables/DownloadTmpl?path={{item.ContentTmplt}}" style="margin-bottom: 4px;margin-right:5px" ng-class="item.LangInd=='EN'?'btn btn-vine':'btn btn-spotify'"><span>Download-{{item.LangInd}}</span></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                        <hr />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel panel-default" style="border-top:0">
+            <div class="panel-footer">
+                <div class="pull-left">
+                    <p class="text-muted">Updated on:  <strong ng-cloak>{{_Object.LastUpdated}}</strong></p>
+                    <p class="text-muted">Updated by:  <strong ng-cloak>{{_Object.UpdatedBy}}</strong></p>
+                </div>
+                <div class="text-right">
+                    @if (!Html.NotAuthorized("evt", "btnSaveAll"))
+                    {
+                        <button type="submit" ng-click="saveAll();" @(Html.IsReadOnly("evt", "btnSaveAll") ? "disabled=disabled" : "") class="btn btn-cons btn-primary">Save</button>
+                    }
+                    @*<button type="submit" ng-click="saveAll();" class="btn btn-cons btn-primary">Save</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete-modal" app-modal trigger="detailModalOpen">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" ng-click="cancelEdit();" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Add/Update </h4>
+                </div>
+                <div class="modal-body" ng-class="Items[selectedItem].BitmapAmt<21?'small':''">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3><strong>Set the criteria for the notification to be pushed:</strong></h3><br />
+                            <div class="row">
+                                <div class="form-group" ng-repeat="inner in bitmapControls[selectedItem]" ng-class="inner.class" ng-hide="inner.dataType=='x'">
+                                    <label for="name">{{inner.placeholder}}</label>
+                                    <input only-digits ng-if="inner.dataType=='int'" class="form-control" ng-model="Items[selectedItem][inner.type]" section="evt" type="text">
+                                    <input ng-if="inner.dataType=='string'" class="form-control" ng-model="Items[selectedItem][inner.type]" section="evt" type="text">
+                                    <input amount ng-if="inner.dataType=='money'" class="form-control" amount ng-model="Items[selectedItem][inner.type]" section="evt" type="text">
+                                    <input datetime="HH:mm:ss" datetime-model="HH:mm:ss" ng-if="inner.dataType=='dataPicker'" class="form-control" datepicker ng-model="Items[selectedItem][inner.type]" section="evt" type="text" placeholder="eg:09:45">
+                                    <input datetime="HH:mm:ss" datetime-model="HH:mm:ss" ng-if="inner.dataType=='timePicker'" class="form-control" ng-model="Items[selectedItem][inner.type]" section="evt" placeholder="eg:09:45" type="text">
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+
+
+                        <div class="col-sm-12" style="padding-top:8px;padding-bottom:20px;" ng-if="containsBitmap(selectedItem,2)">
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="Items[selectedItem].SelectedOccur" ng-change="intervalChanged(Items[selectedItem].SelectedOccur);" value="C">Current Cycle
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="Items[selectedItem].SelectedOccur" ng-change="intervalChanged(Items[selectedItem].SelectedOccur);" value="S">Set Checking Period
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6" ng-if="containsBitmap(selectedItem,2)">
+                                    <input only-digits ng-model="Items[selectedItem].PeriodInterval" ng-disabled="Items[selectedItem].SelectedOccur=='C'" class="form-control" type="text" />
+                                </div>
+                                <div class="col-sm-6" ng-if="containsBitmap(selectedItem,1)">
+                                    <ui-select name="Frequency" ng-model="Items[selectedItem].PeriodType" ng-disabled="Items[selectedItem].SelectedOccur=='C'" section="General Info" style="width:100%" theme="select2">
+                                        <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Frequency| filter: $select.search" value="{{$select.selected.Value}}">
+                                            <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">     
+                   <button type="button"  class="btn btn-default" ng-click="cancelEdit();" data-dismiss="modal">Cancel</button>                 
+                  @if (!Html.NotAuthorized("evt", "btnSaveBitmapInfo"))
+                    {
+                    <button type="button" @(Html.IsReadOnly("evt", "btnSaveBitmapInfo") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" ng-click="finishEdit();" data-dismiss="modal">Save</button>
+                    }
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!--Delete Confirmation (S)-->
+    <div class="modal fade" id="delete-modal" app-modal trigger="itemDeleteModalOpen">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="itemDeleteModalOpen=false;" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Confirm Delete?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>This action will delete the record, continue?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="itemDeleteModalOpen=false;" data-dismiss="modal">Cancel</button>
+                   @if (!Html.NotAuthorized("evt", "btnSaveBitmapInfo"))
+                    {
+                        <button type="button" @(Html.IsReadOnly("evt", "btnSaveBitmapInfo") ? "disabled=disabled" : "") ng-click="confirmitemDelete()" class="btn btn-danger">Yes, Continue</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Delete Confirmation (E)-->

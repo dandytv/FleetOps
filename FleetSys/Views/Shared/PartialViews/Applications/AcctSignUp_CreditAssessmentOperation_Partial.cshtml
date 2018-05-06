@@ -1,0 +1,101 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model  ModelSector.CreditAssesOperation
+
+<h1>Credit &amp; Assessment <small></small></h1><br/>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        </div>
+        @*<div class="panel-heading">
+                <h2><strong>Application General Info</strong></h2>
+                <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-check"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-camera"></i></a>
+                </div>
+            </div>*@
+        <div class="panel-body">
+        
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.CreditLimit, null, new { @amount = "", @section = "cao" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedPaymentMode, Model.PaymentMode, null, new { @Name = "PaymentMode", @section = "cao" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedPaymentTerm, Model.PaymentTerm, new { required = true }, new { @Name = "PaymentTerm", @section = "cao" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    @Html.CustomNgTextBoxFor(model => model.TxnAmtLimit, null, new { @amount = "", @section = "cao" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.CustomNgTextBoxFor(model => model.TxnLitLimit, null, new { @section = "cao" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedTerritoryCd, Model.TerritoryCd, null, new { @Name = "TerritoryCd", @section = "cao" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedTradingArea, Model.TradingArea, null, new { @Name = "TradingArea", @section = "cao" })
+                </div>
+                
+            </div>
+            @Html.HiddenFor(model => model.ValidityDate, new { @section = "cao" })
+            @Html.HiddenFor(model => model.NRID, new { @section = "cao" })
+
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedAssesmtType, Model.AssesmtType, null, new { @Name = "AssesmtType", @section = "cao" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.SecurityAmt, null, new { @amount = "", @readonly = "readonly", @section = "cao" })
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedQuantitative, Model.Quantitative, null, new { @Name = "Quantitative", @section = "cao" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedQualitative, Model.Qualitative, null, new { @Name = "Qualitative", @section = "cao" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.RecommendCreditLimit, null, new { @amount = "", @section = "cao" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.ProposeCreditLimit, null, new { @amount = "", @section = "cao" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.RecommendSecurityAmt, null, new { @amount = "", @section = "cao" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.ProposeSecurityAmt, null, new { @amount = "", @section = "cao" })
+                </div>
+            </div>
+
+            @Html.CustomNgTextAreaFor(model => model.remarks, null, new { id = "txtCostCentreDescp", @section = "cao", rows = "3" })
+
+                    <div class="panel-footer">
+                    @if (!Html.NotAuthorized("cao", "btnSaveCreditAssessmentOperation"))
+                    {
+                        <div class="text-right">
+                            <input type="button" class="btn btn-primary btn-cons" ng-click="SaveCreditAssessmentOperation();" @(Html.IsReadOnly("cao", "btnSaveCreditAssessmentOperation") ? "disabled=disabled" : "") name="finish" value="Save">
+                        </div>
+                    }
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+@*<input type="hidden" id="caoSaveAccess" value="@Html.GetControlStatus("Save","Credit & Appl Assessment")" />*@

@@ -1,0 +1,99 @@
+﻿
+@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+
+
+
+<style type="text/css">
+    .sub-nav-bar {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+</style>
+<h1>Address List <small></small></h1>
+<br />
+<style type="text/css">
+    .panel .panel-heading .panel-actions a i.fa {
+        color: #666666;
+        font-weight: bold;
+    }
+</style>
+
+
+<form id="frmDeposit" class="form-horizontal">
+    <div class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" data-toggle="modal">
+                    <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="PendingMilestones">
+                            <table dtable options="dtOptionsTxnAdj" class="table bootstrap-datatable datatable small-font" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Ref Key</th>
+                                        <th>Acct No</th>
+                                        <th>Task No</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Creation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade in" id="PendingTxnMilestones">
+                            <table dtable options="dtOptionsPymtTxn" class="table bootstrap-datatable datatable small-font" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Ref Key</th>
+                                        <th>Acct No</th>
+                                        <th>Task No</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Creation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div class="modal fade" id="delete-modal" app-modal trigger="deleteModalOpen">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Confirm Delete?</h4>
+            </div>
+            <div class="modal-body">
+                <p>This will delete the record, continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" ng-click="Remove();" class="btn btn-danger">Yes, Continue</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@section CustomPageScript
+{
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Account/account.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}

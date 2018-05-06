@@ -1,0 +1,29 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.SAP
+
+
+<form class="form-horizontal" id="formAcctMaintanance">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomNgTextBoxFor(model => model.Id, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.SapNo, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.SourceRefNo, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.RefKey, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.RefTo, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.AccountName, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedAccountGroup, Model.AccountGroup, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.TaxId, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedWithHoldingTax, Model.WithHoldingTax, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.PayeeName, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.PayeeCd, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.OldRefKey, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.Remarks, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CreatedBy, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.UserId, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.LastUpdate, null, new { @section = "General Info" })
+                </div>
+            </div>
+        </div>
+</form>

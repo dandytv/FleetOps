@@ -1,0 +1,229 @@
+﻿@using FleetOps.Helpers
+@{
+    ViewBag.Title = "Accounts | FleetOps";
+    ViewBag.ng_app = "CardtrendApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+@section ModuleSidebar
+{
+    <style type="text/css">
+                         
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+
+        .sidebar-menu {
+            height: auto;
+        }
+
+        .sidebar ul.nav.nav-sidebar {
+            padding-bottom: 30px;
+        }
+
+        td.detail-toggler {
+            background: url('@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Content/images/details_open.png') no-repeat center center;
+            cursor: pointer !important;
+        }
+
+        tr.shown td.detail-toggler {
+            background: url('@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Content/images/details_close.png') no-repeat center center;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            @*<div class="btn-group btn-group-justified">
+                    <a href="javascript:;" ng-click="modalClick()" class="btn btn-success btn-sm" role="button"><i class="fa fa-check-circle"></i>&nbsp; Approval</a>
+                </div>*@
+        </div>
+
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+
+                @Html.Hidden("hdAcctNo", (string)ViewBag.AcctNo, new { @id = "hdAcctNo" })
+                @if (@Html.SectionIsEnabled("gen"))
+                {
+                    <li><a class="pagekey pagekey_generalInfo" data-prefix="gen" href="#/generalInfo/{{$root.obj.acctNo}}">General Info</a></li>
+                }
+                @if (@Html.SectionIsEnabled("fin"))
+                {
+                    <li><a class="pagekey pagekey_finanacialInfo" data-prefix="fin" href="#/finanacialInfo/{{$root.obj.acctNo}}">Financial Info</a></li>
+                }
+                @if (@Html.SectionIsEnabled("cao"))
+                {
+                    <li><a class="pagekey pagekey_cao" data-prefix="cao" href="#/cao/{{$root.obj.acctNo}}">Credit Assessment</a></li>
+                }
+                @if (@Html.SectionIsEnabled("dep"))
+                {
+                    <li><a class="pagekey pagekey_depositInfo" data-prefix="adi" href="#/depositInfo/{{$root.obj.acctNo}}">Security Deposit</a></li>
+                }
+                @if (@Html.SectionIsEnabled("upd"))
+                {
+                    <li><a class="pagekey pagekey_uptoDateBalance" data-prefix="utd" href="#/uptoDateBalance/{{$root.obj.acctNo}}">Up-To-Date Balance</a></li>
+                }
+                @if (@Html.SectionIsEnabled("csc"))
+                {
+                    <li><a class="pagekey pagekey_costcentre" data-prefix="csc" href="#/costcentre/{{$root.obj.acctNo}}">Cost Centre</a></li>
+                }
+                @if (@Html.SectionIsEnabled("car"))
+                {
+                    <li><a class="pagekey pagekey_cardsList" data-prefix="car" href="#/cardsList/{{$root.obj.acctNo}}">Card List</a></li>
+                }
+                @if (@Html.SectionIsEnabled("veh"))
+                {
+                    <li><a class="pagekey pagekey_vehicles" data-prefix="veh" href="#/vehicles/{{$root.obj.acctNo}}">Vehicle List</a></li>
+                }
+                @if (@Html.SectionIsEnabled("vel"))
+                {
+                    <li><a class="pagekey pagekey_velocity" data-prefix="vel" href="#/velocity/{{$root.obj.acctNo}}">Transaction Limit</a></li>
+                }
+                @if (@Html.SectionIsEnabled("skd"))
+                {
+                    @*<li><a class="pagekey pagekey_skds" data-prefix="skd" href="#/skds/{{$root.obj.acctNo}}">Subsidy Plan</a></li>*@
+                }
+                @if (@Html.SectionIsEnabled("ast"))
+                {
+                    @*<li><a class="pagekey pagekey_accountSubsidy" data-prefix="ask" href="#/accountSubsidy/{{$root.obj.acctNo}}">Subsidy Tagging</a></li>*@
+                    @*Account subsidy*@
+                }
+
+                @if (@Html.SectionIsEnabled("loc"))
+                {
+                    <li><a class="pagekey pagekey_locationAcceptance" data-prefix="loc" href="#/locationAcceptance/{{$root.obj.acctNo}}">Location Acceptance List</a></li>
+                }
+                @if (@Html.SectionIsEnabled("tem"))
+                {
+                    <li><a class="pagekey pagekey_tempCreditControl" data-prefix="tem" href="#/tempCreditControl/{{$root.obj.acctNo}}">Temporary Credit Limit</a></li>
+                }
+                @if (@Html.SectionIsEnabled("sta"))
+                {
+                    <li><a class="pagekey pagekey_statusMaint" data-prefix="sts" href="#/statusMaint/{{$root.obj.acctNo}}">Status Maintenance</a></li>
+                }
+                @if (@Html.SectionIsEnabled("con"))
+                {
+                    <li><a class="pagekey pagekey_contacts" data-prefix="con" href="#/contacts/{{$root.obj.acctNo}}">Contact List</a></li>
+                }
+                @if (@Html.SectionIsEnabled("add"))
+                {
+                    <li><a class="pagekey pagekey_address" data-prefix="add" href="#/address/{{$root.obj.acctNo}}">Address List</a></li>
+                }
+                @if (@Html.SectionIsEnabled("aps"))
+                {
+                    <li><a class="pagekey pagekey_txnSearch" data-prefix="aps" href="#/txnSearch/{{$root.obj.acctNo}}">Txn Search</a></li>
+                }
+                @if (@Html.SectionIsEnabled("bil"))
+                {
+                    @*<li><a class="pagekey pagekey_billingItem" data-prefix="bil" href="#/billingItem/{{$root.obj.acctNo}}">Billing & Payment Search</a></li>*@
+                    @*Invoice & Billing Item Search*@
+                }
+                @if (@Html.SectionIsEnabled("usm"))
+                {
+                    @*<li><a class="pagekey pagekey_userManagement" data-prefix="usm" href="#/userManagement/{{$root.obj.acctNo}}">User Management</a></li>*@
+                }
+                @*@if (@Html.SectionIsEnabled("pdc"))
+                {
+                    <li><a class="pagekey pagekey_productDiscount" data-prefix="pdc" href="#/productDiscount/{{$root.obj.acctNo}}">Discount & Rebate</a></li>
+                }*@
+                @*<li><a class="pagekey pagekey_pointsAdjustment" data-prefix="pad" href="#/pointsAdjustment/{{$root.obj.acctNo}}">Points Adjustment</a></li>*@
+                @if (@Html.SectionIsEnabled("puk"))
+                {
+                    @*<li><a class="pagekey pagekey_pukal" data-prefix="puk" href="#/pukal/{{$root.obj.acctNo}}">Pukal</a></li>*@
+                }
+                    <li><a class="pagekey pagekey_eventConf" data-prefix="eve" href="#/eventConf/{{$root.obj.acctNo}}">Event Configurations</a></li>
+            </ul>
+        </div>
+    </div>
+}
+
+
+<form id="submitapprv" class="form-horizontal">
+    <div id="apprvmodal" class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-top:5px; padding-bottom:5px;" data-toggle="modal">
+                    <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h2>Approval</h2>
+                </div>
+                <div class="modal-body">
+
+                    <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+                        <li class="active"><a href="javascript:;" role="tab" data-toggle="tab" data-target="#Pending">Txn Adjustment</a></li>
+                        <li class=""><a href="javascript:;" ng-click="$root.loadPymt();" data-toggle="tab" role="tab" data-target="#PendingMilestones">Txn Payment</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="Pending">
+                            <table dtable options="dtOptionsTxnAdj" class="table bootstrap-datatable datatable small-font" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Ref Key</th>
+                                        <th>Acct No</th>
+                                        <th>Task No</th>
+                                        <th>Task Description</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Creation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade in" id="PendingMilestones">
+                            <table dtable options="dtOptionsPymtTxn" class="table bootstrap-datatable datatable small-font" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Ref Key</th>
+                                        <th>Acct No</th>
+                                        <th>Task No</th>
+                                        <th>Task Description</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Creation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div class="main" style="opacity: 1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li>Accounts</li>
+                <li class="active">{{$root.obj.acctNo}}</li>
+            </ol>
+            @*<h1><small>Application Signup</small></h1>*@
+        </div>
+        <div class="col-lg-12">
+            <ng-view></ng-view>
+        </div>
+    </div>
+</div>
+
+@section CustomPageScript
+{
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/Scripts/angular-time.js"></script>
+    <script src="~/Scripts/xlsx.full.min.js"></script>
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Account/account.js"></script>
+    <script src="~/ng/Apps/Account/AccountService.js"></script>
+    <script src="~/ng/Apps/Applications/applicationService.js"></script>
+    <script src="~/ng/Apps/Account/AccountController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}

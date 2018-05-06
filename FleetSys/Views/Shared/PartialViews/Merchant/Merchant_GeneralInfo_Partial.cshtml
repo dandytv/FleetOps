@@ -1,0 +1,125 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.MA_GeneralInfo
+
+<form id="formMerchantGeneralInfo">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        @*<a @(Html.IsReadOnly("General Info", "btnMailMerge") ? "" : "id=btnMailMerge") href="#">Mail Merge</a>*@
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2><strong>Merchant General Info</strong></h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.AcctNo)
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.SAPNo)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.BusnName)
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.CoRegNo)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.CoRegName, null, new { @section = "General Info" })
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.CoRegDate, null, new { @date_Picker = "" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.Msf, null, new { amount = "" })
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgSelectListFor(model => model.SelectedAffiliatedWithCorpCode, Model.AffiliatedWithCorpCode, null, new { @Name = "AffiliatedWithCorpCode"})
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { @Name = "CurrentStatus" })
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.PIC)
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.AgrmntNo)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.AgrmntDt, null, new { @date_Picker = ""})
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.PayeeName)
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.Ownership)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.BusnSize)
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCd, null, new { @Name = "ReasonCd" })
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgSelectListFor(model => model.SelectedCycleNo, Model.CycleNo, null, new { @Name = "ReasonCd" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.BankAcctNo)
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.BankName)
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgSelectListFor(model => model.selectedBankAccountType, Model.BankAcctType, null, new { @Name = "BankAcctType" })
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgCheckBoxFor(model => model.BankDirectDebitInd)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgSelectListFor(model => model.SelectedBankBranchCd, Model.BankBranchCd, null, new { @Name = "BankBranchCd" })
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.TaxId)
+                                        </div>
+                                        <div class="col-sm-4">
+                                            @Html.CustomNgTextBoxFor(model => model.EnttId)
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+
+
