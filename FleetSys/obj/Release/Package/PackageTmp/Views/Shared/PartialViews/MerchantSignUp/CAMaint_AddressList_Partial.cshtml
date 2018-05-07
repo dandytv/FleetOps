@@ -1,0 +1,25 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model  ModelSector.AddressList
+
+<form id="formAddressList" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomNgRadioButtonListFor(model => model.SelectedMailingIndicator, Model.MailingIndicator, new { required = true }, new { @class = "span1", @data_bind = "selectedText:MainMailingInd", @section = "Address" })
+                @Html.CustomNgSelectListFor(model => model.selectedAddressType, Model.AddressType, null, new { @class = "span5", @data_bind = "selectedText:addrtype", @section = "Address" })
+                @Html.CustomNgTextBoxFor(model => model.Address1, null, new { @data_bind = "value:addr1", Class = "span5", @section = "Address" })
+                @Html.CustomNgTextBoxFor(model => model.Address2, null, new { @data_bind = "value:addr2", Class = "span5", @section = "Address" })
+                @Html.CustomNgTextBoxFor(model => model.Address3, null, new { @data_bind = "value:addr3", Class = "span5", @section = "Address" })
+                @Html.CustomNgSelectListFor(model => model.selectedState, Model.state, null, new { @class = "span5", @data_bind = "selectedText:state", @section = "Address" })
+                @Html.CustomNgSelectListFor(model => model.selectedCity, Model.City, null, new { @class = "span5", @data_bind = "selectedText:city", @section = "Address" })
+                @Html.CustomNgTextBoxFor(model => model.PostalCode, null, new { @data_bind = "value:PostalCode", Class = "span5", @section = "Address" })
+                @Html.CustomNgSelectListFor(model => model.selectedRegion, Model.Region, null, new { @class = "span5", @data_bind = "selectedText:Country", @section = "Address" })
+                @Html.CustomNgSelectListFor(model => model.selectedCountry, Model.country, null, new { @class = "span5", @data_bind = "selectedText:Country", @section = "Address" })
+                @Html.CustomNgTextBoxFor(model => model.UserId, null, new { @data_bind = "value:UserId", Class = "span5", Disabled = "true", @section = "Address" })
+                @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { @data_bind = "value:CreationDate", Class = "span5", Disabled = "true", @section = "Address" })
+                </div>
+            </div>
+        </div>
+    </form>
+

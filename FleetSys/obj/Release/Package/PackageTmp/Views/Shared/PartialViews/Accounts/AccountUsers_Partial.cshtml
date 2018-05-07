@@ -1,0 +1,33 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+<h1>Account Users <small></small></h1><br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+            <span id="tblusers-options" style="display:none">
+                @if (!Html.NotAuthorized("usm", "btnResetCounter"))
+                {
+                    <a class="btn btn-sm btn-primary" @(Html.IsReadOnly("usm", "btnResetCounter") ? "disabled=disabled" : "ng-click=ResetPasswordCounter();")>Reset Counter</a>
+                }
+               @if (!Html.NotAuthorized("usm", "btnResendActivation"))
+               {
+                <a class="btn btn-sm btn-inverse" @(Html.IsReadOnly("usm", "btnResendActivation") ? "disabled=disabled" : "ng-click=ResendActivationEmail();")>Send Activation</a>
+               }
+            </span>
+        </div>
+
+    </div>
+    <div class="panel-body">
+        <table id="tblUsers" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Privilege Code</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div> 

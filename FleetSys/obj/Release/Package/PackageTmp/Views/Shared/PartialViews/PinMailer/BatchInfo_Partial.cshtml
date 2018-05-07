@@ -1,0 +1,95 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.PinMailerBatchView
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+            <li class="active"><a href="javascript:;" role="tab" data-toggle="tab" data-target="#toprint">To Print</a></li>
+            <li class=""><a href="javascript:;" role="tab" ng-click="loadPinMailerPending();" data-toggle="tab" data-target="#pending">In Progress</a></li>
+            <li class=""><a href="javascript:;" ng-click="loadPinMailerPrinted();" role="tab" data-toggle="tab" data-target="#printed">Printed</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class=" tab-pane fade in active" id="toprint">
+                <table id="table_toprint" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptionsToPrint" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input id="selectall" type="checkbox" ng-click="selectAllToPrint()" />
+                            </th>
+                            <th>Card No</th>
+                            <th>Status</th>
+                            <th>Card Creation Date</th>
+                            <th>Company Name</th>
+                            <th>Driver Name</th>
+                            <th>PIC</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <div class="form-actions">
+                            @if (!Html.NotAuthorized("", "btnPrint"))
+                            {
+                                <button id="btnToPrint" ng-click="printBatchList()" @(Html.IsReadOnly("", "btnPrint") ? "disabled=disabled" : "") class="btn btn-primary btn-cons"><i class="fa fa-print"></i>&nbsp;Print</button>
+                            }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade in" id="pending">
+                <table class="table bootstrap-datatable datatable small-font" style="width: 100%" data-dtable options="dtOptionsPending">
+                    <thead>
+                        <tr>
+                            <th>Card No</th>
+                            <th>Status</th>
+                            <th>Card Creation Date</th>
+                            <th>Company Name</th>
+                            <th>Driver Name</th>
+                            <th>PIC</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade in" id="printed">
+                <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptionsPrinted" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Card No</th>
+                            <th>Status</th>
+                            <th>Card Creation Date</th>
+                            <th>Company Name</th>
+                            <th>Driver Name</th>
+                            <th>PIC</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <div class="form-actions">
+                            @if (!Html.NotAuthorized("", "btnRePrint"))
+                            {
+                                <button id="btnReprint" ng-click="rePrintBatchList()" @(Html.IsReadOnly("", "btnRePrint") ? "disabled=disabled" : "") class="btn btn-primary btn-cons"><i class="fa fa-print"></i>&nbsp;Re-Print</button>
+                            }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

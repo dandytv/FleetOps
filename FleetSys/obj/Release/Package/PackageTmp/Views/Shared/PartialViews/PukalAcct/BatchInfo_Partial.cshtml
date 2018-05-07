@@ -1,0 +1,155 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model ModelSector.PukalAcctMaintInfo
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2><i class="fa fa-list"></i>Pukal Account List</h2>
+        </div>
+        <div class="panel-body">
+            <div class="invoice">
+                <div class="row">
+                    <div class="col-sm-6" style="width:100%;">
+                        <div >
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedSettlement, Model.GLSettlement, null, new { @Name = "GLSettlement", @section = "pkal" })
+                                </div>
+                                <div class="col-sm-3">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedTxnCd, Model.TxnCd, null, new { @Name = "TxnCd", @section = "pkal" })
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.CustomNgTextBoxFor(model => Model.CreationDate, null, new { @date_picker = "", @section = "pkal" })
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedOwner, Model.Owner, null, new { @Name = "Owner", @section = "pkal" })
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.CustomNgTextBoxFor(model => Model.StatementDate, null, new { @readonly = "readonly", @section = "pkal" })
+                                </div>
+                            </div>
+                            <div class="row"> 
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => Model.ChequeAmt, null, new { @amount = "", @ng_change = "ChangeChequeAmt(_Object.ChequeAmt)", @section = "pkal" })
+                                </div>
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => Model.ChequeNo, null, new { @limit_to = "9", id = "txtChequeNo", @ng_keydown = "ChequeNoNumber(_Object.ChequeNo);", @section = "pkal" })
+                                </div>
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => Model.SlipNo, null, new { @section = "pkal" })
+                                </div>
+                                <div class="col-sm-3">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedIssBank, Model.IssBank, null, new { @Name = "IssBank", @section = "pkal" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="font-weight:bold; margin-top:20px;">Payment Capture:</h2>
+                <div class=" tab-pane fade in active">
+                    <table class="table bootstrap-datatable datatable small-font">
+                        <thead>
+                            <tr>
+                                <th>Account No</th>
+                                <th>Company Name</th>
+                                <th style="text-align:center;">Sales Amount</th>
+                                <th style="text-align:center;">Pukal Sedut</th>
+                                <th style="text-align:center;">Payment Amount</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Items" class="fresh-row">
+                                <form>
+                                    <td class="text-left" style="width:10%">
+                                        {{item.AcctNo}}
+                                    </td>
+                                    <td class="text-left" style="width:10%">
+                                        {{item.CompanyName}}
+                                    </td>
+                                    <td class="text-center" style="width:10%">
+                                        {{item.SalesAmt}}
+                                    </td>
+                                    <td class="text-center" style="width:10%">
+                                        {{item.SedutAmt}}
+                                    </td>      
+                                        {{item.PaymentAmt}}
+
+                                  <td class="text-center" style="width:10%">
+                                      <input ng-show="item.isEdit" ng-model="item.PaymentAmt" name="PaymentAmt" id="PaymentAmt" value="0" amount class="form-control" style="text-align:center;" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.PaymentAmt}}
+                                        </span>
+                                    </td>
+                                    <td class="hide-print text-right" style="width:5%">
+                                        <div class="btn-group btn-group-justified" ng-show="item.isEdit">
+                                            <a href="javascript:;" id="btnSaveRow" ng-click="ApplyChanges(item.AcctNo,item.PaymentAmt);item.isEdit=false;" class="btn btn-sm btn-small btn-primary"><i class="fa fa-check"></i></a>
+                                        </div>
+
+                                        <div class="btn-group btn-group-justified" ng-hide="item.isEdit">
+                                            <a href="javascript:;" id="btnSaveRow" ng-click="item.isEdit=true;" class="btn btn-sm btn-primary btn-small"><i class="fa fa-edit"></i></a>
+                                        </div>
+                                    </td>
+                                </form>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row" style="margin-top:20px">
+                        <div class="col-lg-4 col-sm-5" style="position:relative;left:15px;">
+                        </div>
+                        <div class="col-lg-4 col-lg-offset-4 col-sm-5 col-sm-offset-2 recap">                        
+                            <table class="table table-clear">
+                                <tbody>
+                                    <tr>
+                                        <td class="left"><strong>Total amount (RM)</strong></td>
+                                        <td class="right">{{Total | currency:"RM"}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left"><strong>Cheque Amount (RM)</strong></td>
+                                        <td class="right">{{ChequeAmtDiffer | currency:"RM"}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="left"><strong>Difference</strong></td>
+                                        <td class="right"><strong ng-class="Difference==0.00?'text text-success':'text'">{{ Difference|currency:"RM"}}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table><br />
+                        </div>
+                        <br />
+                        <div class="col-sm-12">
+                            <hr />
+                            <div ng-if="_Object.Sts === 'A' || _Object.Sts === ''">
+                                <div class="pull-right">
+                                    @if (!Html.NotAuthorized("pkal", "btnSave"))
+                                    {
+                                        <input type="button" ng-click="_Object.Func = 'Save';SaveChanges();" @(Html.IsReadOnly("pkal", "btnSave") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" value="Save" />
+                                    }
+                                    @if (!Html.NotAuthorized("pkal", "btnPost"))
+                                    {
+                                        <input type="button" ng-click="_Object.Func = 'Submit';SaveChanges();" @(Html.IsReadOnly("pkal", "btnPost") ? "disabled=disabled" : "") ng-disabled="Difference!=0.00" class="btn btn-primary btn-cons" value="Post" />
+                                    }
+                                </div>
+                            </div>
+                           
+
+                            <div ng-if="_Object.Sts === 'H'">
+                                <div class="pull-right">
+                                    @if (!Html.NotAuthorized("pkal", "btnSave"))
+                                    {
+                                        <input type="button" ng-click="_Object.Func = 'Save';SaveChanges();" disabled class="btn btn-primary btn-cons" value="Save" />
+                                    }
+                                    @if (!Html.NotAuthorized("pkal", "btnPost"))
+                                    {
+                                        <input type="button" ng-click="_Object.Func = 'Submit';SaveChanges();" @(Html.IsReadOnly("", "btnPost") ? "disabled=disabled" : "") ng-disabled="Difference!=0.00" class="btn btn-primary btn-cons" value="Post" />
+                                    }
+                                </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

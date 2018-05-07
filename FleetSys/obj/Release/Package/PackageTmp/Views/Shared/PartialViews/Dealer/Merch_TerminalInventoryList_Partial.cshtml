@@ -1,0 +1,152 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.BusnLocTerminal
+
+<h1>Terminals List</h1><br />
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+        @if (!Html.NotAuthorized("ter", "btnAddTerminal"))
+        {
+            <a href="javascript:;" @(Html.IsReadOnly("ter", "btnAddTerminal") ? "disabled=disabled" : "ng-click=modalClick();") class="btn-minimize"><i class="fa fa-plus"></i></a>
+        }
+            
+            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="terminalHolder" class="zerotop">
+            <table id="tblTerminals" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Terminal ID</th>
+                        <th>Status</th>
+                        <th>Deployed Date</th>
+                        <th>Terminal Type</th>
+                        @*<th>Replacement</th>
+                        <th>Replacement Date</th>
+                        <th>Reason</th>*@
+                        <th>Settlement Start</th>
+                        <th>Settlement End</th>
+                        <th>Settlement Txn ID</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h2>Terminal Inventory : {{_Object.TermId}} </h2>
+            </div>
+            <div class="modal-body">
+                <form id="formTerminal" class="form-horizontal">
+                    <div class="row">
+
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.TermId, new { required = true }, new { @section = "ter", ng_disabled = "isUpdate==true", maxlength = "8" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedTermType, Model.TermType, new { required = true }, new { @Name = "TermType", @section = "ter" })
+                        </div>
+
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedStatus, Model.Status, new { required = true }, new { @Name = "Status", @section = "ter" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.DeployDate, new { required = true }, new { @date_picker = "", @section = "ter" })
+                        </div>
+
+
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.Replacement, null, new { @section = "ter" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.ReplacedDate, null, new { @date_picker = "", @section = "ter" })
+                        </div>
+
+
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCd, null, new { @Name = "ReasonCd", @section = "ter" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.SerialNo, null, new { @section = "ter" })
+                        </div>
+
+
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedProdType, Model.ProdType, null, new { @Name = "ProdType", @section = "ter" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.LastBatchId, null, new { @readonly = "readonly", @section = "ter" })
+                        </div>
+
+
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.SettleTxnId, null, new { @readonly = "readonly", @section = "ter" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgDateRangeFor(model => model.SettlementStart, model => model.SettlementEnd, "Settlement Range", null, new { @readonly = "readonly" }, new { @readonly = "readonly" })
+                        </div>
+
+                        <div class="col-sm-12">
+                            @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { @rows = "3", @section = "ter" })
+                        </div>
+                       
+
+                        <div class="col-sm-4">
+                            @Html.CustomNgTextBoxFor(model => model.LastUpdDate, null, new { @readonly = "readonly", @section = "ter" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { @readonly = "readonly", @section = "ter" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.CustomNgTextBoxFor(model => model.UserId, null, new { @readonly = "readonly", @section = "ter" })
+                        </div>
+
+                    </div>
+                    <input type="hidden" id="xxtermisEdit" value="Add" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (!Html.NotAuthorized("ter", "btnSaveTerminal"))
+                {
+
+                    <div class="form-actions">
+                        <button ng-click="Save();" id="saveTerm" @(Html.IsReadOnly("ter", "btnSaveTerminal") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-modal" app-modal trigger="deleteModalOpen">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" ng-click="deleteModalOpen=false;" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Confirm Delete?</h4>
+            </div>
+            <div class="modal-body">
+                <p>This will delete the record, continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="deleteModalOpen=false;" data-dismiss="modal">Cancel</button>
+                <button type="button" ng-click="deleteRecord();" class="btn btn-danger">Yes, Continue</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

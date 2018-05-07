@@ -1,0 +1,30 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.ChangeStatus
+
+<form id="formChangeStatus" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @using (Html.BeginForm("SaveChangedStatus", "MerchantSignUp", FormMethod.Post, new { id = "formChangedAcctSts", @class = "form-horizontal", @section = "StatusMaintenance" }))
+                {
+
+                    @Html.CustomNgSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { @class = "span5", disabled = "disabled", @section = "StatusMaintenance" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedChangeStatusTo, Model.ChangeStatusTo, new { required = true }, new { @class = "span5", @section = "StatusMaintenance" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedRefType, Model.RefType, null, new { @class = "span5", @section = "StatusMaintenance" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedReasonCode, Model.ReasonCode, new { required = true }, new { @class = "span5", @section = "StatusMaintenance" })
+                    @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { @rows = "3", Class = "span5", @section = "StatusMaintenance" })
+
+
+                }
+                <div class="panel-footer">
+                    <div class="text-right">
+                        @if (!Html.NotAuthorized("Contact", "Save"))
+                        {
+                            <input type="hidden" id="stsSaveAccess" value="@Html.GetControlStatus("Save", "StatusMaintenance")" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

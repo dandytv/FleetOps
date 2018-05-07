@@ -1,0 +1,532 @@
+﻿@using FleetOps.Helpers;
+@model CCMS.ModelSector.Milestone
+@{
+    ViewBag.Title = "Approval | FleetOps";
+    ViewBag.ng_app = "CardtrendApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+@section ModuleSidebar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            @*<a href="#/" style="color:#fff" class="btn btn-info btn-block"><i class="fa fa-list"></i>&nbsp;&nbsp;Show List</a>*@
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                @*<a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>*@
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                @*<li><a class="pagekey pagekey_generalInfo" ng-show="$root.obj._type!=='index'" href="#/generalInfo/{{$root.obj.applId}}"><span class="text">Application Info</span></a></li>
+                    <li><a class="pagekey pagekey_cao" ng-show="$root.obj._type==='edit'" href="#/cao/{{$root.obj.applId}}"><span class="text">Credit Assessment</span></a></li>
+                    <li><a class="pagekey pagekey_velocity" ng-show="$root.obj._type==='edit'" href="#/velocity/{{$root.obj.applId}}"><span class="text">Transaction Limit</span></a></li>
+                    <li><a class="pagekey pagekey_depositInfo" ng-show="$root.obj._type==='edit'" href="#/depositInfo/{{$root.obj.applId}}"><span class="text">Security Deposit</span></a></li>
+                    <li><a class="pagekey pagekey_skds" ng-show="$root.obj._type==='edit'" href="#/skds/{{$root.obj.applId}}"><span class="text">Subsidy Plan</span></a></li>
+                    <li><a class="pagekey pagekey_costCentre" ng-show="$root.obj._type==='edit'" href="#/costcentre/{{$root.obj.applId}}"><span class="text">Cost Centre</span></a></li>
+                    <li><a class="pagekey pagekey_applicants" ng-show="$root.obj._type==='edit'" href="#/applicants/{{$root.obj.applId}}"><span class="text">Applicants</span></a></li>
+                    <li><a class="pagekey pagekey_vehicles" ng-show="$root.obj._type==='edit'" href="#/vehicles/{{$root.obj.applId}}"><span class="text">Vehicles List</span></a></li>
+                    <li><a class="pagekey pagekey_fileManager" ng-show="$root.obj._type==='edit'" href="#/fileManager/{{$root.obj.applId}}"><span class="text">File Manager</span></a></li>
+                    <li><a class="pagekey pagekey_Miscellanious" ng-show="$root.obj._type==='edit'" href="#/Miscellanious/{{$root.obj.applId}}"><span class="text">Miscellanious Info</span></a></li>
+                    <li><a class="pagekey pagekey_address" ng-show="$root.obj._type==='edit'" href="#/address/{{$root.obj.applId}}"><span class="text">Address List</span></a></li>
+                    <li><a class="pagekey pagekey_contacts" ng-show="$root.obj._type==='edit'" href="#/contacts/{{$root.obj.applId}}"><span class="text">Contact List</span></a></li>*@
+                <li><a class="pagekey pagekey_approval" ng-show="$root.obj._type==='edit'" href="#/approval/{{$root.obj.applId}}"><span class="text">Approval</span></a></li>
+            </ul>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    window.TxnAdj_BtnAppv_Sts = '@Html.GetControlStatus("BtnAppv",null,"TxnAdj")';
+    window.PymtTxn_BtnAppv_Sts = '@Html.GetControlStatus("BtnAppv", null, "PymtTxn")';
+    window.TxnAdj_BtnQuickAppv_Sts = '@Html.GetControlStatus("BtnQuickAppv", null, "TxnAdj")';
+    window.PymtTxn_BtnQuickAppv_Sts = '@Html.GetControlStatus("BtnQuickAppv", null, "PymtTxn")';
+</script>
+
+
+
+<div class="main" style="opacity: 1; min-height: 239px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+                                @*<li><a><a class="bg-col"><span class="label label-warning">Pending:&nbsp;</span></a></li>*@
+                                @if (@Html.SectionIsEnabled("apr"))
+                                {
+                                    <li class="active"><a href="javascript:;" role="tab" data-toggle="tab" data-target="#Pending">Pending Application</a></li>
+                                }
+                                @if (@Html.SectionIsEnabled(null, "TxnAdj"))
+                                {
+                                    <li class=""><a href="javascript:;" ng-click="loadTxnAdj();" data-toggle="tab" role="tab" data-target="#PendingMilestones">Txn Adjustment</a></li>
+                                }
+                                @if (@Html.SectionIsEnabled(null, "PymtTxn"))
+                                {
+                                     <li class=""><a href="javascript:;" ng-click="loadPymt();" data-toggle="tab" role="tab" data-target="#PendingTxnMilestones">Payment Txn</a></li>
+                                }                                
+                                <li class=""><a href="javascript:;" ng-click="loadMerchantAdjustment();" data-toggle="tab" role="tab" data-target="#MerchantAdjustment"> Merchant Adjustments</a></li>
+                                @*@if (@Html.SectionIsEnabled(null, "TxnRq"))
+                                {*@
+                                    @*<li class=""><a href="javascript:;" ng-click="loadSOPRequestTracker();" data-toggle="tab" role="tab" data-target="#SPORequestTracker"> SPO Request</a></li>*@
+                                @*}*@
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                @if (@Html.SectionIsEnabled("apr"))
+                                {
+                                    <div class="tab-pane fade in active" id="Pending">
+                                        <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ref Key</th>
+                                                    <th>Company Name</th>
+                                                    <th>Task No</th>
+                                                    <th>Task Description</th>
+                                                    <th>Priority</th>
+                                                    <th>Status</th>
+                                                    <th>Creation Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                }
+                                @if (@Html.SectionIsEnabled(null, "TxnAdj"))
+                                {
+                                    <div class="tab-pane fade in" id="PendingMilestones">
+                                        <table dtable options="dtOptionsTxnAdj" style="width:100%" class="table bootstrap-datatable datatable small-font">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ref Key</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                        <div class="panel" ng-show="TxnAdjEnable">
+                                            <div class="panel-footer">
+                                                <div class="pull-right">
+                                                    <button class="btn btn-success">Approve All&nbsp;<i class="fa fa-arrow-circle-o-right"></i></button>
+
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (@Html.SectionIsEnabled(null, "PymtTxn"))
+                                {
+                                 <div class="tab-pane fade in" id="PendingTxnMilestones">
+                                    <table dtable options="dtOptionsPymtTxn" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="panel" ng-show="pymtTxnEnable">
+                                        <div class="panel-footer">
+                                            <div class="pull-right">
+                                                <button ng-click="approveAll();" class="btn btn-success">Approve All&nbsp;<i class="fa fa-arrow-circle-o-right"></i></button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    @*<div class="tab-pane fade in" id="PendingTxnMilestones">
+                                        <table dtable options="dtOptionsPymtTxn" class="table bootstrap-datatable datatable small-font">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ref Key</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                        <div class="panel" ng-show="pymtTxnEnable">
+                                            <div class="panel-footer">
+                                                <div class="pull-right">
+                                                    <button ng-click="approveAll();" class="btn btn-success">Approve All&nbsp;<i class="fa fa-arrow-circle-o-right"></i></button>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                }
+                                
+
+                                @*<div class="tab-pane fade in" id="PendingTxnMilestones">
+                                    <table dtable options="dtOptionsPymtTxn" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="panel" ng-show="pymtTxnEnable">
+                                        <div class="panel-footer">
+                                            <div class="pull-right">
+                                                <button ng-click="approveAll();" class="btn btn-success">Approve All&nbsp;<i class="fa fa-arrow-circle-o-right"></i></button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+                                <div class="tab-pane fade in" id="MerchantAdjustment">
+                                    <table dtable options="dtOptionsMerchant" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref Key</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="panel" ng-show="merchAdjEnable">
+                                        <div class="panel-footer">
+                                            <div class="pull-right">
+                                                <button ng-click="approveAll();" class="btn btn-success">Approve All&nbsp;<i class="fa fa-arrow-circle-o-right"></i></button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade in" id="SPORequestTracker">
+                                    <table dtable options="dtOptionsSOPRequestTracker" class="table bootstrap-datatable datatable small-font">
+                                        <thead>
+                                            <tr>
+                                                <th>Request ID</th>
+                                                <th>Request Type</th>
+                                                <th>Request Value</th>
+                                                <th>Task No</th>
+                                                <th>Task Description</th>
+                                                <th>Card Number</th>
+                                                <th>Account No</th>
+                                                <th>Company Name</th>
+                                                <th>Status</th>
+                                                <th>Request Date</th>
+                                                <th>Last Update Date</th>
+                                                <th>Request By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form>
+                    <div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" data-toggle="modal">
+                                    <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                    <h2>Approval : <span class="label label-success" style="font-size:12px;">{{approveObj.batchId}}</span></h2>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-primary" ng-repeat="item in selectedRefIds">
+                                            <div class="panel-heading" role="tab" id="heading{{$index}}">
+                                                <h4 class="panel-title">
+                                                    <button data-toggle="collapse" class="btn btn-link" style="color:#fff" data-parent="#accordion" data-target="#collapse{{$index}}" aria-expanded="false" aria-controls="collapse{{$index}}">
+                                                        {{item.Descp}}  (Ref ID: {{item.refId}})
+                                                    </button>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false">
+                                                <div class="panel-body">
+                                                    <div class="row" style="padding-top:10px;">
+                                                        @if (!Html.NotAuthorized("TxnAdj", "selectedOwner") || !Html.NotAuthorized("PymtTxn", "selectedOwner"))
+                                                        {
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label for="CreatedBy">Owner</label>
+                                                                    @*<select ng-options="item.Value as item.Text for item in _Selects.Owner" class="form-control" ng-model="item.selectedOwner"></select>*@
+                                                                    <ui-select name="PlasticType" ng-model="item.selectedOwner" section="General Info" style="width:100%" theme="select2" @(Html.IsReadOnly("TxnAdj", "selectedOwner") || Html.IsReadOnly("PymtTxn", "selectedOwner") ? "disabled=disabled" : "")>
+                                                                        <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Owner| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                            <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                        @if (!Html.NotAuthorized("TxnAdj", "selectedPriority") || !Html.NotAuthorized("PymtTxn", "selectedPriority"))
+                                                        {
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label for="CreatedBy">Priority</label>
+                                                                    <ui-select name="PlasticType" ng-model="item.selectedPriority" section="General Info" style="width:100%" theme="select2" @(Html.IsReadOnly("TxnAdj", "selectedPriority") || Html.IsReadOnly("PymtTxn", "selectedPriority") ? "disabled=disabled" : "")>
+                                                                        <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Priority| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                            <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                        @if (!Html.NotAuthorized("TxnAdj", "selectedReasonCd") || !Html.NotAuthorized("PymtTxn", "selectedReasonCd"))
+                                                        {
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label for="CreatedBy">Reason Code</label>
+                                                                    <ui-select name="PlasticType" ng-model="item.selectedReasonCd" section="General Info" style="width:100%" theme="select2" @(Html.IsReadOnly("TxnAdj", "selectedReasonCd") || Html.IsReadOnly("PymtTxn", "selectedReasonCd") ? "disabled=disabled" : "")>
+                                                                        <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.ReasonCd| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                            <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                        @if (!Html.NotAuthorized("TxnAdj", "RecallDate") || !Html.NotAuthorized("PymtTxn", "RecallDate"))
+                                                        {
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label for="CreatedBy">Recall Date</label>
+                                                                    <input autocomplete="on" class="form-control" id="PDCtxtCreatedBy" name="CreatedBy" ng-model="item.RecallDate" readonly="readonly" section="Product Discount" type="text" value="" @(Html.IsReadOnly("TxnAdj", "RecallDate") || Html.IsReadOnly("PymtTxn", "RecallDate") ? "disabled=disabled" : "") />
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                        @if (!Html.NotAuthorized("TxnAdj", "selectedStatus") || !Html.NotAuthorized("PymtTxn", "selectedStatus"))
+                                                        {
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label for="CreatedBy">Status</label>
+                                                                    <ui-select name="PlasticType" ng-model="item.selectedStatus" section="General Info" style="width:100%" theme="select2" @(Html.IsReadOnly("TxnAdj", "selectedStatus") || Html.IsReadOnly("PymtTxn", "selectedStatus") ? "disabled=disabled" : "")>
+                                                                        <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Status| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                            <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                        @if (!Html.NotAuthorized("TxnAdj", "SelectedTaskNo") || !Html.NotAuthorized("PymtTxn", "SelectedTaskNo"))
+                                                        {
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label for="CreatedBy">Task No</label>
+                                                                    <ui-select name="PlasticType" ng-model="item.SelectedTaskNo" section="General Info" style="width:100%" theme="select2" @(Html.IsReadOnly("TxnAdj", "SelectedTaskNo") || Html.IsReadOnly("PymtTxn", "SelectedTaskNo") ? "disabled=disabled" : "")>
+                                                                        <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.TaskNo| filter: $select.search" value="{{$select.selected.Value}}">
+                                                                            <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                        @if (!Html.NotAuthorized("TxnAdj", "Remarks") || !Html.NotAuthorized("PymtTxn", "Remarks"))
+                                                        {
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <label for="CreatedBy">Remarks</label>
+                                                                    <textarea class="form-control" id="PDCtxtCreatedBy" name="CreatedBy" ng-model="item.Remarks" section="Product Discount" type="text" @(Html.IsReadOnly("TxnAdj", "Remarks") || Html.IsReadOnly("PymtTxn", "Remarks") ? "disabled=disabled" : "") />
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                        @if (!Html.NotAuthorized("TxnAdj", "btnMoreDetails") || !Html.NotAuthorized("PymtTxn", "btnMoreDetails"))
+                                                        {
+                                                            <div class="col-sm-12">
+                                                                <a target="_blank" @(Html.IsReadOnly("TxnAdj", "btnMoreDetails") || Html.IsReadOnly("PymtTxn", "btnMoreDetails") ? "disabled=disabled" : "ng-href=" + System.Configuration.ConfigurationManager.AppSettings["urlPrefix"] + "{{item.Url}}") class="btn btn-default">More details</a>
+                                                            </div>
+                                                        }
+
+                                                        @*@if ({{_Object.AuthType}})
+                                                            {
+                                                                Html.NotAuthorized("TxnAdj", "BtnQuickAppv");
+                                                            }*@
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    @if (!Html.NotAuthorized("TxnAdj", "btnSaveAll") || !Html.NotAuthorized("PymtTxn", "btnSaveAll"))
+                                    {
+                                        <div class="form-actions">
+                                            <button ng-click="postApprove(0,item.workFlowCd);" @(Html.IsReadOnly("TxnAdj", "btnSaveAll") || Html.IsReadOnly("PymtTxn", "btnSaveAll") ? "disabled=disabled" : "") class="btn btn-primary btn-cons"><i class="fa fa-check"></i>&nbsp;Save All</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form>
+                    <div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="quickApprovalModal" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" data-toggle="modal">
+                                    <button type="button" ng-click="quickApprovalModal=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                    <h2>Approval : <span class="label label-success" style="font-size:12px;">{{approveObj.batchId}}</span></h2>
+                                </div>
+                                <div class="modal-body">
+                                    <ol>
+                                        <li ng-repeat="item in selectedRefIds track by $index">
+                                            {{item.Descp}} (Ref ID: {{item.refId}})
+                                        </li>
+                                    </ol>
+                                    <hr />
+                                    <div class="row">
+                                        @if (!Html.NotAuthorized("TxnAdj", "selectedStatus") || !Html.NotAuthorized("PymtTxn", "selectedStatus"))
+                                        {
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label style="display:block" for="CreatedBy">Status</label>
+                                                    <label class="radio-inline" ng-repeat="item in _Selects.Status" ng-if="item.Value">
+                                                        <input ng-model="$root.selectedStatus" ng-value="item.Value" @(Html.IsReadOnly("TxnAdj", "selectedStatus") || Html.IsReadOnly("PymtTxn", "selectedStatus") ? "disabled=disabled" : "") name="selectedStatus" type="radio" /> {{item.Text}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-actions">
+                                        @if (!Html.NotAuthorized("TxnAdj", "btnQuickSave") || !Html.NotAuthorized("PymtTxn", "btnQuickSave"))
+                                        {
+                                            <button ng-click="postApprove(0,item.workFlowCd);" @(Html.IsReadOnly("TxnAdj", "btnQuickSave") || Html.IsReadOnly("PymtTxn", "btnQuickSave") ? "disabled=disabled" : "") class="btn btn-primary btn-cons"><i class="fa fa-check"></i>&nbsp;Save All</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+                @*<div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2><i class="fa fa-list"></i><span class="label label-warning">Pending</span> Applications</h2>
+                        </div>
+                        <div class="panel-body">
+                            <table dtablde options="dtOptions" class="table bootstrap-datatable datatable small-font">
+                                <thead>
+                                    <tr>
+                                        <th>Ref Key</th>
+                                        <th>Task No</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Creation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>*@
+            </script>
+        </div>
+    </div>
+    @*<div class="row">
+            <div class="col-sm-12">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2><i class="fa fa-list"></i>Latest Processed Accounts</h2>
+                        <div class="panel-actions">
+                            <a href="#" class="btn-minimize"><i class="icon-arrow-up"></i></a>
+                            <a href="#" class="btn-close"><i class="icon-close"></i></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div id="calendar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</div>
+
+
+
+@*<form>
+        <div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" data-toggle="modal">
+                        <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h2>Approval : {{_Object.Descp}} </h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="padding-top:10px;">
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.selectedOwner, Model.Owner, new { required = true }, new { @Name = "Owner", @section = "Approval", @ng_disabled = "_Object.selectedStatus=='T'" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.selectedPriority, Model.Priority, new { required = true }, new { @Name = "Priority", @section = "Approval", @ng_disabled = "_Object.selectedStatus=='T'" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.selectedReasonCd, Model.ReasonCd, null, new { @Name = "ReasonCd", @section = "Approval" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.RecallDate, null, new { @date_picker = "", @section = "Approval" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.selectedStatus, Model.Status, new { required = true }, new { @Name = "Status", @section = "Approval" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedTaskNo, Model.TaskNo, new { required = true }, new { @Name = "TaskNo", @ng_disabled = "_Object.selectedStatus=='T'", @section = "Approval" })
+                            </div>
+                            <div class="col-sm-12">
+                                @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { @section = "Approval" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-actions">
+                            @if (!Html.NotAuthorized("Approval", "SaveApproval"))
+                            {
+                                <button data-validation-form data-customsubmit="Save();" @(Html.IsReadOnly("Approval", "SaveApproval") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                            }
+                            @if (!Html.NotAuthorized("Approval", "btnMoreDetail"))
+                            {
+                                <button ng-click="moveToUrl();" @(Html.IsReadOnly("Approval", "btnMoreDetail") ? "disabled=disabled" : "") class="btn btn-yahoo pull-left" style="color:#F3761C">More Details</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>*@
+
+
+
+@section CustomPageScript
+{
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Home/application.js"></script>
+    <script src="~/ng/Apps/Home/applicationService.js"></script>
+    <script src="~/ng/Apps/Home/applicationController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+    <link href="~/Scripts/dropzone.css" rel="stylesheet" />
+    <script src="~/Scripts/dropzone.js"></script>
+}

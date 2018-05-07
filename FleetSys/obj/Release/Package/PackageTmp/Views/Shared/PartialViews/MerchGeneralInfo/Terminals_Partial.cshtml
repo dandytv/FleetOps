@@ -1,0 +1,67 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.TerminalsList
+
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-plus"></i></a>
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="terminalHolder" class="zerotop">
+            <table id="tblTerminals" class="table bootstrap-datatable datatable small-font" data-dtable options ="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Contact Type</th>
+                        <th>Contact Name</th>
+                        <th>Contact No</th>
+                        <th>Status</th>
+                        <th>Email Address</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="TerminalModal" style="width: 581px" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h3 id="lblTerminalHeadModal">Terminals</h3>
+            </div>
+            <div class="modal-body">
+                <form id="formTerminal" class="form-horizontal">
+                    @Html.CustomNgTextBoxFor(model => model.TerminalId, null, new { Class = "span5", id = "txtTermTeminalId" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { @class = "span5", id = "ddlTermCurrentStatus" })
+                    @Html.CustomNgTextBoxFor(model => model.SerialNo, null, new { Class = "span5", id = "txtTermSerialNo" })
+                    @Html.CustomNgTextBoxFor(model => model.DeployedDate, null, new { Class = "span5", id = "txtTermDeployedDate" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedTerminalType, Model.TerminalType, null, new { @class = "span5", id = "ddlTermTerminalType" })
+                    @Html.CustomNgTextBoxFor(model => model.ReplacedTerminalId, null, new { Class = "span5", id = "txtTermReplacedTerminalId" })
+                    @Html.CustomNgTextBoxFor(model => model.ReplacedDate, null, new { Class = "span5", id = "txtTermReplacedDate" })
+                    @Html.CustomNgTextBoxFor(model => model.ReasonCd, null, new { Class = "span5", id = "txtTermReasonCd" })
+                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { Class = "span5", id = "txtTermCreationDate" })
+                    <input type="hidden" id="xxtermisEdit" value="Add" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="saveTerm" class="btn btn-info"><i class="icon-ok"></i></button>
+            </div>
+        </div>
+        <div id="termDeleteConfirm" data-backdrop="static" class="modal hide">
+            <div class="modal-header deletion-head">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4>Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm the record deletion
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" id="termDeleteConfirmed" class="btn btn-danger">Yes,Delete<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

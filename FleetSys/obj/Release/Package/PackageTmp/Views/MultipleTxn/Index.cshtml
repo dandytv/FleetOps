@@ -1,0 +1,386 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model ModelSector.TxnAdjustment
+@{
+    ViewBag.Title = "Multiple Adjustment | FleetOps";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.ng_app = "multipleAdjApp";
+    //ViewBag.bodyClass = "sidebar-hidden";
+}
+@section ModuleSideBar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+        td.detail-toggler {
+            background: url('@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Content/images/details_open.png') no-repeat center center;
+            cursor: pointer !important;
+        }
+        tr.shown td.detail-toggler {
+            background: url('@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Content/images/details_close.png') no-repeat center center;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                @if (!Html.NotAuthorized("", "btnNew"))
+                {
+                    <a @(Html.IsReadOnly("", "btnNew") ? "disabled=disabled" : "href=#/new") data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+                }
+            </div>
+        </div>
+    </div>
+}
+<div class="main" style="opacity:1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/MultipleTxn#/" class="active">Multiple Adjustment</a></li>
+            </ol>
+            <h1>Multiple Adjustment<small></small></h1>
+            <br />
+        </div>
+        <div class="col-lg-12">
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-actions pull-left">
+                                @if (!Html.NotAuthorized("", "btnNew"))
+                                {
+                                    <a class="btn-minimize" @(Html.IsReadOnly("", "btnNew") ? "disabled=disabled" : "href=#/new")><i class="fa fa-plus"></i>&nbsp;New</a>
+                                }
+                                <a href="javascript:;" ng-click="refresh();" class="btn-minimize"><i class="fa fa-refresh"></i>&nbsp;Refresh</a>
+                                @if (!Html.NotAuthorized("", "btnNewAdjustment"))
+                                {
+                                    <span style="display:none" id="tblMultipleAdj-options"><button class="btn btn-primary btn-sm" style="margin-bottom:9px" @(Html.IsReadOnly("", "btnNewAdjustment") ? "disabled=disabled" : "ng-click=newpayment();")>New Adjustment</button></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Batch ID</th>
+                                        @*<th>Txn No</th>
+                                            <th>Cheque No</th>
+                                            <th>Cheque Amount</th>
+                                            <th>Total Amount</th>*@
+                                        <th>Creation Date</th>
+                                        @*<th>Created By</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="main.html">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div ng-if="!isEdit" class="panel-heading"><h2><strong>New Multi Adjustment:&nbsp;{{batchId}}</strong></h2></div>
+            <div ng-if="isEdit" class="panel-heading"><h2>Multi Adjustment:&nbsp;<strong>{{batchId}}</strong></h2></div>
+            <div class="panel-body">
+                <div class="invoice">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedAdjTxnCode, Model.AdjTxnCode, new { required = true }, new { Name = "AdjTxnCode", @section = "", ng_disabled = "isEdit" })
+                                </div>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <table class="table bootstrap-datatable datatable small-font" style="margin-left:18px">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10%" align="center">GL Code</th>
+                                            <th style="width:10%">GL Code Descp</th>
+                                            <th style="width:10%">GL Descp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in array">
+                                            <td>{{item.GLTxnCode}}</td>
+                                            <td>{{item.GLDescp}}</td>
+                                            <td>{{item.GLCodeDescp}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.TxnDate, new { required = true }, new { @date_picker = "", @section = "", ng_disabled = "_Object.SelectedSts == 'A' || _Object.SelectedSts == 'R'" }) @**@
+                                    
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.ChequeAmt, new { required = true }, new { @amount = "", @section = "", ng_disabled = "_Object.SelectedSts == 'A' || _Object.SelectedSts == 'R'" })
+                                </div>
+                                @*<div class="col-sm-4">
+                                        @Html.CustomNgTextBoxFor(model => model.CheqNo, null, new { @section = "", ng_disabled = "isEdit" })CheQueAmt
+                                    </div>*@
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedOwner, Model.Owner, new { required = true }, new { @Name = "Owner", @section = "", ng_disabled = "_Object.SelectedSts == 'A' || _Object.SelectedSts == 'R'" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 style="font-weight:bold; margin-top:20px;">Adjustment Capture:</h2>
+                    <table class="table bootstrap-datatable datatable small-font">
+                        <thead>
+                            <tr>
+                                <th style="width:10%">Account No</th>
+                                <th style="width:10%">Account Name</th>
+                                <th style="width:15%">Card No</th>
+                                <th style="width:10%">Txn Amount</th>
+                                <th style="width:15%">Description</th>
+                                <th style="width:12%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Items" class="fresh-row">
+                                <form>
+                                    <td style="width:10%">
+                                        <input ng-show="item.isEdit" ng-blur="acctNoChanged(item);" ng-model="item.AcctNo" ng-disabled="isEdit&&entryDisabled" class="form-control" type="text" section="MultipleTxn" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.AcctNo}}
+                                        </span>
+                                    </td>
+
+                                    <td style="width:15%;vertical-align: middle;">
+                                        <span ng-show="item.AcctName" style="font-weight:600;font-size:12px;display:block" class="label label-default" section="MultipleTxn">
+                                            {{item.AcctName}}
+                                        </span>
+                                        <span ng-show="!item.AcctName" style="font-weight:600;font-size:12px;display:block" class="label label-default">
+                                            ---
+                                        </span>
+                                    </td>
+
+                                    <td style="width:15%">
+                                        <input ng-show="item.isEdit" ng-model="item.CardNo" class="form-control" type="text" section="MultipleTxn" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.CardNo}}
+                                        </span>
+                                    </td>
+
+                                    <td @*class="text-right" *@ style="width:10%">
+                                        <input ng-show="item.isEdit" ng-model="item.TxnAmt" amount class="form-control" type="text" section="MultipleTxn" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.TxnAmt}}
+                                        </span>
+                                    </td>
+
+                                    <td style="width:15%">
+                                        <input ng-show="item.isEdit" ng-model="item.TxnDescp" class="form-control" type="text" section="MultipleTxn" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.TxnDescp}}
+                                        </span>
+                                    </td>
+
+                                    @*<td style="width:10%">
+                                            <input ng-show="item.isEdit" ng-model="item.InvoiceNo" class="form-control" type="text" />
+                                            <span ng-hide="item.isEdit">
+                                                {{item.InvoiceNo}}
+                                            </span>
+                                        </td>
+
+                                        <td style="width:10%">
+                                            <input ng-show="item.isEdit" ng-model="item.AppvCd" class="form-control" type="text" />
+                                            <span ng-hide="item.isEdit">
+                                                {{item.AppvCd}}
+                                            </span>
+                                        </td>
+
+                                        <td style="width:10%">
+                                            <input ng-show="item.isEdit" ng-model="item.DeftBusnLocation" class="form-control" type="text" />
+                                            <span ng-hide="item.isEdit">
+                                                {{item.DeftBusnLocation}}
+                                            </span>
+                                        </td>
+                                        <td style="width:7%">
+                                            <input ng-show="item.isEdit" ng-model="item.DeftTermId" class="form-control" type="text" />
+                                            <span ng-hide="item.isEdit">
+                                                {{item.DeftTermId}}
+                                            </span>
+                                        </td>*@@*<td style="width:10%">
+                                            <input ng-show="item.isEdit" ng-model="item.InvoiceNo" class="form-control" type="text" />
+                                            <span ng-hide="item.isEdit">
+                                            </span>
+                                        </td>
+
+                                        <td style="width:10%">
+                                            <input ng-show="item.isEdit" ng-model="item.AppvCd" class="form-control" type="text" />
+                                            <span ng-hide="item.isEdit">
+                                            </span>
+                                        </td>
+
+                                        <td style="width:10%">
+                                            <input ng-show="item.isEdit" ng-model="item.DeftBusnLocation" class="form-control" type="text" />
+                                            <span ng-hide="item.isEdit">
+                                            </span>
+                                        </td>
+                                        <td style="width:7%">
+                                            <input ng-show="item.isEdit" ng-model="item.DeftTermId" class="form-control" type="text" />
+                                            <span ng-hide="item.isEdit">
+                                            </span>
+                                        </td>*@
+                                        <td class="hide-print text-right" style="width:12%">
+                                            <div class="btn-group btn-group-justified" ng-show="item.isEdit">
+                                                <a href="javascript:;" id="btnSaveRow" ng-click="insertRecord(item);" class="btn btn-sm btn-small btn-primary"><i ng-class="item.processing?'fa fa-cog fa-spin':'fa fa-check'"></i></a>
+                                            </div>
+                                            <div class="btn-group btn-group-justified" ng-hide="item.isEdit || _Object.SelectedSts=='A' || _Object.SelectedSts == 'R'">
+                                                @if (!Html.NotAuthorized("", "btnEdit"))
+                                                {
+                                                    <a href="javascript:;" id="btnSaveRow" @(Html.IsReadOnly("", "btnEdit") ? "disabled=disabled" : "ng-click=item.isEdit=true;") ng-hide="_Object.SelectedSts=='A' || _Object.SelectedSts == 'R'" class="btn btn-sm btn-primary btn-small"><i class="fa fa-edit"></i></a>
+                                                }
+                                                @if (!Html.NotAuthorized("", "btnTrash"))
+                                                {
+                                                    <a href="javascript:;" id="btnSaveRow" @(Html.IsReadOnly("", "btnTrash") ? "disabled=disabled" : "ng-click=removeItem(item);") ng-disabled="isEdit&&entryDisabled" ng-hide="_Object.SelectedSts=='A' || _Object.SelectedSts == 'R'" class="btn btn-sm btn-small btn-danger"><i class="fa fa-trash-o"></i></a>
+                                                }
+                                            </div>
+                                        </td>
+                                    </form>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div id="btn-group-submit" style="display:none;padding:10px;">
+                            <a href="#" id="btnSaveRow" class="btn btn-blue btn-sm">Save</a>
+                            &nbsp;
+                            <a href="#" id="btnCancelRow" class="btn btn-default btn-sm">Cancel</a>
+                        </div>
+                        @if (!Html.NotAuthorized("", "btnAddNewItem"))
+                        {
+                            <button ng-click="CreateNewItem();" ng-disabled="Difference==0.00&&_Object.ChequeAmt" ng-hide="_Object.SelectedSts=='A' || _Object.SelectedSts=='R'" @(Html.IsReadOnly("", "btnAddNewItem") ? "" : "id=AddNewItem") class="btn btn-default hide-print">Add a new item</button>
+                        }
+
+
+
+                        <div class="row" style="margin-top:20px">
+
+                            <div class="col-lg-4 col-sm-5" style="position:relative;left:15px;">
+                                @*<div class="alert alert-info">
+                                        Save the transaction only after bringing the Difference to 0.00
+                                    </div>*@
+                            </div>
+
+                            <div class="col-lg-4 col-lg-offset-4 col-sm-5 col-sm-offset-2 recap">
+                                <hr />
+                                <table class="table table-clear">
+                                    <tbody>
+                                        <tr>
+                                            <td class="left"><strong>Total amount (PHP)</strong></td>
+                                            <td class="right">{{Total | currency:""}} ₱</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left"><strong>Cheque Amount (PHP)</strong></td>
+                                            <td class="right">{{_Object.ChequeAmt|currency:""}} ₱</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left"><strong>Difference</strong></td>
+                                            <td class="right"><strong ng-class="Difference==0.00?'text text-success':'text'">{{ Difference|currency:""}} ₱</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table><br />
+                            </div><!--/col-->
+                            <br />
+                            <div class="col-sm-12">
+                                <hr /><div class="pull-right">
+                                    @if (!Html.NotAuthorized("", "btnCancel"))
+                                    {
+                                        <a class="btn" href="#"> Cancel</a>
+                                    }
+                                    @if (!Html.NotAuthorized("", "btnSave"))
+                                    {
+                                        <a href="javascript:;" @*ng-click="AddTxn();" *@ @(Html.IsReadOnly("", "btnSave") ? "disabled=disabled" : "ng-click=AddTxn();") ng-disabled="Difference!=0.00" ng-hide="_Object.SelectedSts=='A' || _Object.SelectedSts == 'R'" class="btn btn-primary btn-cons">Save</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <style type="text/css">
+                        .invoice-controls {
+                            padding: 20px 20px;
+                            text-align: right;
+                            padding-right: 40px;
+                        }
+                    </style>
+                </div>
+            </div>
+
+            <div class="modal fade" id="delete-modal" app-modal trigger="PaymentModalOpen">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" ng-click="PaymentModalOpen=false;" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Continue Adjustment?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Do you want to create a new adjustment?</p>
+                        </div>
+                        <div class="modal-footer">
+                            @if (!Html.NotAuthorized("", "btnNo"))
+                            {
+                                <button type="button" ng-click="ClosePayment();" @(Html.IsReadOnly("", "btnNo") ? "disabled='disabled'" : "") class="btn btn-default">No</button>
+                            }
+                            @if (!Html.NotAuthorized("", "btnYes"))
+                            {
+                                <button type="button" ng-click="ContinuePayment();" @(Html.IsReadOnly("", "btnYes") ? "disabled='disabled'" : "") class="btn btn-primary">Yes, Continue</button>@*button type="button"*@
+                            }
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+
+
+    </script>
+    @section CustomPageScript
+{
+        <script src="~/Scripts/angular-sanitize.js"></script>
+        <script src="~/Scripts/uiselect.js"></script>
+        <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+        <link href="~/Scripts/select2.css" rel="stylesheet" />
+        <script src="~/ng/Utils.js"></script>
+        <script src="~/ng/Apps/MultiplePayentAdj/MultipleAdj.js"></script>
+        <script src="~/ng/Apps/MultiplePayentAdj/MultipleAdjService.js"></script>
+        <script src="~/ng/Apps/MultiplePayentAdj/MultipleAdjController.js"></script>
+        <link href="~/Content/css/wizard.css" rel="stylesheet" />
+        <script src="~/Content/css/wizard.js"></script>
+        <script src="~/Content/css/formWizard.js"></script>
+        <script type="text/javascript">
+            //$(function () {
+            //    $("body").addClass("sidebar-hidden");
+            //    $('.navbar-brand img').velocity({ height: 45 }, {
+            //        duration: 400,
+            //        easing: "swing",
+            //    });
+            //})
+        </script>
+    }
+
+
+
+
+

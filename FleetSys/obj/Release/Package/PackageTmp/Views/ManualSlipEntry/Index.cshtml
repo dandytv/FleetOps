@@ -1,0 +1,413 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.ManualSlipEntry
+@{
+    ViewBag.Title = "Manual Slip Entry";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.ng_app = "manualEntryApp";
+}
+
+@section ModuleSideBar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+
+        .dataTables_scrollHeadInner {
+            min-width: 100% !important;
+        }
+
+        table.datatable {
+            min-width: 100% !important;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<div class="main" style="opacity:1; min-height: 658px;" ng-controller="mainController">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li class="active">Manual Slip Entry</li>
+                <li ng-show="$root.obj.SettleId" class="active">Settle Id: {{$root.obj.SettleId}}</li>
+                <li ng-show="$root.obj.TxnId" class="active">Txn Id: {{$root.obj.TxnId}}</li>
+                <li ng-show="$root.obj.ProductId" class="active">Product Id: {{$root.obj.ProductId}}</li>
+                @*<li class="active">{{root.obj.corpcd}}</li>*@
+            </ol>
+            <h1>Manual Slip Entry <small></small></h1>
+            <br />
+        </div>
+        <div class="col-lg-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+                        <li class="active"><a href="javascript:;" data-toggle="tab" role="tab" data-target="#batch">Manual Batch</a></li>
+                        <li><a ng-click="loadTxn();" ng-show="uiState.txnTabVisible" href="javascript:;" data-toggle="tab" role="tab" data-target="#txn">Manual Transactions</a></li>
+                        <li><a ng-show="uiState.prodTabVisible" ng-click="loadProducts();" href="javascript:;" data-toggle="tab" role="tab" data-target="#product">Manual Products</a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div id="myTabContent" class="tab-content">
+
+                        <div class="tab-pane active" id="batch">
+                            <div class="panel panel-default no-border">
+                                <div class="panel-heading">
+                                    <div class="panel-actions pull-left">
+                                        @*<a href="javascript:;" ng-click="batchModalClick();" class="btn-minimize"><i class="fa fa-plus"></i></a>*@
+                                        <a href="javascript:;" ng-click="refreshBatch()" class="btn-close"><i class="fa fa-refresh"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtBatchOptions">
+                                        <thead>
+                                            <tr>
+                                                <th>Settle ID</th>
+                                                <th>Dealer</th>
+                                                <th>Terminal Id</th>
+                                                <th>Site Id</th>
+                                                <th>Batch Id</th>
+                                                <th>Invoice No</th>
+                                                <th>SettleDate</th>
+                                                <th>Total Count</th>
+                                                <th>Total Amount</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>Creation Date</th>
+                                                <th>User Id</th>
+                                                <th>Txn Description</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <form>
+                                <div class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="uiState.batchModalOpen" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header" data-toggle="modal">
+                                                <button type="button" ng-click="uiState.batchModalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                                <h2>Manual Batch Maintenance : {{$root.obj.SettleId}}</h2>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.SettleId, null, new { @readonly = "readonly", @sectionName = "Batch" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.BusnLocation, new { required = true }, new { @sectionName = "Batch", @ng_readonly = "uiState.batchEdit" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.SelectedTermId, null, new { @sectionName = "Batch", @ng_readonly = "uiState.batchEdit" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.SiteId, null, new { @sectionName = "Batch", @ng_readonly = "uiState.batchEdit" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedTxnCd, Model.TxnCd, new { required = true }, new { @ng_disabled = "uiState.batchEdit", @Name = "TxnCd", @sectionName = "Batch" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.TotalCnt, null, new {@readonly = "readonly", @sectionName = "Batch" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.DisplayTotalAmt, null, new {@readonly = "readonly", @sectionName = "Batch", @amount = "" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.InvoiceNo, null, new { @sectionName = "Batch", maxlength = "6" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.BatchId, null, new { @readonly = "readonly", @sectionName = "Batch" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.OrigBatchNo, null, new { @sectionName = "Batch" })
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        @Html.CustomNgTextAreaFor(model => model.Descp, null, new { rows = "3", @sectionName = "Batch" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.SettleDate, new { required = true }, new { @date_picker = "", @sectionName = "Batch" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedSts, Model.Sts, null, new { @Name = "Sts", @sectionName = "Batch" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="form-actions">
+                                                    @if (!Html.NotAuthorized(null, "btnSaveBatch", "Batch"))
+                                                    {
+                                                        <button data-validation-form data-customsubmit="SaveManualSlipBatch();" @(Html.IsReadOnly(null, "btnSaveBatch", "Batch") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <div class="tab-pane" id="txn">
+                            <div class="panel panel-default no-border">
+                                <div class="panel-heading">
+                                    <div class="panel-actions pull-left">
+                                        @if (!Html.NotAuthorized(null, "btnNew", "Manual Txn"))
+                                        {
+                                            <a href="javascript:;" @(Html.IsReadOnly(null, "btnNew", "Manual Txn") ? "disabled=disabled" : "ng-click=txnModalClick();") class="btn-minimize"><i class="fa fa-plus"></i></a>
+                                        }
+                                            
+                                        <a href="javascript:;" ng-click="refreshTxn();" class="btn-close"><i class="fa fa-refresh"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <table id="txnTable" class="table bootstrap-datatable datatable small-font" data-dtable options="dtTxnOptions">
+                                        <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>Term Id</th>
+                                                <th>Txn Cd</th>
+                                                <th>Site Id</th>
+                                                <th>Batch Id</th>
+                                                <th>Invoice No</th>
+                                                <th>Receipt No</th>
+                                                <th>Txn Date</th>
+                                                <th>Card No</th>
+                                                <th>Driver Card No</th>
+                                                <th>Txn Amount</th>
+                                                <th>GST No</th>
+                                                <th>GST Amt</th>
+                                                <th>Description</th>
+                                                <th>Auth No</th>
+                                                <th>Odometer</th>
+                                                <th>No Of Product Item</th>
+                                                <th>Creation Date</th>
+                                                <th>User Id</th>
+                                                <th>Txn Id</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <form>
+                                <div class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="uiState.txnModalOpen" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header" data-toggle="modal">
+                                                <button type="button" ng-click="uiState.txnModalOpen=false" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                                <h2>Manual Transaction Maintenance</h2>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.BusnLocation, null, new { @sectionName = "Manual Txn", ng_keyUp = "TerminalIdChanged();", maxlength = "15" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.SiteId, new { required = true }, new { @sectionName = "Manual Txn", @readonly = "readonly" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedTermId, Model.TermId, new { required = true }, new { @Name = "TermId", @sectionName = "Manual Txn" })
+                                                        @*@Html.CustomNgTextBoxFor(model => model.TermId, new { required = true }, new { @readonly = "readonly", @section = "Transaction" })*@
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedTxnCd, Model.TxnCd, new { required = true }, new { @ng_disabled = "uiState.txnEdit", @Name = "TxnCd", @sectionName = "Manual Txn" })
+                                                    </div>
+                                                    @*<div class="col-sm-6" ng-if="_Object.InvoiceNo == null">
+                                                        @Html.CustomNgTextBoxFor(model => model.InvoiceNo, null, new { @sectionName = "Manual Txn" })
+                                                    </div>*@
+                                                    <div class="col-sm-6" ng-else>
+                                                        @Html.CustomNgTextBoxFor(model => model.InvoiceNo, null, new { @ng_disabled = "uiState.txnEdit", @sectionName = "Manual Txn", maxlength = "6" })
+                                                    </div>
+
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.TxnDate, new { required = true }, new { @date_picker = "datepicker", @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.CardNo, new { required = true }, new { @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.AuthCardNo, new { required = true }, new { @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.DisplayTotalAmt, new { required = true }, new { @sectionName = "Manual Txn", @amount = "" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.RcptNo, new { required = true }, new { @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @*@readonly = "readonly"*@
+                                                            @Html.CustomNgTextBoxFor(model => model.Odometer, null, new { @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgSelectListFor(model => model.SelectedSts, Model.Sts, null, new { @Name = "Sts", @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.VATNo, null, new { @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.VATAmt, null, new { @readonly = "readonly", @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            @Html.CustomNgTextAreaFor(model => model.Descp, null, new { @sectionName = "Manual Txn" })
+                                                        </div>
+
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.SettleId, null, new { @readonly = "readonly", @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.TxnId, null, new { @readonly = "readonly", @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.AuthNo, null, new { @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.Stans, null, new { @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.ArrayCnt, null, new { @readonly = "readonly", @sectionName = "Manual Txn" })
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            @Html.CustomNgTextBoxFor(model => model.Rrn, null, new { @sectionName = "Manual Txn" })
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="form-actions">
+                                                    @if (!Html.NotAuthorized(null, "btnSaveTxn", "Manual Txn"))
+                                                    {
+                                                        <button data-validation-form data-customsubmit="SaveManualSlipTxn();" @(Html.IsReadOnly(null, "btnSaveTxn", "Manual Txn") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="product">
+                            <div class="panel panel-default no-border">
+                                <div class="panel-heading">
+                                    <div class="panel-actions pull-left">
+                                    @if (!Html.NotAuthorized(null, "btnNewProduct", "Manual Product"))
+                                    {
+                                        <a href="javascript:;" @(Html.IsReadOnly(null, "btnNewProduct", "Manual Product") ? "disabled=disabled" : "ng-click=prodModalClick();") class="btn-minimize"><i class="fa fa-plus"></i></a>
+                                    }
+                                        <a href="javascript:;" ng-click="refreshProd();" class="btn-close"><i class="fa fa-refresh"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <table id="productTable" class="table bootstrap-datatable datatable small-font" style="min-width:145%" data-dtable options="dtProdOptions">
+                                        <thead>
+                                            <tr>
+                                                <th>Batch ID</th>
+                                                <th>Txn Type</th>
+                                                <th>Quantity</th>
+                                                <th>Product Amount</th>
+                                                <th>Product Description</th>
+                                                <th>GST Code</th>
+                                                <th>GST Rate</th>
+                                                <th>GST Amount</th>
+                                                <th>Creation Date</th>
+                                                <th>User ID</th>
+                                                <th>Last Update</th>
+                                                <th>Settle Id</th>
+                                                <th>Txn Id</th>
+                                                <th>TxnDetail Id</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <form>
+                                <div class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="uiState.productModalOpen" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header" data-toggle="modal">
+                                                <button type="button" ng-click="uiState.productModalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                                <h2>Manual Products Maintanance</h2>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedProdCd, Model.ProdCd, new { required = true }, new { @Name = "ProdCd", @sectionName = "Manual Product" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.Quantity, null, new { @sectionName = "Manual Product", @amount3decimal = "" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.ProdAmt, null, new { @sectionName = "Manual Product", @amount = "" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.ProdDesc, null, new { @sectionName = "Manual Product" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.UnitPrice, new { required = true }, new { @sectionName = "Manual Product", @amount = "3" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgSelectListFor(model => model.SelectedVATCd, Model.VATCd, new { required = true }, new { @Name = "VATCd", @sectionName = "Manual Product" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.VATRate, null, new { @sectionName = "Manual Product", @readonly = "" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.VATAmt, null, new { @sectionName = "Manual Product", on_select = "VATAmtChanged($item, $model);", @amount = "" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.SettleId, null, new { @sectionName = "Manual Product", @readonly = "" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.TxnId, null, new { @sectionName = "Manual Product", @readonly = "" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.CustomNgTextBoxFor(model => model.TxnDetailId, null, new { @readonly = "readonly", @sectionName = "Manual Product" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="form-actions">
+                                                    @if (!Html.NotAuthorized(null, "btnSaveProduct", "Manual Product"))
+                                                    {
+                                                        <button data-validation-form data-customsubmit="SaveManualSlipProduct();" @(Html.IsReadOnly(null, "btnSaveProduct", "Manual Product") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CustomPageScript
+{
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Manual%20Slip%20Entry/manualSlipEntry.js"></script>
+    <script src="~/ng/Apps/Manual%20Slip%20Entry/manualSlipEntryService.js"></script>
+    <script src="~/ng/Apps/Manual%20Slip%20Entry/manualSlipEntryController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}

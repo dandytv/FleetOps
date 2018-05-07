@@ -1,0 +1,97 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.CardAppcInfoModel
+<h1>Card Information</h1><br/>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <form>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                <div class="col-sm-6">
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedCardType, Model.CardType, new { required = true }, new { @Name = "CardType", @section = "gen" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.CardNo, null, new { @section = "gen", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedCardMedia, Model.CardMedia, new { required = true }, new { @Name = "CardMedia", @section = "gen", on_select = "CardFee($item, $model);" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedCostCentre, Model.CostCentre, null, new { @Name = "CostCentre", @section = "gen" })
+                                </div>
+                            </div>
+                           
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.DriverName, null, new { id = "txtDriverName", @section = "gen", ng_disabled = " _Object.SelectedCardType == 7 || _Object.SelectedCardType == 6 || _Object.SelectedCardType == 3 || _Object.SelectedCardType == 4" }) @*add1*@
+                                </div>
+                                <div class="col-sm-6" >
+                                    @Html.CustomNgTextBoxFor(model => model.EmbossName, new { required = true }, new { @section = "gen" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6" >
+                                    @Html.CustomNgTextBoxFor(model => model.vehRegNo, null, new { @section = "gen",@limit_To = "16" , ng_disabled = "_Object.SelectedCardType == 7 || _Object.SelectedCardType == 6  || _Object.SelectedCardType == 2 ||_Object.SelectedCardType == 5" })
+
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedVehicleModel, Model.VehicleModel, null, new { @Name = "VehicleModel", @section = "gen" })
+                                </div>
+                            </div>
+                            @Html.CustomNgSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { @Name = "CurrentStatus", @section = "gen", @readonly = "readonly" })
+                            
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6">
+                        <fieldset>
+                            @Html.CustomNgSelectListFor(model => model.SelectedProductUtilization, Model.ProductUtilization, new { required = true }, new { @Name = "ProductUtilization", id = "ddlGenProdCodes", @section = "gen" })
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedJoining, Model.JoiningFee, null, new { @Name = "JoiningFee", id = "ddlJoiningFee", @section = "gen" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedAnnualFee, Model.AnnualFee, null, new { @Name = "AnnualFee", id = "ddlAnnualFee", @section = "gen" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.PINExceedCnt, null, new { @section = "gen", @readonly="readonly" })@*, @readonly = "readonly"*@
+                                </div>
+                            </div>
+                            @Html.CustomNgCheckBoxFor(model => model.OdometerReadingInd, null, new { @section = "gen" })@**@ 
+                            @*@Html.CustomNgCheckBoxFor(model => model.PinIND, null, new { @section = "gen" })*@
+                            @if (Html.IsReadOnly("gen", "OdometerReadingInd"))
+                            {
+                                @Html.CustomNgCheckBoxFor(model => model.PushAlertInd, null, new {  @section = "gen" })
+                            }else
+                            {
+                                @Html.CustomNgCheckBoxFor(model => model.PushAlertInd, null, new { @disabled = "disabled", @section = "gen" })
+                            }
+                            @Html.HiddenFor(model => model.SKDSQuota, new { @section = "Applicant" })
+                            @Html.HiddenFor(model => model.SKDSInd, new { @section = "Applicant" })
+                            @Html.HiddenFor(model => model.AcctNo, new { @section = "Applicant" })
+                        </fieldset>
+                    </div>
+            <div class="col-sm-12">
+                <input type="hidden" id="apcSaveAccess" value="@Html.GetControlStatus("Save", "Applicant")" />
+                <div class="panel-footer">
+                    @if (!Html.NotAuthorized("gen", "btnSaveApplicant"))
+                    {
+                        <div class="text-right">
+                            <button data-validation-form data-customsubmit="postGeneralInfo();" @(Html.IsReadOnly("gen", "btnSaveApplicant") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,80 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.PersonInfoModel
+<h1>Cardholder Info</h1><br/>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <form>
+        <div class="panel panel-default">
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.CustomNgSelectListFor(model => model.SelectedTitle, Model.title, null, new { @Name = "title", @section = "per" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.FirstName, null, new { @section = "per" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.LastName, null, new { @section = "per" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.IdNo, null, new { @section = "per" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedIdType, Model.IdType, null, new { @Name = "IdType", @section = "per" })
+                            </div>
+                        </div>
+                        @*<div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.AltIdNo, null, new { @section = "per" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedAltIdType, Model.AltIdType, null, new { @Name = "AltIdType", @section = "per" })
+                        </div>*@
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.Selectedgender, Model.gender, null, new { @Name = "gender", @section = "per" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.DOB, null, new { id = "txtPersonDob", @section = "per", @date_picker = "" })
+                        </div>
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.AnnualIncome, null, new { @section = "per", @amount = "" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedOccupation, Model.Occupation, null, new { @Name = "Occupation", @section = "per" })
+                        </div>
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.SelectedDeptId, null, new { @section = "per" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.DrivingLicense, null, new { @section = "per" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            @*</div>
+            </div>*@
+            <div class="panel-footer">
+                @if (!Html.NotAuthorized("per", "SavePersonInfoCard"))
+                {
+                    <div class="text-right">
+                        <input type="button" data-validation-form data-customsubmit="savePersonInfo();" @(Html.IsReadOnly("per", "SavePersonInfoCard") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" name="finish" value="Save">
+                        
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+
+            </div>

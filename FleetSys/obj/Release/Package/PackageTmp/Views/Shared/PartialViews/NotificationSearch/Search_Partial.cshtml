@@ -1,0 +1,78 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.LookupParameters
+
+@{
+    Layout = null;
+}
+
+<h1>Notifications Search</h1><br />
+<form>
+    <div class="modal md-modal md-effect-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" data-toggle="modal">
+                    <button type="button" class="close" ng-click="modalOpen=false;" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h2>Event Search</h2>
+                </div>
+                <div class="modal-body small">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SeletedEventInd, Model.EventInd, new { required = true }, new { @Name = "EventInd" })
+
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedEventType, Model.EventType, null, new { @Name = "EventType" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedRefTo, Model.RefTo, null, new { @Name = "RefTo" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.RefKey, null, null)
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgDateRangeFor(model => model.StartDate, model => model.EndDate, "Date Range", new { required = true })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions pull-right">
+                        <button data-validation-form data-customsubmit="WebNtfyEventSearch();" @(Html.IsReadOnly("aps", "SearchTxn") ? "disabled=disabled" : "") class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-search"></i></a>
+            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fraud/Alert</th>
+                    <th>Short Description</th>
+                    <th>Reason</th>
+                    <th>Owner Type</th>
+                    <th>Ref To</th>
+                    <th>Ref Key</th>
+                    <th>Company Name</th>
+                    <th>Created On</th>
+                    <th>Channel</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>

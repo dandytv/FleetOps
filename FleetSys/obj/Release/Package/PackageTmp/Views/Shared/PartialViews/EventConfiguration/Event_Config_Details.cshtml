@@ -1,0 +1,417 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.LookupParameters
+
+<style type="text/css">
+    .panel-group .panel + .panel {
+        margin-top: 0px;
+    }
+
+    .parent-row {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .child-column {
+        display: flex;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
+
+<div class="col-lg-12">
+    <h2><strong>Event Type</strong></h2>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse0" aria-expanded="true" aria-controls="collapse0">
+                        <strong>Event Information</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse0" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                @Html.CustomNgTextBoxFor(model => model.EventTypeId, null, new { @section = "evc", @disabled = "disabled" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.EventTypeId, Model.EventType, null, new {@section = "evc", @Name = "EventType", @ng_disabled = "!isNew", @on_select = "shortDescpChanged($item, $model);" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                @Html.CustomNgTextBoxFor(model => model.TypeDesc, null, new { @section = "evc", @disabled = "disabled" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.CustomNgSelectListFor(model => model.SelectedPriority, Model.Priority, null, new { Name = "Priority", @section = "evc", @disabled = "disabled" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.CustomNgSelectListFor(model => model.SelectedOwner, Model.Owner, null, new { Name = "Owner", @section = "evc", @disabled = "disabled" })
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="btn-group btn-group-sm p-t-23" role="group" aria-label="...">
+                                    <button type="button" ng-click="toggleStatus('E');" ng-class="_Object.SelectedStatus=='E'?'btn btn-success':'btn btn-default'">Active</button>
+                                    <button type="button" ng-click="toggleStatus('D');" ng-class="_Object.SelectedStatus!='E'?'btn btn-danger':'btn btn-default'">Disabled</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextAreaFor(model => model.DetailedDescp, null, new { @section = "evc", @rows = "4", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        <strong>Event Details</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            @Html.CustomNgSelectListFor(model => model.SelectedRefTo, Model.RefTo, null, new { Name = "RefTo", @section = "evc", @ng_disabled = "!isNew" })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.CustomNgTextBoxFor(model => model.RefKey, null, new { @section = "evc", @ng_disabled = "!isNew", @ng_blur = "updateCompanyName();" })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.CustomNgTextBoxFor(model => model.CompanyName, null, new { @section = "evc", @disabled = "disabled" })
+                        </div>
+                    </div>
+                    <h3><strong>How often do you want the notification to be pushed?</strong></h3><br />
+                    <div class="row">
+                        <div class="col-md-12 p-t-23">
+                            <label class="radio-inline" for="inline-radio1">
+                                <input type="radio" id="inline-radio1" name="inline-radios" ng-change="selectedOccurChanged(_Object.SelectedOccur);" ng-model="_Object.SelectedOccur" value="E">Every Time
+                            </label>
+                            <label class="radio-inline" for="inline-radio2">
+                                <input type="radio" id="inline-radio2" ng-model="_Object.SelectedOccur" ng-change="selectedOccurChanged(_Object.SelectedOccur);" name="inline-radios" value="S">Set Frequency
+                            </label>
+                        </div>
+                        <div class="col-sm-2 p-t-23">
+                            @Html.CustomNgTextBoxFor(model => model.MaxOccur, null, new { @section = "evc", @ng_disabled = "_Object.SelectedOccur=='E'", @only_digits = "" })
+                        </div>
+                        <div class="col-sm-3 p-t-23">
+                            @Html.CustomNgSelectListFor(model => model.SelectedFrequency, Model.Frequency, null, new { Name = "Frequency", @section = "evc", @ng_disabled = "_Object.SelectedOccur=='E'" })
+                        </div>
+                    </div>
+                    <br />
+                    @Html.CustomNgCheckBoxFor(model => model.DefaultInd)
+                    <hr class="soften" />
+                    <h3><strong>Set the criteria for the notification to be pushed:</strong></h3><br />
+                    <div class="row parent-row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width:40%"></th>
+                                    <th style="width:20%">Occur Type</th>
+                                    <th style="width:10%">Interval</th>
+                                    <th style="width:10%">Period Type</th>
+                                    <th style="width:20%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in Items track by item.id" ng-hide="item.BitmapAmt==0">
+                                    <td>
+                                        <div class="form-group" ng-repeat="inner in bitmapControls[Items.indexOf(item)]" ng-class="inner.class" ng-hide="inner.dataType=='x'">
+                                            <label for="name">{{inner.placeholder}}</label>
+                                            <p>{{item[inner.type]}}</p>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <span><strong>{{item.SelectedOccur=='C'?'Current Cycle':item.SelectedOccur=='S'?'Set Checking Period':''}}</strong></span>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <p>{{item.PeriodInterval}}</p>
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        {{item.PeriodType}}
+                                    </td>
+                                    <td style="vertical-align:middle">
+                                        <div style="vertical-align: middle;">
+                                            <div class="btn-group btn-group-justified">
+                                                <a href="javascript:;" ng-click="editItem(item);" ng-disabled="_Object.DefaultInd" id="btnSaveRow" class="btn btn-sm btn-primary btn-small"><i class="fa fa-edit"></i></a>
+                                                <a href="javascript:;" id="btnSaveRow" ng-disabled="isEdit||_Object.DefaultInd" ng-click="removeItem(item);" class="btn btn-sm btn-small btn-danger"><i class="fa fa-trash-o"></i></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    @if (!Html.NotAuthorized("evc", "btnAddNewBitMapInfo"))
+                    {
+                        <button ng-click="CreateNewItem($event);" ng-disabled="_Object.DefaultInd || _Object.BitmapAmt=='0'" class="btn btn-default hide-print"> Add a new item</button>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingFour">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" class="btn btn-link" data-parent="#accordion" data-target="#collapse3" aria-expanded="false" aria-controls="collapse0">
+                        <strong>Notification Recipients</strong>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                <div class="panel-body" style="margin-top:30px;margin-bottom:30px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table bootstrap-datatable datatable small-font">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%">Medium</th>
+                                        <th style="width:25%;">Recipient Name</th>
+                                        <th style="width:20%;">Email/Phone</th>
+                                        <th style="width:20%;">Language</th>
+                                        <th style="width:10%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Recipients" class="fresh-row">
+                                        <form>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                                    <button type="button" disabled ng-class="item.NotifyIndSms?'btn btn-success':'btn btn-default'">SMS</button>
+                                                    <button type="button" disabled ng-class="item.NotifyIndEmail?'btn btn-success':'btn btn-default'">EMail</button>
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                <span>
+                                                    {{item.ContactName}}
+                                                </span>
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                <span>
+                                                    {{item.ContactNo}}
+                                                </span>
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                <span>
+                                                    {{item.LangInd}}
+                                                </span>
+                                            </td>
+                                            <td style="vertical-align:middle">
+                                                <div class="btn-group btn-group-justified" ng-hide="item.isEdit">
+                                                    <a href="javascript:;" id="btnSaveRow" ng-click="editRecipient(item);" class="btn btn-sm btn-primary btn-small"><i class="fa fa-edit"></i></a>
+                                                    <a href="javascript:;" id="btnSaveRow" ng-disabled="isEdit" ng-click="removeRecipient(item);" class="btn btn-sm btn-small btn-danger"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <br />
+                            <hr />
+                        @if (!Html.NotAuthorized("evc", "btnAddNewBitMapInfo"))
+                        {
+                            <button ng-click="CreateNewRecipient($event);" @(Html.IsReadOnly("evc", "btnAddNewBitMapInfo") ? "disabled=disabled" : "") class="btn btn-default hide-print"> Add a new recipient</button>
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default" style="border-top:0">
+            <div class="panel-footer">
+                <div class="pull-left">
+                    <p class="text-muted">Updated on:  <strong ng-cloak>{{_Object.UpdateDate}}</strong></p>
+                    <p class="text-muted">Updated by:  <strong ng-hide="isNew" ng-cloak>{{_Object.UpdatedBy}}</strong></p>
+                </div>
+                <div class="text-right">
+                    @if (!Html.NotAuthorized("evc", "btnSaveAll"))
+                    {
+                        <div class="text-right">
+                            <button type="submit" ng-click="saveAll();" @(Html.IsReadOnly("evc", "btnSaveAll") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete-modal" app-modal trigger="detailModalOpen">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" ng-click="cancelEdit();" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Add/Update </h4>
+                </div>
+                <div class="modal-body" ng-class="Items[selectedItem].BitmapAmt<21?'small':''">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3><strong>Set the criteria for the notification to be pushed:</strong></h3><br />
+                            <div class="row">
+                                <div class="form-group" ng-repeat="inner in bitmapControls[selectedItem]" ng-class="inner.class" ng-hide="inner.dataType=='x'">
+                                    <label for="name">{{inner.placeholder}}</label>
+                                    <input only-digits ng-if="inner.dataType=='int'" class="form-control" ng-model="Items[selectedItem][inner.type]" section="evt" type="text">
+                                    <input ng-if="inner.dataType=='string'" class="form-control" ng-model="Items[selectedItem][inner.type]" section="evt" type="text">
+                                    <input amount ng-if="inner.dataType=='money'" class="form-control" amount ng-model="Items[selectedItem][inner.type]" section="evt" type="text">
+                                    <input datetime="HH:mm:ss" datetime-model="HH:mm:ss" ng-if="inner.dataType=='dataPicker'" class="form-control" datepicker ng-model="Items[selectedItem][inner.type]" section="evt" type="text" placeholder="eg:09:45">
+                                    <input datetime="HH:mm:ss" datetime-model="HH:mm:ss" ng-if="inner.dataType=='timePicker'" class="form-control" ng-model="Items[selectedItem][inner.type]" section="evt" placeholder="eg:09:45" type="text">
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+
+
+                        <div class="col-sm-12" style="padding-top:8px;padding-bottom:20px;" ng-if="containsBitmap(selectedItem,2)">
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="Items[selectedItem].SelectedOccur" ng-change="intervalChanged(Items[selectedItem].SelectedOccur);" value="C">Current Cycle
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="Items[selectedItem].SelectedOccur" ng-change="intervalChanged(Items[selectedItem].SelectedOccur);" value="S">Set Checking Period
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6" ng-if="containsBitmap(selectedItem,2)">
+                                    <input only-digits ng-model="Items[selectedItem].PeriodInterval" ng-disabled="Items[selectedItem].SelectedOccur=='C'" class="form-control" type="text" />
+                                </div>
+                                <div class="col-sm-6" ng-if="containsBitmap(selectedItem,1)">
+                                    <ui-select name="Frequency" ng-model="Items[selectedItem].PeriodType" ng-disabled="Items[selectedItem].SelectedOccur=='C'" section="General Info" style="width:100%" theme="select2">
+                                        <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Frequency| filter: $select.search" value="{{$select.selected.Value}}">
+                                            <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                @if (!Html.NotAuthorized("evc", "btnSaveContact"))
+                {
+                    <button type="button" class="btn btn-default" @(Html.IsReadOnly("evc", "btnSaveContact") ? "disabled=disabled" : "") ng-click="cancelEdit();" data-dismiss="modal">Cancel</button>
+                    <button type="button" ng-click="finishEdit();" @(Html.IsReadOnly("evc", "btnSaveContact") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save Changes</button>
+                }
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div class="modal fade" app-modal trigger="contactModalOpen">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" ng-click="cancelContact(Recipients[selectedContact]);" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Add/Update Contacts</h4>
+                </div>
+                <div class="modal-body small">
+                    <div class="row" style="margin-bottom:17px;">
+                        <div class="col-sm-4">
+                            <div class="btn-group btn-group-justified" style="margin-top:20px;">
+                                <a href="javascript:;" ng-disabled="_Object.NotifyInd==1" ng-click="switchMedium(selectedContact,'sms');" ng-class="Recipients[selectedContact].NotifyIndSms?'btn btn-success':'btn btn-default'" role="button"> SMS</a>
+                                <a href="javascript:;" ng-disabled="_Object.NotifyInd==2" ng-click="switchMedium(selectedContact,'email');" ng-class="Recipients[selectedContact].NotifyIndEmail?'btn btn-success':'btn btn-default'" role="button">Email</a>
+                                @*<a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>*@
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label for="EventScheduleId">Language</label>
+                                <ui-select name="languages" ng-model="Recipients[selectedContact].LangInd" section="General Info" style="width:100%" theme="select2">
+                                    <ui-select-match>{{$select.selected.Text}}</ui-select-match><ui-select-choices repeat="item.Value as item in _Selects.Languages| filter: $select.search" value="{{$select.selected.Value}}">
+                                        <div ng-bind-html="item.Text | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="EventScheduleId">Contact Name</label>
+                                <input class="form-control" ng-model="Recipients[selectedContact].ContactName" type="text" ng-disabled="!Recipients[selectedContact].NotifyIndSms&&!Recipients[selectedContact].NotifyIndEmail">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="EventScheduleId">{{Recipients[selectedContact].NotifyIndSms?'Contact No.':Recipients[selectedContact].NotifyIndEmail?'Email':'Contact No. / Email'}}</label>
+                                <div ng-if="Recipients[selectedContact].NotifyIndSms">
+                                    <input class="form-control" only-digits ng-model="Recipients[selectedContact].ContactNo" type="text" ng-disabled="!Recipients[selectedContact].NotifyIndSms">
+                                </div>
+                                <div ng-if="!Recipients[selectedContact].NotifyIndSms">
+                                    <input class="form-control" ng-model="Recipients[selectedContact].ContactNo" type="email" ng-disabled="!Recipients[selectedContact].NotifyIndEmail">
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="cancelContact(Recipients[selectedContact]);" data-dismiss="modal">Cancel</button>
+                    <button type="button" ng-click="finishEditContact(Recipients[selectedContact]);" class="btn btn-primary btn-cons">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="delete-modal" app-modal trigger="contactDeleteModalOpen">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="contactDeleteModalOpen=false;" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Confirm Delete?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>This will delete the record, continue?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="contactDeleteModalOpen=false;" data-dismiss="modal">Cancel</button>
+                    <button type="button" ng-click="confirmremoveRecipient();" class="btn btn-danger">Yes, Continue</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+    <div class="modal fade" id="delete-modal" app-modal trigger="itemDeleteModalOpen">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="itemDeleteModalOpen=false;" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Confirm Delete?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>This will delete the record, continue?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="itemDeleteModalOpen=false;" data-dismiss="modal">Cancel</button>
+                    <button type="button" ng-click="confirmitemDelete();" class="btn btn-danger">Yes, Continue</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+
+
+</div>

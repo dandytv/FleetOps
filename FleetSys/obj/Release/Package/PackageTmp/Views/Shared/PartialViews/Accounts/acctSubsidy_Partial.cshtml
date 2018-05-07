@@ -1,0 +1,57 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model ModelSector.SKDS
+<h1>Subsidy Tagging</h1><br/>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-4">
+                &nbsp;
+            </div>
+            <div class="col-sm-3">
+
+                @Html.CustomNgSelectListFor(model => model.SelectedSkdsAcctSub, Model.SkdsAcctSub, null, new { @Name = "SkdsAcctSub", @section = "ast", on_select = "SubsidyChanged($item, $model);" })
+                <div style="display: none">
+                    @Html.CustomNgNativeSelectListFor(model => model.SelectedSts, Model.Sts, null, new { @Name = "Sts", emptyWrapper = "true", id = "acctSubsidySts", @section = "ast" })
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default" style="margin-top:30px;">
+            <div class="panel-heading">
+                <div class="panel-actions pull-left">
+                    <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table id="tblAcctSubsidy" class="table bootstrap-datatable datatable small-font" id="tblSKDS" data-dtable options="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>Vehicle Reg No</th>
+                            <th>Card No</th>
+                            <th>Card Status</th>
+                            <th>Subsidy No</th>
+                            <th>Quota Litre</th>
+                            <th>Tag Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        @if (!Html.NotAuthorized("ast", "SaveASAcct"))
+                        {
+                            <div class="form-actions pull-right">                                
+                                <button ng-click="SaveAcctSubsidyInfoList();" @(Html.IsReadOnly("ast", "SaveASAcct") ? "disabled=disabled" : "") class="btn btn-primary btn-cons btn-block" id="btnAcctSubsidySave">Save</button>                                
+                            </div>
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

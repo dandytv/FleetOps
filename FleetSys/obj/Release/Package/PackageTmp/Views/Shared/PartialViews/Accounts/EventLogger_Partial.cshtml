@@ -1,0 +1,485 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model FleetOps.ViewModel.CardAcctMaintModel
+@section Javascript
+{
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+    <script src="~/Contents/js/select2.min.js"></script>
+    <script src="~/Contents/js/jquery.pnotify.min.js"></script>
+    <link href="~/Contents/css/select2.css" rel="stylesheet" />
+}
+<style type="text/css">
+    #nav.affix {
+        position: fixed;
+        left: 0;
+        width: 100%;
+    }
+
+    #nav > .navbar-inner {
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -o-border-radius: 0;
+    }
+
+    .rightNavFixed {
+        display: block;
+        float: right;
+        right: 33px;
+        position: fixed;
+        top: 67px;
+        z-index: 1000000;
+        height: 98%;
+    }
+
+
+
+    .rightNavsubFixed {
+        z-index: 1000000;
+        height: 100%;
+    }
+
+    .radioitem {
+        min-height: 0px;
+        width: 40px;
+    }
+</style>
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-plus"></i></a>
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="contactHolder" class="zerotop">
+            <table id="tblEventLogger" class="table bootstrap-datatable datatable small-font" data-dtable options ="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Event Id</th>
+                        <th>Event Type</th>
+                        <th>Reference Key</th>
+                        <th>Description</th>
+                        <th>Reminder</th>
+                        <th>Closed</th>
+                        <th>CreatedBy</th>
+                        <th>CreationDate</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="EventListModal" class="modal hide" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h3 id="contactModalHeader">Event Logger</h3>
+            </div>
+            <div class="modal-body">
+                <form id="frmEventLogger" class="form-horizontal">
+                    @Html.CustomNgTextBoxFor(model => model._eventLoggerInfo.EventId, null, new { id = "txtEventId", Class = "span5" })
+                    @Html.CustomNgSelectListFor(model => model._eventLoggerInfo.SelectedEventType, Model._eventLoggerInfo.EventType, null, new { id = "ddlEventType", @class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model._eventLoggerInfo.RefKey, null, new { id = "txtRefKey", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model._eventLoggerInfo.AccountNo, null, new { id = "txtAcctNo", Class = "span5" })
+                    @Html.CustomNgTextAreaFor(model => model._eventLoggerInfo.Description, null, new { id = "txtEventDescp", Class = "span5", rows = "3" })
+                    @Html.CustomNgSelectListFor(model => model._eventLoggerInfo.SelectedEventSts, Model._eventLoggerInfo.EventSts, null, new { id = "ddlEventType", @class = "span5" })
+                    @Html.CustomNgSelectListFor(model => model._eventLoggerInfo.SelectedReasonCode, Model._eventLoggerInfo.ReasonCd, null, new { id = "ddlReasonCd", @class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model._eventLoggerInfo.ReminderDatetime, null, new { id = "txtReminderTime", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model._eventLoggerInfo.ClosedDate, null, new { id = "txtClosedDate", Class = "span5", @readonly = "readonly" })
+                    <input type="hidden" id="xxloggerisedit" value="Add" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnLoggertoAdd" style="width: 60px" class="btn btn-info"><i class="icon-ok icon-white"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var EventLoggerViewmodel = function (objUtilities) {
+        var self = this;
+        self.thrownTargets = [];
+        self.EventInfo = {
+            acctNo: '@Model._eventLoggerInfo.AccountNo',
+            eventId: '@Model._eventLoggerInfo.EventId'
+
+
+        };
+        self.tables = {
+            $tblEventLogger: null,
+            $tblEventDetail: null
+
+        };
+        self.buttons = {
+            btnMasterSave: $('#btnMasterSave')
+        };
+        self.addresses = [];
+        self.contacts = [];
+        self.locations = [];
+        self.settings = {
+            subsLoaded: {
+                evt: true, evd: false
+            }
+        };
+        self.utilities = objUtilities;
+    };
+
+
+
+    EventLoggerViewmodel.prototype.loadModule = function (context, tabId) {
+        var self = this, $this = context, $newtab = tabId, prefix = $this.attr('data-prefix');
+        if (self.settings.subsLoaded[prefix])
+            return;
+        $('body').modalmanager('loading');
+        $.ajax({
+            url: "@Url.Action("SelectData", "CardAcctMaint")",
+            type: 'GET',
+            cache: false,
+            data: "prefix=" + $this.attr('data-prefix') + "&id=" + self.acctInfo.acctNo + "&refCd=ACCT",
+            success: function (data, textStatus, jqXHR) {
+                var ct = jqXHR.getResponseHeader("Content-Type");
+                var mx = ct.match("text\/html");
+                if (mx != null) {
+                    $newtab.html(data);
+                    $('body').modalmanager('loading');
+                    self.settings.subsLoaded[prefix] = true;
+
+                    if ($newtab.find('a[rel="popover"]').length)
+                        $newtab.find('a[rel="popover"]').popover();
+
+                    $newtab.find('select').each(function () { $(this).select2(); });
+                    $('.select2-container').css('margin-left', '0');
+                    switch (prefix) {
+                        case "evt":
+                            $('#txtClosedDate').datepicker();
+                            self.tables.$tblEventList = $('table#tblEventLogger').dataTable({
+                                "sDom": 'C<"clear">lfrtip',
+                                "bServerSide": true,
+                                "bSort": false,
+                                "sAjaxSource": "@(Url.Action("ftEventLoggerList", "CardAcctMaint"))?AccNo=" + self.acctInfo.acctNo,
+
+                                "bProcessing": true,
+                                "oLanguage": {
+                                    "sProcessing": "<img src='/Contents/Images/dtloader.gif'>",
+                                    "oPaginate": {
+                                        "sNext": "",
+                                        "sPrevious": ""
+                                    }
+                                },
+                                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                                    $(nRow).attr('data-key', aData[0]);
+                                    $(nRow).on('click', { table: self.tables.$tblEventList, options: $('#loggerOptions') }, self.selectRow);
+                                    $(nRow).on('mouseenter', { edit: 'loggeredit' }, self.mouseEntered);
+                                    $(nRow).on('mouseleave', self.mouseLeave);
+                                    return nRow;
+                                },
+                                "iDisplayLength": 10,
+                                "bLengthChange": false,
+                                'bFilter': false,
+                                "sPaginationType": "two_button"
+                            });
+                        case "evd":
+                            $('#txtClosedDate').datepicker();
+                            self.tables.$tblEventList = $('table#tabEventDetail').dataTable({
+                                "sDom": 'C<"clear">lfrtip',
+                                "bServerSide": true,
+                                "bSort": false,
+                                "sAjaxSource": "@(Url.Action("ftEventDetailList", "CardAcctMaint"))?AccNo=" + self.acctInfo.acctNo,
+
+                                "bProcessing": true,
+                                "oLanguage": {
+                                    "sProcessing": "<img src='/Contents/Images/dtloader.gif'>",
+                                    "oPaginate": {
+                                        "sNext": "",
+                                        "sPrevious": ""
+                                    }
+                                },
+                                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                                    $(nRow).attr('data-key', aData[0]);
+                                    $(nRow).on('click', { table: self.tables.$tblEventList, options: $('#loggerOptions') }, self.selectRow);
+                                    $(nRow).on('mouseenter', { edit: 'loggeredit' }, self.mouseEntered);
+                                    $(nRow).on('mouseleave', self.mouseLeave);
+                                    return nRow;
+                                },
+                                "iDisplayLength": 10,
+                                "bLengthChange": false,
+                                'bFilter': false,
+                                "sPaginationType": "two_button"
+                            });
+
+                            break;
+
+
+
+
+                    }
+
+
+                }
+                else {
+                    //error message
+                }
+            }
+        });
+    };
+
+    //EventLoggerViewmodel.prototype.saveModule = function (event) {
+
+    //    var self = EventLoggerViewmodel.prototype;
+    //    var model = event.data.model;
+
+    //    var prefix = $('#masterTab').find('.tab-pane.active').attr('id');
+    //    switch (prefix) {
+    //        case "tabGeneralInfo":
+    //            self.saveGeneralInfo(model);
+    //            break;
+    //        case "tabEventDetail":
+    //            self.saveFinancialInfo(model);
+    //            break;
+    //        case "tabStatusMaintanance":
+    //            self.saveStatus(model, self);
+    //            break;
+    //        case "tabTemporaryCreditControl":
+    //            self.savetabTemporaryCreditControl(model);
+    //            break
+    //        case "tabCAO":
+    //            self.saveCreditAssessmentOperation(model);
+    //            break;
+    //    }
+    //};
+    EventLoggerViewmodel.prototype.selectRow = function (event) {
+        var $this = $(event.currentTarget);
+        $this.selectRow(event.data.table, $this);
+        event.data.options.show();
+    }
+    EventLoggerViewmodel.prototype.mouseEntered = function (event) {
+        var $this = $(event.currentTarget),
+       $btnedit = (event.data.edit) ? "<i id=" + event.data.edit + " class='icon-pencil tablerow-tools'></i>" : "",
+        $btndelete = (event.data.del) ? "<i id=" + event.data.del + " class='icon-trash tablerow-tools'></i>" : "",
+        $cell = $this.find('td:first');
+        if ($cell.find('span').length == 0) {
+            $cell.append('<span style="float:right">' + $btnedit + $btndelete + '</span>');
+        }
+    }
+    EventLoggerViewmodel.prototype.mouseLeave = function (event) {
+        var $this = $(event.currentTarget),
+        $cell = $this.find('td:first');
+        if ($cell.find('span').length != 0)
+            $cell.find('span').remove();
+    }
+
+
+    //EventListModal
+
+
+    EventLoggerViewmodel.prototype.resetLogger = function (event) {
+        $('#frmEventLogger').resetForm();
+    };
+
+
+    EventLoggerViewmodel.prototype.pushNewLog = function (event) {
+
+        var self = event.data.viewModel;
+        var model = {
+            "func": $("#xxVelocisedit").val(),
+            "AccNo": self.acctInfo.acctNo,
+        };
+        $.validator.unobtrusive.parse($('#frmEventLogger'));
+        var serializedForm = $('#frmEventLogger').serialize();
+        if ($('#frmEventLogger').valid()) {
+            $('#EventListModal').modal('loading');
+            $.ajax({
+                datatype: 'json',
+                url: "@Url.Action("SaveEventLogger", "CardAcctMaint")?" + $.param(model),
+                type: 'POST',
+                data: serializedData,
+                cache: false,
+                success: function (data) {
+                    self.utilities.displayStatusMessage(data.resultCd);
+                }
+            }).done(function () {
+                $('#EventListModal').modal('hide');
+                self.tables.$tblEventList.fnDraw();
+            });
+        }
+    };
+
+
+    EventLoggerViewmodel.prototype.editEvent = function (event) {
+
+        $('#frmEventLogger').resetForm();
+
+        $('#EventListModal').modal('show').modal('loading');
+        //$('#addressModal').modal('loading');
+        var self = event.data.viewModel;
+        //self.resetVehicle();
+
+        $this = $('#tblEventLogger tbody').find('tr.row_selected');
+        EventId = $this.find('td').first().text();
+        $.ajax({
+            datatype: 'json',
+            url: "@Url.Action("GetEventDetail", "CardAcctMaint")?module=I&eventID" + EventId,
+            type: 'GET',
+            data: model,
+            cache: false,
+            success: function (data) {
+                $('ddlEventType').select2("val", data.evt.SelectedEventType);
+                $('#txtRefKey').val(data.evt.EventId);
+                $('#txtAcctNo').val(data.evt.AccountNo);
+
+                $('#txtEventId').val(data.evt.EventId);
+                $('txtEventDescp').select2('val', data.txn.Description);
+                $('ddlReasonCd').select2("val", data.evt.SelectedReasonCode);
+                $('#txtReminderTime').val(data.txn.ReminderDatetime);
+                $('#txtClosedDate').val(data.txn.ClosedDate);
+            }
+        }).done(function () {
+            $('#EventListModal').modal('loading');
+        });
+
+    };
+
+    //EventDetailModal
+
+
+    EventLoggerViewmodel.prototype.resetLogger = function (event) {
+        $('#frmEventDetailLogger').resetForm();
+    };
+
+
+    EventLoggerViewmodel.prototype.pushNewLog = function (event) {
+
+        var self = event.data.viewModel;
+        var model = {
+            "func": $("#xxVelocisedit").val(),
+            "AccNo": self.acctInfo.acctNo,
+        };
+        $.validator.unobtrusive.parse($('#frmEventDetailLogger'));
+        var serializedForm = $('#frmEventDetailLogger').serialize();
+        if ($('#frmEventDetailLogger').valid()) {
+            $('#EventDetailListModal').modal('loading');
+            $.ajax({
+                datatype: 'json',
+                url: "@Url.Action("SaveEventDetailMaint", "CardAcctMaint")?" + $.param(model),
+                type: 'POST',
+                data: serializedData,
+                cache: false,
+                success: function (data) {
+                    self.utilities.displayStatusMessage(data.resultCd);
+                }
+            }).done(function () {
+                $('#EventDetailListModal').modal('hide');
+                self.tables.$tblEventList.fnDraw();
+            });
+        }
+    };
+
+
+    EventLoggerViewmodel.prototype.editEvent = function (event) {
+
+        $('#frmEventLogger').resetForm();
+
+        $('#EventListModal').modal('show').modal('loading');
+        //$('#addressModal').modal('loading');
+        var self = event.data.viewModel;
+        //self.resetVehicle();
+
+        $this = $('#tblEventLogger tbody').find('tr.row_selected');
+        EventId = $this.find('td').first().text();
+        $.ajax({
+            datatype: 'json',
+            url: "@Url.Action("GetEventDetail", "CardAcctMaint")?module=I&eventID" + EventId,
+            type: 'GET',
+            data: model,
+            cache: false,
+            success: function (data) {
+                $('#txtEventId').val(data.evt.EventId);
+                $('#txtSeqNo').val(data.evt.SeqNo);
+                $('txtEventDescp').select2('val', data.txn.Description);
+                $('#txtReminderTime').val(data.txn.ReminderDatetime);
+                $('#txtCreationBy').val(data.evt.CreationBy);
+                $('#txtCreationDate').val(data.txn.CreationDate);
+
+
+
+            }
+        }).done(function () {
+            $('#EventDetailListModal').modal('loading');
+        });
+
+    };
+
+
+    /* Binding Handlers */
+    /**/
+
+
+    EventLoggerViewmodel.prototype.bindHandlers = function (viewModel) {
+
+        /**/
+        //Event Logger
+        /**/
+
+
+        $('body').on('click', 'button#btnLoggertoAdd', { viewModel: viewModel }, viewModel.pushNewLog);
+        $('body').on('click', 'i#loggeredit,a#loggerAltedit', { viewModel: viewModel }, viewModel.editEvent);
+        $('body').on('click', 'a#loggerReload', function () { viewModel.tables.$tblEventList.fnDraw(); });
+        $('body').on('click', 'a#anewLogger', function () { $("#xxloggerisedit").val('Add'); viewModel.resetLogger(); $('#EventListModal').modal('show'); });
+
+        /**/
+        //Event Details
+        /**/
+
+
+        $('body').on('click', 'button#btnLoggertoAdd', { viewModel: viewModel }, viewModel.pushNewLog);
+        $('body').on('click', 'i#loggeredit,a#loggerAltedit', { viewModel: viewModel }, viewModel.editEvent);
+        $('body').on('click', 'a#loggerReload', function () { viewModel.tables.$tblEventList.fnDraw(); });
+        $('body').on('click', 'a#anewLogger', function () { $("#xxloggerisedit").val('Add'); viewModel.resetLogger(); $('#EventDetailListModal').modal('show'); });
+
+    }
+    $(function () {
+        var objUtilities = new DataUtilities();
+        var objViewModel = new EventLoggerViewmodel(objUtilities);
+        $('#btnMasterSave').on('click', { model: objViewModel }, objViewModel.saveModule);
+        //  objViewModel.bindHandlers(objViewModel);
+        var transformBd = new transformBody();
+        $('#txtGeneralTerminatedDate').datepicker();
+        $('#txtOvrExpDate').datepicker({ minDate: "+1D", maxDate: "+8D" });
+        $('#txtTxnEnqDate').datepicker();
+        $('#formGeneralInfo').removeData('validator');
+        $('#formGeneralInfo').removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse($('#formGeneralInfo'));
+        $('.select2-container').css('margin-left', '0');
+        $('#activeTitle').find('h2 small').text($('#mysidebar li:first').find('a').text());
+    });
+
+
+    !function ($) {
+        $(function () {
+            // fix sub nav on scroll
+            var $win = $(window)
+              , $nav = $('.subnav').first()
+              , navHeight = $('.navbar').first().height()
+              , navTop = $('.subnav').first().length && $('.subnav').first().offset().top - navHeight
+              , isFixed = 0
+            processScroll();
+            $win.on('scroll', processScroll)
+            function processScroll() {
+                var i, scrollTop = $win.scrollTop()
+                if (scrollTop >= navTop && !isFixed) {
+                    isFixed = 1
+                    $nav.addClass('subnav-fixed')
+                } else if (scrollTop <= navTop && isFixed) {
+                    isFixed = 0
+                    $nav.removeClass('subnav-fixed')
+                }
+            }
+        })
+    }(window.jQuery);
+</script>

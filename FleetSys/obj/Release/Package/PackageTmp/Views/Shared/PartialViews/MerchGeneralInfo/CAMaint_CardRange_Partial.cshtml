@@ -1,0 +1,17 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.CardRangeAcceptance
+
+<form class="form-horizontal" id="formCardRangeAcceptance">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomTextBoxFor(model => model.MerchantNo, null, new { @data_bind = "value:MerchantNo", Class = "span5" })
+                @Html.CustomSelectListFor(model => model.selectedCardRange, Model.CardRange, null, new { @class = "span3", @data_bind = "value:ddlCardRange" })
+                @Html.CustomTextBoxFor(model => model.UserId, null, new { @data_bind = "value:UserId", Class = "span5", Disabled = "true", id = "txtUserId" })
+                @Html.CustomTextBoxFor(model => model.creationDate, null, new { @data_bind = "value:creationDate", Disabled = "true", Class = "span5" })
+                </div>
+            </div>
+        </div>
+    </form>
+

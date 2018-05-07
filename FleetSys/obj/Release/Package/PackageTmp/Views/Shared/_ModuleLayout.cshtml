@@ -1,0 +1,175 @@
+﻿@using FleetOps.Models;
+@using FleetSys.Models;
+@using FleetOps.Helpers;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.TItle</title>
+
+    @System.Web.Optimization.Styles.Render("~/Contents/Styles")
+
+    <style type="text/css">
+        .main .main {
+            min-height: auto !important;
+            padding: 0 !important;
+        }
+    </style>
+
+</head>
+<body ng-app="@ViewBag.ng_app" class="@ViewBag.bodyClass">
+    <input type="hidden" id="hdUrlPrefix" value="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]" />
+    <div class="hideScrollBar">
+        <div class="sidebar">
+            @RenderSection("ModuleSidebar", false)
+        </div>
+    </div>
+    <div class="mm-page">
+        <div class="navbar" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" id="navHeader" href="@Url.Action("Index","Home")"><img style="height: 72px;position: relative;left: 65px;" src="~/Content/images/Edenred_Logo.png" /></a>
+            </div>
+            <ul class="nav navbar-nav navbar-actions navbar-left">
+                <li class="visible-md visible-lg"><a href="#" id="main-menu-toggle"><i class="fa fa-compress"></i></a></li>
+                <li class="visible-xs visible-sm"><a href="#" id="sidebar-menu"><i class="fa fa-compress"></i></a></li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" id="txtSearchUniversal" placeholder="Search here">
+            </form>
+            <ul class="nav navbar-nav">
+                <li class="dropdown visible-md visible-lg">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-unsorted"></i></a>
+                    <ul class="dropdown-menu" id="ul-searchParams">
+                        <li class="dropdown-menu-header text-center"><strong>ShortCodes</strong></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Applicant ID<span class="label label-default">apc</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Application ID<span class="label label-default">apl</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Application Cmpy Name<span class="label label-default">apn</span></a></li>
+
+                        <li><a href="#"><i class="fa fa-tasks"></i>Account No<span class="label label-warning">cac</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Card No<span class="label label-warning">crd</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Cmpy Name<span class="label label-warning">co1</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Corporate Code No<span class="label label-warning">cor</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Driver Name<span class="label label-warning">nam</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Vehicle Reg.No<span class="label label-warning">vrn</span></a></li>
+
+                        <li><a href="#"><i class="fa fa-tasks"></i>Merchant Account No<span class="label label-danger">mac</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Merchant Cmpy Reg. Name <span class="label label-danger">crn</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Station ID<span class="label label-danger">mid</span></a></li>
+                        <li><a href="#"><i class="fa fa-tasks"></i>Station Name<span class="label label-danger">bsn</span></a></li>
+
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>New IC<span class="label label-default">nic</span></a></li>*@
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>Old IC<span class="label label-success">oic</span></a></li>*@
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>Passport No<span class="label label-danger">pas</span></a></li>*@
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>Payee Name<span class="label label-warning">pye</span></a></li>*@
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>Tax ID<span class="label label-danger">tax</span></a></li>*@
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>Application Ref<span class="label label-info">apr</span></a></li>*@
+
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>Company Name2<span class="label label-success">co2</span></a></li>*@
+
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>MDTC No.<span class="label label-warning">mdt</span></a></li>*@
+                        @*<li><a href="#"><i class="fa fa-tasks"></i>Site ID<span class="label label-danger">sid</span></a></li>*@
+                        
+
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+
+                <li class="dropdown visible-md visible-lg">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-menu-header text-center">
+                            <strong>Main Menu</strong>
+                        </li>
+                        <li><a href="@Url.Action("Index","Applications")"> Applications</a></li>
+                        <li><a href="@Url.Action("Index","CorporateCodes")"> Corporate Codes</a></li>
+                        <li><a href="@Url.Action("Index","Merchant")"> Merchant Account</a></li>
+                        <li><a href="ManualSlipEntry"> Manual Slip Entry</a></li>
+                        <li><a href="@Url.Action("Index","Approval")">Approval</a></li>
+                        @*<li><a href="@Url.Action("Index","SOASummary")">SOA Summary</a></li>*@
+                        @*<li><a href="@Url.Action("Index","PINMailer")">PIN Mailer</a></li>*@
+                        <li><a href="@Url.Action("Index","MultipleTxn")">Multi Adjustment</a></li>
+                        <li><a href="@Url.Action("Index","MultiPayment")">Multi Payment</a></li>
+                        @*<li><a href="@Url.Action("Index", "PukalAcct")">Pukal Account</a></li>*@
+                        <li><a href="@Url.Action("Index", "TxnSearch")">Transaction Search</a></li>
+                    </ul>
+
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right visible-md visible-lg" style="margin-right:20px;">
+                <li><button onclick="location.href='Applications#/new'" class="btn btn-success">New Application</button></li>
+                <li><span class="timer"><i class="fa fa-clock-o"></i><span id="clock"><!-- JavaScript clock will be displayed here, if you want to remove clock delete parent <li> --></span></span></li>
+                <li><a class="user" href="javascript:;"><i class="fa fa-user"></i>&nbsp;&nbsp;<h5 class="text-inverse">@BaseClass.GetClaimsInfo("userid")</h5></a></li>
+                <li class="dropdown visible-md visible-lg">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:;" onclick="$('#pwCngModal').modal('show');"> Change password</a></li>
+                        <li><a href="javascript:;" onclick="$('#formLgoff').submit();"><i class="fa fa-lock"></i>Logout</a></li>
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+        <!-- end: Header -->
+        @RenderBody()
+        <form method="post" id="formLgoff" action="@Url.Action("LogOff","Auth")">
+            @Html.AntiForgeryToken()
+            <input type="hidden" />
+        </form>
+    </div>
+
+    <div class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" id="pwCngModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" data-toggle="modal">
+                    <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h2>Change Password</h2>
+                </div>
+                <div class="modal-body">
+                    <form id="frmUpdPw" class="form-horizontal">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <div class="form-group">
+                                    <label for="OldPassword">UserId</label>
+                                    <span style="display:block" class="form-control-static">@HttpContext.Current.User.Identity.Name</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="OldPassword">Old Password</label>
+                                    <input type="password" name="OldPassword" id="OldPassword" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="Password">New Password</label>
+                                    <input type="password" name="Password" id="Password" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="ConfirmPassword">Confirm Password</label>
+                                    <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions">
+                        <button id="btnUpdatePassword" class="btn btn-primary btn-cons">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @System.Web.Optimization.Scripts.Render("~/Scripts/MainScripts")
+    @System.Web.Optimization.Scripts.Render("~/Scripts/UnbotrusiveScripts")
+    @RenderSection("CustomPageScript", false)
+    <script type="text/javascript" src="~/Content/Plugins/PNotify/pnotify.custom.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/api/fnReloadAjax.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model  ModelSector.EventLogger
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <form id="searchForm" action="@Url.Action("EventSearch", "CardAcctMaint")" class="form-horizontal">
+                @Html.CustomNgSelectListFor(model => model.SelectedModule, Model.Module, null, new { id = "ddlModule", @class = "span5" })
+                @Html.CustomNgSelectListFor(model => model.SelectedEventType, Model.EventType, null, new { id = "ddlEventType", @class = "span5" })
+                @Html.CustomNgSelectListFor(model => model.SelectedEventSts, Model.EventSts, null, new { id = "ddlEventSts", @class = "span5" })
+                @Html.CustomNgTextBoxFor(model => model.EventDate, null, new { id = "txtDate", Class = "span5", data_type = "datepicker" })
+            </form>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,105 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.PaymentTxn
+
+<h1>Payment Txn</h1><br/>
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+        @if (!Html.NotAuthorized("pay", "NewPytTxn"))
+        {
+            <a href="javascript:;"  @(Html.IsReadOnly("pay", "NewPytTxn") ? "disabled=disabled" : "ng-click=modalClick();") class="btn-minimize"><i class="fa fa-plus"></i></a>
+        }
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        @if (!Html.NotAuthorized("pay", "DeletePyTxnAcct"))
+        {
+            <span style="display:none" id="tblPaymentTxn-options"><a href="javascript:;" @(Html.IsReadOnly("pay", "DeletePyTxnAcct") ? "disabled=disabled" : "ng-click=deleteModalOpen=true;")><i class="fa fa-trash-o"></i></a></span>
+        }
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <table class="table bootstrap-datatable datatable small-font" dtable options="dtOptions">
+            <thead>
+                <tr>
+
+                    @*<th>Account No</th>*@
+                    <th>Txn Date</th>
+                    <th>Creation Date</th>
+                    <th style="width: 200px">Txn Type</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    @*<th>Txn Code</th>*@
+                    <th>Txn Id</th>
+                    <th>Approval Remarks</th>
+                    <th>Status</th>
+                    <th>User Id</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+
+        <div class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" data-toggle="modal">
+                        <button type="button" class="close" data-dismiss="modal" ng-click="modalOpen=false;" aria-hidden="true">X</button>
+                        <h2>Payment Txn</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formPaymentTransaction" class="form-horizontal">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.PyTxnId, new { required = "true" }, new { id = "paytxttxnTxnId", @readonly = "readonly", @section = "pay" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedTxnCd, Model.PyTxnCd, new { required = "true" }, new { @Name = "PyTxnCd", id = "payddltxnTxnCd", @section = "pay" })
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.selectedOwner, Model.Owner, new { required = "true" }, new { @Name = "Owner", id = "payddltxnTxnCd", @section = "pay" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.TotAmnt, new { required = "true" }, new { id = "paytxttxnTotAmt", @section = "pay", amount = "" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.TxnDate, new { required = "true" }, new { id = "paytxttxnTxnDate", date_picker = "", @section = "pay" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.DueDt, null, new { id = "paytxttxnDueDt", date_picker = "", @section = "pay" })
+                                </div>
+          
+                            </div>
+                            @Html.CustomNgTextAreaFor(model => model.Descp, null, new { id = "paytxttxnDescp", @section = "pay" })
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.CustomNgTextBoxFor(model => model.CheqNo, null, new { id = "paytxttxnCheqNo", @section = "pay" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedSts, Model.Sts, null, new { @Name = "Sts", id = "payddltxnSts", @section = "pay", disabled = "true" })
+                                </div>
+                            </div>
+                            @Html.CustomNgTextBoxFor(model => model.UserId, null, new { id = "paytxttxnUserId", @readonly = "readonly", @section = "pay" })
+                            <input type="hidden" id="isEdit" value="false" />
+                            <input type="hidden" id="hdpytxnId" value="" />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        @if (!Html.NotAuthorized("pay", "SavePyTxnAcct"))
+                        {
+
+                            <div class="form-actions">
+                                <button ng-click="Save();" id="btnSavepyTxn" style="width: 60px" @(Html.IsReadOnly("pay", "SavePyTxnAcct") ? "disabled=disabled" : "") class="btn btn-primary">Save</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

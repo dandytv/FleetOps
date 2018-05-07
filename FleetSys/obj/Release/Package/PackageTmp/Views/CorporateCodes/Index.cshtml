@@ -1,0 +1,130 @@
+﻿@model ModelSector.Corporate
+@using FleetOps.Helpers;
+@{
+    ViewBag.Title = "Corporate Codes | FleetOps";
+    ViewBag.ng_app = "CardtrendApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+@section ModuleSideBar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                @if (!Html.NotAuthorized("gen", "btnAddNewCorp"))
+                {
+                    <a  data-redirect="new" @(Html.IsReadOnly("gen", "btnAddNewCorp") ? "disabled=disabled" : "href=#/new") class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+                }
+
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                @if (@Html.SectionIsEnabled("gen"))
+                {
+                    <li><a class="pagekey pagekey_generalInfo" ng-show="$root.obj._type==='edit'" href="#/details/{{$root.obj.corpCd}}"><span class="text">General Info</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("vel"))
+                {
+                    <li><a class="pagekey pagekey_velocity" ng-show="$root.obj._type==='edit'" href="#/velocity/{{$root.obj.corpCd}}"><span class="text">Transaction Limit</span></a></li>
+                }
+                @if (@Html.SectionIsEnabled("dep"))
+                {
+                    <li><a class="pagekey pagekey_depositInfo" ng-show="$root.obj._type==='edit'" href="#/securityDeposit/{{$root.obj.corpCd}}"><span class="text">Security Deposit</span></a></li>
+                }
+                    @if (@Html.SectionIsEnabled("con"))
+                    {
+                        <li><a class="pagekey pagekey_contacts" ng-show="$root.obj._type==='edit'" href="#/contacts/{{$root.obj.corpCd}}"><span class="text">Contact List</span></a></li>
+                    }
+                    @if (@Html.SectionIsEnabled("add"))
+                    {
+                        <li><a class="pagekey pagekey_address" ng-show="$root.obj._type==='edit'" href="#/address/{{$root.obj.corpCd}}"><span class="text">Address List</span></a></li>
+                    }
+                    @*@if (@Html.SectionIsEnabled("pdc"))
+                    {
+                        <li><a class="pagekey pagekey_productDiscount" ng-show="$root.obj._type==='edit'" href="#/productDiscount/{{$root.obj.corpCd}}"><span class="text">Discount & Rebate</span></a></li>
+                    }*@
+                    @if (@Html.SectionIsEnabled("acc"))
+                    {
+                        <li><a class="pagekey pagekey_AccountList" ng-show="$root.obj._type==='edit'" href="#/AccountList/{{$root.obj.corpCd}}"><span class="text">Account Listing</span></a></li>
+                    }
+                    @*@if (@Html.SectionIsEnabled("usm"))
+                    {
+                        <li><a class="pagekey pagekey_userManagement" ng-show="$root.obj._type==='edit'" href="#/userManagement/{{$root.obj.corpCd}}"><span class="text">Users Management</span></a></li>
+                    }*@
+                </ul>
+            </div>
+        </div>
+                }
+
+
+
+                <div class="main" style="opacity:1; min-height: 658px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ol class="breadcrumb">
+                                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                                <li><a href="#">Corporate Codes</a></li>
+                                <li class="active">{{$root.obj.corpCd}}</li>
+                                @*<li class="active">{{root.obj.corpcd}}</li>*@
+                            </ol>
+                        </div>
+                        <div class="col-lg-12">
+                            <div route-animation-manager>
+                                <ng-view class="view-animate"></ng-view>
+                            </div>
+                            <script type="text/ng-template" id="index.html">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h2><i class="fa fa-list"></i>Corporate Codes List</h2>
+                                        </div>
+                                        <div class="panel-body">
+                                            <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Corporate Code</th>
+                                                        <th>Corporate Name</th>
+                                                        <th>Group Credit Limit</th>
+                                                        <th>Authorised Signatory</th>
+                                                        <th>Complex Indicator</th>
+
+                                                        @*<th>Contact Type</th>
+                                                            <th>Contact No</th>*@
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </script>
+                            <script type="text/ng-template" id="details.html">
+
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+                @section CustomPageScript
+               {
+                    <script src="~/Scripts/angular-animate.js"></script>
+                    <script src="~/ng/Utils.js"></script>
+                    <script src="~/Content/scripts/animationManager.js"></script>
+                    <script src="~/ng/Apps/Corporate%20Codes/corporatecodes.js"></script>
+                    <script src="~/ng/Apps/Corporate%20Codes/CorporateCodeService.js"></script>
+                    <script src="~/ng/Apps/Corporate%20Codes/CorporateCodeController.js"></script>
+                    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+                    <script src="~/Content/css/wizard.js"></script>
+                    <script src="~/Content/css/formWizard.js"></script>
+                }
+

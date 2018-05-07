@@ -1,0 +1,216 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.LookupParameters
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Home</a></li>
+            <li>Look Up Parameters</li>
+        </ol>
+        <h1><small>Product List</small></h1>
+    </div>
+</div>
+
+
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+            <div class="panel-actions pull-left">
+                @if (!Html.NotAuthorized("pdt", "btnNewProduct"))
+                    {
+                    <a href="javascript:;" @(Html.IsReadOnly("pdt", "btnNewProduct") ? "disabled=disabled" : "ng-click=newProduct($event);") class="btn-minimize"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    }
+
+                <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+                <span style="display:none" id="tblAddress-options"><a href="javascript:;"><i class="fa fa-trash-o"></i></a></span>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="table-holder">
+                <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtWebProdRefListSelect">
+                    <thead>
+                        <tr>
+                            <th>Product Code</th>
+                            <th>Product Name</th>
+                            <th>Short Description</th>
+                            <th>Product Category</th>
+                            <th>Product Type</th>
+                            <th>Unit Price</th>
+                            <th>Billing Plan</th>
+                            <th>Update Date</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="delete-modal" app-modal trigger="detailModalOpen">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" ng-click="detailModalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4 ng-hide="isEditMode" class="modal-title">Product Creation</h4>
+                <h4 ng-show="isEditMode" class="modal-title">Product Maintenance : {{_Object.ProductCode}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="invoice">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                @*<div class="col-sm-5">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedPaymentType, Model.PaymentType, new { required = true }, new { Name = "PaymentType", @section = "", ng_disabled = "isEdit", on_select = "loadTxnCode($item, $model);" })
+                                    </div>*@
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => model.ProductCode, null, new { @section = "pdt", @ng_disabled = "isEditMode", })
+                                </div>
+
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => model.ProdDescp, null, new { @section = "pdt", @ng_disabled = "isEditMode", })
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedProductCategory, Model.ProductCategory, new { required = true }, new { Name = "ProductCategory", @section = "pdt" })
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedProductType, Model.ProductType, new { required = true }, new { Name = "ProductType", @section = "pdt" })
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    @Html.CustomNgSelectListFor(model => model.SelectedBillingPlan, Model.BillingPlan, new { required = true }, new { Name = "BillingPlan", @section = "pdt" })
+                                </div>
+
+
+
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => model.Descp, null, new { @section = "pdt" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table bootstrap-datatable datatable small-font">
+                        <thead>
+                            <tr>
+                                <th style="width:10%">Unit Price</th>
+                                <th style="width:10%">Effective Date</th>
+                                <th style="width:10%">Expiry Date</th>
+                                <th style="width:15%">Update Date</th>
+                                <th style="width:15%">User Id</th>
+                                @*<th style="width:7%">Owner</th>*@
+                                <th style="width:5%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Items" class="fresh-row">
+                                <form>
+                                    <td style="width:7%;vertical-align: middle;">
+                                        @*ng-class="input.$valid?'':'errorthere'"*@
+                                        <input ng-show="item.isEdit" ng-disabled="isEdit" amount ng-model="item.UnitPrice" ng-class="" class="form-control acctno" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.UnitPrice}}
+                                        </span>
+                                    </td>
+
+                                    <td style="width:15%;vertical-align: middle;">
+                                        <input ng-show="item.isEdit" ng-disabled="isEdit" date_picker ng-model="item.EffectiveFrom" ng-class="" class="form-control acctno" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.EffectiveFrom}}
+                                        </span>
+                                    </td>
+
+                                    <td @*class="text-right"*@ style="width:15%;vertical-align: middle;">
+                                        <input ng-show="item.isEdit" ng-disabled="isEdit" date_picker ng-model="item.ExpiryDate" ng-class="" class="form-control acctno" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.ExpiryDate}}
+                                        </span>
+                                    </td>
+                                    <td style="width:15%;vertical-align: middle;">
+                                        <input ng-show="item.isEdit" disabled="disabled" ng-model="item.LastUpdated" class="form-control" type="text" />
+                                        <span ng-hide="item.isEdit">
+                                            {{item.LastUpdated}}
+                                        </span>
+                                    </td>
+                                    <td style="width:15%;vertical-align: middle;">
+                                        <span ng-hide="item.isEdit">
+                                            {{item.UserId}}
+                                        </span>
+                                    </td>
+
+                                    <td class="hide-print text-right" style="width:15%;vertical-align: middle;">
+
+                                        <div class="btn-group btn-group-justified" ng-show="item.isEdit">
+                                            <a href="javascript:;" id="btnSaveRow" ng-click="finishEdit(item);" @*ng-disabled="!input.$valid"*@ class="btn btn-sm btn-small btn-success"><i class="fa fa-check"></i></a>
+                                        </div>
+                                        <div class="btn-group btn-group-justified" ng-hide="item.isEdit">
+                                            @if (!Html.NotAuthorized("pdt", "btnSaveRow"))
+                                            {
+                                                <a href="javascript:;" @(Html.IsReadOnly("pdt", "btnSaveRow") ? "disabled=disabled" : "ng-click=item.isEdit=true;") id="btnSaveRow" class="btn btn-sm btn-primary btn-small"><i class="fa fa-edit"></i></a>
+                                            }
+                                            @*<a href="javascript:;" id="btnSaveRow" ng-disabled="isEdit" ng-click="removeItem(item);" class="btn btn-sm btn-small btn-danger"><i class="fa fa-trash-o"></i></a>*@
+                                        </div>
+                                    </td>
+                                </form>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div id="btn-group-submit" style="display:none;padding:10px;">
+                        <a href="#" id="btnSaveRow" class="btn btn-blue btn-sm">Save</a>
+                        &nbsp;
+                        <a href="#" id="btnCancelRow" class="btn btn-default btn-sm">Cancel</a>
+                    </div>
+
+                    @if (!Html.NotAuthorized("pdt", "btnAddNewItem"))
+                    {
+                        <button ng-click="CreateNewItem();" @(Html.IsReadOnly("pdt", "btnAddNewItem") ? "disabled=disabled" : "ng-click=CreateNewItem();") class="btn btn-default hide-print">Add a new item</button>
+                    }
+
+
+
+
+                    <div class="row" style="margin-top:20px">
+
+                        <div class="col-lg-4 col-sm-5" style="position:relative;left:15px;">
+                            @*<div class="alert alert-info">
+                                    Save the transaction only after bringing the Difference to 0.00
+                                </div>*@
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <hr />
+                            <div class="pull-right">
+                                <a href="javascript:;" ng-click="detailModalOpen=false;" class="btn"> Cancel</a>
+                                @if (!Html.NotAuthorized("pdt", "btnSave"))
+                                {
+                                    <a href="javascript:;" @(Html.IsReadOnly("pdt", "btnSave") ? "disabled=disabled" : "ng-click=saveProductList();") class="btn btn-primary btn-cons">Save</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <style type="text/css">
+                    .invoice-controls {
+                        padding: 20px 20px;
+                        text-align: right;
+                        padding-right: 40px;
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+</div>

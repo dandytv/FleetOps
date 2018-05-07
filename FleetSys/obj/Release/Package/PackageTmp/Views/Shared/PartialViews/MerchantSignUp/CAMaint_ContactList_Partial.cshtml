@@ -1,0 +1,27 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.ContactList
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="ContactsListModal" style="width: 581px" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3 id="lblContactsHeadModal">Contacts</h3>
+                </div>
+                <div class="modal-body form-horizontal">
+                    @Html.CustomNgSelectListFor(model => model.SelectedRefType, Model.RefType, null, new { @class = "span5", @data_bind = "selectedText:RefKey", id = "ddlRefKey", @section = "Contacts" })
+                    @Html.CustomNgTextBoxFor(model => model.RefKey, null, new { Class = "span3", @data_bind = "value:ReferenceKey", @section = "Contacts" })
+                    @Html.CustomNgTextBoxFor(model => model.RefCd, null, new { Class = "span3", @data_bind = "value:ReferenceCode", @section = "Contacts" })
+                    @Html.CustomNgTextBoxFor(model => model.ContactNo, null, new { Class = "span3", @data_bind = "value:ContactNo", @section = "Contacts" })
+                    @Html.CustomNgTextBoxFor(model => model.UserId, null, new { Class = "span3", Disabled = "true", @data_bind = "value:UserId", @section = "Contacts" })
+                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { Class = "span3", Disabled = "true", @data_bind = "value:CreationDate", @section = "Contacts" })
+                </div>
+                <div class="modal-footer">
+                    <button id="saveContacts" class="btn btn-info"><i class="icon-ok icon-white"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

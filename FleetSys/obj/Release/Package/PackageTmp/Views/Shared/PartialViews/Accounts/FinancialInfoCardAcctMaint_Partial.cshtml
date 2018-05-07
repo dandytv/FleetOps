@@ -1,0 +1,214 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.FinancialInfoModel
+
+<h1>Financial Information <small></small></h1><br />
+
+<form>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @Html.CustomNgCheckBoxFor(model => model.LatePaymtCharge, null, new { @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.TaxId, null, new { @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedDunningCd, Model.DunningCd, null, new { @Name = "DunningCd", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.CredtAllowanceFact, null, new { @section = "fin" })
+                        </div>
+                        @*<div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.AccrdInterest, null, new { @section = "fin", @readonly = "readonly" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.AccrdCrdtUsg, null, new { @section = "fin", @readonly = "readonly" })
+                        </div>*@
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.PromPaymtRebate, null, new { @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.pprExpiry, null, new { @section = "fin", data_type = "datepicker" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.PPRGracePeriod, null, new { @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.LitreLimitPerTxn, null, new { @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.AmtLimitPerTxn, null, new { @section = "fin", @data_type = "amount" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedCycNo, Model.CycNo, null, new { @Name = "CycNo", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedStmtType, Model.StmtType, null, new { @Name = "StmtType", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedStmtInd, Model.StmtInd, null, new { @Name = "StmtInd", @section = "fin", @data_type = "datepicker" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.StmtDate, null, new { id = "txtFinancialStmtDate", @section = "fin", @readonly = "readonly", @data_type = "datepicker" })
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedPaymtMethod, Model.PaymtMethod, null, new { @Name = "PaymtMethod", @section = "fin", @readonly = "readonly" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.PaymtTerm, null, new { @section = "fin", @readonly = "readonly" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.GracePeriod, null, new { @section = "fin", @readonly = "readonly" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgCheckBoxFor(model => model.DirectDebitInd, null, new { @section = "fin" })
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-6" style="margin-top:6px">
+                    <div class="row">
+                        <br />
+                        <br />
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedBankAcctType, Model.BankAcctType, null, new { @Name = "BankAcctType", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.selectedBankName, Model.BankName, null, new { @Name = "BankName", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.BankAcctNo, null, new { @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.BankBranchCD, null, new { @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.PayeeCd, null, new { @section = "fin" })
+                        </div>
+                        @Html.HiddenFor(model => model.DirectDebitInd, new { @section = "fin" })
+                        @Html.HiddenFor(model => model.SelectedBankAcctType, new { @section = "fin" })
+                        @Html.HiddenFor(model => model.BankName, new { @section = "fin" })
+                        @Html.HiddenFor(model => model.BankAcctNo, new { @section = "fin" })
+                        @Html.HiddenFor(model => model.BankBranchCD, new { @section = "fin" })
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedTaxCategory, Model.TaxCategory, null, new { @Name = "TaxCategory", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.WriteoffDate, null, new { id = "txtFinancialwriteoffDate", @data_type = "datepicker", @readonly = "readonly", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.LastPaymtType, null, new { @data_bind = "value:LastPaymtType", @readonly = "readonly", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.LastPaymtReceived, null, new { @data_bind = "value:LastPaymtReceived", @readonly = "readonly", @section = "fin" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.LastPaymtDate, null, new { id = "txtFinancialLastPaymtDate", @data_bind = "value:LastPaymtDate", @readonly = "readonly", @section = "fin" })
+                        </div>
+
+                        @*<div class="col-sm-6">
+                            @Html.CustomNgCheckBoxFor(model => model.WithholdingTaxInd, null, new { @section = "fin" })
+                        </div>*@
+                        @*<div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedRiskCategory, Model.RiskCategory, null, new { @Name = "RiskCategory", @section = "fin", @disabled = "true" })
+                        </div>*@
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedAssessmentType, Model.AssessmentType, null, new { @Name = "AssessmentType", @section = "fin", @disabled = "true" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.CreditLimit, null, new { @section = "fin", @data_type = "amount" })
+                        </div>
+
+                    </div>
+                </div>
+                @*<div class="col-sm-6">
+                    @Html.CustomNgCheckBoxFor(model => model.InvoiceBillingIndicator, null, new { @section = "fin" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.CustomNgCheckBoxFor(model => model.PayAdviceBillingIndicator, null, new { @section = "fin" })
+                </div>*@
+                <div class="col-sm-6">
+                    @Html.CustomNgCheckBoxFor(model => model.VehiclePerformanceReportInd, null, new { @section = "fin" })
+                </div>
+                <input type="hidden" id="finSaveAccess" value="@Html.GetControlStatus(" save", "fin" )" />
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-actions">
+                        <div class="panel-footer">
+                            <div class="text-right">
+                                @if (!Html.NotAuthorized("fin", "SaveFinInfoAcct"))
+                                {
+                                    <button ng-click="FinancialInfoMaint();" @(Html.IsReadOnly("fin", "SaveFinInfoAcct") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                                }
+                                @*<input type="button" data-validation-form data-customsubmit="FinancialInfoMaint();" class="btn btn-primary btn-cons" name="finish" value="Save">*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+</form>
+
+@*<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>
+            <i class="fa fa-list"></i>Collection Case Information
+        </h2>
+        <hr />
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.CustomNgSelectListFor(model => model.SelectedAssignCollector, Model.AssignCollector, null, new { @Name = "AssignCollector", @section = "fin" })
+            </div>
+        </div>
+        <hr />
+        <div class="">
+
+            <h2 class="panel-title">
+                Collection History
+            </h2>
+            <br />
+        </div>
+
+        <div style="width:100%">
+            <table id="tblPaymentHistory" dtable options="dtOptionsCollectionHist" class="table bootstrap-datatable datatable small-font table-hover" style="width:100%">
+                <thead>
+                    <tr style="white-space:nowrap">
+                        <th>Collect No</th>
+                        <th>Priority</th>
+                        <th>Collect Status</th>
+                        <th>User Id</th>
+                        <th>Close Date</th>
+                        <th>Creation Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="text-right">
+            @if (!Html.NotAuthorized("fin", "btnSaveCollectionCaseInfo"))
+            {
+                <button @(Html.IsReadOnly("fin", "btnSaveCollectionCaseInfo") ? "disabled=disabled" : "") ng-click="SaveCollectionCaseInfo();" class="btn btn-primary btn-cons">Save</button>
+            }
+        </div>
+    </div>
+</div>*@

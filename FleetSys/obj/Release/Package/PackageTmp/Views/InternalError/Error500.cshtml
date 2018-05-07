@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Internal Server Error</title>
+    @System.Web.Optimization.Styles.Render("~/Contents/Styles")
+</head>
+<body class="sidebar-hidden">
+    <div class="mm-page">
+        <div class="main" style="opacity:1; min-height: 658px;">
+            <div class="row box-error text-center">
+                <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3">
+                    <h1><i class="fa fa-exclamation-triangle"></i></h1>
+                    <h1>500</h1>
+                    <h3><strong>Internal Server Error</strong></h3>
+                    <p>There was an unfortunate error happened while processing your request. Please check if the network is online. If the error still persist, contact your administrator.</p>
+                        @if (ViewBag.ExcMessage != null)
+                        {
+                        <p>
+                            <span class="label label-danger">@ViewBag.ExcMessage</span>
+
+                        </p>
+                        }
+                        <a href="@Url.Action("Index","Home")" class="btn btn-primary">Go back to home page</a>
+                        <p>
+                            <span class="text-muted">FleetOps &copy;@DateTime.Now.Year</span>
+                        </p>
+                    </div><!--/col-->
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

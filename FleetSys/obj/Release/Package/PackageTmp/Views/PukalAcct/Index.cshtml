@@ -1,0 +1,218 @@
+﻿@{
+    ViewBag.Title = "PukalAcct | FleetOps";
+    ViewBag.ng_app = "PukalAcctApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+@using FleetOps.Helpers;
+@model ModelSector.PukalAcctInfo
+
+@section CustomPageScript
+{
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/PukalAcct/pukalAcct.js"></script>
+    @*<link href="~/Content/css/wizard.css" rel="stylesheet" />*@
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}
+
+
+
+@section ModuleSidebar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+        </div>
+    </div>
+}
+<div class="main" style="opacity: 1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/PukalAcct">Pukal Acct</a></li>
+                <li class="active">{{$root.obj.applId}}</li>
+            </ol>
+        </div>
+
+        <div class="col-lg-12">
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+                                <li class="active"><a href="javascript:;" role="tab" data-toggle="tab" data-target="#pukalPayment">Pukal Payment</a></li>
+                                <li class=""><a href="javascript:;" ng-click="LoadSedutContentList();" data-toggle="tab" role="tab" data-target="#txnPukalSedutContent">Pukal Sedut</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="pukalPayment">
+                                    <div class="panel-heading">
+                                        <div class="panel-actions pull-left">
+                                            @if (!Html.NotAuthorized("pkl", "btnAdd"))
+                                            {
+                                                <a href="javascript:;" @(Html.IsReadOnly("pkl", "btnAdd") ? "disabled=disabled" : "ng-click=NewTxn();") class="btn-minimize"><i class="fa fa-plus"></i>&nbsp;New</a>
+                                            }
+
+                                            <a href="javascript:;" ng-click="refresh();" class="btn-minimize"><i class="fa fa-refresh"></i>&nbsp;Refresh</a>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                @Html.CustomNgNativeSelectListFor(model => model.SelectedRefCd, Model.RefCd, null, new { @Name = "RefCd", @id = "selectedRefCd", @controlId = "ppSelectedRefCd", @ng_change = "RefCdSelectionChanged(_Object.SelectedRefCd);", @section = "pkl" })
+                                            </div>
+                                            <div class="col-sm-3">
+                                                @Html.CustomNgNativeSelectListFor(model => model.SelectedAreaCode, Model.AreaCode, null, new { @Name = "AreaCode", @id = "selectedAreaCode", @controlId = "ppSelectedAreaCode", @ng_change = "CardSelectionChanged(_Object.SelectedAreaCode);", @section = "pkl" })
+                                            </div>
+                                            <div class="col-sm-3">
+                                                @Html.CustomNgNativeSelectListFor(model => model.SelectedStatementDate, Model.StmDate, null, new { @Name = "StmDate", @id = "selectedStatementDate", @ng_change = "StatementDateChanged(_Object.SelectedStatementDate);", @section = "pkl" })
+                                            </div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade in active" id="Batches">
+                                                <table dtable options="dtOptions" class="table bootstrap-datatable datatable small-font" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Batch Id</th>
+                                                            <th>Ref Cd</th>
+                                                            <th>Area Code</th>
+                                                            <th>Cheque No</th>
+                                                            <th>Cheque Amt</th>
+                                                            <th>Slip No</th>
+                                                            <th>Issuing Bank</th>
+                                                            <th>Creation Date</th>
+                                                            <th>Statement Date</th>
+                                                            <th>Status</th>
+                                                            <th>Owner</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade in" id="txnPukalSedutContent">
+
+                                    <div class="panel-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade in active">
+                                                <div class="col-sm-3">
+                                                    @Html.CustomNgNativeSelectListFor(model => model.SelectedRefCd, Model.RefCd, null, new { @Name = "RefCd", @id = "SelectedRefCd", @controlId = "ptSelectedRefCd", @ng_change = "SedutRefCdSelectionChanged(_Object.SelectedRefCd);", @section = "pkl" })
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    @Html.CustomNgNativeSelectListFor(model => model.SelectedAreaCode, Model.AreaCode, null, new { @Name = "AreaCode", @id = "SelectedAreaCode", @controlId = "ptSelectedAreaCode", @ng_change = "SedutCardSelectionChanged(_Object.SelectedAreaCode);", @section = "pkl" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div class="panel-heading"><h2><i class="fa fa-list"></i>Pukal Sedut List</h2></div>
+                                        <table dtable options="dtPukalSedutOptions" class="table bootstrap-datatable datatable small-font">
+                                            <thead>
+                                                <tr>
+                                                    <th>AcctNo</th>
+                                                    <th>Company Name</th>
+                                                    <th>Activation Date</th>
+                                                    <th>Termination Date</th>
+                                                    <th>Pukal Sedut Amt</th>
+                                                    <th>Sedut Stmt Date</th>
+                                                    <th>Status</th>
+                                                    <th>User ID</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+
+                                        <div class="panel-heading"><h2><i class="fa fa-list"></i>Pukal Sedut History</h2></div>
+                                        <table data-dtable options="dtPukalSedutHistoryOptions" class="table bootstrap-datatable datatable small-font">
+                                            <thead>
+                                                <tr>
+                                                    <th>AcctNo</th>
+                                                    <th>Company Name</th>
+                                                    <th>Activation Date</th>
+                                                    <th>Termination Date</th>
+                                                    <th>Pukal Sedut Amt</th>
+                                                    <th>Sedut Stmt Date</th>
+                                                    <th>Status</th>
+                                                    <th>User ID</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <form>
+    <div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" data-toggle="modal">
+                    <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h2 class="panel-heading">PUKAL SEDUT : <span class="label label-success" style="font-size:12px;"> <strong>{{WebPukalSedutList.AcctNo}}</strong></span></h2>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table bootstrap-datatable datatable small-font" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="width:10%" align="center">Account No</th>
+                                <th style="width:10%">Company Name</th>
+                                <th style="width:10%">Pukal Sedut Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{WebPukalSedutList.AcctNo}}</td>
+                                <td>{{WebPukalSedutList.CompanyName}}</td>
+                                <td>
+                                    <input  ng-model="WebPukalSedutList.PukalAmt" amount class="form-control" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions">
+                        <button class="btn btn-primary btn-cons" ng-click="modalOpen=false;"> Cancel </button>
+                        @if (!Html.NotAuthorized("pkl", "btnSaveSedut"))
+{
+    <button @(Html.IsReadOnly("pkl", "btnSaveSedut") ? "disabled=disabled" : "ng-click=SaveSedutChanges();")  style="background: #72aabd !important; " class="btn btn-primary btn-cons"><i class="fa fa-check"></i>&nbsp;OK</button>
+}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            </script>
+        </div>
+
+
+    </div>
+</div>

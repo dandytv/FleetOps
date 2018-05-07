@@ -1,0 +1,49 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model CCMS.ModelSector.MerchantDetails
+
+<form id="formMerchantAcctMaint" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="ContactsListModal" style="width: 581px" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3 id="lblContactsHeadModal">Contacts</h3>
+                    </div>
+                    <div class="modal-body form-horizontal">
+                        @Html.CustomNgTextBoxFor(model => model.MerchantNo, null, new { Class = "span3", @data_bind = "value:MerchantNo" })
+                        @Html.CustomNgTextBoxFor(model => model.BusinessName, null, new { Class = "span3", @data_bind = "value:ReferenceKey" })
+                        @Html.CustomNgSelectListFor(model => model.selectedCurrentStatus, Model.CurrentStatus, null, new { @class = "span3", @data_bind = "value:CurrentStatus" })
+                        @Html.CustomNgTextBoxFor(model => model.SiteId, null, new { Class = "span3", @data_bind = "value:SiteId" })
+                        @Html.CustomNgTextBoxFor(model => model.TaxId, null, new { Class = "span3", @data_bind = "value:TaxId" })
+                        @Html.CustomNgTextBoxFor(model => model.TaxRegistrationName, null, new { Class = "span3", @data_bind = "value:TaxRegistrationName" })
+                        @Html.CustomNgTextBoxFor(model => model.VATRate, null, new { Class = "span3", @data_bind = "value:VATRate" })
+                        @Html.CustomNgTextBoxFor(model => model.AgreementNo, null, new { Class = "span3", @data_bind = "value:AgreementNo" })
+                        @Html.CustomNgTextBoxFor(model => model.AgreementDate, null, new { Class = "span3", @data_bind = "value:AgreementDate" })
+                        @Html.CustomNgTextBoxFor(model => model.PersonInCharge, null, new { Class = "span3", @data_bind = "value:PersonInCharge" })
+                        @Html.CustomNgSelectListFor(model => model.selectedOwnershsip, Model.Ownership, null, new { @class = "span3", @data_bind = "value:Ownership" })
+                        @Html.CustomNgTextBoxFor(model => model.MCC, null, new { Class = "span3", @data_bind = "value:MCC" })
+                        @Html.CustomNgTextBoxFor(model => model.SIC, null, new { Class = "span3", @data_bind = "value:SIC" })
+                        @Html.CustomNgTextBoxFor(model => model.DBAName, null, new { Class = "span3", @data_bind = "value:DBAName" })
+                        @Html.CustomNgTextBoxFor(model => model.DBAState, null, new { Class = "span3", @data_bind = "value:DBAState" })
+                        @Html.CustomNgTextBoxFor(model => model.DBACity, null, new { Class = "span3", @data_bind = "value:DBACity" })
+                        @Html.CustomNgTextBoxFor(model => model.PayeeName, null, new { Class = "span3", @data_bind = "value:PayeeName" })
+                        @Html.CustomNgTextBoxFor(model => model.BankAcctName, null, new { Class = "span3", @data_bind = "value:BankAcctName" })
+                        @Html.CustomNgTextBoxFor(model => model.BankAccountNo, null, new { Class = "span3", @data_bind = "value:BankAccountNo" })
+                        @Html.CustomNgSelectListFor(model => model.selectedBankAcctType, Model.BankAcctType, null, new { @class = "span3", @data_bind = "value:BankAcctType" })
+                        @Html.CustomNgTextBoxFor(model => model.BankBranchCode, null, new { Class = "span3", @data_bind = "value:BankBranchCode" })
+                        @Html.CustomNgTextBoxFor(model => model.BankDirectDebitIndicator, null, new { Class = "span3", @data_bind = "value:UserId" })
+                        @Html.CustomNgTextBoxFor(model => model.UserID, null, new { Class = "span3", Disabled = "true", @data_bind = "value:UserId" })
+                        @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { Class = "span3", Disabled = "true", @data_bind = "value:CreationDate" })
+                        @Html.CustomNgTextBoxFor(model => model.EndorsedByUserId, null, new { Class = "span3", Disabled = "true", @data_bind = "value:EndorsedByUserId" })
+                        @Html.CustomNgTextBoxFor(model => model.EndorsedDate, null, new { Class = "span3", Disabled = "true", @data_bind = "value:EndorsedDate" })
+                    </div>
+                    <div class="modal-footer">
+                        <button id="saveContacts" class="btn btn-primary"><i class="icon-ok icon-white"></i>Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

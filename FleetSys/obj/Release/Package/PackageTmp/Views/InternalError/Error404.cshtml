@@ -1,0 +1,30 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Not Found</title>
+    @System.Web.Optimization.Styles.Render("~/Contents/Styles")
+</head>
+<body class="sidebar-hidden">
+    <div class="mm-page">
+        <div class="main" style="opacity:1; min-height: 658px;">
+            <div class="row box-error text-center">
+                <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3">
+                    <h1><i class="fa fa-frown-o"></i></h1>
+                    <h1>404</h1>
+                    <h3><strong>Not found</strong></h3>
+                    <p>The resource you tried to access were not found on the server or has been relocated. Please contact your administrator.</p>
+
+                    <a href="@Url.Action("Index","Home")" class="btn btn-primary">Take me back to home page</a>
+                    <p>
+                        <span class="text-muted">FleetOps &copy;@DateTime.Now.Year</span>
+                    </p>
+                </div><!--/col-->
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

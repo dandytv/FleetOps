@@ -1,0 +1,97 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.Pukal
+
+<form id="formApplicationGeneralInfo">
+    <h1>Pukal Maintenance</h1><br/>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.CompanyId, null, new { @section = "puk", @readonly = true })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.CompanyName, null, new { @section = "puk", @readonly = true })
+                            </div>
+                            <div class="col-sm-12">
+                                @Html.CustomNgSelectListFor(model => model.SelectedAcctOfficeCode, Model.AcctOfficeCode, null, new { @Name = "AcctOfficeCode", @section = "puk" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgSelectListFor(model => model.SelectedRefCd, Model.RefCd, null, new { @Name = "RefCd", @section = "puk" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.ProjCd, null, new { @section = "puk" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.ActivationDate, null, new { date_picker = "", @section = "puk" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.TerminationDate, null, new { @section = "puk", date_picker = "", disabled = "true"})
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgRadioButtonListFor(model => model.TerminationFlag, Model.TermFlag, null, new { @Name = "TermFlag", @section = "puk",@readonly="readonly" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.WarrantDepartment, null, new { @section = "puk"})
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.WarrantPtj, null, new { @section = "puk" })
+                            </div>
+                        
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                            
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.VoteCode, null, new { @section = "puk" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.ChargeDepartment, null, new { @section = "puk" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.ChargePtj, null, new { @section = "puk" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.ProgramCd, null, new { @section = "puk" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.CustomNgTextBoxFor(model => model.SortKey, null, new { @section = "puk" })
+                            </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedAgObjectCode, Model.AgObjectCode, null, new { @Name = "AgObjectCode", @section = "puk" })
+                            @*@Html.CustomNgTextBoxFor(model => model.AgObjectCode, null, new { @section = "puk" })*@
+                        </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.creationDate, null, new { DateTime.Now, @readonly = "readonly", @section = "puk" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.LastUpdated, null, new { DateTime.Now, @readonly = "readonly", @section = "puk" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.UserId, null, new { @section = "puk", @readonly = "readonly" })
+                            </div>
+                        <div class="col-lg-6">
+                            @Html.CustomNgCheckBoxFor(model => model.checkIndicator, null, new { @section = "puk" })
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            @if (!Html.NotAuthorized("puk", "SavePukalAcct"))
+                            {
+                                <input type="button" data-validation-form data-customsubmit="Save();" @(Html.IsReadOnly("puk", "SavePukalAcct") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" name="finish" value="Save">
+    @*<button data-validation-form data-customsubmit="postGeneralInfo();" @(Html.IsReadOnly("General Info", "Save") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>*@
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,185 @@
+﻿@using FleetOps.Helpers;
+@using ModelSector.Global_Resources;
+@model ModelSector.UpToDateBal
+<h1>Up To Date Balance</h1><br />
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-4">
+                @Html.CustomNgTextBoxFor(model => model.SelectedAccountType, null, new { @readonly = true, @section = "upd" })
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.CreditLimit, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                    </div>
+                    @*<div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.QuotaLimit, null, new { @readonly = true, @class = "text-right", @section = "SOASummary" })
+                    </div>*@
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.TempCreditLimit, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.QuotaUsage, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="col-sm-12">
+                        @Html.CustomNgTextBoxFor(model => model.OpeningBal, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.InstantAmt, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.BatchAmt, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.OnlineAmt, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.OfflineAmt, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                    </div>
+                </div>
+                <div class="col-sm-6" @*style="margin-left:14px"*@>
+                    @Html.CustomNgTextBoxFor(model => model.TotalCreditLimit, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                </div>
+                <div class="col-sm-6" @*style="margin-left:100px"*@>
+                    @Html.CustomNgTextBoxFor(model => model.ClosingBal, null, new { @readonly = true, @class = "text-right", @section = "upd" })
+                </div>
+                <div class="col-sm-12">
+                    @Html.CustomNgTextBoxFor(model => model.AvailableCredLimit, null, new { @readonly = true, @class = "text-right", @section = "upd" })@*hfksdhfkjsdh*@
+                </div>
+
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-actions pull-left">
+                        <span>
+                            @*@if (!Html.NotAuthorized("upd", "InstantTxnList"))
+                            {*@
+                                <a href="javascript:;" ng-click="ShowInstantTxn();" class="btn btn-sm btn-primary">Instant Transactions List</a>
+                            
+                            @*@if (!Html.NotAuthorized("upd", "UnpostedTxnList"))
+                            {*@
+                                <a href="javascript:;" ng-click="ShowUnpostedTxn();" class="btn btn-sm btn-primary">Batch Transaction List</a>
+
+                                <a href="javascript:;" ng-click="ShowOnlineTxnLst();" class="btn btn-sm btn-primary">Online Transactions List</a>
+
+                                <a href="javascript:;" ng-click="ShowOfflineTxnLst();" class="btn btn-sm btn-primary">Offline Transactions List</a>
+                            @*}*@
+                        </span>
+                    </div>
+
+                </div>
+                <div class="panel-body">
+
+                    <div ng-show="instantTxn==1">
+                        <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                            <thead>
+                                <tr>
+                                    <th>TxnId</th>
+                                    <th>LBE</th>
+                                    <th>CardNo</th>
+                                    <th>TxnAmt</th>
+                                    <th>BookingDate</th>
+                                    <th>TxnDate</th>
+                                    <th>DueDate</th>
+                                    <th>Descp</th>                           
+                                    <th>RcptNo</th>
+                                    <th>TxnCd</th>
+                                    <th>ShortDescp</th>
+                                    <th>SiteId</th>
+                                    <th>Driver CardNo</th>
+                                    <th>UserId</th>
+                                    <th>CreationDate</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div ng-show="instantTxn==2">
+                        <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions2">
+                            <thead>
+                                <tr>
+                                    <th>TxnId</th>
+                                    <th>LBE</th>
+                                    <th>CardNo</th>
+                                    <th>BillingTxnAmt</th>
+                                    <th>BookingDate</th>
+                                    <th>TxnDate</th>
+                                    <th>DueDate</th>
+                                    <th>Descp</th>
+                                    <th>TxnCd</th>
+                                    <th>ShortDescp</th>
+                                    <th>UserId</th>
+                                    <th>CreationDate</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div ng-show="instantTxn==3">
+                        <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions3">
+                            <thead>
+                                <tr>
+                                    <th>TxnId</th>
+                                    <th>CreationDate</th>
+                                    <th>CardNo</th>
+                                    <th>Transaction Amount</th>
+                                    <th>BusnLocation</th>
+                                    <th>TermId</th>
+                                    <th>InvoiceNo</th>
+                                    <th>TxnInd</th>
+                                    <th>Mti</th>
+                                    <th>PrcsCd</th>
+                                    <th>Rrn</th>
+                                    <th>Status</th>
+                                    <th>Transaction Date</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div ng-show="instantTxn==4">
+                        <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions4">
+                            <thead>
+                                <tr>
+                                    <th>Ids</th>
+                                    <th>CardNo</th>
+                                    <th>BillingAmt</th>
+                                    <th>Transaction Date</th>
+                                    <th>DueDate</th>
+                                    <th>TxnCd</th>
+                                    <th>Description</th>
+                                    <th>UserId</th>
+                                    <th>CreationDate</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.SAP_SOAInfo
+
+<form class="form-horizontal" id="formsapSoa">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomNgSelectListFor(model => model.SelectedAccountType, Model.AccountType, null, new { @section = "General Info" })
+                @Html.CustomNgCheckBoxFor(model => model.LatePayementChargeFlag, null, new { section = "CorporateCodes" })
+                @Html.CustomNgCheckBoxFor(model => model.HandlingFeeFlag, null, new { section = "CorporateCodes" })
+                @Html.CustomNgTextBoxFor(model => model.HandlingFee, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedTxnCategory, Model.TxnCategory, null, new { @section = "General Info" })
+                @Html.CustomNgCheckBoxFor(model => model.PayeeCardFlag, null, new { section = "CorporateCodes" })
+                @Html.CustomNgCheckBoxFor(model => model.EWTFlag, null, new { section = "CorporateCodes" })
+                @Html.CustomNgTextBoxFor(model => model.priceShieldHours, null, new { @section = "General Info" })
+                </div>
+            </div>
+        </div>
+</form>

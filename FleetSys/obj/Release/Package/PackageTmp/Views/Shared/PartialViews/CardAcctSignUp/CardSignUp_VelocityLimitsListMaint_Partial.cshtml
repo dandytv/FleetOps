@@ -1,0 +1,83 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model  ModelSector.VeloctyLimitListMaintModel
+
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-plus"></i></a>
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="velocityHolder" class="zerotop">
+            <table id="tblVelocity" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Velocity Indicator</th>
+                        <th>Product Code</th>
+                        <th>Counter</th>
+                        <th>Velocity Amount</th>
+                        <th>Velocity Litre</th>
+                        <th>Last Update Date </th>
+                        <th>User Id</th>
+                        <th>Creation Date</th>
+                        <th>Velocity Indicator</th>
+                        <th>Product Code </th>                                                                                                                                                                                                                                                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="VelocityListModal" class="modal hide" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h3 id="velocityModalHeader">Velocity Limit Maintenance </h3>
+            </div>
+            <div class="modal-body">
+
+                <form id="frmVelocityLimit" class="form-horizontal">
+                    @Html.CustomNgSelectListFor(model => model.SelectedVelocityInd, Model.VelocityInd, new { required = true }, new { id = "ddlVelocityInd", @section = "Velocity limits" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedProdCd, Model.ProdCd, new { required = true }, new { id = "ddlVelocityProdCd", @section = "Velocity limits" })
+                    @Html.CustomNgTextBoxFor(model => model.CntrLimit, null, new { id = "txtVelocityCntLimit", @section = "Velocity limits" })
+                    @Html.CustomNgTextBoxFor(model => model.VelocityLitre, null, new { id = "txtVelocityLitre", @section = "Velocity limits" })
+                    @Html.CustomNgTextBoxFor(model => model.VelocityLimit, new { required = true }, new { id = "txtVelocityLimit", @section = "Velocity limits", @data_type = "amount" })
+                    @Html.CustomNgTextBoxFor(model => model.CostCentre, new { required = true }, new { id = "txtVelocityCostCentre", @section = "Velocity limits" })
+                    @Html.CustomNgTextBoxFor(model => model.LastUpdateDate, null, new { id = "txtVelocityLastUpdate", @section = "Velocity limits", Disabled = "true" })
+                    @Html.HiddenFor(model => model._CardnAccNo.AccNo, new { @section = "Velocity limits" })
+                    @Html.HiddenFor(model => model._CardnAccNo.CardNo, new { @section = "Velocity limits" })
+                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { id = "txtVelocityCreationDate", @section = "Velocity limits", @readonly = "readonly" })
+                    @Html.CustomNgTextBoxFor(model => model.UserId, null, new { id = "txtVelocityUserId", @section = "Velocity limits", @readonly = "readonly" })
+                    <input type="hidden" id="xxVelocisedit" value="Add" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions">
+                    @if (!Html.NotAuthorized("Velocity limits", "Save"))
+                    {
+                        <button id="saveVelocityLimit" style="width: 60px" class="btn btn-primary" @(Html.IsReadOnly("Velocity limits", "Save") ? "disabled=disabled" : "")>Save</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div id="velocityDeleteConfirm" data-backdrop="static" class="modal hide">
+            <div class="modal-header deletion-head">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4>Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm the record deletion
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" id="velocityDeleteConfirmed" class="btn btn-danger">Yes,Delete<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

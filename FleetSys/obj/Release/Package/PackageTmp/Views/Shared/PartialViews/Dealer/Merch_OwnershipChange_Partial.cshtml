@@ -1,0 +1,139 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.MerchChangeOwnership
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2><strong>CURRENT MERCHANT INFORMATION:</strong></h2>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(modek => Model.FromMerchantId, null, new { @section = "moc",@readonly="readonly" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(modek => Model.CurrentSiteId, null, new { @section = "moc", maxlength = "15", @readonly = "readonly" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.CutoffDate, null, new { @section = "moc", @date_Picker = ""})
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.CutOffTime, null, new { @section = "moc",@placeholder="eg:13:50" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-heading">
+        <h2><strong>CHANGE OWNERSHIP TO:</strong></h2>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        @*@ng_disabled = "disableModel&&manualDisabled",*@
+                        @Html.CustomNgCheckBoxFor(model => model.FloatAcctInd, null, new { @section = "moc", @ng_click = "updateModel();" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.BusnName, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.NewSiteId, null, new { @section = "moc", @ng_disabled = "disableModel==true" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.TaxId, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.DBAName, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgSelectListFor(model => model.SelectedDBAState, Model.DBAState, new { required = true }, new { @Name = "DBAState", @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.CoRegNo, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.CoRegName, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.DealerName, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.DealerContact, null, new { @section = "moc", @only_Digits = "onlyDigits", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.PayeeName, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.CustomNgSelectListFor(model => model.SelectedBankName, Model.BankName, null, new { @Name = "BankName", @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgSelectListFor(model => model.SelectedBankAcctType, Model.BankAcctType, null, new { @Name = "BankAcctType", @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.BankBranchCd, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.BankAcctNo, null, new { @section = "moc",@only_Digits = "", @ng_disabled = "disableModel" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        @Html.CustomNgTextBoxFor(model => model.SAPNo, null, new { @section = "moc", @ng_disabled = "disableModel" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (!Html.NotAuthorized("moc", "btnOwnershipChange"))
+    {
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-actions pull-right">
+                        <button @(Html.IsReadOnly("moc", "btnOwnershipChange") ? "disabled=disabled" : "") ng-click=changeOwnership(); class="btn btn-primary btn-cons" name="finish">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2><strong>MERCHANT OWNERSHIP CHANGE RELATIONSHIP:</strong></h2>
+    </div>
+    <div class="panel-body">
+        <div id="contactHolder" class="zerotop">
+            <table id="tblContacts" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                <thead>
+                    <tr>
+                        <th>From Merchant ID</th>
+                        <th>Cut-Off Date/Time</th>
+                        <th>To Merchant ID</th>
+                        <th>Floating Account (To merchant)</th>
+                        <th>Creation Date/Time</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>

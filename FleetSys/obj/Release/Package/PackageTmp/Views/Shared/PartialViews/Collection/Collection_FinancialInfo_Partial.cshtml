@@ -1,0 +1,134 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.CollInfoViewModel
+
+<div class="col-lg-12 ng-scope">
+    <div class="panel panel-default row">
+        <div class="panel-heading">
+            <h2>
+                <i class="fa fa-list"></i>Collection
+            </h2>
+            <hr />
+        </div>
+        <div class="panel-body">
+            <div class="panel-group" id="accordion">
+                <div class=" panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class=" btn-link" data-toggle="collapse" data-parent="#accordion" data-target="#collapse1">Collection Information</a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.PaymentTerm, null, new { id = "txtPaymentTerm", @section = "cfi", Disabled = "true" })
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.DunningCode, null, new { id = "txtDunningCode", @section = "cfi", Disabled = "true" })
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.PermanentCreditLimit, null, new { id = "txtPermanentCreditLimit", @section = "cfi", Disabled = "true" })
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.CustomNgTextBoxFor(model => model.TempCreditLimit, null, new { id = "txtTempCreditLimit", @section = "cfi", Disabled = "true" })
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => model.TotalTAR, null, new { id = "txtTotalTAR", @section = "cfi", Disabled = "true" })
+                                </div>
+                                <div class="col-sm-3">
+                                    @Html.CustomNgTextBoxFor(model => model.OutstandingAmt, null, new { id = "txtOutstandingAmt", @section = "cfi", Disabled = "true" })
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.CustomNgTextBoxFor(model => model.OverdueAmt, null, new { id = "txtOverdueAmt", @section = "cfi", Disabled = "true" })
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.CustomNgTextBoxFor(model => model.AgeCode, null, new { id = "txtAgeCode", @section = "cfi", Disabled = "true" })
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.CustomNgTextBoxFor(model => model.DelinquentDays, null, new { id = "txtDelinquentDays", @section = "cfi", Disabled = "true" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div style="display:none" class="row">
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.CorpCode, null, new { id = "txtCorpCode", @section = "cfi", Disabled = "true" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.CustomNgTextBoxFor(model => model.CorpName, null, new { id = "txtCorpName", @section = "cfi", Disabled = "true" })
+                            </div>
+
+                        </div>*@
+                </div>
+                <div class=" panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a  class=" btn-link" data-toggle="collapse" data-parent="#accordion" data-target="#collapse2"> Ageing History</a>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse " style="width:100%">
+                        <div class=" panel-body" style="width:100%">
+                            <table id="tblAgeingHistory" dtable options="dtOptionsAgeingHistory" class="table bootstrap-datatable datatable small-font table-hover"
+                                   style="width: 100% ">
+                                <thead>
+                                    <tr style="white-space:nowrap">
+                                        <th>Ageing</th>
+                                        <th>Category</th>
+                                        <th >Txn Amount</th>
+                                        <th>Outstanding Amount</th>
+                                        <th>Billing Date</th>
+                                        <th>Due Date</th>
+                                        <th> Grace Due Date</th>
+                                        <th>Latest Payment Received</th>
+                                        <th>Latest Payment Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody ></tbody>
+                            </table>
+                    </div>
+                    </div>
+                </div>
+                <div class=" panel panel-default">
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class=" btn-link" data-toggle="collapse" data-parent="#accordion" data-target="#collapse3">  Payment History</a>
+                        </h4>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse">
+                        <div class="panel-body" >
+                            <table id="tblPaymentHistory" dtable options="dtOptionsPaymentHistory" class="table bootstrap-datatable datatable small-font table-hover" style="width: 100%; -ms-word-wrap: break-word; word-wrap: break-word">
+                                <thead >
+                                    <tr style="white-space:nowrap" >
+                                        <th>Statement Date</th>
+                                        <th>Due Date</th>
+                                        <th>Transaction Date</th>
+                                        <th>Posting Date</th>
+                                        <th>Transaction Description</th>
+                                        <th>Transaction Amount</th>
+                                        <th>Approval Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style >
+    .dataTables_scrollHeadInner {
+        width: 100% !important;
+    }
+    .table {
+        width: 100% !important;
+    }
+</style>

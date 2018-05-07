@@ -1,0 +1,243 @@
+﻿@model ModelSector.TxnSearchModel
+@using FleetOps.Helpers;
+@{
+    ViewBag.Title = "Transaction Search | FleetOps";
+    ViewBag.ng_app = "txnSearchApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+@section ModuleSidebar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+          td.detail-toggler {
+            background: url('@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Content/images/details_open.png') no-repeat center center;
+            cursor: pointer !important;
+        }
+
+        tr.shown td.detail-toggler {
+            background: url('@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Content/images/details_close.png') no-repeat center center;
+        }
+    </style>
+
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            @*<a href="#/" style="color:#fff" class="btn btn-info btn-block"><i class="fa fa-list"></i>&nbsp;&nbsp;Show List</a>*@
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+                @*<a href="#/new" data-redirect="new" class="btn btn-youtube btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; Approval</a>*@
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="main" style="opacity: 1; min-height: 658px;" ng-controller="indexController">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li>Transaction Search</li>
+            </ol>
+            <h1>Transaction Search</h1>
+        </div>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @*ats,mts*@
+                    <ul class="nav tab-menu nav-tabs pull-left" id="myTab" role="tablist">
+                       
+                            <li class="active"><a href="javascript:;" ng-click="loadAcct();" role="tab" data-toggle="tab" data-target="#account">Account</a></li>
+                            <li class=""><a href="javascript:;" ng-click="loadMerchant();" data-toggle="tab" role="tab" data-target="#merchant">Merchant</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="panel-body">
+
+                    <div class="panel panel-default" style="border:0">
+                        <div class="panel-heading">
+                            @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+                            <div class="panel-actions pull-left">
+                                <a href="javascript:;" class="btn-minimize" ng-click="modalOpen=true;"><i class="fa fa-search"></i>&nbsp;Search</a>
+                                <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+                                <a href="javascript:;" ng-click="downloadReport();" class="btn-close"><i class="fa fa-download"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="account">
+                            <div class="table-holder">
+                                <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtAcctOptions">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Statement Date</th>
+                                            <th>Transaction Date</th>
+                                            <th>Posting Date</th>
+                                            <th>Account No.</th>
+                                            <th>Card No.</th>
+                                            <th>Auth Card No.</th>
+                                            <th>Txn Description</th>
+                                            <th>Vehicle Reg. No.</th>
+                                            <th>Stan</th>
+                                            <th>Approve Code</th>
+                                            <th>RRN</th>
+                                            <th>VAT No.</th>
+                                            <th>Dealer</th>
+                                            <th>Txn Id</th>
+                                            <th>Total Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade in" id="merchant">
+                            <div class="table-holder">
+                                <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtMerchOptions">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Dealer</th>
+                                            <th>Term Batch</th>
+                                            <th>Txn Date</th>
+                                            <th>Card No</th>
+                                            <th>Txn Description</th>
+                                            <th>Txn Amount</th>
+                                            <th>Term Id</th>
+                                            <th>Auth No</th>
+                                            <th>Auth Card No</th>
+                                            <th>Process Date</th>
+                                            <th>Txn Id</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in" id="merchant">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" data-toggle="modal">
+                            <div class="row">
+                                <div class="col-sm-12 text-center m-b-20">
+                                    <h2><strong>Transaction Search</strong></h2>
+                                    <br />
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="input-group" search-form>
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input type="text" id="input3-group3" name="input3-group3" class="form-control" placeholder="Seach Here...">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-unsorted"></i>
+                                            </button>
+                                            <ul class="selector dropdown-menu navbar-like dropdown-menu-right">
+                                                <li class="dropdown-menu-header text-center"><strong>ShortCodes</strong></li>
+                                                <li ng-show="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Account No<span class="label label-success">cac</span></a></li>
+                                                <li ng-hide="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Merchant Acct No<span class="label label-danger">mac</span></a></li>
+                                                <li ng-hide="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Station ID<span class="label label-warning">mid</span></a></li>
+                                                <li ng-hide="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Station Name<span class="label label-success">bsn</span></a></li>
+                                                <li ng-show="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Card No<span class="label label-danger">crd</span></a></li>
+                                                <li ng-show="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Driver Name<span class="label label-info">nam</span></a></li>
+                                                <li ng-show="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Company Name<span class="label label-default">co1</span></a></li>
+                                                <li ng-show="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Vehicle Reg.No<span class="label label-danger">vrn</span></a></li>
+                                                <li ng-hide="acctTab"><a href="#"><i class="fa fa-tasks text-light"></i>Company Registration Name<span class="label label-info">crn</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body m-b-20">
+                            <form ng-show="acctTab">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedTxnCategory, Model.TxnCategory, null, new { @Name = "TxnCategory", @section = "con" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedTxnCd, Model.TxnCd, null, new { @Name = "TxnCd" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.AcctNo, null, new { })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.CardNo, null, new { })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgDateRangeFor(model => model.FromDate, model => model.ToDate, "Date Range", new { required = true })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedStatementDate, Model.StatementDate, null, new { @Name = "StatementDate", @section = "con" })
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-actions pull-right">
+                                        <button ng-click="modalOpen=false;" class="btn btn-default btn-cons">Close</button>
+                                        <button data-validation-form data-customsubmit="SearchTxn();" class="btn btn-primary btn-cons">Search</button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+
+
+                            <form ng-hide="acctTab">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.BusnLocation, null, new { })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedMerchTxnCd, Model.MerchTxnCd, null, new { @Name = "MerchTxnCd" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgDateRangeFor(model => model.MerchFromDate, model => model.MerchToDate, "Date Range", new { required = true })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedTxnCategory, Model.TxnCategory, null, new { @Name = "TxnCategory", @section = "con" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.MerchAcctNo, null, new { })
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-actions pull-right">
+                                        <button ng-click="modalOpen=false;" class="btn btn-default btn-cons">Close</button>
+                                        <button data-validation-form data-customsubmit="SearchTxn();" class="btn btn-primary btn-cons">Search</button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CustomPageScript{
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/TnSearch/txnSearch.js"></script>
+    <script src="~/ng/Apps/TnSearch/txnSearchService.js"></script>
+    <script src="~/ng/Apps/TnSearch/txnSearchController.js"></script>
+}

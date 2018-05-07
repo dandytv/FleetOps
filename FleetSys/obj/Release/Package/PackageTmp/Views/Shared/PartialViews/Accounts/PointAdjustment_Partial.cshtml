@@ -1,0 +1,104 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.PointAdjustment
+<h1>Points Adjustment</h1><br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            @if (!Html.NotAuthorized("pad", "NewPointAdj"))
+            {
+                <a href="javascript:;" @(Html.IsReadOnly("pad", "NewPointAdj") ? "disabled=disabled" : "ng-click=modalClick();") class="btn-minimize"><i class="fa fa-plus"></i></a>
+            }
+            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+            <thead>
+                <tr>
+                    <th>Txn Type</th>
+                    <th>Card No</th>
+                    <th>Points</th>
+                    <th>Txn Date</th>
+                    <th>Txn Description</th>
+                    <th>Status</th>
+                    <th>Txn Code</th>
+                    <th>Txn Id</th>
+                    <th>WU Id</th>
+                    <th>Creation Date</th>
+                    <th>Txn Id</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal md-modal md-effect-1" data-keyboard="true" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" app-modal trigger="modalOpen" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h2>Points Adjustment: {{_Object.CardNo}} </h2>
+            </div>
+            <div class="modal-body">
+                <form id="PADformPointsAdjustment" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.TxnDate, null, new { id = "PADtxtTxnDate", @date_picker = "", @section = "pad" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.DueDate, null, new { id = "PADtxtDueDate", @date_picker = "", @section = "pad" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @Html.CustomNgSelectListFor(model => model.SelectedTxnCd, Model.TxnCd, null, new { @Name = "TxnCd", id = "PADtxtTxnCd", @section = "pad" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.CustomNgTextBoxFor(model => model.CardNo, null, new { id = "PADtxtCardNo", @section = "pad" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.CustomNgTextBoxFor(model => model.Points, null, new { id = "PADtxtPts", @section = "pad" })
+                        </div>
+                    </div>
+                    @Html.CustomNgTextAreaFor(model => model.TxnDescription, null, new { id = "PADtxtDescp", @section = "pad" })
+
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.ApprvCd, null, new { id = "PADtxtAppvCd", @section = "pad" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.SelectedStatus, Model.Status, null, new { @Name = "Status", id = "PADddlStatus", @section = "pad" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @Html.CustomNgTextBoxFor(model => model.UserId, null, new { id = "PADtxtUserId", @readonly = "readonly", @section = "pad" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.CustomNgTextBoxFor(model => model.WithHeldUnsettleId, null, new { id = "PADtxtwui", @readonly = "readonly", @section = "pad" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { @readonly = "readonly", id = "PADtxtCreationDate", @section = "pad" })
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions">
+                    @if (!Html.NotAuthorized("pad", "SavePointAdjAcct"))
+                    {
+                        <div class="form-actions">
+                            <button ng-click="Save();" id="PADbtnsavePtsAdj" style="width: 60px" @(Html.IsReadOnly("pad", "SavePointAdjAcct") ? "disabled=disabled" : "") class="btn btn-primary">Save</button>
+                        </div>
+                    }
+                    @*<button id="PADbtnsavePtsAdj" ng-click="Save();" class="btn btn-primary">Save</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

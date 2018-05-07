@@ -1,0 +1,44 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@*@model FleetOps.Models.FileManager*@
+@model ModelSector.FinancialInfoModel
+
+<form id="frmFinancialInfo" class="form-horizontal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @using (Html.BeginForm("SaveFinancialInfo", "CardAcctMaint", FormMethod.Post, new { id = "formFinancialInfo", @class = "form-horizontal" }))
+                {
+                    @Html.CustomNgTextBoxFor(model => model.TaxId, null, new { @data_bind = "value:TaxId", Class = "span5" })
+                    @Html.CustomNgCheckBoxFor(model => model.LatePaymtCharge, null, null)
+                    @Html.CustomNgTextBoxFor(model => model.DunningCd, null, new { @data_bind = "value:DunningCd", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.CredtAllowanceFact, null, new { @data_bind = "value:LatePaymentCharge", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.AccrdInterest, null, new { @data_bind = "value:AccrdInterest", Class = "span5", Disabled = "true" })
+                    @Html.CustomNgTextBoxFor(model => model.AccrdCrdtUsg, null, new { @data_bind = "value:AccrdCrdtUsg", Class = "span5", Disabled = "true" })
+                    @Html.CustomNgTextBoxFor(model => model.PromPaymtRebate, null, new { @data_bind = "value:PromptPaymentRebate ", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.PPRGracePeriod, null, new { @data_bind = "value:PPRGracePeriod", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.LitreLimitPerTxn, null, new { @data_bind = "value:LitreLimitPerTransaction", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.AmtLimitPerTxn, null, new { @data_type = "amount", Class = "span5" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedCycNo, Model.CycNo, null, new { @class = "span5", @data_bind = "selectedText:StatementIndicator" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedStmtType, Model.StmtType, null, new { @class = "span5", @data_bind = "selectedText:StmtType" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedStmtInd, Model.StmtInd, null, new { @class = "span5", @data_bind = "selectedText:StatementIndicator" })
+                    @Html.CustomNgTextBoxFor(model => model.StmtDate, null, new { id = "txtFinancialStmtDate", @data_bind = "value:StmtDate", Class = "span5" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedPaymtMethod, Model.PaymtMethod, null, new { @class = "span5", @data_bind = "selectedText:PaymentMethod" })
+                    @Html.CustomNgTextBoxFor(model => model.PaymtTerm, null, new { @data_bind = "value:PaymentTerm", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.GracePeriod, null, new { @data_bind = "value:GracePeriod", Class = "span5", Disabled = "true" })
+                    @Html.CustomNgTextBoxFor(model => model.DirectDebitInd, null, new { @data_bind = "value:DirectDebitInd", Class = "span5", Disabled = "true" })
+                    @Html.CustomNgSelectListFor(model => model.SelectedBankAcctType, Model.BankAcctType, null, new { @class = "span5", @data_bind = "selectedText:PaymentMethod" })
+                    @Html.CustomNgTextBoxFor(model => model.BankName, null, new { @data_bind = "value:BankName", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.BankAcctNo, null, new { @data_bind = "value:BankAcctNo", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.BankBranchCD, null, new { @data_bind = "value:BankBranchCD", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.VATRate, null, new { @data_bind = "value:VATRate", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.WriteoffDate, null, new { id = "txtFinancialwriteoffDate", @data_bind = "value:WriteoffDate", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.LastPaymtType, null, new { @data_bind = "value:LastPaymtType", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.LastPaymtReceived, null, new { @data_bind = "value:LastPaymtReceived", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.LastPaymtDate, null, new { id = "txtFinancialLastPaymtDate", @data_bind = "value:LastPaymtDate", Class = "span5" })
+                }
+                </div>
+            </div>
+        </div>
+    </form>
+

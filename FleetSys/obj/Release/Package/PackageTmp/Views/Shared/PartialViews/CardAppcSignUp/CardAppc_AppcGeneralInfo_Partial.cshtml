@@ -1,0 +1,36 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.CardAppcInfoModel
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("SaveAppcGeneralInfo", "CardHolderSignUp", FormMethod.Post, new { id = "formCardAppcSignUp", @class = "form-horizontal" }))
+            {
+                @Html.CustomNgSelectListFor(model => model.SelectedCardType, Model.CardType, new { required = true }, new { @section = "Applicant General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CardNo, null, new { @section = "Applicant General Info", @readonly = "readonly" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCostCentre, Model.CostCentre, null, new { section = "Applicant General Info" })
+                @Html.CustomNgTextBoxFor(model => model.DriverName, null, new { id = "txtDriverName", @section = "Applicant General Info" })
+                @Html.CustomNgTextBoxFor(model => model.EmbossName, new { required = true }, new { @section = "Applicant General Info" })
+                @Html.CustomNgTextBoxFor(model => model.vehRegNo, null, new { @section = "Applicant General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedVehicleModel, Model.VehicleModel, null, new { section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCurrentStatus, Model.CurrentStatus, null, new { @section = "Applicant General Info", @readonly = "readonly" })
+                @Html.CustomNgCheckBoxFor(model => model.PushAlertInd, null, new { @disabled = "disabled", @section = "Applicant General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedProductUtilization, Model.ProductUtilization, null, new { id = "ddlGenProdCodes" })
+                @Html.CustomNgSelectListFor(model => model.SelectedJoining, Model.JoiningFee, null, new { id = "ddlJoiningFee", @section = "Applicant General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedAnnualFee, Model.AnnualFee, null, new { id = "ddlAnnualFee", @section = "Applicant General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedBranchCd, Model.BranchCd, null, new { section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedDivisionCode, Model.DivisionCode, null, new { section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedDeptCd, Model.DeptCd, null, new { section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.EntityId, null, new { @section = "Applicant General Info", @readonly = "readonly" })
+                @Html.CustomNgTextBoxFor(model => model.PINExceedCnt, null, new { @section = "Applicant General Info" })
+                @Html.CustomNgCheckBoxFor(model => model.OdometerReadingInd, null, new { @section = "Applicant General Info" })
+                @Html.HiddenFor(model => model.SKDSQuota, new { @section = "Applicant General Info" })
+                @Html.HiddenFor(model => model.SKDSInd, new { @section = "Applicant General Info" })
+                @Html.HiddenFor(model => model.AcctNo, new { @section = "Applicant General Info" })
+
+            }
+
+            <input type="hidden" id="apcSaveAccess" value="@Html.GetControlStatus("Save","Applicant General Info")" />
+            </div>
+        </div>
+    </div>

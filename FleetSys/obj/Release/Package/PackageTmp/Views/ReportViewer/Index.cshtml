@@ -1,0 +1,114 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.ReportViewer
+@{
+    ViewBag.Title = "Report Viewer";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.ng_app = "ReportViewerApp";
+}
+
+@section ModuleSideBar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+}
+<div class="main" style="opacity:1; min-height: 658px;" ng-controller="indexController">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li class="active">Report Viewer</li>
+            </ol>
+            <h1>Report Viewer<small></small></h1>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="tab-pane active" id="batch">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                @Html.CustomNgSelectListFor(model => model.SelectedRptType, Model.RptType, new { required = true }, new { @Name = "RptType", id = "ddlRptType", section = "" })
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.RefKey, null, new { id = "txtRefKey", section = "" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.Date, null, new { id = "txtDate", section = "", @date_picker = "" })
+                                    </div>
+                                </div>
+                                @if (!Html.NotAuthorized("", "btnSearch"))
+                                {
+                                    <button ng-click="searchReports();" @(Html.IsReadOnly("", "btnSearch") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">
+                                        <span ng-show="!RequestSent">
+                                            <i class="fa fa-search"></i>
+                                            &nbsp;search
+                                        </span>
+                                        <span ng-show="RequestSent">
+                                            <i class="fa fa-cog fa-spin"></i>
+                                            &nbsp;Please wait...
+                                        </span>
+                                    </button>
+                                }
+                                
+                                <div class="btn-group">
+                                    @if (!Html.NotAuthorized("", "btnXls"))
+                                    {
+                                        <button type="button" ng-click="exportReport('.xlsx');" @(Html.IsReadOnly("", "btnXls") ? "disabled=disabled" : "") class="btn btn-danger btn-cons">Download xls</button>
+                                    }
+                                    
+                                    @if (!Html.NotAuthorized("", "btnToggleDown"))
+                                    {
+                                        <button type="button" class="btn btn-danger btn-cons dropdown-toggle" @(Html.IsReadOnly("", "btnToggleDown") ? "disabled=disabled" : "") data-toggle="dropdown" aria-expanded="false">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">&nbsp;</span>
+                                        </button>
+                                    }
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a ng-click="exportReport('.csv');" href="javascript:;">Download csv</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div ng-hide="searchOn" style="text-align:center"><i style="font-size:140px;color:#eeeeee" class="fa fa-ban"></i></div>
+                    <table dynamic-table class="table bootstrap-datatable datatable small-font" style="width:100%">
+                        <thead>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section CustomPageScript
+{
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/ReportViewer/ReportViewer.js"></script>
+    <script src="~/Content/scripts/velocity.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("body").addClass("sidebar-hidden");
+            $('.navbar-brand img').velocity({ height: 45 }, {
+                duration: 400,
+                easing: "swing",
+            });
+        })
+    </script>
+}

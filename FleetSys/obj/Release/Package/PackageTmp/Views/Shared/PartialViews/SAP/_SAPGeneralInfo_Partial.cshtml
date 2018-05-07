@@ -1,0 +1,23 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.SAP_GeneralInfo
+<form class="form-horizontal" id="formGeneralInfo">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomNgTextBoxFor(model => model.CompanyCd, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.ReconAccountNo, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.selectedDistributionChannel, Model.DistributionChannel, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedDivision, Model.Division, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.selectedSalesOrganisation, Model.SalesOrganization, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.selectedCustomerClass, Model.CustoemrClass, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.AuthCd, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.SearchName, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.SortKey, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.Location, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCountryCd, Model.CountryCd, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCurrencyCd, Model.CurrencyCd, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCashManagementGroup, Model.CashManagementGroup, null, new { @section = "General Info" })
+                </div>
+            </div>
+     </div>
+</form>

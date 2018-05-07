@@ -1,0 +1,68 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.LookupParameters
+
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Home</a></li>
+            <li>Event Configuration</li>
+        </ol>
+        <h1><small>Event Confguration</small></h1>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+            <div class="panel-actions pull-left">
+
+                <a href="#/new" class="btn-minimize"><i class="fa fa-plus"></i>&nbsp;New</a>
+                <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+                <span style="display:none" id="tblEventConfig-options"><a ng-click="deleteModalOpen=true;" href="javascript:;"><i class="fa fa-trash-o"></i></a></span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="panel-body">
+                <div class="table-holder">
+                    <table class="table bootstrap-datatable dataTable small-font" data-dtable options="dtOptions">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Short Description</th>
+                                <th>Detailed Description</th>
+                                <th>Ref To</th>
+                                <th>Ref Key</th>
+                                <th>Status</th>
+                                <th>Update Date</th>
+                                <th>Updated By</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-modal" app-modal trigger="deleteModalOpen">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" ng-click="deleteModalOpen=false;" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Confirm Delete?</h4>
+            </div>
+            <div class="modal-body">
+                <p>This will delete the record, continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="deleteModalOpen=false;" data-dismiss="modal">Cancel</button>
+                <button type="button" ng-click="WebNtfEvtConfDelete();" class="btn btn-danger">Yes, Continue</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

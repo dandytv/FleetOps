@@ -1,0 +1,290 @@
+﻿@model ModelSector.AcctSOA
+@using FleetOps.Helpers;
+@{
+    ViewBag.Title = "SOA Summary | FleetOps";
+    ViewBag.ng_app = "SOASummaryApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.bodyClass = "sidebar-hidden";
+}
+@section ModuleSideBar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            @*<div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+            </div>*@
+        </div>
+    </div>
+}
+@*<ng-view></ng-view>
+<script type="text/ng-template" id="index.html">*@
+    <div class="main" style="opacity:1; min-height: 658px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                    <li class="active"><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/SOASummary" onclick="location.reload();">SOA Summary</a></li>
+                    <li class="active"><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/SOASummary#/" ng-show="$root.obj.SelectedStmtDate">Credit History Summary: {{$root.obj.SelectedStmtDate}}</a></li>
+                    <li class=""><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/SOASummary#/SOATxnCategoryList/{{$root.AcctNo}}/{{$root.obj.SelectedStmtDate}}" ng-show="$root.obj.TxnCode">Previous Statement Details: {{$root.obj.TxnCode}}</a></li>
+                    @*<li class="active" ng-show="$root.obj.TxnCode">Previous Statement Details</li>*@
+                </ol>
+            </div>
+
+            @*<script type="text/ng-template" id="details.html">*@
+            <h1>Statement of Account Summary</h1>
+            <br />
+            <ng-view></ng-view>
+            <script type="text/ng-template" id="index.html">
+
+
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>&nbsp;&nbsp; Credit History Summary</h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-3 col-sm-offset-4">
+                        <div class="input-group">
+                            @*<input type="text" class="form-control" placeholder="Search for Account No...">*@
+                            @Html.CustomNgTextBoxFor(model => model.AcctNo, null, new { emptyWrapper = "", placeholder = "Insert an Account No.", @section = "" })
+                            <span class="input-group-btn">
+                            @if (!Html.NotAuthorized("", "btnView"))
+                            {
+                                <button class="btn btn-default" ng-click="SearchSOA();" @(Html.IsReadOnly("", "btnView") ? "disabled=disabled" : "") type="button" style="background-color:#20a8d8;color:white">View</button>
+
+                            }
+                            </span>
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-body">
+                <div class="row">
+                    @*<div class="col-sm-8">*@
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.CompanyID, null, new { @readonly = true, @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.CompanyName, null, new { @readonly = true, @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.BasicCard, null, new { @readonly = true, @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.SelectedStmtDate, null, new { @readonly = true, @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.LastAgeCd, null, new { @readonly = true, @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.CreditLimit, null, new { @readonly = true, @class = "text-right", @section = "" })@**@
+                    </div>
+                    @*</div>*@
+                    @*<div class="col-sm-4">*@
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.OpeningBal, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.MTDDebits, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.AvaiCredLimits, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.CurrBalance, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.MTDCreds, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.TotMinimumPymt, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    @*</div>*@
+                    @*<div class="col-sm-4">*@
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.CrrtDueMinimumOymt, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.PastDueMinimumPymt, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.PymtDueDate, null, new { @readonly = true, @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.LastPymtDate, null, new { @readonly = true, @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.LastPymtAmt, null, new { @readonly = true, @class = "text-right", @section = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.CustomNgTextBoxFor(model => model.AcctNo, null, new { @readonly = true, @section = "" })
+                    </div>
+                    @*</div>*@
+                </div>
+                <table id="tblSOA1" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                    <thead>
+                        <tr style ="width:96px">
+                            <th>Month</th>
+                            <th>Statement Date</th>
+                            <th>Closing Balance</th>@**@
+                            <th>Minimum Payment</th>
+                            <th>Debits</th>
+                            <th>Credits</th>
+                            <th>Sales</th>
+                            <th>DB Adj</th>
+                            <th>Schg</th>
+                            <th>Payment</th>
+                            <th>CR Adj</th>
+                            <th>Age</th>
+                            <th>RChq</th>
+                            <th>LPay</th>
+                            <th>Rv</th>
+                            <th>Dun</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+                </script>
+                
+
+            <script type="text/ng-template" id="indexSOA1.html">
+                <div class="col-lg-16">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2>&nbsp;&nbsp; Previous Statement Details</h2>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-2">
+                                            @Html.CustomNgTextBoxFor(model => model.BasicCard, null, new { @readonly = true, @section = "" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.CustomNgTextBoxFor(model => model.AcctNo, null, new { @readonly = true, @section = "" })
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.CompanyName, null, new { @readonly = true, @section = "" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.CustomNgTextBoxFor(model => model.SelectedStmtDate, null, new { @readonly = true, @section = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="tblSOA2" class="table bootstrap-datatable datatable small-font" data-dtable options="dtSOAOptions2">
+                                    <thead>
+                                        <tr>
+                                            <th>Transaction Code</th>
+                                            <th>Transaction Event Code</th>
+                                            <th>Transaction Desc</th>
+                                            <th>Total Count</th>
+                                            <th>Total Amount</th>
+                                            <th>Total Item Quantity</th>
+                                            <th>Total Item Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+
+            <script type="text/ng-template" id="indexSOA2.html">
+                <div class="col-lg-16">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2>&nbsp;&nbsp; Previous Statement Details</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-2">
+                                            @Html.CustomNgTextBoxFor(model => model.BasicCard, null, new { @readonly = true, @section = "" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.CustomNgTextBoxFor(model => model.AcctNo, null, new { @readonly = true, @section = "" })
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.CustomNgTextBoxFor(model => model.CompanyName, null, new { @readonly = true, @section = "" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.CustomNgTextBoxFor(model => model.SelectedStmtDate, null, new { @readonly = true, @section = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table bootstrap-datatable datatable small-font" data-dtable options="dtSOAOptions3">
+                                    <thead>
+                                        <tr>
+                                            <th>CardHolder No.</th>
+                                            <th>Merchant ID</th>
+                                            <th>Driver Card No.</th>
+                                            <th>Merchant Name</th>
+                                            <th>Txn Date</th>
+                                            <th>Txn Time</th>
+                                            <th>Post Date</th>
+                                            <th>Trading Name/Description</th>
+                                            <th>Txn Code</th>
+                                            <th>MCC</th>
+                                            <th>Curr</th>
+                                            <th>Txn Amt</th>
+                                            <th>Amount</th>
+                                            <th>RRN</th>
+                                            <th>Chq/Ref No</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+
+
+</div>
+    </div>
+    @section CustomPageScript
+{
+        <script src="~/Scripts/angular-sanitize.js"></script>
+        <script src="~/Scripts/uiselect.js"></script>
+        <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+        <link href="~/Scripts/select2.css" rel="stylesheet" />
+        <script src="~/ng/Utils.js"></script>
+        <script src="~/ng/Apps/AcctSOA/SOASummary.js"></script>
+        <script src="~/ng/Apps/AcctSOA/SOASummaryService.js"></script>
+        <script src="~/ng/Apps/AcctSOA/SOASummaryController.js"></script>
+        <link href="~/Content/css/wizard.css" rel="stylesheet" />
+        <script src="~/Content/css/wizard.js"></script>
+        <script src="~/Content/css/formWizard.js"></script>
+        <script src="~/Content/scripts/velocity.js"></script>
+        <script type="text/javascript">
+    $(function () {
+        $("body").addClass("sidebar-hidden");
+        $('.navbar-brand img').velocity({ height: 45 }, {
+            duration: 400,
+            easing: "swing",
+        });
+    })
+</script>
+
+    }
+

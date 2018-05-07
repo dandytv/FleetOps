@@ -1,0 +1,470 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.Fraud.FraudMainViewModel
+
+<form id="formFraud">
+    <div class="col-lg-12 ng-scope ">
+
+        <div class="panel panel-default row">
+            <div class="panel-heading">
+                <h2>
+                    <i class="fa fa-list"></i>Fraud/ Incident Report
+                </h2>
+                <hr />
+            </div>
+            <div class=" panel-body">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="btn btn-link " data-toggle="collapse" data-parent="#accordion" data-target="#collapse1">Customer Details</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <!-- Customer Details (S) -->
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        @if (!Html.NotAuthorized("fci", "txtAcctNo"))
+                                        {
+                                            <label>Account No </label>
+                                            <div class="input-group " autocomplete-accno>
+                                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                                <input @(Html.IsReadOnly("fci", "txtAcctNo") ? "disabled=disabled" : "") type="text" id="input3-group3" name="input3-group3" ng-model="_Object.FraudCustomerDetailsViewModel.AcctNo" class="form-control" placeholder="Seach Here..." />
+                                            </div>
+                                        }
+
+                                    </div>
+
+                                    <div class="col-sm-5">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudCustomerDetailsViewModel.CmpyName1, null, new { id = "txtCmpyName1", @section = "fci", Disabled = "true" }, "FraudCustomerDetailsViewModel")
+                                    </div>
+                                    <div class="col-sm-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudCustomerDetailsViewModel.AccountType, null, new { id = "txtAccountType", @section = "fci", Disabled = "true" }, "FraudCustomerDetailsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-3  ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudCustomerDetailsViewModel.ClientType, null, new { id = "txtClientType", @section = "fci", Disabled = "true" }, "FraudCustomerDetailsViewModel")
+                                    </div>
+                                    <div class="col-sm-4 col-md-3 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudCustomerDetailsViewModel.AgeingDays, null, new { id = "txtAgeingDays", @section = "fci", Disabled = "true" }, "FraudCustomerDetailsViewModel")
+                                    </div>
+                                </div>
+                                <div class="panel panel-default" style="margin-top: 30px;">
+
+                                    <div class="panel-body" data-ng-show="showCustTable">
+                                        <table id="tblCustDetails" class="table bootstrap-datatable datatable small-font  ">
+                                            <thead>
+                                                <tr>
+
+                                                    <th style="">{{Month1Date}} </th>
+                                                    <th style="">{{Month2Date}} </th>
+                                                    <th style="">{{Month3Date}} </th>
+                                                    <th style="">{{Month4Date}} </th>
+                                                    <th style="">{{Month5Date}} </th>
+                                                    <th style="">{{Month6Date}} </th>
+                                                    <th style="">{{AvgSalesDisplay}} </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="itm in CustDetailsSales ">
+                                                    <td> {{itm.0}}</td>
+                                                    <td> {{itm.1}}</td>
+                                                    <td> {{itm.2}}</td>
+                                                    <td> {{itm.3}}</td>
+                                                    <td> {{itm.4}}</td>
+                                                    <td> {{itm.5}}</td>
+                                                    <td> {{itm.6}}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                                <!-- Customer Details (E) -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span class="btn btn-link " data-toggle="collapse" data-parent="#accordion" data-target="#collapse2">Card Details</span>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <table class="table bootstrap-datatable datatable small-font">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:15%">Card No</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in FraudCards" class="fresh-row">
+
+                                            <td style="width:20%">
+                                                @if (!Html.NotAuthorized("fci", "ddlCardNo"))
+                                                {
+                                                    <ui-select @(Html.IsReadOnly("fci", "ddlCardNo") ? "disabled=disabled" : "data-ng-disabled=!item.isEdit") name="CardNo" ng-model="item.SelectedCardNo" section="Card Details" style="width:100%" theme="select2">
+                                                        <ui-select-match>{{$select.selected}}</ui-select-match>
+                                                        <ui-select-choices repeat="item as item in _Selects.CardNo| filter: $select.search" value="{{$select.selected.Value}}">
+                                                            <div ng-bind-html="item | highlight: $select.search"></div>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                }
+
+                                            </td>
+                                            <td class="hide-print " style="width:10%">
+                                                <div class="btn-group btn-group-justified" ng-show="item.isEdit">
+                                                    @if (!Html.NotAuthorized("fci", "btnAddCards"))
+                                                    {
+                                                        <a href="javascript:;" id="btnSaveRow" @(Html.IsReadOnly("fci", "btnAddCards") ? "disabled=disabled" : "ng-click=insertRecord(item)")
+                                                           class="btn btn-sm btn-small btn-primary btn-success"><i class="fa fa-check"></i></a>
+                                                    }
+
+                                                </div>
+
+                                                <div class="btn-group btn-group-justified" ng-hide="item.isEdit ">
+                                                    @if (!Html.NotAuthorized("fci", "btnEditCards"))
+                                                    {
+                                                        <a href="javascript:;" id="btnSaveRow" @(Html.IsReadOnly("fci", "btnEditCards") ? "disabled=disabled" : "ng-click=item.isEdit=true") class="btn btn-sm btn-primary btn-small"><i class="fa fa-edit"></i></a>
+                                                    }
+                                                    @if (!Html.NotAuthorized("fci", "btnDeleteCards"))
+                                                    {
+                                                        <a href="javascript:;" id="btnSaveRow" ng-disabled="isEdit&&entryDisabled " @(Html.IsReadOnly("fci", "btnDeleteCards") ? "disabled=disabled" : "ng-click=removeItem(item)") class="btn btn-sm btn-small btn-danger"><i class="fa fa-trash-o"></i></a>
+                                                    }
+
+                                                </div>
+                                            </td>
+                                            <td style="width:10%">
+                                                @if (!Html.NotAuthorized("fci", "btnDisputeTxn"))
+                                                {
+                                                    <a @(Html.IsReadOnly("fci", "btnDisputeTxn") ? "disabled=disabled" : "ng-disabled=isNew") target="_blank" href="#/txndispute/{{$root.obj.eventId}}/{{$root.obj.acctNo}}/{{item.SelectedCardNo}}/{{$root.obj.cmpyName}}" class="btn label-danger"> Dispute Txn</a>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!Html.NotAuthorized("fci", "btnUpdateCardSts"))
+                                                {
+                                                    <a @(Html.IsReadOnly("fci", "btnUpdateCardSts") ? "disabled=disabled" : "ng-disabled=isNew") target="_blank" href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Card#/statusMaint/{{$root.obj.acctNo}}/{{item.SelectedCardNo}}" class="btn label-warning"> Update Card Sts</a>
+                                                }
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @if (!Html.NotAuthorized("fci", "btnAddNewItem"))
+                                {
+                                    <button @(Html.IsReadOnly("fci", "btnAddNewItem") ? "disabled=disabled" : "ng-click=CreateNewItem()") ng-hide="" class="btn btn-default hide-print">Add a new item</button>
+                                }
+                                <div class="panel panel-default" style="margin-top: 30px;">
+                                    <div class="panel-body" data-ng-show="showCardTable">
+                                        <table id="tblCardDetails" class="table bootstrap-datatable datatable small-font ">
+                                            <thead>
+                                                <tr>
+                                                    <th style="">Card No</th>
+                                                    <th style="">{{CardMonth1Date}} </th>
+                                                    <th style="">{{CardMonth2Date}} </th>
+                                                    <th style="">{{CardMonth3Date}} </th>
+                                                    <th style="">{{CardMonth4Date}} </th>
+                                                    <th style="">{{CardMonth5Date}} </th>
+                                                    <th style="">{{CardMonth6Date}} </th>
+                                                    <th style="">{{CardAvgSalesDisplay}} </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="itm in CardDetailsSales ">
+                                                    <td> {{itm.0}}</td>
+                                                    <td> {{itm.1}}</td>
+                                                    <td> {{itm.2}}</td>
+                                                    <td> {{itm.3}}</td>
+                                                    <td> {{itm.4}}</td>
+                                                    <td> {{itm.5}}</td>
+                                                    <td> {{itm.6}}</td>
+                                                    <td> {{itm.7}}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span class="btn btn-link " data-toggle="collapse" data-parent="#accordion" data-target="#collapse3">Incident Description</span>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse ">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.SelectedReportedBy, new { required = true }, new { id = "SelectedReportedBy", @section = "fci", maxlength=100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Html.CustomNgSelectListFor(model => model.FraudIncidentsViewModel.SelectedReportedVia, Model.FraudIncidentsViewModel.ReportedVia, new { required = true }, new { @Name = "FraudIncidentsViewModel.ReportedVia", @section = "fci" }, null, null, "FraudIncidentsViewModel")
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.IncidentDate, null, new { id = "txtIncidentDate", @date_picker = "", @section = "fci" }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.DisputedAmt, null, new { id = "txtDisputedAmt", @amount = "", @section = "fci", maxlength = 25 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+
+                                        @Html.CustomNgSelectListFor(model => model.FraudIncidentsViewModel.SelectedNatureOfIncident, Model.FraudIncidentsViewModel.NatureOfIncident, null, new { @Name = "FraudIncidentsViewModel.NatureOfIncident", @section = "fci", on_select = "NatureOfIncidentChanged($item,$model)" }, null, null, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.OtherNatureOfIncident, null, new { ng_disabled = "_Object.FraudIncidentsViewModel.SelectedNatureOfIncident != Enum_NatureOfIncident", @section = "fci", @maxlength = 50 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextAreaFor(model => model.FraudIncidentsViewModel.Description, null, new { @section = "fci", @maxlength = 400, @rows=6 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span class="btn btn-link " data-toggle="collapse" data-parent="#accordion" data-target="#collapse4">Incident Investigation Team</span>
+                            </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse ">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        @Html.CustomNgSelectListFor(model => model.FraudIncidentsViewModel.SelectedInvestigatedBy, Model.FraudIncidentsViewModel.InvestigatedBy, new { required = true }, new { @Name = "FraudIncidentsViewModel.InvestigatedBy", @section = "fci" }, null, null, "FraudIncidentsViewModel")
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.InvestigationDate, null, new { id = "txtInvestigationDate", @date_picker = "", @section = "fci" }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-sm-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.InvestigationVenue, null, new { id = "txtInvestigationVenue", @section = "fci", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span class="btn btn-link " data-toggle="collapse" data-parent="#accordion" data-target="#collapse5">Incident Detailed Description</span>
+                            </h4>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse ">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextAreaFor(model => model.FraudIncidentsViewModel.CaseBackground, null, new { @section = "fci", @maxlength = 2000, @rows = 14 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextAreaFor(model => model.FraudIncidentsViewModel.InvestigationProcess, null, new { @section = "fci", @maxlength = 2000, @rows = 14 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextAreaFor(model => model.FraudIncidentsViewModel.Findings, null, new { @section = "fci", @maxlength = 2000, @rows = 14 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextAreaFor(model => model.FraudIncidentsViewModel.ActionTaken, null, new { @section = "fci", @maxlength = 2000, @rows = 14 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextAreaFor(model => model.FraudIncidentsViewModel.MitigationPlan, null, new { @section = "fci", @maxlength = 2000, @rows = 14 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextAreaFor(model => model.FraudIncidentsViewModel.Conclusion, null, new { @section = "fci", @maxlength = 2000, @rows = 14 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span class="btn btn-link " data-toggle="collapse" data-parent="#accordion" data-target="#collapse6">Incident Status</span>
+                            </h4>
+                        </div>
+                        <div id="collapse6" class="panel-collapse collapse ">
+                            <div class="panel-body">
+                                <div class="row" style="width:30%">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.CurrentStatus, null, new { required = true, id = "txtCurrentStatus", @section = "fci", Disabled = "true" }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                                <div class="row" style="width:30%">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgSelectListFor(model => model.FraudIncidentsViewModel.SelectedNextStatus, Model.FraudIncidentsViewModel.NextStatus, new { required = true }, new { @Name = "FraudIncidentsViewModel.NextStatus", @section = "fci" }, null, null, "FraudIncidentsViewModel")
+
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label style="padding-top:15px;">Prepared By/ Jointly Prepared By:</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-6 col-md-4 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.PreparedByName1, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtPreparedByName1", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-6 col-md-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.PreparedByPosition1, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtPreparedByPosition1", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-1"></div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-6 col-md-4 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.PreparedByName2, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtPreparedByName2", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-6 col-md-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.PreparedByPosition2, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtPreparedByPosition2", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+
+                                    </div>
+                                    <div class="col-md-1"></div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label style="padding-top:15px;">Reviewed By/ Jointly Reviewed By:</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-6 col-md-4 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.ReviewdByName1, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtReviewdByName1", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-6 col-md-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.ReviewdByPosition1, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtReviewdByPosition1", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+
+                                    </div>
+                                    <div class="col-md-1"></div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-6 col-md-4 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.ReviewdByName2, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtReviewdByName2", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-6 col-md-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.ReviewdByPosition2, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtReviewdByPosition2", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-1"></div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label style="padding-top:15px;">Endorsed By/ Jointly Endorsed By:</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-6 col-md-4 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.EndorsedByName1, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtEndorsedByName1", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-6 col-md-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.EndorsedByPosition1, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtEndorsedByPosition1", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-1"></div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-6 col-md-4 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.EndorsedByName2, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtEndorsedByName2", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-6 col-md-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.EndorsedByPosition2, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtEndorsedByPosition2", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-1"></div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label style="padding-top:15px;">Approved By/ Jointly Approved By:</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-6 col-md-4 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.ApprovedByName1, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtApprovedByName1", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-6 col-md-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.ApprovedByPosition1, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtApprovedByPosition1", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-sm-6 col-md-4 ">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.ApprovedByName2, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtApprovedByName2", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-6 col-md-4">
+                                        @Html.CustomNgTextBoxFor(model => model.FraudIncidentsViewModel.ApprovedByPosition2, new { style = "width:30%; padding-top:8px;padding-bottom:0px;" }, new { id = "txtApprovedByPosition2", @section = "fci", style = "width:70%;float:right", @maxlength = 100 }, "FraudIncidentsViewModel")
+                                    </div>
+                                    <div class="col-md-1"></div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.CustomNgTextAreaFor(model => model.FraudIncidentsViewModel.Remarks, null, new { @section = "fci", @maxlength = 500, @rows = 6 }, "FraudIncidentsViewModel")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <hr /><div class="pull-right form-actions">
+                        @if (!Html.NotAuthorized("fci", "btnPrintPreview"))
+                        {
+                            <a @(Html.IsReadOnly("fci", "btnPrintPreview") ? "disabled=disabled" : "href=#/print/{{$root.obj.eventId}}") ng-disabled="isNew" class="btn btn-success"> Print Preview</a>
+                        }
+                        @if (!Html.NotAuthorized("fci", "btnSave"))
+                        {
+                            <a data-validation-form data-customsubmit="SaveFraud();" href="javascript:;" @(Html.IsReadOnly("fci", "btnSave") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</a>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

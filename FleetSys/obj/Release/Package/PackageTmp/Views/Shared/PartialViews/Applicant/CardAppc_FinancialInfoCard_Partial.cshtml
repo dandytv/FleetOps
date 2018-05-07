@@ -1,0 +1,45 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.CardFinancialInfoModel
+<h1>Financial Info</h1><br/>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        @Html.CustomNgTextBoxFor(model => model.txnLimit, null, new { amount = "" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.CustomNgTextBoxFor(model => model.litLimit, null, new { amount = "" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.CustomNgTextBoxFor(model => model.PinExceedCnt, null, new {})
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.PinAttempted, null, new { @readonly = "readonly" })
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.CustomNgTextBoxFor(model => model.PinTriedUpdDate, null, new { data_type = "datepicker", @readonly = "readonly" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                @if (!Html.NotAuthorized("fin", "btnSaveFinancialInfo"))
+                {
+                    <div class="text-right">
+                        <input type="button" data-validation-form data-customsubmit="SaveFinancialInfo();" @(Html.IsReadOnly("fin", "btnSaveFinancialInfo") ? "disabled=disabled" : "") class="btn btn-primary btn-cons" name="finish" value="Save">
+                        @*<button id="btnConttoAdd" @(Html.IsReadOnly("Financial Info ", "Save") ? "disabled=disabled" : "") style="width: 60px" class="btn btn-success">Save</button>*@
+                    </div>
+                }
+                
+            </div>
+        </div>
+    </form>
+</div>
+

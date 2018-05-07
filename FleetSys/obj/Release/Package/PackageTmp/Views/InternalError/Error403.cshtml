@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Access Denied</title>
+    @System.Web.Optimization.Styles.Render("~/Contents/Styles")
+</head>
+<body class="sidebar-hidden">
+    <div class="mm-page">
+        <div class="main" style="opacity:1; min-height: 658px;">
+            <div class="row box-error text-center">
+                <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3">
+                    <h1><i class="fa fa-key"></i></h1>
+                    <h1>403</h1>
+                    <h3><strong>Access Denied</strong></h3>
+                    <p>The requested resource is not able to access with your credentiials</p>
+                    <a href="@Url.Action("Index","Home")" class="btn btn-primary">Take me back to home page</a>
+                <p>
+                    <span class="text-muted">FleetOps &copy;@DateTime.Now.Year</span>
+                </p>
+                </div><!--/col-->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

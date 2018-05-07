@@ -1,0 +1,121 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model ModelSector.SKDS
+
+<style type="text/css">
+    .sub-nav-bar {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+</style>
+<h1>Subsidy Plan<small></small></h1>
+<br />
+<style type="text/css">
+    .panel .panel-heading .panel-actions a i.fa {
+        color: #666666;
+        font-weight: bold;
+    }
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @*<h2><i class="fa fa-list"></i>Velocity Limits</h2>*@
+        <div class="panel-actions pull-left">
+        @if (!Html.NotAuthorized("skd", "btnSkdstoAdd"))
+        {
+            <a href="javascript:;" @(Html.IsReadOnly("skd", "btnSkdstoAdd") ? "disabled=disabled" : "ng-click=modalClick();") class="btn-minimize"><i class="fa fa-plus"></i></a>
+        }
+            <a href="javascript:;" ng-click="refresh();" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="sub-nav-bar">
+            <div id="skdsHolder" class="zerotop">
+                <table class="table bootstrap-datatable datatable small-font" id="tblSKDS" data-dtable options="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>Subsidy No</th>
+                            <th>Subsidy Level</th>
+                            <th>Quota Litre</th>
+                            <th>Effective From</th>
+                            <th>Effective To</th>
+                            <th>Business Reg No</th>@*Reference*@
+                            @*<th>Remarks</th>*@
+                            @*<th>Status</th>*@
+                            <th>User ID</th>
+                            <th>Creation Date</th>
+                            <th>Txn ID</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+
+
+            <div id="VelocityListModal" class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" data-toggle="modal">
+                            <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                            <h2>Subsidy Maintenance : {{_Object.SKDSNo}} </h2>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formSkds" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.TxnId, null, new { @readonly = "true", @section = "skd" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgSelectListFor(model => model.SelectedSubsidyLevel, Model.SubsidyLevel, new { required = true }, new { @Name = "SubsidyLevel", id = "PDCddlProdDiscType", @section = "skd" })
+                                    </div>
+                                </div>
+                                @*@Html.CustomNgSelectListFor(model => model.SelectedCategory, Model.Category, null, new { @Name = "SelectedCategory" })*@
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.SKDSNo, new { required = true }, new { @section = "skd", maxlength = "20" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgTextBoxFor(model => model.SKDSLitreQuota, new { required = true }, new { @section = "skd" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgDateRangeFor(model => model.QuotaFromDate, model => model.QuotaToDate, "Quota Date Range",new { required = true }, new { @section = "skd" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.CustomNgDateRangeFor(model => model.EffFromDate, model => model.EffToDate, "Effective Date Range",new { required = true }, new { @section = "skd" })
+                                    </div>
+                                </div>
+                                @Html.CustomNgTextBoxFor(model => model.Refference, new { required = true }, new { @section = "skd" })
+                                @*  @Html.CustomTextBoxFor(model=> model.LastSubsidyDate, null,new {id = "txtLastSubsidyDate",Class="span5",data_type ="datepicker"})*@
+                                @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { @section = "skd", rows = "3" })
+                                @* @Html.CustomSelectListFor(model => model.SelectedSts, Model.Sts, null, new { id = "ddlSts", Class = "span5" , @readonly="readonly"})*@
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        @Html.CustomNgTextBoxFor(model => model.LastUpdDate, null, new { @section = "skd", @readonly = "true" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        @Html.CustomNgTextBoxFor(model => model.UserId, null, new { @section = "skd", @readonly = "true" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { @section = "skd", @readonly = "true" })
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-actions">
+                                @if (!Html.NotAuthorized("skd", "btnSkdsSave"))
+                                {
+                                    <button id="btnSkdstoAdd" ng-click="SaveSKDS();" class="btn btn-primary" @(Html.IsReadOnly("skd", "btnSkdsSave") ? "disabled=disabled" : "")>Save</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

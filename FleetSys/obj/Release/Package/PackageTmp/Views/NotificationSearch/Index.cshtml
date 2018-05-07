@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Notifications Search | FleetOps";
+    ViewBag.ng_app = "notificationSearchApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+@section ModuleSidebar
+{
+    <style type="text/css">
+    
+                  
+
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+        .sidebar-menu {
+            height: auto;
+        }
+
+        .sidebar ul.nav.nav-sidebar {
+            padding-bottom: 30px;
+        }
+
+        td.detail-toggler {
+            background: url('@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Content/images/details_open.png') no-repeat center center;
+            cursor: pointer !important;
+        }
+
+        tr.shown td.detail-toggler {
+            background: url('@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Content/images/details_close.png') no-repeat center center;
+        }
+        .modal-footer{
+            overflow: hidden;
+        }
+        .modal-body.small{
+        overflow:visible;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp;Show List</a>
+                <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp;New</a>
+            </div>
+        </div>
+    </div>
+
+}
+<div class="main" style="opacity: 1; min-height: 658px;">
+    <ng-view></ng-view>
+
+    <script type="text/ng-template" id="index.html">
+
+
+
+
+
+    </script>
+</div>
+@section CustomPageScript
+{
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/NotificationSearch/NotificationSearch.js"></script>
+    <script src="~/ng/Apps/NotificationSearch/NotificationSearchService.js"></script>
+    <script src="~/ng/Apps/NotificationSearch/NotificationSearchController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+    <script src="~/Content/scripts/velocity.js"></script>
+    <script type="text/javascript">
+    </script>
+}

@@ -1,0 +1,22 @@
+﻿@using FleetOps.Helpers
+@model ModelSector.SAP_SalesTerritory
+
+<form class="form-horizontal" id="formSalesTerritory">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.CustomNgSelectListFor(model => model.SelectedSalesTerritoryCd, Model.SalesTerritoryCd, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.CustomerPricingProc, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedCustoemrStatsGroup, Model.CustomerStatsGroup, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedSalesDistrict, Model.SalesDistrict, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.SalesOfficer, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedSalesGroup, Model.SalesGroup, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.ShippingConditions, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.MaxPartialDelivery, null, new { @section = "General Info" })
+                @Html.CustomNgSelectListFor(model => model.SelectedTaxClass, Model.TaxClass, null, new { @section = "General Info" })
+                @Html.CustomNgTextBoxFor(model => model.OrderCombiation, null, new { @section = "General Info" })
+                </div>
+            </div>
+        </div>
+</form>
+

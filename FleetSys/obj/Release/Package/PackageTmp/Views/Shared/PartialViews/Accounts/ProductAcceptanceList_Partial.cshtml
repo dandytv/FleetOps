@@ -1,0 +1,14 @@
+﻿@using FleetOps.Helpers
+@using ModelSector.Global_Resources;
+@model  ModelSector.ProdAcceptListModel
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @Html.CustomTextBoxFor(model => model.RefKey, null, new { @data_bind = "value:EntityId", Class = "span5" })
+            @Html.CustomTextBoxFor(model => model.ProdGroup, null, new { @data_bind = "value:FirstName", Class = "span5" })
+            @Html.CustomTextBoxFor(model => model.UserId, null, new { id = "txtUserId", Class = "span5", @readonly = "readonly" })
+            @Html.CustomTextBoxFor(model => model.CreationDate, null, new { id = "txtCreationDate", Class = "span5", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>

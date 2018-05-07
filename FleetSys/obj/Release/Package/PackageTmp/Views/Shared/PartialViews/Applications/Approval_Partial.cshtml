@@ -1,0 +1,155 @@
+﻿@using FleetOps.Helpers;
+@model CCMS.ModelSector.Milestone
+
+<ul class="cbp_tmtimeline">
+    <li ng-repeat="item in approvals">
+        <time class="cbp_tmtime">
+            <span style="color:#777">Assigned on</span>
+            <span>{{item.CreationDate}}</span>
+            @*<span>Today</span>*@
+        </time>
+        <div class="cbp_tmicon bg-success" ng-if="item.selectedStatus=='A'">
+            {{item.SelectedTaskNo}}
+        </div>
+        <div class="cbp_tmicon bg-warning" ng-if="item.selectedStatus=='P'">
+            {{item.SelectedTaskNo}}
+        </div>
+        <div class="cbp_tmicon bg-secondary" ng-if="item.selectedStatus=='R'">
+            {{item.SelectedTaskNo}}
+        </div>
+        <div class="cbp_tmicon bg-secondary" ng-if="item.selectedStatus=='T'">
+            {{item.SelectedTaskNo}}
+        </div>
+        <div class="cbp_tmlabel">
+
+            <a href="#">{{item.selectedOwner}}</a>
+            <span ng-if="item.selectedStatus=='P'&&item.selectedOwner.toLowerCase()==currentUser">
+                , task is <span class="label label-warning">pending</span> for your action
+            </span>
+            <span ng-if="item.selectedStatus!='P'&&item.selectedOwner.toLowerCase()==currentUser">
+                updated the status to <span ng-if="item.selectedStatus=='A' " class=" label label-success">{{item.Descp}}</span><span ng-if="item.selectedStatus=='R'" class="label label-danger">{{item.Descp}}</span><span ng-if="item.selectedStatus=='T'" class="label label-danger">{{item.Descp}}</span>
+            </span>
+            <span ng-if="item.selectedOwner.toLowerCase()!=currentUser && item.selectedStatus=='P'">
+                task is <span class="label label-warning">pending</span> for action from this user.
+
+            </span>
+            <span ng-if="item.selectedOwner.toLowerCase()!=currentUser && item.selectedStatus!='P'">
+                updated the status to <span ng-if="item.selectedStatus=='A' " class=" label label-success">{{item.Descp}}</span><span ng-if="item.selectedStatus=='P'" class="label label-warning">{{item.Descp}}</span><span ng-if="item.selectedStatus=='R'" class="label label-danger">{{item.Descp}}</span><span ng-if="item.selectedStatus=='T'" class="label label-danger">{{item.Descp}}</span>
+            </span>
+            <br /><br />
+            <span style="display:block">
+                Task : <kbd>{{item.TaskDescp}}</kbd>
+            </span>
+            <br />
+            <blockquote>
+                <span ng-if="item.Remarks">{{item.Remarks|doubleQuote}}</span>
+                <span ng-if="!item.Remarks" style="font-style:italic">(Empty)</span>
+            </blockquote>
+
+            <div ng-show="item.selectedStatus=='P'&&item.selectedOwner.toLowerCase()==currentUser">
+                <hr />
+                @if (!Html.NotAuthorized("PendingAppl", "btnUpdStatus"))
+                {
+                    <button ng-click="modalClick(item);" @(Html.IsReadOnly("PendingAppl", "btnUpdStatus") ? "disabled=disabled" : "") class="btn btn-primary">Update your status here</button>
+                }
+                @*<div class="form-actions">
+                    @if (!Html.NotAuthorized("Location", "btnMoreDetail"))
+                    {
+                        <button ng-click="moveToUrl();" @(Html.IsReadOnly("Location", "btnMoreDetail") ? "disabled=disabled" : "") class="btn btn-default pull-right" style="margin-top:10px">More Details</button>
+                    }
+                </div>*@
+            </div>
+
+            <div ng-if="item.selectedStatus!='P'">
+                <hr/>
+                
+                <span class="text-muted" style="display:block;margin-top:10px"><i title="status updated on" class="fa fa-clock-o">&nbsp;Updated on</i>&nbsp; {{item.LastUpdDate}}</span>
+            </div>
+        </div>
+    </li>
+    @*<li>
+            <time class="cbp_tmtime">
+                <span>01:22 PM</span>
+                <span>Yesterday</span>
+            </time>
+            <div class="cbp_tmicon bg-secondary">
+                <i class="fa fa-ban"></i>
+            </div>
+            <div class="cbp_tmlabel"> <h2><a href="#">Job Meeting</a></h2> <p>You have a meeting at <strong>Laborator Office</strong> Today.</p> </div>
+        </li>*@
+</ul>
+
+
+<form>
+    <div class="modal md-modal md-effect-1" role="dialog" aria-labelledby="myModalLabel" app-modal trigger="modalOpen" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" data-toggle="modal">
+                    <button type="button" ng-click="modalOpen=false;" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h2>Approval : {{_Object.Descp}} </h2>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style=" border-bottom: 1px dashed #EEE;" ng-show="_Object.validationSP">
+                        <div class="col-sm-4">
+                            <label>Assessment type</label>
+                            <p ng-show="_Object.Descp" class="form-control-static">{{_Object.Descp}}</p>
+                            <p ng-show="!_Object.Descp" class="form-control-static">---</p>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>Credit Limit</label>
+                            <p ng-show="_Object.CreditLimit" class="form-control-static">{{_Object.CreditLimit}}</p>
+                            <p ng-show="!_Object.CreditLimit" class="form-control-static">---</p>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label>Acquired Security Amount</label>
+                            <p ng-show="_Object.SecurityAmt" class="form-control-static">{{_Object.SecurityAmt}}</p>
+                            <p ng-show="!_Object.SecurityAmt" class="form-control-static">---</p>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="row" style="padding-top:10px;">
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.selectedOwner, Model.Owner, new { required = true }, new { @Name = "Owner", @ng_disabled = "_Object.selectedStatus=='T'" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.selectedPriority, Model.Priority, new { required = true }, new { @Name = "Priority", @ng_disabled = "_Object.selectedStatus=='T'" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.selectedReasonCd, Model.ReasonCd, null, new { @Name = "ReasonCd" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgTextBoxFor(model => model.RecallDate, null, new { @date_picker = "" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.CustomNgSelectListFor(model => model.selectedStatus, Model.Status, new { required = true }, new { @Name = "Status" })
+                        </div>
+                        @*changed ('Tuan')*@
+                        <div class="col-sm-6">
+                            <div ng-show="_Selects.TaskNo.length != 0">
+                                @Html.CustomNgSelectListFor(model => model.SelectedTaskNo, Model.TaskNo, new { required = true }, new { @Name = "TaskNo", @ng_disabled = "_Object.selectedStatus=='T'" })
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            @Html.CustomNgTextAreaFor(model => model.Remarks, null, new { })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions">
+                    @if (!Html.NotAuthorized("apr", "SaveApproval"))
+                    {
+                        <button data-validation-form data-customsubmit="Save();" @(Html.IsReadOnly("apr", "SaveApproval") ? "disabled=disabled" : "") class="btn btn-primary btn-cons">Save</button>
+                    }
+                    @if (!Html.NotAuthorized("apr", "btnMoreDetail"))
+                    {
+                        <button ng-click="moveToUrl();" @(Html.IsReadOnly("apr", "btnMoreDetail") ? "disabled=disabled" : "") class="btn btn-yahoo pull-left" style="color:#F3761C">More Details</button>
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

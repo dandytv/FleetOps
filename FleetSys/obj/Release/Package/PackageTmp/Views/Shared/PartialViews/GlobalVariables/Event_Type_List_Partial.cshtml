@@ -1,0 +1,43 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.LookupParameters
+
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><a href="/Home">Home</a></li>
+            <li>Look up Parameters</li>
+        </ol>
+        <h1><small>Event Type List</small></h1>
+    </div>
+</div>
+
+
+
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        @*<div class="panel-heading">
+                <div class="panel-actions pull-left">
+                    <a href="javascript:;" ng-click=""
+                </div>
+            </div> *@
+
+        <div class="panel-body">
+            <div class="table-holder">
+                <table class="table bootstrap-datatable dataTable small-font" data-dtable options="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Short Description</th>
+                            <th>Detailed Description</th>
+                            <th>Status</th>
+                            <th>Updated On</th>
+                            <th>Updated By</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

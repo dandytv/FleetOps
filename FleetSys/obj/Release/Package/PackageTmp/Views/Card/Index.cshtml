@@ -1,0 +1,139 @@
+﻿@using FleetOps.Helpers;
+@{
+    ViewBag.Title = "Card | FleetOps";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.ng_app = "CardtrendApp";
+
+}
+
+@section ModuleSidebar
+{
+    <style type="text/css">
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            <div class="btn-group btn-group-justified">
+                <a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Account/Index?id={{$root.obj.acctNo}}#/cardsList/{{$root.obj.acctNo}}" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                <a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/ApplicantCard/Index#/generalInfo/{{$root.obj.acctNo}}/new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>@*"/ApplicantCard/Index#/{{$root.obj.acctNo}}/new"*@
+            </div>
+            @*<div class="btn-group btn-group-justified">
+                    <a href="#/" data-redirect="index" class="btn btn-primary btn-sm" role="button"><i class="fa fa-list"></i>&nbsp; Show List</a>
+                    <a href="#/new" data-redirect="new" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+                </div>*@
+        </div>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                @if (@Html.SectionIsEnabled("gen"))
+                {
+                    <li><a ng-show="$root.obj._type!=='index'" class="pagekey pagekey_generalInfo" data-prefix="gen" href="#/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">General Info</a></li>
+                }
+                @if (@Html.SectionIsEnabled("fin"))
+                {
+                    <li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_finanacialInfo" data-prefix="fin" href="#/finanacialInfo/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">Financial Info</a></li>
+                }
+                @if (@Html.SectionIsEnabled("vel"))
+                {
+                    <li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_velocity" data-prefix="vel" href="#/velocity/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">Transaction Limit</a></li>
+                }
+                @if (@Html.SectionIsEnabled("per"))
+                {
+                    <li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_personInfo" data-prefix="fin" href="#/personInfo/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}/{{$root.obj.entityId}}">CardHolder Info</a></li>
+                }
+                @if (@Html.SectionIsEnabled("loc"))
+                {
+                    <li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_locationAccetance" data-prefix="loc" href="#/locationAcceptance/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">Location Acceptance List</a></li>
+                }
+                @if (@Html.SectionIsEnabled("con"))
+                {
+                    <li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_contacts" data-prefix="con" href="#/contacts/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">Contact List</a></li>
+                }
+                @if (@Html.SectionIsEnabled("add"))
+                {
+                    <li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_address" data-prefix="add" href="#/address/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">Address List</a></li>
+                }
+                @if (@Html.SectionIsEnabled("sta"))
+                {
+                    <li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_statusMaint" data-prefix="sts" href="#/statusMaint/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">Status Maintenance</a></li>
+                }
+                @if (@Html.SectionIsEnabled("rep"))
+                {
+                    <li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_cardReplacement" data-prefix="rep" href="#/cardReplacement/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">Card Replacement</a></li>
+                }
+                @if (@Html.SectionIsEnabled("pdc"))
+                {
+                    @*<li><a ng-show="$root.obj._type==='edit'" class="pagekey pagekey_productDiscount" data-prefix="pdc" href="#/productDiscount/{{$root.obj.acctNo}}/{{$root.obj.cardNo}}">Product Discount</a></li>*@
+                }
+            </ul>
+        </div>
+    </div>
+
+}
+<div class="main" style="opacity: 1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Account?id={{$root.obj.acctNo}}">{{$root.obj.acctNo}}</a></li>
+                <li class="active">{{$root.obj.cardNo}}</li>
+            </ol>
+            @*<h1><small>Application Signup</small></h1>*@
+        </div>
+        <div class="col-lg-12">
+            <div route-animation-manager>
+                <ng-view class="view-animate">
+
+                </ng-view>
+            </div>
+            <script type="text/ng-template" id="index.html">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2><i class="fa fa-list"></i>Card List</h2>
+                        </div>
+                        <div class="panel-body">
+                            <table id="tblCards" class="table bootstrap-datatable datatable small-font" data-dtable options="dtOptions">
+                                <thead>
+                                    <tr>
+                                        <th>Card No</th>
+                                        <th>Emboss Name</th>
+                                        <th>Status</th>
+                                        <th>Card Expiry</th>
+                                        <th>Prev Card No.</th>
+                                        @*<th>XRef Card No</th>*@
+                                        <th>Card Type</th>
+                                        <th>PIN Indicator</th>
+                                        <th>Vehicle Reg No</th>
+                                        <th>Driver Code</th>
+                                        <th>Full Name</th>
+                                        <th>Blocked Date</th>
+                                        <th>Terminated Date</th>
+                                        <th>Cost Centre</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+@section CustomPageScript
+{
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/Content/scripts/animationManager.js"></script>
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Card/card.js"></script>
+    <script src="~/ng/Apps/Card/CardService.js"></script>
+    <script src="~/ng/Apps/Card/CardController.js"></script>
+}

@@ -1,0 +1,81 @@
+﻿@using FleetOps.Helpers
+@using FleetSys.Models
+@model AcctGuaranteeContructor
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="panel-actions pull-left">
+            <a href="javascript:;" ng-click="modalClick();" class="btn-minimize"><i class="fa fa-plus"></i></a>
+            <a href="javascript:;" class="btn-close"><i class="fa fa-refresh"></i></a>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="contactHolder" class="zerotop">
+            <table id="tblAcctGuarantee" class="table bootstrap-datatable datatable small-font" data-dtable options ="dtOptions">
+                <thead>
+                    <tr>
+                        <th>Deposit Type</th>
+                        <th>Deposit Amount</th>
+                        <th>Bank Name</th>
+                        <th>Bank Account No</th>
+                        <th>Bank Branch Cd</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Last Update Date</th>
+                        <th>User Id</th>
+                        <th>Creation Date</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="AcctGuaranteeModal" class="modal hide" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header" data-toggle="modal">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h3 id="contactModalHeader">Account Guarantee</h3>
+            </div>
+            <div class="modal-body">
+                <form id="formAcctGuarantee" class="form-horizontal">
+                    @Html.CustomNgTextBoxFor(model => model.ApplId, null, new { id = "txtApplId", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.Page, null, new { id = "txtPage", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.DepositType, null, new { id = "txtDepositType", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.DepositAmt, null, new { id = "txtDepositAmt", Class = "span5", @data_type = "amount" })
+                    @Html.CustomNgTextBoxFor(model => model.BankCd, null, new { id = "txtBankCd", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.BankAcctNo, null, new { id = "txtBankAcctNo", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.BankBranchCd, null, new { id = "txtBankBranchCd", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.EffFromDate, null, new { id = "txtEffFromDate", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.EffToDate, null, new { id = "txtEffToDate", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.LastUpdDate, null, new { id = "txtUserId", Class = "span5", @readonly = "readonly" })
+                    @Html.CustomNgTextBoxFor(model => model.UserId, null, new { id = "txtUserId", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.CreationDate, null, new { id = "txtCreationDate", Class = "span5" })
+                    @Html.CustomNgTextBoxFor(model => model.Remarks, null, new { id = "txtRemarks", Class = "span5" })
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions">
+                    <button id="btnTxntoSave" style="width: 60px" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="txnDeleteConfirm" data-backdrop="static" class="modal hide">
+            <div class="modal-header deletion-head">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4>Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm the record deletion
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cancel</a>
+                <a href="#" id="txnDeleteConfirmed" class="btn btn-danger">Yes,Delete<i class="icon-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+

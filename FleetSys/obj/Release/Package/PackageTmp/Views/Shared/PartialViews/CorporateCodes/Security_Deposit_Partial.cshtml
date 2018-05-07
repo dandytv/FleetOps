@@ -1,0 +1,45 @@
+﻿@using FleetOps.Helpers;
+@model ModelSector.CreditAssesOperation
+<form id="formApplicationGeneralInfo">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            @*<div class="panel-heading">
+                    <h2><strong>Application General Info</strong></h2>
+                    <div class="panel-actions">
+                        <a href="#" class="btn-minimize"><i class="fa fa-check"></i></a>
+                        <a href="#" class="btn-close"><i class="fa fa-camera"></i></a>
+                    </div>
+                </div>*@
+            <div class="panel-body">
+                <h2>Security Deposit</h2>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.acctNo)
+                </div>            
+                <div class="col-sm-4">
+                    @Html.CustomNgTextBoxFor(model => model.Txnid)
+                </div>
+                <div class="col-sm-6">
+                    @Html.CustomNgCheckBoxFor(model => model.DirectDebitInd)
+                </div>
+                <div class="col-sm-4">
+                    @Html.CustomNgSelectListFor(model => model.SelectedDepositType, Model.DepositType, null, new { @Name = "DepositType"})
+                </div>
+            </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        @Html.CustomNgTextBoxFor(model => model.ValidityDate, null, new { @date_Picker = "" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.CustomNgSelectListFor(model => model.SelectedBankAcctType, Model.BankAcctType, null, new { @Name = "BankAcctType" })
+                    </div>
+                    <div class="col-sm-4">
+
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </form>

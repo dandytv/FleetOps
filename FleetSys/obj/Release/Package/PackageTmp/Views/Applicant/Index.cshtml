@@ -1,0 +1,96 @@
+﻿@using FleetOps.Helpers;
+@{
+    ViewBag.Title = "Applicant | FleetOps";
+    ViewBag.ng_app = "CardtrendApp";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+@section ModuleSidebar
+{
+    <style type="text/css">             
+        .form-group {
+            border-bottom: 1px dashed #eee;
+        }
+        .btn-group-justified .btn {
+            color: #fff;
+        }
+        .sidebar-menu {
+            height: auto;
+        }
+    </style>
+    <div class="sidebar-collapse" routing-menu>
+        <div class="sidebar-header">
+            @*<a href="#/" style="color:#fff" class="btn btn-info btn-block"><i class="fa fa-list"></i>&nbsp;&nbsp;Show List</a>*@
+            <div class="btn-group btn-group-justified">
+                <a href="#/{{$root.obj.applId}}/applicants" style="color:#fff" class="btn btn-info btn-block"><i class="fa fa-list"></i>&nbsp;&nbsp;Show List</a>
+                @if (@Html.SectionIsEnabled("gen"))
+                {
+                    <a href="#/{{$root.obj.applId}}/new" data-redirect="new" class="btn btn-success btn-block btn-sm" role="button"><i class="fa fa-plus"></i>&nbsp; New</a>
+                }
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="nav nav-sidebar">
+                @Html.Hidden("hdApplId", (string)ViewBag.ApplId, new { @id = "hdApplId" })
+                @Html.Hidden("hdAppcId", (string)ViewBag.AppcId, new { @id = "hdAppcId" })
+                @if (@Html.SectionIsEnabled("gen"))
+                {
+                    <li><a class="pagekey pagekey_generalInfo" ng-show="$root.obj._type!=='index'" data-prefix="gen" href="#/{{$root.obj.applId}}/{{$root.obj.appcId}}">General Info</a></li>
+                }
+                @if (@Html.SectionIsEnabled("fin"))
+                { 
+                    <li><a class="pagekey pagekey_finanacialInfo" ng-show="$root.obj._type==='edit'" data-prefix="fin" href="#/finanacialInfo/{{$root.obj.applId}}/{{$root.obj.appcId}}">Financial Info</a></li>
+                }
+                @if (@Html.SectionIsEnabled("vel"))
+                {
+                    <li><a class="pagekey pagekey_velocity" ng-show="$root.obj._type==='edit'" data-prefix="vel" href="#/velocity/{{$root.obj.applId}}/{{$root.obj.appcId}}">Transaction Limit</a></li>
+                }
+                @if (@Html.SectionIsEnabled("per"))
+                {
+                    <li><a class="pagekey pagekey_personInfo" ng-show="$root.obj._type==='edit'" data-prefix="fin" href="#/personInfo/{{$root.obj.applId}}/{{$root.obj.appcId}}">Cardholder Info</a></li>@*Person Info*@
+
+                } @if (@Html.SectionIsEnabled("con"))
+                 {                            
+                   <li><a class="pagekey pagekey_contacts" ng-show="$root.obj._type==='edit'" data-prefix="con" href="#/contacts/{{$root.obj.applId}}/{{$root.obj.appcId}}">Contact List</a></li>
+                 }
+@if (@Html.SectionIsEnabled("add"))
+{
+    <li><a class="pagekey pagekey_address" ng-show="$root.obj._type==='edit'" data-prefix="add" href="#/address/{{$root.obj.applId}}/{{$root.obj.appcId}}">Address List</a></li>
+}
+    @*<li><a class="pagekey pagekey_statusMaint" ng-show="$root.obj._type=='edit'" data-prefix="sts" href="#/statusMaint/{{$root.obj.applId}}/{{$root.obj.appcId}}">Status Maintenance</a></li>*@
+    <li><a class="pagekey pagekey_statusMaint" ng-show="$root.obj._type==='edit'" data-prefix="sts" href="#/statusMaint/{{$root.obj.applId}}/{{$root.obj.appcId}}"></a></li>
+    <li><a class="pagekey pagekey_statusMaint" ng-show="$root.obj._type==='edit'" data-prefix="sts" href="#/statusMaint/{{$root.obj.applId}}/{{$root.obj.appcId}}"></a></li>
+</ul>
+</div>
+</div>
+}
+
+<div class="main" style="opacity: 1; min-height: 658px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Home">Home</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["urlPrefix"]/Applications#/generalInfo?applId={{$root.obj.applId}}">Application: {{$root.obj.applId}}</a></li>
+                <li class="active">{{$root.obj.appcId}}</li>
+            </ol>
+            @*<h1><small>Application Signup</small></h1>*@<h1><small></small></h1><h1><small></small></h1>
+        </div>
+        <div class="col-lg-12">
+            <ng-view></ng-view>
+        </div>
+    </div>
+</div>
+@section CustomPageScript
+{
+    <script src="~/Scripts/angular-sanitize.js"></script>
+    <script src="~/Scripts/uiselect.js"></script>
+    <link href="~/Scripts/uiselect.css" rel="stylesheet" />
+    <link href="~/Scripts/select2.css" rel="stylesheet" />
+    <script src="~/ng/Utils.js"></script>
+    <script src="~/ng/Apps/Applicant/applicant.js"></script>
+    <script src="~/ng/Apps/Applicant/ApplicantService.js"></script>
+    <script src="~/ng/Apps/Applicant/ApplicantController.js"></script>
+    <link href="~/Content/css/wizard.css" rel="stylesheet" />
+    <script src="~/Content/css/wizard.js"></script>
+    <script src="~/Content/css/formWizard.js"></script>
+}
