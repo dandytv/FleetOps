@@ -19,6 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
+	<OutputPath>obj\Release\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -71,6 +72,7 @@
     <Compile Include="Log\WebVariablesRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Actions.Designer.cs" />
+	<Compile Include="Resources\Actions.Designer.cs" />
     <Compile Include="Resources\IssMessages.Designer.cs" />
     <Compile Include="Resources\LoginMessages.Designer.cs" />
     <Compile Include="Utilities\Constants.cs" />
