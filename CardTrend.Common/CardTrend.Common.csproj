@@ -81,29 +81,29 @@
     <Compile Include="Utilities\LogUtility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="obj\Debug\CardTrend.Common.csproj.FileListAbsolute.txt.orig" />
-    <None Include="obj\Debug\CardTrend.Common.csproj.GenerateResource.Cache" />
-    <None Include="obj\Debug\CardTrend.Common.csprojResolveAssemblyReference.cache" />
-    <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
-    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Release\CardTrend.Common.csproj.FileListAbsolute.txt.orig" />
+    <None Include="obj\Release\CardTrend.Common.csproj.GenerateResource.Cache" />
+    <None Include="obj\Release\CardTrend.Common.csprojResolveAssemblyReference.cache" />
+    <None Include="obj\Release\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="obj\Debug\CardTrend.Common.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\CardTrend.Common.dll" />
-    <Content Include="obj\Debug\CardTrend.Common.pdb" />
-    <Content Include="obj\Debug\TempPE\Resources.Actions.Designer.cs.dll" />
-    <Content Include="obj\Debug\TempPE\Resources.IssMessage.Designer.cs.dll" />
-    <Content Include="obj\Debug\TempPE\Resources.IssMessages.Designer.cs.dll" />
-    <Content Include="obj\Debug\TempPE\Resources.LoginMessages.Designer.cs.dll" />
+    <Content Include="obj\Release\CardTrend.Common.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Release\CardTrend.Common.dll" />
+    <Content Include="obj\Release\CardTrend.Common.pdb" />
+    <Content Include="obj\Release\TempPE\Resources.Actions.Designer.cs.dll" />
+    <Content Include="obj\Release\TempPE\Resources.IssMessage.Designer.cs.dll" />
+    <Content Include="obj\Release\TempPE\Resources.IssMessages.Designer.cs.dll" />
+    <Content Include="obj\Release\TempPE\Resources.LoginMessages.Designer.cs.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="obj\Debug\CardTrend.Common.Resources.Actions.resources" />
-    <EmbeddedResource Include="obj\Debug\CardTrend.Common.Resources.IssMessages.resources" />
-    <EmbeddedResource Include="obj\Debug\CardTrend.Common.Resources.LoginMessages.resources" />
+    <EmbeddedResource Include="obj\Release\CardTrend.Common.Resources.Actions.resources" />
+    <EmbeddedResource Include="obj\Release\CardTrend.Common.Resources.IssMessages.resources" />
+    <EmbeddedResource Include="obj\Release\CardTrend.Common.Resources.LoginMessages.resources" />
     <EmbeddedResource Include="Resources\Actions.resx" />
     <EmbeddedResource Include="Resources\IssMessages.resx" />
     <EmbeddedResource Include="Resources\LoginMessages.resx" />
